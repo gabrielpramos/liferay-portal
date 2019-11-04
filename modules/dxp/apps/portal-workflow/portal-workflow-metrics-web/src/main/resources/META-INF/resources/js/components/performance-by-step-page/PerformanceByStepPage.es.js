@@ -218,7 +218,7 @@ const Item = ({durationAvg, instanceCount, name, overdueInstanceCount}) => {
 
 const Table = ({items}) => {
 	return (
-		<div className="mb-3 table-responsive table-scrollable">
+		<div className="mb-3 table-responsive">
 			<table className="table table-autofit table-heading-nowrap table-hover table-list">
 				<thead>
 					<tr>
