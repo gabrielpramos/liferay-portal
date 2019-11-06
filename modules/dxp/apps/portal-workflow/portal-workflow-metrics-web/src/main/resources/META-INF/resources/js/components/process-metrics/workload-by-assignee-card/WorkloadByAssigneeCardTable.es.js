@@ -48,9 +48,12 @@ const Item = ({
 		const filterParams = {
 			[filterConstants.assignees]: [id],
 			[filterConstants.processStatus]: [processStatusConstants.pending],
-			[filterConstants.processStep]: [processStepKey],
 			[filterConstants.slaStatus]: [slaStatusConstants[currentTab]]
 		};
+
+		if (processStepKey && processStepKey !== 'allSteps') {
+			filterParams[filterConstants.processStep] = [processStepKey];
+		}
 
 		return filterParams;
 	};
