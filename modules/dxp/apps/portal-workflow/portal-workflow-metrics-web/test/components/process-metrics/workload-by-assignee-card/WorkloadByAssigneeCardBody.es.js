@@ -133,3 +133,63 @@ describe('The workload by assignee body, when Total tab is active, should', () =
 		expect(assigneeNames[1].innerHTML).toBe('User 2');
 	});
 });
+
+describe('The WorkloadByAssigneeCardTable items component should', () => {
+	let getAllByTestId;
+
+	const items = [
+		{
+			name: 'User 1',
+			onTimeTaskCount: 10,
+			overdueTaskCount: 5,
+			taskCount: 15
+		},
+		{
+			name: 'User 2',
+			onTimeTaskCount: 3,
+			overdueTaskCount: 7,
+			taskCount: 10
+		}
+	];
+	const clientMock = {
+		get: jest.fn().mockResolvedValue({data: {items, totalCount: 2}})
+	};
+
+	const processStepContextMock = {
+		getSelectedProcessSteps: () => [{key: 'allSteps'}]
+	};
+
+	const wrapper = ({children}) => (
+		<Request>
+			<MockRouter client={clientMock}>
+				<ProcessStepContext.Provider value={processStepContextMock}>
+					{children}
+				</ProcessStepContext.Provider>
+			</MockRouter>
+		</Request>
+	);
+
+	afterEach(cleanup);
+
+	beforeEach(() => {
+		const renderResult = render(
+			<WorkloadByAssigneeCard.Body
+				currentTab="overdue"
+				items={items}
+				processId={12345}
+			/>,
+			{wrapper}
+		);
+
+		getAllByTestId = renderResult.getAllByTestId;
+	});
+
+	test('Change route when item is clicked', async () => {
+		const tableItems = await waitForElement(() =>
+			getAllByTestId('workloadByAssigneeCardItem')
+		);
+		expect(tableItems[0].children[0].getAttribute('href')).not.toContain(
+			'allSteps'
+		);
+	});
+});
