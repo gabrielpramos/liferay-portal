@@ -62,7 +62,10 @@ const Item = ({
 
 	return (
 		<tr>
-			<td className="assignee-name border-0">
+			<td
+				className="assignee-name border-0"
+				data-testid="workloadByAssigneeCardItem"
+			>
 				<ChildLink
 					className={'workload-by-assignee-link'}
 					query={{filters: getFiltersQuery()}}
