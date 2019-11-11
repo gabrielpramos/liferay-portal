@@ -20,14 +20,16 @@ import {VelocityUnitContext} from '../../filter/store/VelocityUnitStore.es';
 
 const useVelocityData = processId => {
 	const {client} = useContext(AppContext);
+
 	const {getSelectedTimeRange} = useContext(TimeRangeContext);
+	const {dateEnd, dateStart} = getSelectedTimeRange() || {};
+
 	const {getSelectedVelocityUnit} = useContext(VelocityUnitContext);
+	const {key} = getSelectedVelocityUnit() || {};
+
 	const {setError} = useContext(ErrorContext);
 	const {setLoading} = useContext(LoadingContext);
 	const [velocityData, setVelocityData] = useState();
-
-	const velocityTimeRange = getSelectedTimeRange();
-	const velocityUnit = getSelectedVelocityUnit();
 
 	const fetchData = (processId, dateEnd, dateStart, unitKey) => {
 		setError(null);
@@ -49,20 +51,9 @@ const useVelocityData = processId => {
 	};
 
 	useEffect(() => {
-		if (
-			processId &&
-			velocityTimeRange &&
-			velocityTimeRange.dateEnd &&
-			velocityTimeRange.dateStart &&
-			velocityUnit
-		)
-			fetchData(
-				processId,
-				velocityTimeRange.dateEnd,
-				velocityTimeRange.dateStart,
-				velocityUnit.key
-			);
-	}, [processId, velocityUnit]);
+		if (processId && dateEnd && dateStart && key)
+			fetchData(processId, dateEnd, dateStart, key);
+	}, [processId, key, dateStart, dateEnd]);
 
 	return {
 		velocityData
