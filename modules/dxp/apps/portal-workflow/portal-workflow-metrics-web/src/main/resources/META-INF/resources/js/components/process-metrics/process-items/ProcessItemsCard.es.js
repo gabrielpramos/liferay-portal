@@ -52,10 +52,10 @@ function ProcessItemsCard({
 
 const Body = ({completed = false, processId, timeRange}) => {
 	const {client, setTitle} = useContext(AppContext);
+	const {dateEnd, dateStart} = timeRange || {};
+	const [process, setProcess] = useState(null);
 	const {setError} = useContext(ErrorContext);
 	const {setLoading} = useContext(LoadingContext);
-
-	const [process, setProcess] = useState(null);
 
 	const fetchData = () => {
 		setError(null);
@@ -65,13 +65,7 @@ const Body = ({completed = false, processId, timeRange}) => {
 
 		let urlRequest = `/processes/${processId}?completed=${completed}`;
 
-		if (
-			timeRange &&
-			isValidDate(timeRange.dateEnd) &&
-			isValidDate(timeRange.dateStart)
-		) {
-			const {dateEnd, dateStart} = timeRange;
-
+		if (isValidDate(dateEnd) && isValidDate(dateStart)) {
 			urlRequest += `&dateEnd=${dateEnd.toISOString()}&dateStart=${dateStart.toISOString()}`;
 		}
 
@@ -91,7 +85,7 @@ const Body = ({completed = false, processId, timeRange}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [timeRange]);
+	}, [dateStart, dateEnd]);
 
 	return (
 		<Panel.Body>
