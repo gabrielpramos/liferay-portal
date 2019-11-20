@@ -63,10 +63,7 @@ describe('The ResultsBar component should', () => {
 		const {getAllByTestId, getByTestId} = render(
 			<Router query={mockQuery}>
 				<ResultsBar>
-					<ResultsBar.TotalCount
-						search="test"
-						totalCount={2}
-					/>
+					<ResultsBar.TotalCount search="test" totalCount={2} />
 
 					<ResultsBar.FilterItems
 						filters={mockFilters}

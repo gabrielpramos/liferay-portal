@@ -35,7 +35,7 @@ const Body = ({data, hasFilters}) => {
 			</PromisesResolver.Resolved>
 
 			<PromisesResolver.Rejected>
-				<Body.Error/>
+				<Body.Error />
 			</PromisesResolver.Rejected>
 		</div>
 	);
