@@ -11,176 +11,71 @@
 
 import React from 'react';
 
-import {getFilterResults} from '../../shared/components/filter/util/filterUtil.es';
-import Search from '../../shared/components/pagination/Search.es';
+import {
+	filterKeys,
+	filterTitles
+} from '../../shared/components/filter/util/filterConstants.es';
+import {
+	getSelectedItems,
+	getFilterResults
+} from '../../shared/components/filter/util/filterUtil.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
-import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
+import {parse} from '../../shared/components/router/queryString.es';
 import {useFilterItemKeys} from '../../shared/hooks/useFilterItemKeys.es';
 import {useFiltersReducer} from '../../shared/hooks/useFiltersReducer.es';
 import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
 import {useResource} from '../../shared/hooks/useResource.es';
-import ProcessStepFilter from '../process-metrics/filter/ProcessStepFilterHooks.es';
-import RoleFilter from '../process-metrics/filter/RoleFilterHooks.es';
-import {
-	Body,
-	EmptyView,
-	ErrorView,
-	LoadingView
-} from './WorkloadByAssigneePageBody.es';
-import {Item, Table} from './WorkloadByAssigneePageTable.es';
+import {Body} from './WorkloadByAssigneePageBody.es';
+import {Header} from './WorkloadByAssigneePageHeader.es';
 
-const WorkloadByAssigneePage = ({page, pageSize, processId, search, sort}) => {
+const WorkloadByAssigneePage = ({query, routeParams}) => {
+	const {processId} = routeParams;
 	useProcessTitle(processId, Liferay.Language.get('workload-by-assignee'));
 
-	const filterKeys = {
-		processSteps: 'taskKeys',
-		roles: 'roleIds'
-	};
+	const {search = ''} = parse(query);
+	const keywords = search.length ? search : null;
 
 	const [filterValues, dispatch] = useFiltersReducer(filterKeys);
 	const {roleIds, taskKeys} = useFilterItemKeys(filterKeys, filterValues);
-
-	let keywords;
-
-	if (typeof search === 'string' && search) {
-		keywords = decodeURIComponent(search);
-	}
-
-	const {data, promises} = useResource(
-		`/processes/${processId}/assignee-users`,
-		{
-			keywords,
-			page,
-			pageSize,
-			roleIds,
-			sort: decodeURIComponent(sort),
-			taskKeys
-		}
-	);
-
-	return (
-		<PromisesResolver promises={promises}>
-			<WorkloadByAssigneePage.Filters
-				dispatch={dispatch}
-				filterKeys={filterKeys}
-				filterValues={filterValues}
-				page={page}
-				pageSize={pageSize}
-				processId={processId}
-				search={search}
-				sort={sort}
-				totalCount={data.totalCount}
-			/>
-
-			<div className="container-fluid-1280 mt-4">
-				<WorkloadByAssigneePage.Body
-					data={data}
-					processId={processId}
-					taskKeys={taskKeys}
-				/>
-			</div>
-		</PromisesResolver>
-	);
-};
-
-const Filters = ({
-	dispatch,
-	filterKeys,
-	filterValues,
-	page,
-	pageSize,
-	processId,
-	search,
-	sort,
-	totalCount
-}) => {
-	const filterTitles = {
-		processSteps: Liferay.Language.get('process-step'),
-		roles: Liferay.Language.get('roles')
-	};
-
 	const filterResults = getFilterResults(
 		filterKeys,
 		filterTitles,
 		filterValues
 	);
 
-	const routerParams = {page, pageSize, processId, sort};
+	const selectedFilters = getSelectedItems(filterResults);
+	const filtered = search.length > 0 || selectedFilters.length > 0;
 
-	const selectedFilters = filterResults.filter(filter => {
-		filter.items = filter.items
-			? filter.items.filter(item => item.active)
-			: [];
-
-		return !!filter.items.length;
-	});
-
-	const showFiltersResult = search || !!selectedFilters.length;
+	const {data, promises} = useResource(
+		`/processes/${processId}/assignee-users`,
+		{
+			keywords,
+			roleIds,
+			taskKeys,
+			...routeParams
+		}
+	);
 
 	return (
-		<>
-			<nav className="management-bar management-bar-light navbar navbar-expand-md">
-				<div className="container-fluid container-fluid-max-xl">
-					<ul className="navbar-nav">
-						<li className="nav-item">
-							<strong className="ml-0 mr-0 navbar-text">
-								{Liferay.Language.get('filter-by')}
-							</strong>
-						</li>
+		<PromisesResolver promises={promises}>
+			<WorkloadByAssigneePage.Header
+				dispatch={dispatch}
+				routeParams={{...routeParams, search: keywords}}
+				selectedFilters={selectedFilters}
+				totalCount={data.totalCount}
+			/>
 
-						<RoleFilter
-							dispatch={dispatch}
-							filterKey={filterKeys.roles}
-							processId={processId}
-						/>
-
-						<ProcessStepFilter
-							dispatch={dispatch}
-							filterKey={filterKeys.processSteps}
-							processId={processId}
-						/>
-					</ul>
-
-					<div className="nav-form navbar-form-autofit">
-						<Search
-							disabled={false}
-							placeholder={Liferay.Language.get(
-								'search-for-assignee-name'
-							)}
-						/>
-					</div>
-				</div>
-			</nav>
-
-			{showFiltersResult && (
-				<ResultsBar>
-					<ResultsBar.TotalCount
-						search={search}
-						totalCount={totalCount}
-					/>
-
-					<ResultsBar.FilterItems
-						filters={selectedFilters}
-						search={search}
-						{...routerParams}
-					/>
-
-					<ResultsBar.Clear
-						filters={selectedFilters}
-						{...routerParams}
-					/>
-				</ResultsBar>
-			)}
-		</>
+			<WorkloadByAssigneePage.Body
+				data={data}
+				filtered={filtered}
+				processId={processId}
+				taskKeys={taskKeys}
+			/>
+		</PromisesResolver>
 	);
 };
 
 WorkloadByAssigneePage.Body = Body;
-WorkloadByAssigneePage.Empty = EmptyView;
-WorkloadByAssigneePage.Error = ErrorView;
-WorkloadByAssigneePage.Filters = Filters;
-WorkloadByAssigneePage.Item = Item;
-WorkloadByAssigneePage.Loading = LoadingView;
-WorkloadByAssigneePage.Table = Table;
+WorkloadByAssigneePage.Header = Header;
 
 export default WorkloadByAssigneePage;
