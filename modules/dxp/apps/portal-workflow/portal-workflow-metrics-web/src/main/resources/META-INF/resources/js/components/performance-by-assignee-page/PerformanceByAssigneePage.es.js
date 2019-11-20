@@ -9,52 +9,64 @@
  * distribution rights of the Software.
  */
 
-import React, {useState, useMemo, useContext} from 'react';
+import React from 'react';
 
+import {
+	filterKeys,
+	filterTitles
+} from '../../shared/components/filter/util/filterConstants.es';
+import {
+	getFilterResults,
+	getSelectedItems
+} from '../../shared/components/filter/util/filterUtil.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
-import Request from '../../shared/components/request/Request.es';
-import {AppContext} from '../AppContext.es';
+import {parse} from '../../shared/components/router/queryString.es';
+import {useFilterItemKeys} from '../../shared/hooks/useFilterItemKeys.es';
+import {useFiltersReducer} from '../../shared/hooks/useFiltersReducer.es';
+import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
+import {useResource} from '../../shared/hooks/useResource.es';
 import {Body} from './PerformanceByAssigneePageBody.es';
 import {Header} from './PerformanceByAssigneePageHeader.es';
 
-const PerformanceByAssigneePage = ({
-	page,
-	pageSize,
-	processId,
-	query,
-	search,
-	sort
-}) => {
-	const {client} = useContext(AppContext);
-	const [data, setData] = useState({});
+const PerformanceByAssigneePage = ({query, routeParams}) => {
+	const {processId} = routeParams;
+	useProcessTitle(processId, Liferay.Language.get('performance-by-assignee'));
 
-	const fetchData = () => {
-		const requestUrl = `/processes/${processId}/assignee-users`;
-		const params = {
+	const {search = ''} = parse(query);
+	const keywords = search.length ? search : null;
+
+	const [filterValues, dispatch] = useFiltersReducer(filterKeys);
+	const {roleIds, taskKeys} = useFilterItemKeys(filterKeys, filterValues);
+	const filterResults = getFilterResults(
+		filterKeys,
+		filterTitles,
+		filterValues
+	);
+
+	const selectedFilters = getSelectedItems(filterResults);
+	const filtered = search.length > 0 || selectedFilters.length > 0;
+
+	const {data, promises} = useResource(
+		`/processes/${processId}/assignee-users`,
+		{
 			completed: true,
-			page,
-			pageSize,
-			sort: decodeURIComponent(sort)
-		};
-
-		return client.get(requestUrl, {params}).then(({data}) => {
-			setData(data);
-		});
-	};
-
-	const promises = useMemo(
-		() => [fetchData()],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[processId, query, search, sort]
+			keywords,
+			roleIds,
+			taskKeys,
+			...routeParams
+		}
 	);
 
 	return (
-		<Request>
-			<PromisesResolver promises={promises}>
-				<PerformanceByAssigneePage.Header />
-				<PerformanceByAssigneePage.Body data={data} />
-			</PromisesResolver>
-		</Request>
+		<PromisesResolver promises={promises}>
+			<PerformanceByAssigneePage.Header
+				dispatch={dispatch}
+				routeParams={{...routeParams, search: keywords}}
+				selectedFilters={selectedFilters}
+				totalCount={data.totalCount}
+			/>
+			<PerformanceByAssigneePage.Body data={data} filtered={filtered} />
+		</PromisesResolver>
 	);
 };
 
