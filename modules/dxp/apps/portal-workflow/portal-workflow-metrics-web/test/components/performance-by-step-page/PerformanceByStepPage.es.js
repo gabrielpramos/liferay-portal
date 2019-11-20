@@ -53,9 +53,7 @@ describe('The performance by step page should', () => {
 				processId="12345"
 				sort="overdueInstanceCount:desc"
 			/>,
-			{
-				wrapper
-			}
+			{wrapper}
 		);
 
 		getAllByTestId = renderResult.getAllByTestId;
@@ -81,7 +79,7 @@ describe('The performance by step page, when there is no item, should', () => {
 				page={1}
 				pageSize={10}
 				processId="12345"
-				search="update"
+				query="?search=update"
 				sort="overdueInstanceCount:desc"
 			/>,
 			{

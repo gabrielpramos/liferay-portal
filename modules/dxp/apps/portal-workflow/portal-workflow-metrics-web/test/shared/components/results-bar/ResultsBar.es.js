@@ -22,7 +22,8 @@ describe('The ResultsBar component should', () => {
 		sort: encodeURIComponent('overdueTaskCount:asc')
 	};
 
-	const mockQuery = '?filters.taskKeys[0]=review&filters.taskKeys[1]=update';
+	const mockQuery =
+		'?filters.taskKeys[0]=review&filters.taskKeys[1]=update&search=test';
 
 	afterEach(cleanup);
 
@@ -30,7 +31,7 @@ describe('The ResultsBar component should', () => {
 		const {getByTestId} = render(
 			<Router>
 				<ResultsBar>
-					<ResultsBar.TotalCount search={'test'} totalCount={1} />
+					<ResultsBar.TotalCount totalCount={1} />
 
 					<ResultsBar.Clear {...mockProps} />
 				</ResultsBar>
@@ -41,7 +42,9 @@ describe('The ResultsBar component should', () => {
 
 		const totalCount = getByTestId('totalCount');
 		expect(totalCount.innerHTML).toBe('x-result-for-x');
-		expect(clearAll.getAttribute('href')).toBe('/?backPath=%2F&filters=');
+		expect(clearAll.getAttribute('href')).toBe(
+			'/?backPath=%2F&filters=&search='
+		);
 	});
 
 	test('Render with search value "test" and with 2 selected filter item', async () => {
@@ -60,7 +63,7 @@ describe('The ResultsBar component should', () => {
 		const {getAllByTestId, getByTestId} = render(
 			<Router query={mockQuery}>
 				<ResultsBar>
-					<ResultsBar.TotalCount totalCount={2} />
+					<ResultsBar.TotalCount search="test" totalCount={2} />
 
 					<ResultsBar.FilterItems
 						filters={mockFilters}
@@ -78,11 +81,11 @@ describe('The ResultsBar component should', () => {
 		expect(removeFilter.length).toBe(2);
 
 		expect(removeFilter[0].getAttribute('href')).toBe(
-			'/?filters.taskKeys%5B0%5D=update'
+			'/?filters.taskKeys%5B0%5D=update&search=test'
 		);
 
 		expect(removeFilter[1].getAttribute('href')).toBe(
-			'/?filters.taskKeys%5B0%5D=review'
+			'/?filters.taskKeys%5B0%5D=review&search=test'
 		);
 
 		expect(totalCount.innerHTML).toBe('x-results-for-x');
