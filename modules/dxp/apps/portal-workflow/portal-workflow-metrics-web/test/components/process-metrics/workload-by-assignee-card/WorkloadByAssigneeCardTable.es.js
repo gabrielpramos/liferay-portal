@@ -35,7 +35,10 @@ describe('The workload by assignee table should', () => {
 
 	test('Be rendered with "User 1" and "User 2" names when the tab is Total', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneeCard.Table currentTab="total" items={items} />,
+			<WorkloadByAssigneeCard.Body.Table
+				currentTab="total"
+				items={items}
+			/>,
 			{wrapper: MockRouter}
 		);
 
@@ -47,7 +50,10 @@ describe('The workload by assignee table should', () => {
 
 	test('Be rendered with "15" and "10" values when the tab is Total', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneeCard.Table currentTab="total" items={items} />,
+			<WorkloadByAssigneeCard.Body.Table
+				currentTab="total"
+				items={items}
+			/>,
 			{wrapper: MockRouter}
 		);
 
@@ -60,7 +66,10 @@ describe('The workload by assignee table should', () => {
 
 	test('Be rendered with "10 / 66.67%" and "3 / 30%" values when the tab is On Time', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneeCard.Table currentTab="onTime" items={items} />,
+			<WorkloadByAssigneeCard.Body.Table
+				currentTab="onTime"
+				items={items}
+			/>,
 			{wrapper: MockRouter}
 		);
 
@@ -75,7 +84,10 @@ describe('The workload by assignee table should', () => {
 
 	test('Be rendered with "5 / 33.33%" and "7 / 70%" values when the tab is Overdue', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneeCard.Table currentTab="overdue" items={items} />,
+			<WorkloadByAssigneeCard.Body.Table
+				currentTab="overdue"
+				items={items}
+			/>,
 			{wrapper: MockRouter}
 		);
 
@@ -90,7 +102,7 @@ describe('The workload by assignee table should', () => {
 
 	test('Be rendered with no rows when items list is empty', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneeCard.Table currentTab="overdue" />,
+			<WorkloadByAssigneeCard.Body.Table currentTab="overdue" />,
 			{wrapper: MockRouter}
 		);
 
