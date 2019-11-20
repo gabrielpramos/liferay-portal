@@ -19,7 +19,6 @@ exports[`Should render component with completed tab activated 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -43,7 +42,6 @@ exports[`Should render component with completed tab activated 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -62,7 +60,6 @@ exports[`Should render component with completed tab activated 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -241,7 +238,6 @@ exports[`Should render component with completed tab activated 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -260,7 +256,6 @@ exports[`Should render component with completed tab activated 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -277,7 +272,6 @@ exports[`Should render component with completed tab activated 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -311,7 +305,6 @@ exports[`Should render component with completed tab activated 1`] = `
                                         "match": Object {
                                           "params": Object {
                                             "page": 1,
-                                            "search": undefined,
                                             "sort": undefined,
                                           },
                                         },
@@ -330,7 +323,6 @@ exports[`Should render component with completed tab activated 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -411,7 +403,6 @@ exports[`Should render component with completed tab activated 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -430,7 +421,6 @@ exports[`Should render component with completed tab activated 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -447,7 +437,6 @@ exports[`Should render component with completed tab activated 1`] = `
                   "match": Object {
                     "params": Object {
                       "page": 1,
-                      "search": undefined,
                       "sort": undefined,
                     },
                   },
@@ -672,7 +661,6 @@ exports[`Should render component with default tab activated 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -696,7 +684,6 @@ exports[`Should render component with default tab activated 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -715,7 +702,6 @@ exports[`Should render component with default tab activated 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -894,7 +880,6 @@ exports[`Should render component with default tab activated 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -913,7 +898,6 @@ exports[`Should render component with default tab activated 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -930,7 +914,6 @@ exports[`Should render component with default tab activated 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -964,7 +947,6 @@ exports[`Should render component with default tab activated 1`] = `
                                         "match": Object {
                                           "params": Object {
                                             "page": 1,
-                                            "search": undefined,
                                             "sort": undefined,
                                           },
                                         },
@@ -983,7 +965,6 @@ exports[`Should render component with default tab activated 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -1064,7 +1045,6 @@ exports[`Should render component with default tab activated 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -1083,7 +1063,6 @@ exports[`Should render component with default tab activated 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -1100,7 +1079,6 @@ exports[`Should render component with default tab activated 1`] = `
                   "match": Object {
                     "params": Object {
                       "page": 1,
-                      "search": undefined,
                       "sort": undefined,
                     },
                   },
@@ -1325,7 +1303,6 @@ exports[`Should render component with failure state 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -1349,7 +1326,6 @@ exports[`Should render component with failure state 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -1368,7 +1344,6 @@ exports[`Should render component with failure state 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -1547,7 +1522,6 @@ exports[`Should render component with failure state 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -1566,7 +1540,6 @@ exports[`Should render component with failure state 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -1583,7 +1556,6 @@ exports[`Should render component with failure state 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -1617,7 +1589,6 @@ exports[`Should render component with failure state 1`] = `
                                         "match": Object {
                                           "params": Object {
                                             "page": 1,
-                                            "search": undefined,
                                             "sort": undefined,
                                           },
                                         },
@@ -1636,7 +1607,6 @@ exports[`Should render component with failure state 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -1717,7 +1687,6 @@ exports[`Should render component with failure state 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -1736,7 +1705,6 @@ exports[`Should render component with failure state 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -1753,7 +1721,6 @@ exports[`Should render component with failure state 1`] = `
                   "match": Object {
                     "params": Object {
                       "page": 1,
-                      "search": undefined,
                       "sort": undefined,
                     },
                   },
@@ -1977,7 +1944,6 @@ exports[`Should render dashboard route children 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -2001,7 +1967,6 @@ exports[`Should render dashboard route children 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -2020,7 +1985,6 @@ exports[`Should render dashboard route children 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -2036,6 +2000,11 @@ exports[`Should render dashboard route children 1`] = `
         key="0"
         processId={35315}
         query=""
+        routeParams={
+          Object {
+            "processId": 35315,
+          }
+        }
       >
         <ProcessItemsCard
           description="pending-items-description"
@@ -2150,6 +2119,11 @@ exports[`Should render dashboard route children 1`] = `
         key="1"
         processId={35315}
         query=""
+        routeParams={
+          Object {
+            "processId": 35315,
+          }
+        }
       >
         <Panel
           className="container-fluid-1280 mt-4"
@@ -2265,7 +2239,6 @@ exports[`Should render with blocked SLA 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -2289,7 +2262,6 @@ exports[`Should render with blocked SLA 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -2308,7 +2280,6 @@ exports[`Should render with blocked SLA 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -2487,7 +2458,6 @@ exports[`Should render with blocked SLA 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -2506,7 +2476,6 @@ exports[`Should render with blocked SLA 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -2523,7 +2492,6 @@ exports[`Should render with blocked SLA 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -2557,7 +2525,6 @@ exports[`Should render with blocked SLA 1`] = `
                                         "match": Object {
                                           "params": Object {
                                             "page": 1,
-                                            "search": undefined,
                                             "sort": undefined,
                                           },
                                         },
@@ -2576,7 +2543,6 @@ exports[`Should render with blocked SLA 1`] = `
                                       "match": Object {
                                         "params": Object {
                                           "page": 1,
-                                          "search": undefined,
                                           "sort": undefined,
                                         },
                                       },
@@ -2657,7 +2623,6 @@ exports[`Should render with blocked SLA 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -2676,7 +2641,6 @@ exports[`Should render with blocked SLA 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -2693,7 +2657,6 @@ exports[`Should render with blocked SLA 1`] = `
                   "match": Object {
                     "params": Object {
                       "page": 1,
-                      "search": undefined,
                       "sort": undefined,
                     },
                   },

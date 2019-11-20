@@ -8,7 +8,6 @@ exports[`Should change page 1`] = `
         "match": Object {
           "params": Object {
             "page": 1,
-            "search": undefined,
             "sort": undefined,
           },
         },
@@ -37,7 +36,6 @@ exports[`Should change page 1`] = `
         "namespace": "workflow_",
         "page": 1,
         "query": undefined,
-        "search": undefined,
         "setStatus": [Function],
         "setTitle": [Function],
         "sort": undefined,
@@ -95,7 +93,6 @@ exports[`Should test change page when disabled 1`] = `
         "match": Object {
           "params": Object {
             "page": 1,
-            "search": undefined,
             "sort": undefined,
           },
         },
@@ -124,7 +121,6 @@ exports[`Should test change page when disabled 1`] = `
         "namespace": "workflow_",
         "page": 1,
         "query": undefined,
-        "search": undefined,
         "setStatus": [Function],
         "setTitle": [Function],
         "sort": undefined,
