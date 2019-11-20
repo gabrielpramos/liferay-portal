@@ -69,8 +69,20 @@ describe('The workload by assignee page body should', () => {
 describe('The subcomponents from workload by assignee page body should', () => {
 	afterEach(cleanup);
 
-	test('Be rendered with empty view and the expected message', async () => {
-		const {getByTestId} = render(<WorkloadByAssigneePage.Empty />);
+	test('Be rendered with empty view and no content message', async () => {
+		const {getByTestId} = render(<WorkloadByAssigneePage.Body.Empty />);
+
+		const emptyStateDiv = getByTestId('emptyState');
+
+		expect(emptyStateDiv.children[1].children[0].innerHTML).toBe(
+			'there-is-no-data-at-the-moment'
+		);
+	});
+
+	test('Be rendered with empty view and no results message', async () => {
+		const {getByTestId} = render(
+			<WorkloadByAssigneePage.Body.Empty filtered={true} />
+		);
 
 		const emptyStateDiv = getByTestId('emptyState');
 
@@ -80,7 +92,7 @@ describe('The subcomponents from workload by assignee page body should', () => {
 	});
 
 	test('Be rendered with error view and the expected message', () => {
-		const {getByTestId} = render(<WorkloadByAssigneePage.Error />);
+		const {getByTestId} = render(<WorkloadByAssigneePage.Body.Error />);
 
 		const emptyStateDiv = getByTestId('emptyState');
 
@@ -90,7 +102,7 @@ describe('The subcomponents from workload by assignee page body should', () => {
 	});
 
 	test('Be rendered with loading view', async () => {
-		const {getByTestId} = render(<WorkloadByAssigneePage.Loading />);
+		const {getByTestId} = render(<WorkloadByAssigneePage.Body.Loading />);
 
 		const loadingStateDiv = getByTestId('loadingState');
 
