@@ -16,8 +16,7 @@ import {getFiltersParam} from '../../../shared/components/filter/util/filterUtil
 import Request from '../../../shared/components/request/Request.es';
 import ProcessStepFilter from '../filter/ProcessStepFilter.es';
 import {ProcessStepProvider} from '../filter/store/ProcessStepStore.es';
-import {Body, Empty} from './WorkloadByAssigneeCardBody.es';
-import {Item, Table} from './WorkloadByAssigneeCardTable.es';
+import {Body} from './WorkloadByAssigneeCardBody.es';
 import Tabs from './WorkloadByAssigneeCardTabs.es';
 
 const Header = () => (
@@ -83,10 +82,7 @@ const WorkloadByAssigneeCard = ({processId, query}) => {
 };
 
 WorkloadByAssigneeCard.Body = Body;
-WorkloadByAssigneeCard.Empty = Empty;
 WorkloadByAssigneeCard.Header = Header;
-WorkloadByAssigneeCard.Item = Item;
-WorkloadByAssigneeCard.Table = Table;
 WorkloadByAssigneeCard.Tabs = Tabs;
 
 export default WorkloadByAssigneeCard;
