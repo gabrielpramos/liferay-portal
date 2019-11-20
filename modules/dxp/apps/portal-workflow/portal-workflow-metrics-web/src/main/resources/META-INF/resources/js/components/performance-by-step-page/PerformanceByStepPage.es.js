@@ -20,10 +20,11 @@ import ListHeadItem from '../../shared/components/list/ListHeadItem.es';
 import ReloadButton from '../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
-import Search from '../../shared/components/pagination/Search.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import Request from '../../shared/components/request/Request.es';
 import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
+import {parse} from '../../shared/components/router/queryString.es';
+import SearchField from '../../shared/components/search-field/SearchField.es';
 import {formatDuration} from '../../shared/util/duration.es';
 import {getFormattedPercentage} from '../../shared/util/util.es';
 import {AppContext} from '../AppContext.es';
@@ -34,20 +35,14 @@ import {
 	PerformanceDataProvider
 } from './store/PerformanceByStepPageStore.es';
 
-const PerformanceByStepPage = ({
-	page,
-	pageSize,
-	processId,
-	query,
-	search,
-	sort
-}) => {
+const PerformanceByStepPage = ({page, pageSize, processId, query, sort}) => {
 	const {client, setTitle} = useContext(AppContext);
 	const filtersParam = getFiltersParam(query);
 	const performanceTimeRange = getFilterValues(
 		'performanceTimeRange',
 		filtersParam
 	);
+	const {search = ''} = parse(query);
 
 	useEffect(() => {
 		client.get(`/processes/${processId}/title`).then(({data}) => {
@@ -106,7 +101,7 @@ const Body = ({page, pageSize, processId, query, search, sort}) => {
 			<nav className="management-bar management-bar-light navbar navbar-expand-md">
 				<div className="container-fluid container-fluid-max-xl">
 					<div className="navbar-form navbar-form-autofit">
-						<Search
+						<SearchField
 							disabled={false}
 							placeholder={Liferay.Language.get(
 								'search-for-step-name'
