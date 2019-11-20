@@ -79,7 +79,7 @@ export default class AppComponent extends React.Component {
 							/>
 
 							<Route
-								path="/processes/:pageSize/:page/:sort/:search?"
+								path="/processes/:pageSize/:page/:sort"
 								render={withParams(ProcessListPage)}
 							/>
 
@@ -113,19 +113,19 @@ export default class AppComponent extends React.Component {
 
 							<Route
 								exact
-								path="/performance/step/:processId/:pageSize/:page/:sort/:search?"
+								path="/performance/step/:processId/:pageSize/:page/:sort"
 								render={withParams(PerformanceByStepPage)}
 							/>
 
 							<Route
 								exact
-								path="/workload/assignee/:processId/:pageSize/:page/:sort/:search?"
+								path="/workload/assignee/:processId/:pageSize/:page/:sort"
 								render={withParams(WorkloadByAssigneePage)}
 							/>
 
 							<Route
 								exact
-								path="/performance/assignee/:processId/:pageSize/:page/:sort/:search?"
+								path="/performance/assignee/:processId/:pageSize/:page/:sort"
 								render={withParams(PerformanceByAssigneePage)}
 							/>
 						</Switch>
