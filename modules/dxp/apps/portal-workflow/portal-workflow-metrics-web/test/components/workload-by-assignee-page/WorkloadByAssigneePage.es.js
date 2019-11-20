@@ -45,14 +45,16 @@ describe('The workload by assignee page body should', () => {
 	afterEach(cleanup);
 
 	beforeEach(() => {
+		const routeParams = {
+			page: '1',
+			pageSize: '5',
+			processId: '12345',
+			sort: 'overdueTaskCount:desc'
+		};
+
 		const renderResult = render(
 			<MockContext>
-				<WorkloadByAssigneePage
-					page="1"
-					pageSize="5"
-					processId="12345"
-					sort="overdueTaskCount:desc"
-				/>
+				<WorkloadByAssigneePage routeParams={routeParams} />
 			</MockContext>
 		);
 

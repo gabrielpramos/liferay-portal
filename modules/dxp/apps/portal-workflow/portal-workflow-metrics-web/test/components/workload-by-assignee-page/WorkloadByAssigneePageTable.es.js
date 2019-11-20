@@ -36,7 +36,7 @@ describe('The workload by assignee page table should', () => {
 
 	test('Be rendered with "User 1" and "User 2" names', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneePage.Table items={items} />,
+			<WorkloadByAssigneePage.Body.Table items={items} />,
 			{wrapper: MockRouter}
 		);
 
@@ -48,7 +48,7 @@ describe('The workload by assignee page table should', () => {
 
 	test('Be rendered with "10" and "3" values as "On Time" column', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneePage.Table items={items} />,
+			<WorkloadByAssigneePage.Body.Table items={items} />,
 			{wrapper: MockRouter}
 		);
 
@@ -60,7 +60,7 @@ describe('The workload by assignee page table should', () => {
 
 	test('Be rendered with "5" and "7" values as "Overdue" column', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneePage.Table items={items} />,
+			<WorkloadByAssigneePage.Body.Table items={items} />,
 			{wrapper: MockRouter}
 		);
 
@@ -72,7 +72,7 @@ describe('The workload by assignee page table should', () => {
 
 	test('Be rendered with "15" and "10" values as "Total Pending" column', () => {
 		const {getAllByTestId} = render(
-			<WorkloadByAssigneePage.Table items={items} />,
+			<WorkloadByAssigneePage.Body.Table items={items} />,
 			{wrapper: MockRouter}
 		);
 

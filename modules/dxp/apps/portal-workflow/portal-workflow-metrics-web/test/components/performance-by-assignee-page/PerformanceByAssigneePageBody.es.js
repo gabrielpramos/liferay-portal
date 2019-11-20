@@ -44,8 +44,6 @@ describe('The PerformanceByAssigneePage body component having data should', () =
 		get: jest.fn().mockResolvedValue({data})
 	};
 
-	const {processId, query} = {processId: 123456, query: 'queryMock'};
-
 	afterEach(cleanup);
 
 	const wrapper = ({children}) => (
@@ -54,7 +52,7 @@ describe('The PerformanceByAssigneePage body component having data should', () =
 
 	beforeEach(() => {
 		const renderResult = render(
-			<PerformanceByAssigneePage processId={processId} query={query} />,
+			<PerformanceByAssigneePage routeParams={{processId: '1234'}} />,
 			{wrapper}
 		);
 
@@ -87,8 +85,8 @@ describe('The PerformanceByAssigneePage body component having data should', () =
 		expect(assigneeName[2].innerHTML).toEqual('User Test Third');
 	});
 
-	test('Be rendered with average completion time', async () => {
-		const durations = await getAllByTestId('durationTaskAvg');
+	test('Be rendered with average completion time', () => {
+		const durations = getAllByTestId('durationTaskAvg');
 
 		expect(durations[0].innerHTML).toEqual('3h');
 		expect(durations[1].innerHTML).toEqual('5d 12h');
