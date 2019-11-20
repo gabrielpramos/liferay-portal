@@ -12,6 +12,7 @@
 import React, {useContext} from 'react';
 
 import FilterResultsBar from '../../shared/components/filter/FilterResultsBar.es';
+import {filterKeys} from '../../shared/components/filter/util/filterConstants.es';
 import {asFilterObject} from '../../shared/components/filter/util/filterUtil.es';
 import AssigneeFilter from '../process-metrics/filter/AssigneeFilter.es';
 import ProcessStatusFilter from '../process-metrics/filter/ProcessStatusFilter.es';
@@ -23,7 +24,6 @@ import {ProcessStatusContext} from '../process-metrics/filter/store/ProcessStatu
 import {ProcessStepContext} from '../process-metrics/filter/store/ProcessStepStore.es';
 import {SLAStatusContext} from '../process-metrics/filter/store/SLAStatusStore.es';
 import {TimeRangeContext} from '../process-metrics/filter/store/TimeRangeStore.es';
-import {filterConstants} from './store/InstanceListPageStore.es';
 
 const InstanceListPageFilters = ({totalCount}) => {
 	const {assignees} = useContext(AssigneeContext);
@@ -40,12 +40,12 @@ const InstanceListPageFilters = ({totalCount}) => {
 		const filters = [
 			asFilterObject(
 				slaStatuses,
-				filterConstants.slaStatus,
+				filterKeys.slaStatus,
 				Liferay.Language.get('sla-status')
 			),
 			asFilterObject(
 				processStatuses,
-				filterConstants.processStatus,
+				filterKeys.processStatus,
 				Liferay.Language.get('process-status')
 			)
 		];
@@ -54,7 +54,7 @@ const InstanceListPageFilters = ({totalCount}) => {
 			filters.push(
 				asFilterObject(
 					timeRanges,
-					filterConstants.timeRange,
+					filterKeys.timeRange,
 					Liferay.Language.get('completion-period'),
 					true
 				)
@@ -64,7 +64,7 @@ const InstanceListPageFilters = ({totalCount}) => {
 		filters.push(
 			asFilterObject(
 				processSteps,
-				filterConstants.processStep,
+				filterKeys.processStep,
 				Liferay.Language.get('process-step')
 			)
 		);
@@ -72,7 +72,7 @@ const InstanceListPageFilters = ({totalCount}) => {
 		filters.push(
 			asFilterObject(
 				assignees,
-				filterConstants.assignees,
+				filterKeys.assignees,
 				Liferay.Language.get('assignees')
 			)
 		);
