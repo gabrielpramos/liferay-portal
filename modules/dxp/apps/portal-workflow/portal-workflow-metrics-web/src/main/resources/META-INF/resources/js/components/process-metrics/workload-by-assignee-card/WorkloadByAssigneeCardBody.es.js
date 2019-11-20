@@ -19,7 +19,7 @@ import Request from '../../../shared/components/request/Request.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {AppContext} from '../../AppContext.es';
 import {ProcessStepContext} from '../filter/store/ProcessStepStore.es';
-import WorkloadByAssigneeCard from './WorkloadByAssigneeCard.es';
+import {Table} from './WorkloadByAssigneeCardTable.es';
 
 const Body = ({currentTab, processId, query}) => {
 	const {client, defaultDelta} = useContext(AppContext);
@@ -62,7 +62,7 @@ const Body = ({currentTab, processId, query}) => {
 		<Request.Success>
 			{data.totalCount ? (
 				<>
-					<WorkloadByAssigneeCard.Table
+					<Body.Table
 						currentTab={currentTab}
 						items={data.items}
 						processId={processId}
@@ -89,13 +89,13 @@ const Body = ({currentTab, processId, query}) => {
 					</div>
 				</>
 			) : (
-				<WorkloadByAssigneeCard.Empty currentTab={currentTab} />
+				<Body.EmptyView currentTab={currentTab} />
 			)}
 		</Request.Success>
 	);
 };
 
-const Empty = ({currentTab}) => {
+const EmptyView = ({currentTab}) => {
 	const getEmptyMessage = () => {
 		switch (currentTab) {
 			case 'onTime':
@@ -142,4 +142,7 @@ const getRequestUrl = (currentTab, processId, processSteps) => {
 	return requestUrl;
 };
 
-export {Body, Empty};
+Body.EmptyView = EmptyView;
+Body.Table = Table;
+
+export {Body};
