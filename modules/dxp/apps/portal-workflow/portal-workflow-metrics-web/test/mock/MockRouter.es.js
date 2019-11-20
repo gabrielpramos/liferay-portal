@@ -18,7 +18,7 @@ export class MockRouter extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const {client, page = 1, query, search, sort} = this.props;
+		const {client, page = 1, query, sort} = this.props;
 
 		this.contextState = {
 			client,
@@ -29,7 +29,6 @@ export class MockRouter extends React.Component {
 			namespace: 'workflow_',
 			page,
 			query,
-			search,
 			setStatus: this.setStatus.bind(this),
 			setTitle: this.setTitle.bind(this),
 			sort,
@@ -55,20 +54,13 @@ export class MockRouter extends React.Component {
 			'title:asc'
 		)}`;
 
-		const {
-			initialPath = defaultPath,
-			page = 1,
-			query,
-			search,
-			sort
-		} = this.props;
+		const {initialPath = defaultPath, page = 1, query, sort} = this.props;
 
 		const initialEntries = [
 			{
 				match: {
 					params: {
 						page,
-						search,
 						sort
 					}
 				},
