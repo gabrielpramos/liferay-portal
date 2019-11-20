@@ -17,7 +17,7 @@ import LoadingState from '../../shared/components/loading/LoadingState.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import {Table} from './PerformanceByAssigneePageTable.es';
 
-const Body = ({data}) => {
+const Body = ({data, hasFilters}) => {
 	const {items} = data;
 
 	return (
@@ -30,46 +30,41 @@ const Body = ({data}) => {
 				{items && items.length > 0 ? (
 					<Body.Table items={items} />
 				) : (
-					<Body.Empty />
+					<Body.Empty hasFilters={hasFilters} />
 				)}
 			</PromisesResolver.Resolved>
 
 			<PromisesResolver.Rejected>
-				<Body.Error />
+				<Body.Error/>
 			</PromisesResolver.Rejected>
 		</div>
 	);
 };
 
-const EmptyView = () => {
-	return (
-		<EmptyState
-			className="border-0"
-			data-testid="emptyState"
-			hideAnimation={true}
-			message={Liferay.Language.get('there-is-no-data-at-the-moment')}
-			messageClassName="small"
-		/>
-	);
+const EmptyView = ({hasFilters}) => {
+	const emptyMessage = hasFilters
+		? Liferay.Language.get('no-results-were-found')
+		: Liferay.Language.get('there-is-no-data-at-the-moment');
+
+	const emptyType = hasFilters ? 'not-found' : 'empty';
+
+	return <EmptyState message={emptyMessage} type={emptyType} />;
 };
 
 const ErrorView = () => {
 	return (
 		<EmptyState
 			actionButton={<ReloadButton />}
-			className="border-0"
 			hideAnimation={true}
 			message={Liferay.Language.get(
 				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
 			)}
-			messageClassName="small"
-			type="error"
 		/>
 	);
 };
 
 const LoadingView = () => {
-	return <LoadingState />;
+	return <LoadingState className="border-0 pb-6 pt-6 sheet" />;
 };
 
 Body.Empty = EmptyView;

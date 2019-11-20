@@ -16,5 +16,10 @@ export const withParams = (...args) => ({
 	match: {params}
 }) =>
 	args.map((Component, index) => (
-		<Component {...params} key={index} query={search} />
+		<Component
+			{...params}
+			key={index}
+			query={search}
+			routeParams={{...params, sort: decodeURIComponent(params.sort)}}
+		/>
 	));
