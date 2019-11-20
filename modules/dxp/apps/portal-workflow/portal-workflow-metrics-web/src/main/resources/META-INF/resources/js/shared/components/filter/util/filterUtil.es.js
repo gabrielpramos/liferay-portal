@@ -44,7 +44,7 @@ const getFilterResults = (filterKeys, filterTitles, filterValues) => {
 	return filterResults;
 };
 
-export function getFilterValues(filterKey, filtersParam) {
+const getFilterValues = (filterKey, filtersParam) => {
 	let filterValues = filtersParam[filterKey] || [];
 
 	if (!Array.isArray(filterValues)) {
@@ -52,7 +52,7 @@ export function getFilterValues(filterKey, filtersParam) {
 	}
 
 	return filterValues;
-}
+};
 
 const getSelectedItemsQuery = (items, key, queryString) => {
 	const queryParams = parse(queryString);
@@ -65,6 +65,16 @@ const getSelectedItemsQuery = (items, key, queryString) => {
 	};
 
 	return stringify(queryParams);
+};
+
+const getSelectedItems = filterResults => {
+	return filterResults.filter(filter => {
+		filter.items = filter.items
+			? filter.items.filter(item => item.active)
+			: [];
+
+		return !!filter.items.length;
+	});
 };
 
 const pushToHistory = (filterQuery, routerProps) => {
@@ -95,6 +105,7 @@ const removeFilters = queryString => {
 	const queryParams = parse(queryString);
 
 	queryParams.filters = null;
+	queryParams.search = null;
 
 	return stringify(queryParams);
 };
@@ -119,6 +130,8 @@ export {
 	asFilterObject,
 	getFiltersParam,
 	getFilterResults,
+	getFilterValues,
+	getSelectedItems,
 	getSelectedItemsQuery,
 	pushToHistory,
 	reduceFilters,

@@ -9,55 +9,68 @@
  * distribution rights of the Software.
  */
 
-import {ClayButtonWithIcon} from '@clayui/button';
-import {ClayInput} from '@clayui/form';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import React from 'react';
 
-const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
+import {filterKeys} from '../../shared/components/filter/util/filterConstants.es';
+import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
+import SearchField from '../../shared/components/search-field/SearchField.es';
+import ProcessStepFilter from '../process-metrics/filter/ProcessStepFilterHooks.es';
+import RoleFilter from '../process-metrics/filter/RoleFilterHooks.es';
 
-const Header = () => {
-	const showMobile = true;
+const Header = ({dispatch, routeParams, selectedFilters, totalCount}) => {
+	const showFiltersResult = routeParams.search || selectedFilters.length > 0;
 
 	return (
-		<ClayManagementToolbar>
-			<ClayManagementToolbar.Item>
-				<strong className="ml-0 mr-0 navbar-text">
-					{Liferay.Language.get('filter-by')}
-				</strong>
-			</ClayManagementToolbar.Item>
+		<>
+			<ClayManagementToolbar>
+				<ClayManagementToolbar.Item>
+					<strong className="ml-0 mr-0 navbar-text">
+						{Liferay.Language.get('filter-by')}
+					</strong>
+				</ClayManagementToolbar.Item>
 
-			<ClayManagementToolbar.Search showMobile={showMobile}>
-				<ClayInput.Group>
-					<ClayInput.GroupItem>
-						<ClayInput
-							aria-label="Search"
-							className="form-control input-group-inset input-group-inset-after"
-							placeholder={Liferay.Language.get(
-								'search-for-assignee-name'
-							)}
-							type="text"
-						/>
+				<RoleFilter
+					dispatch={dispatch}
+					filterKey={filterKeys.roles}
+					processId={routeParams.processId}
+				/>
 
-						<ClayInput.GroupInsetItem after tag="span">
-							<ClayButtonWithIcon
-								className="navbar-breakpoint-d-none"
-								displayType="unstyled"
-								spritemap={spritemap}
-								symbol="times"
-							/>
+				<ProcessStepFilter
+					dispatch={dispatch}
+					filterKey={filterKeys.processStep}
+					processId={routeParams.processId}
+				/>
 
-							<ClayButtonWithIcon
-								displayType="unstyled"
-								spritemap={spritemap}
-								symbol="search"
-								type="submit"
-							/>
-						</ClayInput.GroupInsetItem>
-					</ClayInput.GroupItem>
-				</ClayInput.Group>
-			</ClayManagementToolbar.Search>
-		</ClayManagementToolbar>
+				<div className="navbar-form-autofit">
+					<SearchField
+						disabled={false}
+						placeholder={Liferay.Language.get(
+							'search-for-assignee-name'
+						)}
+					/>
+				</div>
+			</ClayManagementToolbar>
+
+			{showFiltersResult && (
+				<ResultsBar>
+					<ResultsBar.TotalCount
+						search={routeParams.search}
+						totalCount={totalCount}
+					/>
+
+					<ResultsBar.FilterItems
+						filters={selectedFilters}
+						{...routeParams}
+					/>
+
+					<ResultsBar.Clear
+						filters={selectedFilters}
+						{...routeParams}
+					/>
+				</ResultsBar>
+			)}
+		</>
 	);
 };
 
