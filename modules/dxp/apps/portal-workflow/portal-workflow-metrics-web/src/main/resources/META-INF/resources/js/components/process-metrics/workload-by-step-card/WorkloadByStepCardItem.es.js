@@ -11,9 +11,9 @@
 
 import React from 'react';
 
+import {filterKeys} from '../../../shared/components/filter/util/filterConstants.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {AppContext} from '../../AppContext.es';
-import {filterConstants} from '../../instance-list-page/store/InstanceListPageStore.es';
 import {processStatusConstants} from '../filter/store/ProcessStatusStore.es';
 
 class WorkloadByStepCardItem extends React.Component {
@@ -25,9 +25,9 @@ class WorkloadByStepCardItem extends React.Component {
 		const {taskKey} = this.props;
 
 		return {
-			[filterConstants.processStatus]: [processStatusConstants.pending],
-			[filterConstants.processStep]: [taskKey],
-			[filterConstants.slaStatus]: [slaStatusFilter]
+			[filterKeys.processStatus]: [processStatusConstants.pending],
+			[filterKeys.processStep]: [taskKey],
+			[filterKeys.slaStatus]: [slaStatusFilter]
 		};
 	}
 

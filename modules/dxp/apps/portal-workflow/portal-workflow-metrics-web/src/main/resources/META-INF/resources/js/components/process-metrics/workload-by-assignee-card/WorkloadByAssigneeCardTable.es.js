@@ -11,13 +11,12 @@
 
 import React, {useContext} from 'react';
 
+import {filterKeys} from '../../../shared/components/filter/util/filterConstants.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {getFormattedPercentage} from '../../../shared/util/util.es';
 import {AppContext} from '../../AppContext.es';
-import {filterConstants} from '../../instance-list-page/store/InstanceListPageStore.es';
 import {processStatusConstants} from '../filter/store/ProcessStatusStore.es';
 import {slaStatusConstants} from '../filter/store/SLAStatusStore.es';
-import WorkloadByAssigneeCard from './WorkloadByAssigneeCard.es';
 
 const Item = ({
 	currentTab,
@@ -41,13 +40,13 @@ const Item = ({
 
 	const getFiltersQuery = () => {
 		const filterParams = {
-			[filterConstants.assignees]: [id],
-			[filterConstants.processStatus]: [processStatusConstants.pending],
-			[filterConstants.slaStatus]: [slaStatusConstants[currentTab]]
+			[filterKeys.assignees]: [id],
+			[filterKeys.processStatus]: [processStatusConstants.pending],
+			[filterKeys.slaStatus]: [slaStatusConstants[currentTab]]
 		};
 
 		if (processStepKey && processStepKey !== 'allSteps') {
-			filterParams[filterConstants.processStep] = [processStepKey];
+			filterParams[filterKeys.processStep] = [processStepKey];
 		}
 
 		return filterParams;
@@ -95,7 +94,7 @@ const Table = ({currentTab, items = [], processId, processStepKey}) => (
 		<table className="table table-autofit table-hover">
 			<tbody>
 				{items.map((item, index) => (
-					<WorkloadByAssigneeCard.Item
+					<Table.Item
 						{...item}
 						currentTab={currentTab}
 						key={index}
@@ -108,4 +107,6 @@ const Table = ({currentTab, items = [], processId, processStepKey}) => (
 	</div>
 );
 
-export {Item, Table};
+Table.Item = Item;
+
+export {Table};
