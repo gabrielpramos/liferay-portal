@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should change search value 1`] = `
+<MockRouter>
+  <MemoryRouter
+    initialEntries={
+      Array [
+        Object {
+          "match": Object {
+            "params": Object {
+              "page": 1,
+              "sort": undefined,
+            },
+          },
+          "pathname": "/processes/1/10/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+      ]
+    }
+    keyLength={0}
+  >
+    <Router
+      history={
+        Object {
+          "action": "PUSH",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "match": Object {
+                "params": Object {
+                  "page": 1,
+                  "sort": undefined,
+                },
+              },
+              "pathname": "/processes/1/10/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "?backPath=%2F&search=",
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 1,
+          "length": 2,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "?backPath=%2F&search=",
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <SearchField>
+        <Search
+          method="GET"
+          onSubmit={[Function]}
+          showMobile={true}
+        >
+          <div
+            className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
+          >
+            <div
+              className="container-fluid container-fluid-max-xl"
+            >
+              <form
+                method="GET"
+                onSubmit={[Function]}
+                role="search"
+              >
+                <ForwardRef>
+                  <div
+                    className="input-group"
+                  >
+                    <ForwardRef>
+                      <div
+                        className="input-group-item"
+                      >
+                        <ForwardRef
+                          aria-label="Search"
+                          className="form-control input-group-inset input-group-inset-after"
+                          onChange={[Function]}
+                          placeholder="search-for"
+                          type="text"
+                          value=""
+                        >
+                          <input
+                            aria-label="Search"
+                            className="form-control form-control input-group-inset input-group-inset-after"
+                            onChange={[Function]}
+                            placeholder="search-for"
+                            type="text"
+                            value=""
+                          />
+                        </ForwardRef>
+                        <ForwardRef
+                          after={true}
+                          tag="span"
+                        >
+                          <span
+                            className="input-group-inset-item input-group-inset-item-after"
+                          >
+                            <ForwardRef
+                              className="navbar-breakpoint-d-none"
+                              displayType="unstyled"
+                              spritemap="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg"
+                              symbol="times"
+                            >
+                              <ForwardRef
+                                className="navbar-breakpoint-d-none"
+                                displayType="unstyled"
+                                monospaced={true}
+                              >
+                                <button
+                                  className="navbar-breakpoint-d-none btn btn-monospaced btn-unstyled"
+                                  type="button"
+                                >
+                                  <ForwardRef
+                                    spritemap="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg"
+                                    symbol="times"
+                                  >
+                                    <svg
+                                      className="lexicon-icon lexicon-icon-times"
+                                      key="times"
+                                      role="presentation"
+                                    >
+                                      <use
+                                        xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#times"
+                                      />
+                                    </svg>
+                                  </ForwardRef>
+                                </button>
+                              </ForwardRef>
+                            </ForwardRef>
+                            <ForwardRef
+                              displayType="unstyled"
+                              spritemap="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg"
+                              symbol="search"
+                              type="submit"
+                            >
+                              <ForwardRef
+                                displayType="unstyled"
+                                monospaced={true}
+                                type="submit"
+                              >
+                                <button
+                                  className="btn btn-monospaced btn-unstyled"
+                                  type="submit"
+                                >
+                                  <ForwardRef
+                                    spritemap="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg"
+                                    symbol="search"
+                                  >
+                                    <svg
+                                      className="lexicon-icon lexicon-icon-search"
+                                      key="search"
+                                      role="presentation"
+                                    >
+                                      <use
+                                        xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search"
+                                      />
+                                    </svg>
+                                  </ForwardRef>
+                                </button>
+                              </ForwardRef>
+                            </ForwardRef>
+                          </span>
+                        </ForwardRef>
+                      </div>
+                    </ForwardRef>
+                  </div>
+                </ForwardRef>
+              </form>
+            </div>
+          </div>
+        </Search>
+      </SearchField>
+    </Router>
+  </MemoryRouter>
+</MockRouter>
+`;
+
+exports[`Should render component 1`] = `
+<div
+  className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
+>
+  <div
+    className="container-fluid container-fluid-max-xl"
+  >
+    <form
+      method="GET"
+      onSubmit={[Function]}
+      role="search"
+    >
+      <div
+        className="input-group"
+      >
+        <div
+          className="input-group-item"
+        >
+          <input
+            aria-label="Search"
+            className="form-control form-control input-group-inset input-group-inset-after"
+            disabled={true}
+            onChange={[Function]}
+            placeholder="search-for"
+            type="text"
+            value=""
+          />
+          <span
+            className="input-group-inset-item input-group-inset-item-after"
+          >
+            <button
+              className="navbar-breakpoint-d-none btn btn-monospaced btn-unstyled"
+              type="button"
+            >
+              <svg
+                className="lexicon-icon lexicon-icon-times"
+                role="presentation"
+              >
+                <use
+                  xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#times"
+                />
+              </svg>
+            </button>
+            <button
+              className="btn btn-monospaced btn-unstyled"
+              type="submit"
+            >
+              <svg
+                className="lexicon-icon lexicon-icon-search"
+                role="presentation"
+              >
+                <use
+                  xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search"
+                />
+              </svg>
+            </button>
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;

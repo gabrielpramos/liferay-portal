@@ -11,52 +11,71 @@ Array [
       <div
         className="navbar-form navbar-form-autofit"
       >
-        <form
-          method="GET"
-          onSubmit={[Function]}
-          role="search"
+        <div
+          className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
         >
           <div
-            className="input-group"
+            className="container-fluid container-fluid-max-xl"
           >
-            <div
-              className="input-group-item"
+            <form
+              method="GET"
+              onSubmit={[Function]}
+              role="search"
             >
-              <input
-                className="form-control input-group-inset input-group-inset-after"
-                disabled={false}
-                onChange={[Function]}
-                placeholder="search-for"
-                type="text"
-                value=""
-              />
-              <span
-                className="input-group-inset-item input-group-inset-item-after"
+              <div
+                className="input-group"
               >
-                <button
-                  className="btn btn-unstyled"
-                  disabled={false}
-                  type="submit"
+                <div
+                  className="input-group-item"
                 >
-                  <svg
-                    className="lexicon-icon lexicon-icon-search"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search\\" />",
-                      }
-                    }
-                    data-testid="icon"
-                    focusable="false"
-                    role="presentation"
+                  <input
+                    aria-label="Search"
+                    className="form-control form-control input-group-inset input-group-inset-after"
+                    disabled={false}
+                    onChange={[Function]}
+                    placeholder="search-for"
+                    type="text"
+                    value=""
                   />
-                </button>
-              </span>
-            </div>
+                  <span
+                    className="input-group-inset-item input-group-inset-item-after"
+                  >
+                    <button
+                      className="navbar-breakpoint-d-none btn btn-monospaced btn-unstyled"
+                      type="button"
+                    >
+                      <svg
+                        className="lexicon-icon lexicon-icon-times"
+                        role="presentation"
+                      >
+                        <use
+                          xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#times"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="btn btn-monospaced btn-unstyled"
+                      type="submit"
+                    >
+                      <svg
+                        className="lexicon-icon lexicon-icon-search"
+                        role="presentation"
+                      >
+                        <use
+                          xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </nav>,
+  "",
   <div
     className="container-fluid-1280"
   >
@@ -84,52 +103,71 @@ Array [
       <div
         className="navbar-form navbar-form-autofit"
       >
-        <form
-          method="GET"
-          onSubmit={[Function]}
-          role="search"
+        <div
+          className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
         >
           <div
-            className="input-group"
+            className="container-fluid container-fluid-max-xl"
           >
-            <div
-              className="input-group-item"
+            <form
+              method="GET"
+              onSubmit={[Function]}
+              role="search"
             >
-              <input
-                className="form-control input-group-inset input-group-inset-after"
-                disabled={false}
-                onChange={[Function]}
-                placeholder="search-for"
-                type="text"
-                value=""
-              />
-              <span
-                className="input-group-inset-item input-group-inset-item-after"
+              <div
+                className="input-group"
               >
-                <button
-                  className="btn btn-unstyled"
-                  disabled={false}
-                  type="submit"
+                <div
+                  className="input-group-item"
                 >
-                  <svg
-                    className="lexicon-icon lexicon-icon-search"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search\\" />",
-                      }
-                    }
-                    data-testid="icon"
-                    focusable="false"
-                    role="presentation"
+                  <input
+                    aria-label="Search"
+                    className="form-control form-control input-group-inset input-group-inset-after"
+                    disabled={false}
+                    onChange={[Function]}
+                    placeholder="search-for"
+                    type="text"
+                    value=""
                   />
-                </button>
-              </span>
-            </div>
+                  <span
+                    className="input-group-inset-item input-group-inset-item-after"
+                  >
+                    <button
+                      className="navbar-breakpoint-d-none btn btn-monospaced btn-unstyled"
+                      type="button"
+                    >
+                      <svg
+                        className="lexicon-icon lexicon-icon-times"
+                        role="presentation"
+                      >
+                        <use
+                          xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#times"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="btn btn-monospaced btn-unstyled"
+                      type="submit"
+                    >
+                      <svg
+                        className="lexicon-icon lexicon-icon-search"
+                        role="presentation"
+                      >
+                        <use
+                          xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </nav>,
+  "",
   <div
     className="container-fluid-1280"
   >
@@ -157,52 +195,71 @@ Array [
       <div
         className="navbar-form navbar-form-autofit"
       >
-        <form
-          method="GET"
-          onSubmit={[Function]}
-          role="search"
+        <div
+          className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
         >
           <div
-            className="input-group"
+            className="container-fluid container-fluid-max-xl"
           >
-            <div
-              className="input-group-item"
+            <form
+              method="GET"
+              onSubmit={[Function]}
+              role="search"
             >
-              <input
-                className="form-control input-group-inset input-group-inset-after"
-                disabled={false}
-                onChange={[Function]}
-                placeholder="search-for"
-                type="text"
-                value=""
-              />
-              <span
-                className="input-group-inset-item input-group-inset-item-after"
+              <div
+                className="input-group"
               >
-                <button
-                  className="btn btn-unstyled"
-                  disabled={false}
-                  type="submit"
+                <div
+                  className="input-group-item"
                 >
-                  <svg
-                    className="lexicon-icon lexicon-icon-search"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search\\" />",
-                      }
-                    }
-                    data-testid="icon"
-                    focusable="false"
-                    role="presentation"
+                  <input
+                    aria-label="Search"
+                    className="form-control form-control input-group-inset input-group-inset-after"
+                    disabled={false}
+                    onChange={[Function]}
+                    placeholder="search-for"
+                    type="text"
+                    value=""
                   />
-                </button>
-              </span>
-            </div>
+                  <span
+                    className="input-group-inset-item input-group-inset-item-after"
+                  >
+                    <button
+                      className="navbar-breakpoint-d-none btn btn-monospaced btn-unstyled"
+                      type="button"
+                    >
+                      <svg
+                        className="lexicon-icon lexicon-icon-times"
+                        role="presentation"
+                      >
+                        <use
+                          xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#times"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="btn btn-monospaced btn-unstyled"
+                      type="submit"
+                    >
+                      <svg
+                        className="lexicon-icon lexicon-icon-search"
+                        role="presentation"
+                      >
+                        <use
+                          xlinkHref="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#search"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </nav>,
+  "",
   <div
     className="container-fluid-1280"
   >

@@ -9,7 +9,6 @@ exports[`Should cancel dialog 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -33,7 +32,6 @@ exports[`Should cancel dialog 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -52,7 +50,6 @@ exports[`Should cancel dialog 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -147,7 +144,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -171,7 +167,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -190,7 +185,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -243,7 +237,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -262,7 +255,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
                                 "match": Object {
                                   "params": Object {
                                     "page": 1,
-                                    "search": undefined,
                                     "sort": undefined,
                                   },
                                 },
@@ -279,7 +271,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
                               "match": Object {
                                 "params": Object {
                                   "page": 1,
-                                  "search": undefined,
                                   "sort": undefined,
                                 },
                               },
@@ -313,7 +304,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -332,7 +322,6 @@ exports[`Should cancel dialog through SLA List 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -434,7 +423,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -458,7 +446,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -477,7 +464,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -530,7 +516,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -549,7 +534,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
                                 "match": Object {
                                   "params": Object {
                                     "page": 1,
-                                    "search": undefined,
                                     "sort": undefined,
                                   },
                                 },
@@ -566,7 +550,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
                               "match": Object {
                                 "params": Object {
                                   "page": 1,
-                                  "search": undefined,
                                   "sort": undefined,
                                 },
                               },
@@ -600,7 +583,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -619,7 +601,6 @@ exports[`Should cancel dialog through SLA List 2`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -712,7 +693,6 @@ exports[`Should remove item 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -736,7 +716,6 @@ exports[`Should remove item 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -755,7 +734,6 @@ exports[`Should remove item 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },

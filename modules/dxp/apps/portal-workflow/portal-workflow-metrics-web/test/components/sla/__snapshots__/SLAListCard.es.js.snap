@@ -18,7 +18,6 @@ exports[`Should remove a item 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -42,7 +41,6 @@ exports[`Should remove a item 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -61,7 +59,6 @@ exports[`Should remove a item 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -114,7 +111,6 @@ exports[`Should remove a item 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -133,7 +129,6 @@ exports[`Should remove a item 1`] = `
                                 "match": Object {
                                   "params": Object {
                                     "page": 1,
-                                    "search": undefined,
                                     "sort": undefined,
                                   },
                                 },
@@ -150,7 +145,6 @@ exports[`Should remove a item 1`] = `
                               "match": Object {
                                 "params": Object {
                                   "page": 1,
-                                  "search": undefined,
                                   "sort": undefined,
                                 },
                               },
@@ -184,7 +178,6 @@ exports[`Should remove a item 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -203,7 +196,6 @@ exports[`Should remove a item 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -433,7 +425,6 @@ exports[`Should render toast with SLA saved message 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -457,7 +448,6 @@ exports[`Should render toast with SLA saved message 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -476,7 +466,6 @@ exports[`Should render toast with SLA saved message 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -529,7 +518,6 @@ exports[`Should render toast with SLA saved message 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -548,7 +536,6 @@ exports[`Should render toast with SLA saved message 1`] = `
                                 "match": Object {
                                   "params": Object {
                                     "page": 1,
-                                    "search": undefined,
                                     "sort": undefined,
                                   },
                                 },
@@ -565,7 +552,6 @@ exports[`Should render toast with SLA saved message 1`] = `
                               "match": Object {
                                 "params": Object {
                                   "page": 1,
-                                  "search": undefined,
                                   "sort": undefined,
                                 },
                               },
@@ -599,7 +585,6 @@ exports[`Should render toast with SLA saved message 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -618,7 +603,6 @@ exports[`Should render toast with SLA saved message 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -720,7 +704,6 @@ exports[`Should render toast with SLA updated message 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -744,7 +727,6 @@ exports[`Should render toast with SLA updated message 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -763,7 +745,6 @@ exports[`Should render toast with SLA updated message 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -816,7 +797,6 @@ exports[`Should render toast with SLA updated message 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -835,7 +815,6 @@ exports[`Should render toast with SLA updated message 1`] = `
                                 "match": Object {
                                   "params": Object {
                                     "page": 1,
-                                    "search": undefined,
                                     "sort": undefined,
                                   },
                                 },
@@ -852,7 +831,6 @@ exports[`Should render toast with SLA updated message 1`] = `
                               "match": Object {
                                 "params": Object {
                                   "page": 1,
-                                  "search": undefined,
                                   "sort": undefined,
                                 },
                               },
@@ -886,7 +864,6 @@ exports[`Should render toast with SLA updated message 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -905,7 +882,6 @@ exports[`Should render toast with SLA updated message 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -1007,7 +983,6 @@ exports[`Should test props change 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -1031,7 +1006,6 @@ exports[`Should test props change 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -1050,7 +1024,6 @@ exports[`Should test props change 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -1103,7 +1076,6 @@ exports[`Should test props change 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },
@@ -1122,7 +1094,6 @@ exports[`Should test props change 1`] = `
                                 "match": Object {
                                   "params": Object {
                                     "page": 1,
-                                    "search": undefined,
                                     "sort": undefined,
                                   },
                                 },
@@ -1139,7 +1110,6 @@ exports[`Should test props change 1`] = `
                               "match": Object {
                                 "params": Object {
                                   "page": 1,
-                                  "search": undefined,
                                   "sort": undefined,
                                 },
                               },
@@ -1173,7 +1143,6 @@ exports[`Should test props change 1`] = `
                                     "match": Object {
                                       "params": Object {
                                         "page": 1,
-                                        "search": undefined,
                                         "sort": undefined,
                                       },
                                     },
@@ -1192,7 +1161,6 @@ exports[`Should test props change 1`] = `
                                   "match": Object {
                                     "params": Object {
                                       "page": 1,
-                                      "search": undefined,
                                       "sort": undefined,
                                     },
                                   },

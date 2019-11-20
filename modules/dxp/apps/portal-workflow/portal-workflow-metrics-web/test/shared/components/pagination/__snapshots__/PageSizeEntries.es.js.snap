@@ -89,7 +89,6 @@ exports[`Should render with default deltas 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -113,7 +112,6 @@ exports[`Should render with default deltas 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -132,7 +130,6 @@ exports[`Should render with default deltas 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -195,7 +192,6 @@ exports[`Should render with default deltas 1`] = `
                         "match": Object {
                           "params": Object {
                             "page": 1,
-                            "search": undefined,
                             "sort": undefined,
                           },
                         },
@@ -214,7 +210,6 @@ exports[`Should render with default deltas 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -231,7 +226,6 @@ exports[`Should render with default deltas 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -285,7 +279,6 @@ exports[`Should render with default deltas 1`] = `
                         "match": Object {
                           "params": Object {
                             "page": 1,
-                            "search": undefined,
                             "sort": undefined,
                           },
                         },
@@ -304,7 +297,6 @@ exports[`Should render with default deltas 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -321,7 +313,6 @@ exports[`Should render with default deltas 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -375,7 +366,6 @@ exports[`Should render with default deltas 1`] = `
                         "match": Object {
                           "params": Object {
                             "page": 1,
-                            "search": undefined,
                             "sort": undefined,
                           },
                         },
@@ -394,7 +384,6 @@ exports[`Should render with default deltas 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -411,7 +400,6 @@ exports[`Should render with default deltas 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -465,7 +453,6 @@ exports[`Should render with default deltas 1`] = `
                         "match": Object {
                           "params": Object {
                             "page": 1,
-                            "search": undefined,
                             "sort": undefined,
                           },
                         },
@@ -484,7 +471,6 @@ exports[`Should render with default deltas 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -501,7 +487,6 @@ exports[`Should render with default deltas 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -555,7 +540,6 @@ exports[`Should render with default deltas 1`] = `
                         "match": Object {
                           "params": Object {
                             "page": 1,
-                            "search": undefined,
                             "sort": undefined,
                           },
                         },
@@ -574,7 +558,6 @@ exports[`Should render with default deltas 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -591,7 +574,6 @@ exports[`Should render with default deltas 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
@@ -645,7 +627,6 @@ exports[`Should render with default deltas 1`] = `
                         "match": Object {
                           "params": Object {
                             "page": 1,
-                            "search": undefined,
                             "sort": undefined,
                           },
                         },
@@ -664,7 +645,6 @@ exports[`Should render with default deltas 1`] = `
                       "match": Object {
                         "params": Object {
                           "page": 1,
-                          "search": undefined,
                           "sort": undefined,
                         },
                       },
@@ -681,7 +661,6 @@ exports[`Should render with default deltas 1`] = `
                     "match": Object {
                       "params": Object {
                         "page": 1,
-                        "search": undefined,
                         "sort": undefined,
                       },
                     },
