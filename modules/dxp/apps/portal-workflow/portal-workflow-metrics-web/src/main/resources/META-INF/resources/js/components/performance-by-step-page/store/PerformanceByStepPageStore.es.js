@@ -28,9 +28,7 @@ const usePerformanceData = (queryDateEnd, queryDateStart, timeRangeKeys) => {
 			sort: decodeURIComponent(sort)
 		};
 
-		if (typeof search === 'string' && search) {
-			params.key = decodeURIComponent(search);
-		}
+		params.key = search.length ? search : null;
 
 		const isValidDate = date => date && !isNaN(date);
 

@@ -11,9 +11,10 @@
 
 import React from 'react';
 
-import Search from '../../shared/components/pagination/Search.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
+import {parse} from '../../shared/components/router/queryString.es';
+import SearchField from '../../shared/components/search-field/SearchField.es';
 import {usePageTitle} from '../../shared/hooks/usePageTitle.es';
 import {useResource} from '../../shared/hooks/useResource.es';
 import {
@@ -25,14 +26,19 @@ import {
 import {Item} from './ProcessListPageItem.es';
 import {Table} from './ProcessListPageTable.es';
 
-const ProcessListPage = ({page, pageSize, search, sort}) => {
+const ProcessListPage = ({page, pageSize, query, sort}) => {
 	usePageTitle(Liferay.Language.get('metrics'));
+	const {search = ''} = parse(query);
+
+	let title;
+
+	if (search.length) title = search;
 
 	const {data, promises} = useResource('/processes', {
 		page,
 		pageSize,
 		sort: decodeURIComponent(sort),
-		title: search ? decodeURIComponent(search) : null
+		title
 	});
 
 	return (
@@ -58,7 +64,7 @@ const Filters = ({page, pageSize, search, sort, totalCount}) => {
 			<nav className="management-bar management-bar-light navbar navbar-expand-md">
 				<div className="container-fluid container-fluid-max-xl">
 					<div className="navbar-form navbar-form-autofit">
-						<Search disabled={!search && totalCount === 0} />
+						<SearchField disabled={!search && totalCount === 0} />
 					</div>
 				</div>
 			</nav>
