@@ -9,7 +9,6 @@ exports[`Should expand tab items 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -33,7 +32,6 @@ exports[`Should expand tab items 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -52,7 +50,6 @@ exports[`Should expand tab items 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
@@ -231,7 +228,6 @@ exports[`Should hide tab items 1`] = `
           "match": Object {
             "params": Object {
               "page": 1,
-              "search": undefined,
               "sort": undefined,
             },
           },
@@ -255,7 +251,6 @@ exports[`Should hide tab items 1`] = `
               "match": Object {
                 "params": Object {
                   "page": 1,
-                  "search": undefined,
                   "sort": undefined,
                 },
               },
@@ -274,7 +269,6 @@ exports[`Should hide tab items 1`] = `
             "match": Object {
               "params": Object {
                 "page": 1,
-                "search": undefined,
                 "sort": undefined,
               },
             },
