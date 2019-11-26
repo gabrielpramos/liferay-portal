@@ -17,6 +17,7 @@ import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
 import SearchField from '../../shared/components/search-field/SearchField.es';
 import ProcessStepFilter from '../process-metrics/filter/ProcessStepFilterHooks.es';
 import RoleFilter from '../process-metrics/filter/RoleFilterHooks.es';
+import {TimeRangeFilter} from '../process-metrics/filter/TimeRangeFilter.es';
 
 const Header = ({dispatch, routeParams, selectedFilters, totalCount}) => {
 	const showFiltersResult = routeParams.search || selectedFilters.length > 0;
@@ -50,6 +51,13 @@ const Header = ({dispatch, routeParams, selectedFilters, totalCount}) => {
 						)}
 					/>
 				</div>
+
+				<TimeRangeFilter
+					buttonClassName="btn-flat btn-sm"
+					hideControl={true}
+					position="right"
+					showFilterName={false}
+				/>
 			</ClayManagementToolbar>
 
 			{showFiltersResult && (
