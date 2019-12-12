@@ -70,7 +70,7 @@ describe('The custom time range name should', () => {
 
 		const customTimeRange = result.current.timeRanges[0];
 
-		expect(customTimeRange.resultName(customTimeRange)).toBe(
+		expect(customTimeRange.getName(customTimeRange)).toBe(
 			'Invalid date - Invalid date'
 		);
 
@@ -96,7 +96,7 @@ describe('The custom time range name should', () => {
 
 		setTimeRanges([customTimeRange, ...timeRanges]);
 
-		expect(customTimeRange.resultName(customTimeRange)).toBe(
+		expect(customTimeRange.getName(customTimeRange)).toBe(
 			'Jan 9, 2019 - Jan 15, 2019'
 		);
 
@@ -213,26 +213,6 @@ describe('The time range store, when receiving no items, should', () => {
 		await waitForNextUpdate();
 
 		expect(result.current.timeRanges[0].key).toBe('custom');
-
-		unmount();
-	});
-
-	test('Return a fallback object of selected item', () => {
-		clientMock.get.mockResolvedValueOnce({data: {}});
-
-		const {result, unmount} = renderHook(
-			({timeRangeKeys}) => useTimeRange(timeRangeKeys),
-			{
-				initialProps: {
-					timeRangeKeys: ['1']
-				},
-				wrapper: MockAppContext
-			}
-		);
-
-		const selectedTimeRange = result.current.getSelectedTimeRange(['1']);
-
-		expect(selectedTimeRange.key).toBe('1');
 
 		unmount();
 	});
