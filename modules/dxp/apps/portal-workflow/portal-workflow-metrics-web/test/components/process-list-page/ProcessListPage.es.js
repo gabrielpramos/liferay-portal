@@ -9,139 +9,71 @@
  * distribution rights of the Software.
  */
 
+import {cleanup, render, waitForElement} from '@testing-library/react';
 import React from 'react';
-import renderer from 'react-test-renderer';
 
 import ProcessListPage from '../../../src/main/resources/META-INF/resources/js/components/process-list-page/ProcessListPage.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
-const MockContext = ({children, clientMock}) => (
-	<MockRouter client={clientMock}>{children}</MockRouter>
-);
+describe('The process list page component having data should', () => {
+	let getAllByTestId;
 
-test('Should render component', () => {
-	const clientMock = {
-		get: jest.fn().mockResolvedValue({data: {items: [], totalCount: 0}})
-	};
+	const items = [
+		{
+			instancesCount: 0,
+			title: 'Single Approver 1'
+		},
+		{
+			instancesCount: 0,
+			title: 'Single Approver 2'
+		},
+		{
+			instancesCount: 0,
+			title: 'Single Approver 3'
+		}
+	];
 
-	const component = renderer.create(
-		<MockContext clientMock={clientMock}>
-			<ProcessListPage
-				page="1"
-				pageSize="20"
-				sort="overdueInstanceCount:desc"
-			/>
-		</MockContext>
-	);
-	const tree = component.toJSON();
-
-	expect(tree).toMatchSnapshot();
-});
-
-test('Should render component with 10 records', () => {
-	const data = {
-		items: [
-			{
-				instancesCount: 0,
-				title: 'Single Approver 1'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 2'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 3'
-			},
-			{
-				instancesCount: 1,
-				title: 'Single Approver 4'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 5'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 6'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 7'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 8'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 9'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 10'
-			}
-		],
-		totalCount: 10
-	};
+	const data = {items, totalCount: items.length};
 
 	const clientMock = {
-		get: jest.fn().mockResolvedValue({data: {data}})
+		get: jest.fn().mockResolvedValue({data})
 	};
 
-	const component = renderer.create(
-		<MockContext clientMock={clientMock}>
-			<ProcessListPage
-				page="1"
-				pageSize="20"
-				sort="overdueInstanceCount:desc"
-			/>
-		</MockContext>
+	const routeParams = {
+		page: 1,
+		pageSize: 20,
+		query: '',
+		sort: 'overdueInstanceCount%3Adesc'
+	};
+
+	afterEach(cleanup);
+
+	const wrapper = ({children}) => (
+		<MockRouter client={clientMock}>{children}</MockRouter>
 	);
 
-	const tree = component.toJSON();
+	beforeEach(() => {
+		const renderResult = render(
+			<ProcessListPage routeParams={routeParams} />,
+			{wrapper}
+		);
 
-	expect(tree).toMatchSnapshot();
-});
+		getAllByTestId = renderResult.getAllByTestId;
+	});
 
-test('Should render component with 4 records', () => {
-	const data = {
-		items: [
-			{
-				instancesCount: 0,
-				title: 'Single Approver 1'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 2'
-			},
-			{
-				instancesCount: 0,
-				title: 'Single Approver 3'
-			},
-			{
-				instancesCount: 1,
-				title: 'Single Approver 4'
-			}
-		],
-		totalCount: 4
-	};
+	test('Be rendered with process names', async () => {
+		const processName = await waitForElement(() =>
+			getAllByTestId('processName')
+		);
 
-	const clientMock = {
-		get: jest.fn().mockResolvedValue({data: {data}})
-	};
-
-	const component = renderer.create(
-		<MockContext clientMock={clientMock}>
-			<ProcessListPage
-				page="1"
-				pageSize="20"
-				sort="overdueInstanceCount:desc"
-			/>
-		</MockContext>
-	);
-
-	const tree = component.toJSON();
-
-	expect(tree).toMatchSnapshot();
+		expect(processName[0].children[0].innerHTML).toEqual(
+			'Single Approver 1'
+		);
+		expect(processName[1].children[0].innerHTML).toEqual(
+			'Single Approver 2'
+		);
+		expect(processName[2].children[0].innerHTML).toEqual(
+			'Single Approver 3'
+		);
+	});
 });
