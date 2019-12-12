@@ -12,26 +12,23 @@
 import {ClayButtonWithIcon} from '@clayui/button';
 import {ClayInput} from '@clayui/form';
 import ClayManagementToolbar from '@clayui/management-toolbar';
-import pathToRegexp from 'path-to-regexp';
 import React, {useState, useEffect} from 'react';
 
 import {useRouter} from '../../hooks/useRouter.es';
+import {pushToHistory} from '../filter/util/filterUtil.es';
 import {parse, stringify} from '../router/queryString.es';
 
 const SearchField = props => {
-	const {
-		history,
-		location,
-		match: {params, path}
-	} = useRouter();
-	const query = parse(location.search);
-	const {search = ''} = query;
+	const routerProps = useRouter();
+
+	const query = parse(routerProps.location.search);
+	const {search = null} = query;
 
 	const {disabled, placeholder = Liferay.Language.get('search-for')} = props;
 
 	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
 
-	const [searchValue, setSearchValue] = useState('');
+	const [searchValue, setSearchValue] = useState(null);
 	const [redirect, setRedirect] = useState(false);
 
 	useEffect(() => {
@@ -50,15 +47,9 @@ const SearchField = props => {
 	if (redirect) {
 		setRedirect(false);
 
-		const pathname = pathToRegexp.compile(path)({
-			...params,
-			page: 1
-		});
+		query.search = searchValue;
 
-		history.push({
-			pathname,
-			search: stringify({...query, search: searchValue})
-		});
+		pushToHistory(stringify(query), routerProps);
 	}
 
 	return (

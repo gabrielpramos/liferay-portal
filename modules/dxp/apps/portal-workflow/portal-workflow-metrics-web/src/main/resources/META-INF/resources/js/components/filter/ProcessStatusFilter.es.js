@@ -9,57 +9,73 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
-import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
+import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 
-const AssigneeFilter = ({
+const ProcessStatusFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.assignee.key,
-	options = {
+	filterKey = filterConstants.processStatus.key,
+	options = {},
+	prefixKey = ''
+}) => {
+	const defaultOptions = {
 		hideControl: false,
 		multiple: true,
 		position: 'left',
 		withSelectionTitle: false
-	},
-	prefixKey = '',
-	processId
-}) => {
-	const {items, selectedItems} = useFilterFetch(
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
+	const {items, selectedItems} = useFilterStatic(
 		dispatch,
 		filterKey,
 		prefixKey,
-		`/processes/${processId}/assignee-users?page=0&pageSize=0`,
-		[unassignedItem]
+		processStatuses
 	);
+
+	const defaultItem = useMemo(() => (items ? items[0] : undefined), [items]);
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('assignee'),
+		Liferay.Language.get('process-status'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
+			defaultItem={defaultItem}
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-const unassignedItem = {
-	dividerAfter: true,
-	id: -1,
-	key: '-1',
-	name: Liferay.Language.get('unassigned')
+const processStatusConstants = {
+	completed: 'Completed',
+	pending: 'Pending'
 };
 
-export default AssigneeFilter;
+const processStatuses = [
+	{
+		key: processStatusConstants.completed,
+		name: Liferay.Language.get('completed')
+	},
+	{
+		key: processStatusConstants.pending,
+		name: Liferay.Language.get('pending')
+	}
+];
+
+export default ProcessStatusFilter;
+export {processStatusConstants};

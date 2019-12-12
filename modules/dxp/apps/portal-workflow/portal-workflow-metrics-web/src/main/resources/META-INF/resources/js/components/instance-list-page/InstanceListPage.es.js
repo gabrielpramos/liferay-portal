@@ -72,7 +72,7 @@ export function InstanceListPage({page, pageSize, processId, query}) {
 	);
 }
 
-const Body = ({page, pageSize, processId, query}) => {
+const Body = ({page, pageSize, processId}) => {
 	const {fetchInstances, items, searching, totalCount} = useContext(
 		InstanceListContext
 	);
@@ -86,13 +86,7 @@ const Body = ({page, pageSize, processId, query}) => {
 		'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
 	);
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const promises = useMemo(() => [fetchInstances()], [
-		page,
-		pageSize,
-		processId,
-		query
-	]);
+	const promises = useMemo(() => [fetchInstances()], [fetchInstances]);
 
 	return (
 		<>

@@ -21,14 +21,19 @@ const VelocityUnitFilter = ({
 	className,
 	dispatch,
 	filterKey = filterConstants.velocityUnit.key,
-	options = {
+	options = {},
+	prefixKey = '',
+	timeRange
+}) => {
+	const defaultOptions = {
 		hideControl: true,
 		multiple: false,
 		position: 'right',
 		withSelectionTitle: true
-	},
-	timeRange
-}) => {
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
 	const velocityUnits = useMemo(() => getVelocityUnits(timeRange), [
 		timeRange
 	]);
@@ -36,13 +41,18 @@ const VelocityUnitFilter = ({
 	const {items, selectedItems} = useFilterStatic(
 		dispatch,
 		filterKey,
+		prefixKey,
 		velocityUnits
 	);
 
 	const defaultItem = useMemo(
-		() => items.find(item => item.defaultVelocityUnit),
+		() => items.find(item => item.defaultVelocityUnit) || items[0],
 		[items]
 	);
+
+	if (defaultItem && !selectedItems.length) {
+		selectedItems[0] = defaultItem;
+	}
 
 	const filterName = useFilterName(
 		options.multiple,
@@ -53,11 +63,13 @@ const VelocityUnitFilter = ({
 
 	return (
 		<Filter
+			dataTestId="velocityUnitFilter"
 			defaultItem={defaultItem}
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);

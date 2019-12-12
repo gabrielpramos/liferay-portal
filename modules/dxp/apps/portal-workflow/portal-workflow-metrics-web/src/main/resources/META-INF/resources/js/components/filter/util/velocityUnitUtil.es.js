@@ -21,36 +21,28 @@ const asDefault = velocityUnit => {
 };
 
 const daysUnit = {
-	key: velocityUnitConstants.days,
+	key: 'Days',
 	name: Liferay.Language.get('inst-day')
 };
 
 const hoursUnit = {
-	key: velocityUnitConstants.hours,
+	key: 'Hours',
 	name: Liferay.Language.get('inst-hour')
 };
 
 const monthsUnit = {
-	key: velocityUnitConstants.months,
+	key: 'Months',
 	name: Liferay.Language.get('inst-month')
 };
 
 const weeksUnit = {
-	key: velocityUnitConstants.weeks,
+	key: 'Weeks',
 	name: Liferay.Language.get('inst-week')
 };
 
 const yearsUnit = {
-	key: velocityUnitConstants.years,
+	key: 'Years',
 	name: Liferay.Language.get('inst-year')
-};
-
-const velocityUnitConstants = {
-	days: 'Days',
-	hours: 'Hours',
-	months: 'Months',
-	weeks: 'Weeks',
-	years: 'Years'
 };
 
 const velocityUnitsMap = {
@@ -64,6 +56,8 @@ const velocityUnitsMap = {
 };
 
 const getVelocityUnits = ({dateEnd, dateStart}) => {
+	if (!dateEnd || !dateStart) return [];
+
 	const daysDiff = moment.utc(dateEnd).diff(moment.utc(dateStart), 'days');
 
 	return (
@@ -73,4 +67,4 @@ const getVelocityUnits = ({dateEnd, dateStart}) => {
 	);
 };
 
-export {getVelocityUnits, velocityUnitConstants};
+export {getVelocityUnits};

@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useCallback, useContext, useState} from 'react';
 
 import {filterKeys} from '../../../shared/components/filter/util/filterConstants.es';
 import {
@@ -41,83 +41,63 @@ const useInstanceListData = (page, pageSize, processId, query) => {
 
 	const filters = getFiltersParam(query);
 
-	const getInstancesRequestURL = () => {
-		setSearching(false);
+	let baseURL = `/processes/${processId}/instances?page=${page}&pageSize=${pageSize}`;
 
-		let baseURL = `/processes/${processId}/instances?page=${page}&pageSize=${pageSize}`;
+	const selectedAssignees = getSelectedAssignees(
+		filters[filterKeys.assignee]
+	);
+	const selectedProcessStatuses = getSelectedProcessStatuses(
+		filters[filterKeys.processStatus]
+	);
+	const selectedProcessSteps = getSelectedProcessSteps(
+		filters[filterKeys.processStep]
+	);
+	const selectedSLAStatuses = getSelectedSLAStatuses(
+		filters[filterKeys.slaStatus]
+	);
+	const selectedTimeRange = getSelectedTimeRange();
 
-		const selectedAssignees = getSelectedAssignees(
-			filters[filterKeys.assignee]
+	if (selectedAssignees && selectedAssignees.length) {
+		baseURL += reduceFilters(selectedAssignees, filterKeys.assignee);
+	}
+
+	if (selectedProcessStatuses && selectedProcessStatuses.length) {
+		baseURL += reduceFilters(
+			selectedProcessStatuses,
+			filterKeys.processStatus
 		);
-		const selectedProcessStatuses = getSelectedProcessStatuses(
-			filters[filterKeys.processStatus]
-		);
-		const selectedProcessSteps = getSelectedProcessSteps(
-			filters[filterKeys.processStep]
-		);
-		const selectedSLAStatuses = getSelectedSLAStatuses(
-			filters[filterKeys.slaStatus]
-		);
-		const selectedTimeRange = getSelectedTimeRange(
-			filters[filterKeys.timeRange],
-			filters[filterKeys.timeRangeDateEnd],
-			filters[filterKeys.timeRangeDateStart]
-		);
+	}
 
-		if (selectedAssignees && selectedAssignees.length) {
-			setSearching(true);
+	if (selectedProcessSteps && selectedProcessSteps.length) {
+		baseURL += reduceFilters(selectedProcessSteps, filterKeys.processStep);
+	}
 
-			baseURL += reduceFilters(selectedAssignees, filterKeys.assignee);
-		}
+	if (selectedSLAStatuses && selectedSLAStatuses.length) {
+		baseURL += reduceFilters(selectedSLAStatuses, filterKeys.slaStatus);
+	}
 
-		if (selectedProcessStatuses && selectedProcessStatuses.length) {
-			setSearching(true);
+	if (
+		isCompletedStatusSelected(filters[filterKeys.processStatus]) &&
+		selectedTimeRange
+	) {
+		baseURL += `&${
+			filterKeys.timeRangeDateEnd
+		}=${selectedTimeRange.dateEnd.toISOString()}`;
+		baseURL += `&${
+			filterKeys.timeRangeDateStart
+		}=${selectedTimeRange.dateStart.toISOString()}`;
+	}
 
-			baseURL += reduceFilters(
-				selectedProcessStatuses,
-				filterKeys.processStatus
-			);
-		}
-
-		if (selectedProcessSteps && selectedProcessSteps.length) {
-			setSearching(true);
-
-			baseURL += reduceFilters(
-				selectedProcessSteps,
-				filterKeys.processStep
-			);
-		}
-
-		if (selectedSLAStatuses && selectedSLAStatuses.length) {
-			setSearching(true);
-
-			baseURL += reduceFilters(selectedSLAStatuses, filterKeys.slaStatus);
-		}
-
-		if (
-			isCompletedStatusSelected(filters[filterKeys.processStatus]) &&
-			selectedTimeRange
-		) {
-			setSearching(true);
-
-			baseURL += `&${
-				filterKeys.timeRangeDateEnd
-			}=${selectedTimeRange.dateEnd.toISOString()}`;
-			baseURL += `&${
-				filterKeys.timeRangeDateStart
-			}=${selectedTimeRange.dateStart.toISOString()}`;
-		}
-
-		return baseURL;
-	};
-
-	const fetchInstances = () => {
-		return client.get(getInstancesRequestURL()).then(({data}) => {
+	const fetchInstances = useCallback(() => {
+		setSearching(true);
+		return client.get(baseURL).then(({data}) => {
+			setSearching(false);
 			setItems(data.items);
 			setTotalCount(data.totalCount);
 			return data;
 		});
-	};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [baseURL]);
 
 	return {
 		fetchInstances,
