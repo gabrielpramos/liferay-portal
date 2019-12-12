@@ -9,56 +9,128 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import {getFiltersParam} from '../../../shared/components/filter/util/filterUtil.es';
-import Request from '../../../shared/components/request/Request.es';
-import {ProcessVelocityInfo} from './ProcessVelocityInfo.es';
-import VelocityChart from './VelocityChart.es';
-import VelocityFilters from './VelocityFilters.es';
-import {VelocityDataProvider} from './store/VelocityDataStore.es';
-import {VelocityFiltersProvider} from './store/VelocityFiltersStore.es';
+import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
+import {useFetch} from '../../../shared/hooks/useFetch.es';
+import {useFilter} from '../../../shared/hooks/useFilter.es';
+import TimeRangeFilter from '../../filter/TimeRangeFilter.es';
+import VelocityUnitFilter from '../../filter/VelocityUnitFilter.es';
+import {isValidDate} from '../../filter/util/timeRangeUtil.es';
+import {getVelocityUnits} from '../../filter/util/velocityUnitUtil.es';
+import {Body} from './CompletionVelocityCardBody.es';
 
-const CompletionVelocityCard = ({processId, query}) => {
-	const {velocityTimeRange = [], velocityUnit = []} = getFiltersParam(query);
+const CompletionVelocityCard = ({routeParams}) => {
+	const {processId} = routeParams;
+
+	const filterKeys = ['timeRange', 'velocityUnit'];
+	const prefixKey = 'completion';
+	const prefixKeys = [prefixKey];
+	const {dispatch, filterState = {}} = useFilter(filterKeys, prefixKeys);
+
+	const {
+		completionvelocityUnit: velocityUnit = [],
+		completiontimeRange: timeRange = []
+	} = filterState;
+
+	const timeRangeValues = timeRange.length ? timeRange[0] : {};
+	const {dateEnd, dateStart} = timeRangeValues;
+
+	let timeRangeParams = {};
+	if (isValidDate(dateEnd) && isValidDate(dateStart)) {
+		timeRangeParams = {
+			dateEnd: dateEnd.toISOString(),
+			dateStart: dateStart.toISOString()
+		};
+	}
+
+	const velocityUnitKeys = velocityUnit.length ? velocityUnit[0] : {};
+
+	const velocityUnits = useMemo(
+		() => getVelocityUnits({dateEnd, dateStart}),
+		[dateEnd, dateStart]
+	);
+
+	const defaultUnit = useMemo(
+		() =>
+			velocityUnits.find(
+				velocityUnit => velocityUnit.defaultVelocityUnit
+			) || {},
+		[velocityUnits]
+	);
+
+	const velocityUnitValues = useMemo(
+		() =>
+			velocityUnits.find(
+				velocityUnit => velocityUnit.key === velocityUnitKeys.key
+			) || defaultUnit,
+		[defaultUnit, velocityUnits, velocityUnitKeys.key]
+	);
+	const {key: unit} = velocityUnitValues;
+
+	const {data, fetchData} = useFetch(`processes/${processId}/metric`, {
+		...timeRangeParams,
+		unit
+	});
+
+	const promises = useMemo(() => {
+		if (timeRangeParams.dateEnd && timeRangeParams.dateStart && unit) {
+			return [fetchData()];
+		}
+
+		return [new Promise(() => {})];
+	}, [timeRangeParams.dateEnd, timeRangeParams.dateStart, fetchData, unit]);
 
 	return (
-		<Request>
-			<VelocityFiltersProvider
-				timeRangeKeys={velocityTimeRange}
-				velocityUnitKeys={velocityUnit}
-			>
-				<VelocityDataProvider processId={processId}>
-					<Panel>
-						<Panel.HeaderWithOptions
-							description={Liferay.Language.get(
-								'completion-velocity-description'
-							)}
-							elementClasses="dashboard-panel-header pb-0"
-							title={Liferay.Language.get('completion-velocity')}
-						>
-							<Request.Success>
-								<VelocityFilters />
-							</Request.Success>
-						</Panel.HeaderWithOptions>
+		<PromisesResolver promises={promises}>
+			<Panel>
+				<CompletionVelocityCard.Header
+					dispatch={dispatch}
+					prefixKey={prefixKey}
+					timeRange={timeRangeValues}
+				/>
 
-						<Request.Error />
-
-						<Request.Loading />
-
-						<Request.Success>
-							<Panel.Body elementClasses="pt-0">
-								<ProcessVelocityInfo />
-
-								<VelocityChart />
-							</Panel.Body>
-						</Request.Success>
-					</Panel>
-				</VelocityDataProvider>
-			</VelocityFiltersProvider>
-		</Request>
+				<CompletionVelocityCard.Body
+					data={data}
+					timeRange={timeRangeValues}
+					velocityUnit={velocityUnitValues}
+				/>
+			</Panel>
+		</PromisesResolver>
 	);
 };
+
+const Header = ({dispatch, prefixKey, timeRange}) => {
+	return (
+		<Panel.HeaderWithOptions
+			description={Liferay.Language.get(
+				'completion-velocity-description'
+			)}
+			elementClasses="dashboard-panel-header pb-0"
+			title={Liferay.Language.get('completion-velocity')}
+		>
+			<div className="autofit-col m-0 management-bar management-bar-light navbar">
+				<ul className="navbar-nav">
+					<TimeRangeFilter
+						dispatch={dispatch}
+						options={{position: 'right'}}
+						prefixKey={prefixKey}
+					/>
+
+					<VelocityUnitFilter
+						className={'pl-3'}
+						dispatch={dispatch}
+						prefixKey={prefixKey}
+						timeRange={timeRange}
+					/>
+				</ul>
+			</div>
+		</Panel.HeaderWithOptions>
+	);
+};
+
+CompletionVelocityCard.Header = Header;
+CompletionVelocityCard.Body = Body;
 
 export default CompletionVelocityCard;
