@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render, waitForElement} from '@testing-library/react';
+import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import WorkloadByAssigneePage from '../../../src/main/resources/META-INF/resources/js/components/workload-by-assignee-page/WorkloadByAssigneePage.es';
@@ -42,7 +42,7 @@ const MockContext = ({children}) => (
 describe('The workload by assignee page body should', () => {
 	let getAllByTestId;
 
-	afterEach(() => cleanup);
+	afterEach(cleanup);
 
 	beforeEach(() => {
 		const routeParams = {
@@ -62,9 +62,7 @@ describe('The workload by assignee page body should', () => {
 	});
 
 	test('Be rendered with "User 1" and "User 2" names', async () => {
-		const assigneeNames = await waitForElement(() =>
-			getAllByTestId('assigneeName')
-		);
+		const assigneeNames = getAllByTestId('assigneeName');
 
 		expect(assigneeNames[0].innerHTML).toBe('User 1');
 		expect(assigneeNames[1].innerHTML).toBe('User 2');
