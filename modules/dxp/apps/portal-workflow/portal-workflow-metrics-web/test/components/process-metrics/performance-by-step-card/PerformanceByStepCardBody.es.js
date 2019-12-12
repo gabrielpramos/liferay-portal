@@ -10,11 +10,10 @@
  */
 
 import {cleanup, render, waitForElement} from '@testing-library/react';
-import React, {useMemo} from 'react';
+import React from 'react';
 
-import {TimeRangeContext} from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/filter/store/TimeRangeStore.es';
+import {AppContext} from '../../../../src/main/resources/META-INF/resources/js/components/AppContext.es';
 import PerformanceByStepCard from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/performance-by-step-card/PerformanceByStepCard.es';
-import Request from '../../../../src/main/resources/META-INF/resources/js/shared/components/request/Request.es';
 import {MockRouter} from '../../../mock/MockRouter.es';
 
 const items = [
@@ -44,29 +43,20 @@ describe('The performance by step body component should', () => {
 	afterEach(cleanup);
 
 	beforeEach(() => {
-		const wrapper = mockTimeRangeContext();
-
+		const wrapper = ({children}) => (
+			<AppContext.Provider value={{defaultDelta: 20}}>
+				<MockRouter>{children}</MockRouter>
+			</AppContext.Provider>
+		);
 		const renderResult = render(
-			<Request>
-				<MockRouter>
-					<PerformanceByStepCard.Body
-						data={{items, totalCount: items.length}}
-						processId={123456}
-					/>
-				</MockRouter>
-			</Request>,
+			<PerformanceByStepCard.Body
+				data={{items, totalCount: items.length}}
+				processId={123456}
+			/>,
 			{wrapper}
 		);
 
 		getAllByTestId = renderResult.getAllByTestId;
-	});
-
-	test('Be rendered with "View All Steps" button and total "(3)"', async () => {
-		const viewAllSteps = await waitForElement(() =>
-			getAllByTestId('viewAllSteps')
-		);
-
-		expect(viewAllSteps[0].innerHTML).toBe('view-all-steps (3)');
 	});
 
 	test('Be rendered with "Review" and "Update" names', async () => {
@@ -96,25 +86,3 @@ describe('The performance by step body component should', () => {
 		expect(durations[1].innerHTML).toBe('5d 12h');
 	});
 });
-
-const mockTimeRangeContext = () => ({children}) => {
-	const timeRange = useMemo(
-		() => ({
-			dateEnd: new Date('2019-01-07'),
-			dateStart: new Date('2019-01-01'),
-			id: 7,
-			name: 'Last 7 days'
-		}),
-		[]
-	);
-
-	return (
-		<TimeRangeContext.Provider
-			value={{
-				getSelectedTimeRange: () => timeRange
-			}}
-		>
-			{children}
-		</TimeRangeContext.Provider>
-	);
-};
