@@ -16,7 +16,7 @@ import ListHeadItem from '../../shared/components/list/ListHeadItem.es';
 import {ChildLink} from '../../shared/components/router/routerWrapper.es';
 import UserAvatar from '../../shared/components/user-avatar/UserAvatar.es';
 import {AppContext} from '../AppContext.es';
-import {processStatusConstants} from '../process-metrics/filter/store/ProcessStatusStore.es';
+import {processStatusConstants} from '../filter/ProcessStatusFilter.es';
 import {slaStatusConstants} from '../process-metrics/filter/store/SLAStatusStore.es';
 
 const Item = ({
