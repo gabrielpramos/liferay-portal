@@ -29,21 +29,13 @@ import {
 } from '../../../shared/util/chart.es';
 import moment from '../../../shared/util/moment.es';
 import {AppContext} from '../../AppContext.es';
-import {TimeRangeContext} from '../filter/store/TimeRangeStore.es';
-import {VelocityUnitContext} from '../filter/store/VelocityUnitStore.es';
-import {VelocityDataContext} from './store/VelocityDataStore.es';
 
-const VelocityChart = () => {
-	const {getSelectedTimeRange} = useContext(TimeRangeContext);
-	const {getSelectedVelocityUnit} = useContext(VelocityUnitContext);
-
-	const {key: unitKey, name: unitName} = getSelectedVelocityUnit() || {};
-
+const VelocityChart = ({timeRange, velocityData = {}, velocityUnit}) => {
 	const {isAmPm} = useContext(AppContext);
 
-	const {velocityData} = useContext(VelocityDataContext);
+	const {key: unitKey, name: unitName} = velocityUnit;
 
-	const {histograms} = velocityData || {histograms: [], value: 0};
+	const {histograms = []} = velocityData;
 
 	const keys = histograms.map(item => moment.utc(item.key).toDate());
 
@@ -64,12 +56,12 @@ const VelocityChart = () => {
 	let dataX = [];
 
 	if (keys.length) {
-		dataX = getXAxisIntervals(getSelectedTimeRange(), keys, unitKey);
+		dataX = getXAxisIntervals(timeRange, keys, unitKey);
 	}
 
 	return (
 		<div className="velocity-chart" data-testid="velocity-chart">
-			{histograms.length && (
+			{histograms.length > 0 && (
 				<LineChart
 					axis={{
 						x: {
@@ -85,7 +77,7 @@ const VelocityChart = () => {
 										date,
 										isAmPm,
 										unitKey,
-										getSelectedTimeRange()
+										timeRange
 									),
 								outer: false,
 								values: dataX
@@ -137,7 +129,7 @@ const VelocityChart = () => {
 					tooltip={{
 						contents: VelocityChart.Tooltip(
 							isAmPm,
-							getSelectedTimeRange(),
+							timeRange,
 							unitKey,
 							unitName
 						)
