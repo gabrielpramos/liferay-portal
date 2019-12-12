@@ -9,64 +9,56 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
+import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
-import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 
-const processStatuses = [
-	{
-		key: processStatusConstants.completed,
-		name: Liferay.Language.get('completed')
-	},
-	{
-		key: processStatusConstants.pending,
-		name: Liferay.Language.get('pending')
-	}
-];
-
-const ProcessStatusFilter = ({
+const RoleFilter = ({
+	completed = false,
 	className,
 	dispatch,
-	filterKey = filterConstants.processStatus.key,
-	options = {
+	filterKey = filterConstants.roles.key,
+	options = {},
+	prefixKey = '',
+	processId
+}) => {
+	const defaultOptions = {
 		hideControl: false,
 		multiple: true,
 		position: 'left',
 		withSelectionTitle: false
-	}
-}) => {
-	const {items, selectedItems} = useFilterStatic(
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
+	const {items, selectedItems} = useFilterFetch({
 		dispatch,
 		filterKey,
-		processStatuses
-	);
+		prefixKey,
+		requestUrl: `/processes/${processId}/roles?completed=${completed}`
+	});
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('process-status'),
+		Liferay.Language.get('role'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
-			defaultItem={items[0]}
+			dataTestId="RoleFilter"
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-const processStatusConstants = {
-	completed: 'Completed',
-	pending: 'Pending'
-};
-
-export default ProcessStatusFilter;
-export {processStatusConstants};
+export default RoleFilter;

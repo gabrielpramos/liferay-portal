@@ -15,39 +15,36 @@ import Filter from '../../shared/components/filter/Filter.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
 import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
-import {getVelocityUnits} from './util/velocityUnitUtil.es';
 
-const VelocityUnitFilter = ({
+const ProcessStatusFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.velocityUnit.key,
-	options = {
-		hideControl: true,
-		multiple: false,
-		position: 'right',
-		withSelectionTitle: true
-	},
-	timeRange
+	filterKey = filterConstants.processStatus.key,
+	options = {},
+	prefixKey = ''
 }) => {
-	const velocityUnits = useMemo(() => getVelocityUnits(timeRange), [
-		timeRange
-	]);
+	const defaultOptions = {
+		hideControl: false,
+		multiple: true,
+		position: 'left',
+		withSelectionTitle: false
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
 
 	const {items, selectedItems} = useFilterStatic(
 		dispatch,
 		filterKey,
-		velocityUnits
+		prefixKey,
+		processStatuses
 	);
 
-	const defaultItem = useMemo(
-		() => items.find(item => item.defaultVelocityUnit),
-		[items]
-	);
+	const defaultItem = useMemo(() => (items ? items[0] : undefined), [items]);
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('velocity-unit'),
+		Liferay.Language.get('process-status'),
 		options.withSelectionTitle
 	);
 
@@ -58,9 +55,27 @@ const VelocityUnitFilter = ({
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-export default VelocityUnitFilter;
+const processStatusConstants = {
+	completed: 'completed',
+	pending: 'pending'
+};
+
+const processStatuses = [
+	{
+		key: processStatusConstants.completed,
+		name: Liferay.Language.get('completed')
+	},
+	{
+		key: processStatusConstants.pending,
+		name: Liferay.Language.get('pending')
+	}
+];
+
+export default ProcessStatusFilter;
+export {processStatusConstants};

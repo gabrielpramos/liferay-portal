@@ -9,50 +9,66 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
-import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
+import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
+import {getVelocityUnits} from './util/velocityUnitUtil.es';
 
-const RoleFilter = ({
-	completed = false,
+const VelocityUnitFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.roles.key,
-	options = {
-		hideControl: false,
-		multiple: true,
-		position: 'left',
-		withSelectionTitle: false
-	},
+	filterKey = filterConstants.velocityUnit.key,
+	options = {},
 	prefixKey = '',
-	processId
+	timeRange
 }) => {
-	const {items, selectedItems} = useFilterFetch(
+	const defaultOptions = {
+		hideControl: true,
+		multiple: false,
+		position: 'right',
+		withSelectionTitle: true
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
+	const velocityUnits = useMemo(() => getVelocityUnits(timeRange), [
+		timeRange
+	]);
+
+	const {items, selectedItems} = useFilterStatic(
 		dispatch,
 		filterKey,
 		prefixKey,
-		`/processes/${processId}/roles?completed=${completed}`
+		velocityUnits
+	);
+
+	const defaultItem = useMemo(
+		() => items.find(item => item.defaultVelocityUnit) || items[0],
+		[items]
 	);
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('role'),
+		Liferay.Language.get('velocity-unit'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
+			dataTestId="velocityUnitFilter"
+			defaultItem={defaultItem}
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-export default RoleFilter;
+export default VelocityUnitFilter;

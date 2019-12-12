@@ -16,13 +16,14 @@ import {useRouterParams} from '../../../hooks/useRouterParams.es';
 import {handleFilterItems, mergeItemsArray} from '../util/filterUtil.es';
 import {useFilterState} from './useFilterState.es';
 
-const useFilterFetch = (
+const useFilterFetch = ({
 	dispatch,
 	filterKey,
+	parseItems = items => items,
 	prefixKey,
 	requestUrl,
-	staticItems = []
-) => {
+	staticItems
+}) => {
 	const {client} = useContext(AppContext);
 	const {filters} = useRouterParams();
 
@@ -36,9 +37,12 @@ const useFilterFetch = (
 		() => {
 			client.get(requestUrl).then(({data = {}}) => {
 				const mergedItems = mergeItemsArray(staticItems, data.items);
+				const parsedItems = parseItems
+					? parseItems(mergedItems)
+					: mergedItems;
 
 				const mappedItems = handleFilterItems(
-					mergedItems,
+					parsedItems,
 					filters[prefixedFilterKey]
 				);
 
@@ -46,7 +50,7 @@ const useFilterFetch = (
 			});
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[]
+		[staticItems]
 	);
 
 	return {

@@ -9,69 +9,63 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
+import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
-import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 
-const slaStatusConstants = {
-	onTime: 'OnTime',
-	overdue: 'Overdue',
-	untracked: 'Untracked'
-};
-
-const slaStatuses = [
-	{
-		key: slaStatusConstants.onTime,
-		name: Liferay.Language.get('on-time')
-	},
-	{
-		key: slaStatusConstants.overdue,
-		name: Liferay.Language.get('overdue')
-	},
-	{
-		key: slaStatusConstants.untracked,
-		name: Liferay.Language.get('untracked')
-	}
-];
-
-const SLAStatusFilter = ({
+const AssigneeFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.slaStatus.key,
-	options = {
+	filterKey = filterConstants.assignee.key,
+	options = {},
+	prefixKey = '',
+	processId
+}) => {
+	const defaultOptions = {
 		hideControl: false,
 		multiple: true,
 		position: 'left',
 		withSelectionTitle: false
-	}
-}) => {
-	const {items, selectedItems} = useFilterStatic(
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
+	const {items, selectedItems} = useFilterFetch({
 		dispatch,
 		filterKey,
-		slaStatuses
-	);
+		prefixKey,
+		requestUrl: `/processes/${processId}/assignee-users?page=0&pageSize=0`,
+		staticItems: [unassignedItem]
+	});
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('sla-status'),
+		Liferay.Language.get('assignee'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
-			defaultItem={items[0]}
+			dataTestId="assigneeFilter"
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-export default SLAStatusFilter;
-export {slaStatusConstants};
+const unassignedItem = {
+	dividerAfter: true,
+	id: -1,
+	key: '-1',
+	name: Liferay.Language.get('unassigned')
+};
+
+export default AssigneeFilter;

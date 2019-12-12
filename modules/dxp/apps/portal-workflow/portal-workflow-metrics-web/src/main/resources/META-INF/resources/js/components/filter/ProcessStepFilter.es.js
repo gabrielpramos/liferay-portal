@@ -9,57 +9,71 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
 import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 
-const AssigneeFilter = ({
+const allStepsItem = {
+	dividerAfter: true,
+	key: 'allSteps',
+	name: Liferay.Language.get('all-steps')
+};
+
+const ProcessStepFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.assignee.key,
-	options = {
-		hideControl: false,
-		multiple: true,
-		position: 'left',
-		withSelectionTitle: false
-	},
+	filterKey = filterConstants.processStep.key,
+	options = {},
 	prefixKey = '',
 	processId
 }) => {
-	const {items, selectedItems} = useFilterFetch(
+	const defaultOptions = {
+		hideControl: false,
+		multiple: true,
+		position: 'left',
+		withAllSteps: false,
+		withSelectionTitle: false
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
+	const staticItems = useMemo(
+		() => (options.withAllSteps ? [allStepsItem] : []),
+		[options.withAllSteps]
+	);
+
+	const {items, selectedItems} = useFilterFetch({
 		dispatch,
 		filterKey,
 		prefixKey,
-		`/processes/${processId}/assignee-users?page=0&pageSize=0`,
-		[unassignedItem]
-	);
+		requestUrl: `/processes/${processId}/tasks?page=0&pageSize=0`,
+		staticItems
+	});
+
+	const defaultItem = useMemo(() => (items ? items[0] : undefined), [items]);
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('assignee'),
+		Liferay.Language.get('process-step'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
+			dataTestId="processStepFilter"
+			defaultItem={defaultItem}
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-const unassignedItem = {
-	dividerAfter: true,
-	id: -1,
-	key: '-1',
-	name: Liferay.Language.get('unassigned')
-};
-
-export default AssigneeFilter;
+export default ProcessStepFilter;

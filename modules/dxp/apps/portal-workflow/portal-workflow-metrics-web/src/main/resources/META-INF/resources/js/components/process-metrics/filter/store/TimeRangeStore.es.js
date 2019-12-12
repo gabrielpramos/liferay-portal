@@ -135,7 +135,8 @@ const getCustomTimeRange = (filters, timeRangeKeys) => {
 		name: Liferay.Language.get('custom-range')
 	};
 
-	customTimeRange.resultName = timeRange => getCustomTimeRangeName(timeRange);
+	customTimeRange.resultName = getCustomTimeRangeName(filters);
+	customTimeRange.getName = timeRange => getCustomTimeRangeName(timeRange);
 
 	return customTimeRange;
 };
