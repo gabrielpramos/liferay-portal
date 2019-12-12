@@ -35,7 +35,13 @@ class FilterResultsItem extends React.Component {
 
 	render() {
 		const {filter, item} = this.props;
-		const {name, resultName} = item;
+		const {getName, name, resultName} = item;
+
+		let itemName = resultName || name;
+
+		if (getName) {
+			itemName = getName(item);
+		}
 
 		return (
 			<li className="tbar-item">
@@ -45,7 +51,7 @@ class FilterResultsItem extends React.Component {
 							<div className="label-section">
 								<span className="font-weight-normal">{`${filter.name}: `}</span>
 
-								<strong>{resultName || name}</strong>
+								<strong>{itemName}</strong>
 							</div>
 						</span>
 

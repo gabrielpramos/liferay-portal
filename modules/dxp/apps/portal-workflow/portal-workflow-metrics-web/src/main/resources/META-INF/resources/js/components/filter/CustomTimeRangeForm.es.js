@@ -21,7 +21,12 @@ import {
 import {sub} from '../../shared/util/lang.es';
 import {useCustomTimeRange} from './hooks/useCustomTimeRange.es';
 
-const CustomTimeRangeForm = ({filterKey, setFormVisible}) => {
+const CustomTimeRangeForm = ({
+	filterKey,
+	items,
+	prefixKey = '',
+	setFormVisible
+}) => {
 	const {
 		applyCustomFilter,
 		dateEnd,
@@ -30,10 +35,16 @@ const CustomTimeRangeForm = ({filterKey, setFormVisible}) => {
 		setDateEnd,
 		setDateStart,
 		validate
-	} = useCustomTimeRange(filterKey);
+	} = useCustomTimeRange(filterKey, prefixKey);
 	const wrapperRef = useRef();
 
 	const dateFormat = 'MM/DD/YYYY';
+
+	const activeCustomFilter = () => {
+		items.forEach(item => {
+			item.active = item.key === 'custom';
+		});
+	};
 
 	const onBlur = ({target: {name, value}}) => {
 		validate(name, value);
@@ -51,6 +62,7 @@ const CustomTimeRangeForm = ({filterKey, setFormVisible}) => {
 		const errors = validate();
 
 		if (!errors) {
+			activeCustomFilter();
 			applyCustomFilter();
 			setFormVisible(false);
 		}
@@ -70,7 +82,10 @@ const CustomTimeRangeForm = ({filterKey, setFormVisible}) => {
 
 	return (
 		<div className="custom-range-wrapper" ref={wrapperRef}>
-			<form className="custom-range-form">
+			<form
+				className="custom-range-form"
+				data-testid="customTimeRangeForm"
+			>
 				<h4 className="mb-2">{Liferay.Language.get('custom-range')}</h4>
 
 				<span className="form-text mb-3 text-semi-bold">

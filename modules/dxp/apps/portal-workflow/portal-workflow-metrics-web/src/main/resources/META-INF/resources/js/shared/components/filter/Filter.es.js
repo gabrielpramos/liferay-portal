@@ -92,11 +92,16 @@ class Filter extends React.Component {
 	get filterQuery() {
 		const {
 			filterKey,
-			location: {search}
+			location: {search},
+			prefixKey
 		} = this.props;
 		const {items} = this.state;
 
-		return getSelectedItemsQuery(items, filterKey, search);
+		const prefixedFilterKey = prefixKey
+			? `${prefixKey}${filterKey}`
+			: filterKey;
+
+		return getSelectedItemsQuery(items, prefixedFilterKey, search);
 	}
 
 	onInputChange({target}) {
@@ -156,14 +161,9 @@ class Filter extends React.Component {
 
 				defaultItem.active = items[index].active = true;
 
-				this.setState(
-					{
-						items
-					},
-					() => {
-						pushToHistory(this.filterQuery, this.props);
-					}
-				);
+				this.setState({items}, () => {
+					pushToHistory(this.filterQuery, this.props);
+				});
 			}
 		}
 	}
@@ -183,6 +183,7 @@ class Filter extends React.Component {
 		const {
 			buttonClassName = 'btn-secondary btn-sm',
 			children,
+			dataTestId = 'filterComponent',
 			elementClasses,
 			hideControl = false,
 			multiple,
@@ -223,6 +224,7 @@ class Filter extends React.Component {
 		return (
 			<li
 				className={dropdownClassName}
+				data-testid={dataTestId}
 				ref={this.setWrapperRef.bind(this)}
 			>
 				<button

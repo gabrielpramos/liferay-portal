@@ -31,7 +31,7 @@ const useFilterState = (dispatch, filterKey, prefixKey = '') => {
 			return buildFallbackItems(selectedKeys);
 		}
 
-		return null;
+		return [];
 	}, [items, selectedKeys]);
 
 	useEffect(() => {

@@ -68,7 +68,7 @@ const useCustomTimeRange = filterKey => {
 			...query.filters,
 			dateEnd: formatQueryDate(dateEnd, true),
 			dateStart: formatQueryDate(dateStart),
-			[filterKey]: 'custom'
+			[filterKey]: ['custom']
 		};
 
 		pushToHistory(stringify(query), routerProps);

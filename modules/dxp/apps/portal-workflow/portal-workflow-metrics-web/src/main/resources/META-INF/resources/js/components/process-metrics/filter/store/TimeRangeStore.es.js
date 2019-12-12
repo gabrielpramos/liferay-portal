@@ -20,7 +20,6 @@ import {useRouter} from '../../../../shared/hooks/useRouter.es';
 import {compareArrays} from '../../../../shared/util/array.es';
 import {AppContext} from '../../../AppContext.es';
 import {
-	buildFallbackTimeRange,
 	formatDescriptionDate,
 	formatTimeRange,
 	parseQueryDate
@@ -73,19 +72,7 @@ const useTimeRange = timeRangeKeys => {
 
 	const defaultTimeRange = getDefaultTimeRange(timeRanges);
 
-	const getSelectedTimeRange = (
-		fallbackKeys,
-		queryDateEnd,
-		queryDateStart
-	) => {
-		if (!timeRanges || !timeRanges.length) {
-			return buildFallbackTimeRange(
-				fallbackKeys,
-				queryDateEnd,
-				queryDateStart
-			);
-		}
-
+	const getSelectedTimeRange = () => {
 		const selectedTimeRanges = timeRanges.filter(item => item.active);
 
 		return selectedTimeRanges.length ? selectedTimeRanges[0] : null;
@@ -135,7 +122,8 @@ const getCustomTimeRange = (filters, timeRangeKeys) => {
 		name: Liferay.Language.get('custom-range')
 	};
 
-	customTimeRange.resultName = timeRange => getCustomTimeRangeName(timeRange);
+	customTimeRange.resultName = getCustomTimeRangeName(filters);
+	customTimeRange.getName = timeRange => getCustomTimeRangeName(timeRange);
 
 	return customTimeRange;
 };

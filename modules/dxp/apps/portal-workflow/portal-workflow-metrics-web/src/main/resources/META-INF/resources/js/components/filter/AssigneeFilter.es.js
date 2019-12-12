@@ -9,50 +9,63 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
 import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 
-const RoleFilter = ({
-	completed = false,
+const AssigneeFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.roles.key,
-	options = {
+	filterKey = filterConstants.assignee.key,
+	options = {},
+	prefixKey = '',
+	processId
+}) => {
+	const defaultOptions = {
 		hideControl: false,
 		multiple: true,
 		position: 'left',
 		withSelectionTitle: false
-	},
-	prefixKey = '',
-	processId
-}) => {
-	const {items, selectedItems} = useFilterFetch(
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
+
+	const {items, selectedItems} = useFilterFetch({
 		dispatch,
 		filterKey,
 		prefixKey,
-		`/processes/${processId}/roles?completed=${completed}`
-	);
+		requestUrl: `/processes/${processId}/assignee-users?page=0&pageSize=0`,
+		staticItems: [unassignedItem]
+	});
 
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('role'),
+		Liferay.Language.get('assignee'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
+			dataTestId="assigneeFilter"
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-export default RoleFilter;
+const unassignedItem = {
+	dividerAfter: true,
+	id: -1,
+	key: '-1',
+	name: Liferay.Language.get('unassigned')
+};
+
+export default AssigneeFilter;

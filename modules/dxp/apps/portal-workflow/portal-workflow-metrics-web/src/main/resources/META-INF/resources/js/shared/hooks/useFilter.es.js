@@ -48,14 +48,14 @@ const buildInitialState = (filterKeys, filters, prefixKeys) => {
 	return initialState;
 };
 
-const reducer = (state, {filterKey, selectedItems}) => {
+const reducer = (state = {}, {filterKey, selectedItems}) => {
 	return {
 		...state,
 		[filterKey]: selectedItems
 	};
 };
 
-const useFilter = (filterKeys, prefixKeys = ['']) => {
+const useFilter = (filterKeys = [], prefixKeys = ['']) => {
 	const {filters} = useRouterParams();
 	const {keys, titles} = useFiltersConstants(filterKeys);
 
@@ -87,7 +87,7 @@ const useFilter = (filterKeys, prefixKeys = ['']) => {
 		filterResults
 	]);
 
-	return {dispatch, filterValues, selectedFilters};
+	return {dispatch, filterState, filterValues, selectedFilters};
 };
 
 export {useFilter};
