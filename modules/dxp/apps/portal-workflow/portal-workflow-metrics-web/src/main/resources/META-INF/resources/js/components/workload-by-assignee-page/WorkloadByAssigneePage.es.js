@@ -23,9 +23,7 @@ const WorkloadByAssigneePage = ({query, routeParams}) => {
 	const {processId} = routeParams;
 	useProcessTitle(processId, Liferay.Language.get('workload-by-assignee'));
 
-	const {search = ''} = parse(query);
-
-	const keywords = search.length ? search : null;
+	const {search = null} = parse(query);
 
 	const filterKeys = ['processStep', 'roles'];
 
@@ -35,26 +33,25 @@ const WorkloadByAssigneePage = ({query, routeParams}) => {
 		selectedFilters
 	} = useFilter(filterKeys);
 
-	const filtered = search.length > 0 || selectedFilters.length > 0;
+	const filtered = search || selectedFilters.length > 0;
 
 	const {data, fetchData} = useFetch(
 		`/processes/${processId}/assignee-users`,
 		{
-			keywords,
+			keywords: search,
 			roleIds,
 			taskKeys,
 			...routeParams
 		}
 	);
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const promises = useMemo(() => [fetchData()], [fetchData]);
 
 	return (
 		<PromisesResolver promises={promises}>
 			<WorkloadByAssigneePage.Header
 				dispatch={dispatch}
-				routeParams={{...routeParams, search: keywords}}
+				routeParams={{...routeParams, search}}
 				selectedFilters={selectedFilters}
 				totalCount={data.totalCount}
 			/>
