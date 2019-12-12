@@ -14,33 +14,39 @@ import React, {useContext} from 'react';
 import Icon from '../../../shared/components/Icon.es';
 import Panel from '../../../shared/components/Panel.es';
 import EmptyState from '../../../shared/components/list/EmptyState.es';
+import ReloadButton from '../../../shared/components/list/ReloadButton.es';
+import LoadingState from '../../../shared/components/loading/LoadingState.es';
+import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {AppContext} from '../../AppContext.es';
 import {formatQueryDate} from '../util/timeRangeUtil.es';
-import PerformanceByStepCard from './PerformanceByStepCard.es';
+import {Table} from './PerformanceByStepCardTable.es';
 
-const Body = ({data, processId, timeRange}) => {
+const Body = ({data}) => {
 	return (
 		<>
-			<Panel.Body>
-				{data.totalCount ? (
-					<PerformanceByStepCard.Table items={data.items} />
-				) : (
-					<PerformanceByStepCard.Empty />
-				)}
-			</Panel.Body>
-			{data.totalCount && (
-				<PerformanceByStepCard.Footer
-					processId={processId}
-					timeRange={timeRange}
-					totalCount={data.totalCount}
-				/>
-			)}
+			<PromisesResolver.Pending>
+				<Body.Loading />
+			</PromisesResolver.Pending>
+
+			<PromisesResolver.Resolved>
+				<Panel.Body>
+					{data.totalCount ? (
+						<Body.Table items={data.items} />
+					) : (
+						<Body.Empty />
+					)}
+				</Panel.Body>
+			</PromisesResolver.Resolved>
+
+			<PromisesResolver.Rejected>
+				<Body.Error />
+			</PromisesResolver.Rejected>
 		</>
 	);
 };
 
-const Empty = () => {
+const EmptyView = () => {
 	return (
 		<EmptyState
 			className="border-0 mt-8"
@@ -51,37 +57,62 @@ const Empty = () => {
 	);
 };
 
+const ErrorView = () => {
+	return (
+		<EmptyState
+			actionButton={<ReloadButton />}
+			className="border-0 mt-7"
+			hideAnimation={true}
+			message={Liferay.Language.get(
+				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
+			)}
+			messageClassName="small"
+		/>
+	);
+};
+
 const Footer = ({processId, timeRange, totalCount}) => {
 	const {defaultDelta} = useContext(AppContext);
+	const filters = {};
 
-	const viewAllStepsQuery = timeRange
-		? {
-				filters: {
-					dateEnd: formatQueryDate(timeRange.dateEnd),
-					dateStart: formatQueryDate(timeRange.dateStart),
-					performanceTimeRange: timeRange.key
-				}
-		  }
-		: {};
+	const {dateEnd, dateStart, key} = timeRange;
+	if (dateEnd && dateStart && key) {
+		filters.dateEnd = formatQueryDate(dateEnd, true);
+		filters.dateStart = formatQueryDate(dateStart);
+		filters.timeRange = [key];
+	}
+
+	const viewAllStepsQuery = {filters};
 	const viewAllStepsUrl = `/performance/step/${processId}/${defaultDelta}/1/breachedInstancePercentage:desc`;
 
 	return (
 		<Panel.Footer elementClasses="fixed-bottom">
 			<div className="mb-1 text-right">
-				<ChildLink query={viewAllStepsQuery} to={viewAllStepsUrl}>
-					<button className="border-0 btn btn-secondary btn-sm">
-						<span className="mr-2" data-testid="viewAllSteps">
-							{`${Liferay.Language.get(
-								'view-all-steps'
-							)} (${totalCount})`}
-						</span>
+				<ChildLink
+					className="border-0 btn btn-secondary btn-sm"
+					query={viewAllStepsQuery}
+					to={viewAllStepsUrl}
+				>
+					<span className="mr-2" data-testid="viewAllSteps">
+						{`${Liferay.Language.get(
+							'view-all-steps'
+						)} (${totalCount})`}
+					</span>
 
-						<Icon iconName="caret-right-l" />
-					</button>
+					<Icon iconName="caret-right-l" />
 				</ChildLink>
 			</div>
 		</Panel.Footer>
 	);
 };
 
-export {Body, Empty, Footer};
+const LoadingView = () => {
+	return <LoadingState className="border-0 mt-8 pb-5 pt-5 sheet" />;
+};
+
+Body.Empty = EmptyView;
+Body.Error = ErrorView;
+Body.Loading = LoadingView;
+Body.Table = Table;
+
+export {Body, Footer};
