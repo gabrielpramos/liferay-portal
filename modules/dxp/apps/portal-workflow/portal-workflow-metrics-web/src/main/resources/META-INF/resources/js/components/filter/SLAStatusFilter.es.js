@@ -12,41 +12,31 @@
 import React, {useMemo} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
-import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
+import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 
-const allStepsItem = {
-	dividerAfter: true,
-	key: 'allSteps',
-	name: Liferay.Language.get('all-steps')
-};
-
-const ProcessStepFilter = ({
+const SLAStatusFilter = ({
 	className,
 	dispatch,
-	filterKey = filterConstants.processStep.key,
-	options = {
+	filterKey = filterConstants.slaStatus.key,
+	options = {},
+	prefixKey = ''
+}) => {
+	const defaultOptions = {
 		hideControl: false,
 		multiple: true,
 		position: 'left',
-		withAllSteps: false,
-		withSelectionTitle: false
-	},
-	prefixKey = '',
-	processId
-}) => {
-	const staticItems = useMemo(
-		() => (options.withAllSteps ? [allStepsItem] : []),
-		[options.withAllSteps]
-	);
+		withSelectionTitle: true
+	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	options = useMemo(() => ({...defaultOptions, ...options}), [options]);
 
-	const {items, selectedItems} = useFilterFetch(
+	const {items, selectedItems} = useFilterStatic(
 		dispatch,
 		filterKey,
 		prefixKey,
-		`/processes/${processId}/tasks?page=0&pageSize=0`,
-		staticItems
+		slaStatuses
 	);
 
 	const defaultItem = useMemo(() => (items ? items[0] : undefined), [items]);
@@ -54,20 +44,44 @@ const ProcessStepFilter = ({
 	const filterName = useFilterName(
 		options.multiple,
 		selectedItems,
-		Liferay.Language.get('process-step'),
+		Liferay.Language.get('sla-status'),
 		options.withSelectionTitle
 	);
 
 	return (
 		<Filter
+			dataTestId="SLAStatusFilter"
 			defaultItem={defaultItem}
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
 			name={filterName}
+			prefixKey={prefixKey}
 			{...options}
 		/>
 	);
 };
 
-export default ProcessStepFilter;
+const slaStatusConstants = {
+	onTime: 'onTime',
+	overdue: 'overdue',
+	untracked: 'untracked'
+};
+
+const slaStatuses = [
+	{
+		key: slaStatusConstants.onTime,
+		name: Liferay.Language.get('on-time')
+	},
+	{
+		key: slaStatusConstants.overdue,
+		name: Liferay.Language.get('overdue')
+	},
+	{
+		key: slaStatusConstants.untracked,
+		name: Liferay.Language.get('untracked')
+	}
+];
+
+export default SLAStatusFilter;
+export {slaStatusConstants};

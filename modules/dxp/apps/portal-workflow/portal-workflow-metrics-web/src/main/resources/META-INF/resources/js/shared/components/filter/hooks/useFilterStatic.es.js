@@ -15,15 +15,20 @@ import {useRouterParams} from '../../../hooks/useRouterParams.es';
 import {handleFilterItems} from '../util/filterUtil.es';
 import {useFilterState} from './useFilterState.es';
 
-const useFilterStatic = (dispatch, filterKey, staticItems) => {
+const useFilterStatic = (dispatch, filterKey, prefixKey, staticItems) => {
 	const {filters} = useRouterParams();
+
+	const prefixedFilterKey = `${prefixKey}${filterKey}`;
 	const {items, selectedItems, setItems} = useFilterState(
 		dispatch,
-		filterKey
+		prefixedFilterKey
 	);
 
 	useEffect(() => {
-		const mappedItems = handleFilterItems(staticItems, filters[filterKey]);
+		const mappedItems = handleFilterItems(
+			staticItems,
+			filters[prefixedFilterKey]
+		);
 
 		setItems(mappedItems);
 		// eslint-disable-next-line react-hooks/exhaustive-deps

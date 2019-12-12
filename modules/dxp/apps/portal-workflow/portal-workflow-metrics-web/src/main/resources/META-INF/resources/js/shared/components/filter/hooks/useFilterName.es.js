@@ -15,11 +15,12 @@ const useFilterName = (multiple, selectedItems, title, withSelectionTitle) => {
 	const filterName = useMemo(() => {
 		if (
 			!multiple &&
-			!withSelectionTitle &&
+			withSelectionTitle &&
 			selectedItems &&
 			selectedItems.length
 		) {
-			return selectedItems[0].name;
+			const {name, resultName} = selectedItems[0];
+			return resultName || name;
 		}
 
 		return title;

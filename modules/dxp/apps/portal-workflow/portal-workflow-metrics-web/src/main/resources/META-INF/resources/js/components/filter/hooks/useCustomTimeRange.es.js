@@ -23,10 +23,15 @@ import {
 	formatDateEnLocale,
 	formatQueryDate,
 	parseDateMomentEnLocale
-} from '../../util/timeRangeUtil.es';
+} from '../util/timeRangeUtil.es';
 
-const useCustomTimeRange = (dateEndKey, dateStartKey, filterKey) => {
+const useCustomTimeRange = (filterKey, prefixKey = '') => {
 	const [errors, setErrors] = useState(undefined);
+
+	const dateEndKey = `${prefixKey}dateEnd`;
+	const dateStartKey = `${prefixKey}dateStart`;
+	const prefixedFilterKey = `${prefixKey}${filterKey}`;
+
 	const {filters} = useRouterParams();
 
 	const [dateEnd, setDateEnd] = useState(
@@ -46,7 +51,7 @@ const useCustomTimeRange = (dateEndKey, dateStartKey, filterKey) => {
 				...query.filters,
 				[dateEndKey]: formatQueryDate(dateEnd, true),
 				[dateStartKey]: formatQueryDate(dateStart),
-				[filterKey]: 'custom'
+				[prefixedFilterKey]: ['custom']
 			};
 
 			pushToHistory(stringify(query), routerProps);

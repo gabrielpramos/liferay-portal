@@ -58,7 +58,7 @@ export default class FilterItem extends React.Component {
 
 		return (
 			<>
-				<li className={dropDownClassName}>
+				<li className={dropDownClassName} data-testid="filterItem">
 					<label className={controlClassName}>
 						<input
 							{...inputProps}
