@@ -9,10 +9,39 @@
  * distribution rights of the Software.
  */
 
+import ClayTable from '@clayui/table';
 import React from 'react';
 
 import ListHeadItem from '../../shared/components/list/ListHeadItem.es';
-import ProcessListPage from './ProcessListPage.es';
+import {ChildLink} from '../../shared/components/router/routerWrapper.es';
+
+const Item = ({
+	id,
+	instanceCount,
+	onTimeInstanceCount,
+	overdueInstanceCount,
+	title
+}) => {
+	return (
+		<ClayTable.Row>
+			<ClayTable.Cell className="table-title" data-testid="processName">
+				<ChildLink to={`/metrics/${id}`}>{title}</ChildLink>
+			</ClayTable.Cell>
+
+			<ClayTable.Cell className="text-right">
+				{overdueInstanceCount}
+			</ClayTable.Cell>
+
+			<ClayTable.Cell className="text-right">
+				{onTimeInstanceCount}
+			</ClayTable.Cell>
+
+			<ClayTable.Cell className="text-right">
+				{instanceCount}
+			</ClayTable.Cell>
+		</ClayTable.Row>
+	);
+};
 
 const Table = ({items}) => {
 	const onTimeTitle = Liferay.Language.get('on-time');
@@ -21,51 +50,45 @@ const Table = ({items}) => {
 	const totalPendingTitle = Liferay.Language.get('total-pending');
 
 	return (
-		<div className="table-responsive">
-			<table className="show-quick-actions-on-hover table table-autofit table-heading-nowrap table-hover table-list">
-				<thead>
-					<tr>
-						<th
-							className="table-cell-expand table-head-title"
-							style={{width: '70%'}}
-						>
-							<ListHeadItem
-								name="title"
-								title={processNameTitle}
-							/>
-						</th>
+		<ClayTable>
+			<ClayTable.Head>
+				<ClayTable.Row>
+					<ClayTable.Cell headingCell style={{width: '70%'}}>
+						<ListHeadItem name="title" title={processNameTitle} />
+					</ClayTable.Cell>
 
-						<th className="table-head-title" style={{width: '10%'}}>
-							<ListHeadItem
-								name="overdueInstanceCount"
-								title={overdueTitle}
-							/>
-						</th>
+					<ClayTable.Cell headingCell style={{width: '10%'}}>
+						<ListHeadItem
+							name="overdueInstanceCount"
+							title={overdueTitle}
+						/>
+					</ClayTable.Cell>
 
-						<th className="table-head-title" style={{width: '10%'}}>
-							<ListHeadItem
-								name="onTimeInstanceCount"
-								title={onTimeTitle}
-							/>
-						</th>
+					<ClayTable.Cell headingCell style={{width: '10%'}}>
+						<ListHeadItem
+							name="onTimeInstanceCount"
+							title={onTimeTitle}
+						/>
+					</ClayTable.Cell>
 
-						<th className="table-head-title" style={{width: '10%'}}>
-							<ListHeadItem
-								name="instanceCount"
-								title={totalPendingTitle}
-							/>
-						</th>
-					</tr>
-				</thead>
+					<ClayTable.Cell headingCell style={{width: '10%'}}>
+						<ListHeadItem
+							name="instanceCount"
+							title={totalPendingTitle}
+						/>
+					</ClayTable.Cell>
+				</ClayTable.Row>
+			</ClayTable.Head>
 
-				<tbody>
-					{items.map((process, index) => (
-						<ProcessListPage.Item {...process} key={index} />
-					))}
-				</tbody>
-			</table>
-		</div>
+			<ClayTable.Body>
+				{items.map((item, index) => (
+					<Table.Item {...item} key={index} />
+				))}
+			</ClayTable.Body>
+		</ClayTable>
 	);
 };
+
+Table.Item = Item;
 
 export {Table};
