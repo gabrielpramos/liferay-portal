@@ -13,7 +13,6 @@ import React from 'react';
 
 import UserAvatar from '../../../shared/components/user-avatar/UserAvatar.es';
 import {formatDuration} from '../../../shared/util/duration.es';
-import PerformanceByAssigneeCard from './PerformanceByAssigneeCard.es';
 
 const Item = ({durationTaskAvg, image, name, taskCount}) => {
 	const formattedDuration = formatDuration(durationTaskAvg);
@@ -76,7 +75,7 @@ const Table = ({items}) => {
 				</thead>
 				<tbody>
 					{items.map((item, index) => (
-						<PerformanceByAssigneeCard.Item {...item} key={index} />
+						<Table.Item {...item} key={index} />
 					))}
 				</tbody>
 			</table>
@@ -84,4 +83,6 @@ const Table = ({items}) => {
 	);
 };
 
-export {Item, Table};
+Table.Item = Item;
+
+export {Table};
