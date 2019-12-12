@@ -16,36 +16,37 @@ import ReloadButton from '../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
-import ProcessListPage from './ProcessListPage.es';
+import {Table} from './ProcessListPageTable.es';
 
 const Body = ({data, search}) => {
+	const {items, page, pageSize, totalCount} = data;
 	return (
-		<>
+		<div className="container-fluid-1280">
 			<PromisesResolver.Pending>
-				<ProcessListPage.Loading />
+				<Body.Loading />
 			</PromisesResolver.Pending>
 
 			<PromisesResolver.Resolved>
-				{data.totalCount ? (
+				{totalCount > 0 ? (
 					<>
-						<ProcessListPage.Table items={data.items} />
+						<Body.Table items={items} />
 
 						<PaginationBar
-							page={data.page}
-							pageCount={data.items.length}
-							pageSize={data.pageSize}
-							totalCount={data.totalCount}
+							page={page}
+							pageCount={items.length}
+							pageSize={pageSize}
+							totalCount={totalCount}
 						/>
 					</>
 				) : (
-					<ProcessListPage.Empty search={search} />
+					<Body.Empty search={search} />
 				)}
 			</PromisesResolver.Resolved>
 
 			<PromisesResolver.Rejected>
-				<ProcessListPage.Error />
+				<Body.Error />
 			</PromisesResolver.Rejected>
-		</>
+		</div>
 	);
 };
 
@@ -58,11 +59,9 @@ const EmptyView = ({search}) => {
 
 	return (
 		<EmptyState
-			className="border-1"
-			hideAnimation={false}
 			message={message}
 			title={!search && Liferay.Language.get('no-current-metrics')}
-			type={search && 'not-found'}
+			type={search ? 'not-found' : 'empty'}
 		/>
 	);
 };
@@ -71,19 +70,21 @@ const ErrorView = () => {
 	return (
 		<EmptyState
 			actionButton={<ReloadButton />}
-			className="border-1"
 			hideAnimation={true}
 			message={Liferay.Language.get(
 				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
 			)}
-			messageClassName="small"
-			type="error"
 		/>
 	);
 };
 
 const LoadingView = () => {
-	return <LoadingState />;
+	return <LoadingState className="border-0 pb-6 pt-6 sheet" />;
 };
 
-export {Body, EmptyView, ErrorView, LoadingView};
+Body.Empty = EmptyView;
+Body.Error = ErrorView;
+Body.Loading = LoadingView;
+Body.Table = Table;
+
+export {Body};
