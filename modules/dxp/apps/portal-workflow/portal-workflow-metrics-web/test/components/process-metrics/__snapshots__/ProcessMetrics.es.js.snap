@@ -2011,7 +2011,13 @@ exports[`Should render dashboard route children 1`] = `
           processId={35315}
           title="pending-items"
         >
-          <Request>
+          <PromisesResolver
+            promises={
+              Array [
+                Promise {},
+              ]
+            }
+          >
             <Panel>
               <div
                 className="container-fluid-1280 mt-4"
@@ -2020,6 +2026,7 @@ exports[`Should render dashboard route children 1`] = `
                   className="panel panel-secondary"
                 >
                   <Header
+                    data={Object {}}
                     description="pending-items-description"
                     title="pending-items"
                   >
@@ -2082,6 +2089,7 @@ exports[`Should render dashboard route children 1`] = `
                     </Header>
                   </Header>
                   <Body
+                    data={Object {}}
                     processId={35315}
                   >
                     <Body>
@@ -2089,8 +2097,9 @@ exports[`Should render dashboard route children 1`] = `
                         className="panel-body"
                         data-testid="panelBody"
                       >
-                        <Error />
-                        <Loading>
+                        <Resolved />
+                        <Rejected />
+                        <Pending>
                           <LoadingState
                             className="pb-6 pt-5"
                           >
@@ -2104,15 +2113,14 @@ exports[`Should render dashboard route children 1`] = `
                               />
                             </div>
                           </LoadingState>
-                        </Loading>
-                        <Success />
+                        </Pending>
                       </div>
                     </Body>
                   </Body>
                 </div>
               </div>
             </Panel>
-          </Request>
+          </PromisesResolver>
         </ProcessItemsCard>
       </PendingItemsCard>
       <WorkloadByStepCard
