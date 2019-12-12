@@ -9,20 +9,18 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import {getFiltersParam} from '../../../shared/components/filter/util/filterUtil.es';
 import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
-import Request from '../../../shared/components/request/Request.es';
-import {ProcessStepProvider} from '../filter/store/ProcessStepStore.es';
-import {TimeRangeProvider} from '../filter/store/TimeRangeStore.es';
+import {useFetch} from '../../../shared/hooks/useFetch.es';
+import {useFilter} from '../../../shared/hooks/useFilter.es';
+import ProcessStepFilter from '../../filter/ProcessStepFilter.es';
+import TimeRangeFilter from '../../filter/TimeRangeFilter.es';
+import {isValidDate} from '../../filter/util/timeRangeUtil.es';
 import {Body, Footer} from './PerformanceByAssigneeCardBody.es';
-import {Container} from './PerformanceByAssigneeCardContainer.es';
-import {Filter} from './PerformanceByAssigneeCardFilter.es';
-import {Item, Table} from './PerformanceByAssigneeCardTable.es';
 
-const Header = ({processId, query}) => {
+const Header = ({dispatch, prefixKey, processId}) => {
 	return (
 		<Panel.HeaderWithOptions
 			description={Liferay.Language.get(
@@ -31,47 +29,99 @@ const Header = ({processId, query}) => {
 			elementClasses="dashboard-panel-header"
 			title={Liferay.Language.get('performance-by-assignee')}
 		>
-			<PromisesResolver.Resolved>
-				<PerformanceByAssigneeCard.Filter
-					processId={processId}
-					query={query}
-				></PerformanceByAssigneeCard.Filter>
-			</PromisesResolver.Resolved>
+			<div className="autofit-col m-0 management-bar management-bar-light navbar">
+				<ul className="navbar-nav">
+					<ProcessStepFilter
+						dispatch={dispatch}
+						options={{
+							hideControl: true,
+							multiple: false,
+							position: 'right',
+							withAllSteps: true,
+							withSelectionTitle: true
+						}}
+						prefixKey={prefixKey}
+						processId={processId}
+					/>
+
+					<TimeRangeFilter
+						className={'pl-3'}
+						dispatch={dispatch}
+						options={{position: 'right'}}
+						prefixKey={prefixKey}
+					/>
+				</ul>
+			</div>
 		</Panel.HeaderWithOptions>
 	);
 };
 
-const PerformanceByAssigneeCard = ({processId, query}) => {
-	const {assigneeProcessStep = [], assigneeTimeRange = []} = getFiltersParam(
-		query
+const PerformanceByAssigneeCard = ({routeParams}) => {
+	const {processId} = routeParams;
+
+	const filterKeys = ['processStep', 'timeRange'];
+	const prefixKey = 'assignee';
+	const prefixKeys = [prefixKey];
+	const {dispatch, filterState = {}, filterValues} = useFilter(
+		filterKeys,
+		prefixKeys
 	);
+
+	const params = {
+		completed: true,
+		page: 1,
+		pageSize: 10,
+		sort: 'durationTaskAvg:desc'
+	};
+
+	const processStep = filterValues.assigneetaskKeys || [];
+	if (processStep.length && processStep[0] !== 'allSteps') {
+		params.taskKeys = processStep[0];
+	}
+
+	const timeRange = filterState.assigneetimeRange || [];
+	const timeRangeValues = timeRange.length ? timeRange[0] : {};
+	const {dateEnd, dateStart} = timeRangeValues;
+
+	if (isValidDate(dateEnd) && isValidDate(dateStart)) {
+		params.dateEnd = dateEnd.toISOString();
+		params.dateStart = dateStart.toISOString();
+	}
+
+	const {data, fetchData} = useFetch(
+		`/processes/${processId}/assignee-users`,
+		params
+	);
+
+	const promises = useMemo(() => [fetchData()], [fetchData]);
 
 	return (
 		<Panel elementClasses="dashboard-card">
-			<Request>
-				<ProcessStepProvider
-					processId={processId}
-					processStepKeys={assigneeProcessStep}
-					withAllSteps={true}
-				>
-					<TimeRangeProvider timeRangeKeys={assigneeTimeRange}>
-						<PerformanceByAssigneeCard.Container
-							processId={processId}
-							query={query}
-						/>
-					</TimeRangeProvider>
-				</ProcessStepProvider>
-			</Request>
+			<PromisesResolver promises={promises}>
+				<PerformanceByAssigneeCard.Header
+					dispatch={dispatch}
+					prefixKey={prefixKey}
+					{...routeParams}
+				/>
+
+				<PerformanceByAssigneeCard.Body
+					data={data}
+					filtered={params.taskKeys}
+				/>
+
+				<PerformanceByAssigneeCard.Footer
+					processStep={params.taskKeys}
+					timeRange={timeRangeValues}
+					totalCount={data.totalCount}
+					{...routeParams}
+				/>
+			</PromisesResolver>
 		</Panel>
 	);
 };
 
 PerformanceByAssigneeCard.Body = Body;
-PerformanceByAssigneeCard.Container = Container;
-PerformanceByAssigneeCard.Filter = Filter;
 PerformanceByAssigneeCard.Footer = Footer;
 PerformanceByAssigneeCard.Header = Header;
-PerformanceByAssigneeCard.Item = Item;
-PerformanceByAssigneeCard.Table = Table;
 
 export default PerformanceByAssigneeCard;

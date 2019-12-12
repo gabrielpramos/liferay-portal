@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useContext} from 'react';
 
 import Icon from '../../../shared/components/Icon.es';
 import Panel from '../../../shared/components/Panel.es';
@@ -18,104 +18,117 @@ import ReloadButton from '../../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../../shared/components/loading/LoadingState.es';
 import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
+import {AppContext} from '../../AppContext.es';
 import {formatQueryDate} from '../util/timeRangeUtil.es';
-import PerformanceByAssigneeCard from './PerformanceByAssigneeCard.es';
+import {Table} from './PerformanceByAssigneeCardTable.es';
 
-const Body = ({data, defaultDelta, processId, processStepsKey, timeRange}) => {
-	const {items, totalCount} = data;
-
+const Body = ({data: {items}, filtered}) => {
 	return (
-		<>
-			<Panel.Body>
-				<PromisesResolver.Pending>
-					<LoadingState className="border-0 mt-8 pb-5 pt-5 sheet" />
-				</PromisesResolver.Pending>
-
-				<PromisesResolver.Resolved>
-					{items && items.length > 0 ? (
-						<PerformanceByAssigneeCard.Table items={items} />
-					) : (
-						<EmptyState
-							className="border-0 mt-8"
-							data-testid="emptyState"
-							hideAnimation={true}
-							message={Liferay.Language.get(
-								'there-is-no-data-at-the-moment'
-							)}
-							messageClassName="small"
-						/>
-					)}
-				</PromisesResolver.Resolved>
-
-				<PromisesResolver.Rejected>
-					<EmptyState
-						actionButton={<ReloadButton />}
-						className="border-0 mt-7"
-						hideAnimation={true}
-						message={Liferay.Language.get(
-							'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-						)}
-						messageClassName="small"
-						type="error"
-					/>
-				</PromisesResolver.Rejected>
-			</Panel.Body>
+		<Panel.Body>
+			<PromisesResolver.Pending>
+				<Body.Loading />
+			</PromisesResolver.Pending>
 
 			<PromisesResolver.Resolved>
 				{items && items.length > 0 ? (
-					<PerformanceByAssigneeCard.Footer
-						defaultDelta={defaultDelta}
-						processId={processId}
-						processStepsKey={processStepsKey}
-						timeRange={timeRange}
-						totalCount={totalCount}
-					/>
-				) : null}
+					<Body.Table items={items} />
+				) : (
+					<Body.Empty filtered={filtered} />
+				)}
 			</PromisesResolver.Resolved>
-		</>
+
+			<PromisesResolver.Rejected>
+				<Body.Error />
+			</PromisesResolver.Rejected>
+		</Panel.Body>
 	);
 };
 
-const Footer = ({
-	defaultDelta,
-	processId,
-	processStepsKey,
-	timeRange,
-	totalCount
-}) => {
+const EmptyView = ({filtered}) => {
+	const emptyMessage = filtered
+		? Liferay.Language.get('no-results-were-found')
+		: Liferay.Language.get('there-is-no-data-at-the-moment');
+
+	const emptyType = filtered ? 'not-found' : 'empty';
+
+	return (
+		<EmptyState
+			className="border-0 mt-8"
+			hideAnimation={true}
+			message={emptyMessage}
+			messageClassName="small"
+			type={emptyType}
+		/>
+	);
+};
+
+const ErrorView = () => {
+	return (
+		<EmptyState
+			actionButton={<ReloadButton />}
+			className="border-0 mt-7"
+			hideAnimation={true}
+			message={Liferay.Language.get(
+				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
+			)}
+			messageClassName="small"
+		/>
+	);
+};
+
+const Footer = ({processId, processStep, timeRange, totalCount}) => {
+	const {defaultDelta} = useContext(AppContext);
 	const filters = {};
 
-	if (processStepsKey && processStepsKey !== 'allSteps') {
-		filters.taskKeys = [processStepsKey];
-	}
-
-	if (timeRange) {
-		const {dateEnd, dateStart, key} = timeRange;
-
-		filters.dateEnd = formatQueryDate(dateEnd);
+	const {dateEnd, dateStart, key} = timeRange;
+	if (dateEnd && dateStart && key) {
+		filters.dateEnd = formatQueryDate(dateEnd, true);
 		filters.dateStart = formatQueryDate(dateStart);
-		filters.timeRange = key;
+		filters.timeRange = [key];
 	}
 
+	if (processStep && processStep !== 'allSteps') {
+		filters.taskKeys = [processStep];
+	}
+
+	const viewAllAssigneesQuery = {filters};
 	const viewAllAssigneesUrl = `/performance/assignee/${processId}/${defaultDelta}/1/durationTaskAvg:desc/`;
 
 	return (
-		<Panel.Footer elementClasses="fixed-bottom">
-			<div className="mb-1 text-right">
-				<ChildLink query={{filters}} to={viewAllAssigneesUrl}>
-					<button className="border-0 btn btn-secondary btn-sm">
-						<span className="mr-2" data-testid="viewAllAssignees">
-							{`${Liferay.Language.get(
-								'view-all-assignees'
-							)} (${totalCount})`}
-						</span>
+		<PromisesResolver.Resolved>
+			{totalCount > 0 ? (
+				<Panel.Footer elementClasses="fixed-bottom">
+					<div className="mb-1 text-right">
+						<ChildLink
+							className="border-0 btn btn-secondary btn-sm"
+							query={viewAllAssigneesQuery}
+							to={viewAllAssigneesUrl}
+						>
+							<span
+								className="mr-2"
+								data-testid="viewAllAssignees"
+							>
+								{`${Liferay.Language.get(
+									'view-all-assignees'
+								)} (${totalCount})`}
+							</span>
 
-						<Icon iconName="caret-right-l" />
-					</button>
-				</ChildLink>
-			</div>
-		</Panel.Footer>
+							<Icon iconName="caret-right-l" />
+						</ChildLink>
+					</div>
+				</Panel.Footer>
+			) : null}
+		</PromisesResolver.Resolved>
 	);
 };
+
+const LoadingView = () => {
+	return <LoadingState className="border-0 mt-8 pb-5 pt-5 sheet" />;
+};
+
+Body.Empty = EmptyView;
+Body.Error = ErrorView;
+Body.Loading = LoadingView;
+Body.Table = Table;
 
 export {Body, Footer};
