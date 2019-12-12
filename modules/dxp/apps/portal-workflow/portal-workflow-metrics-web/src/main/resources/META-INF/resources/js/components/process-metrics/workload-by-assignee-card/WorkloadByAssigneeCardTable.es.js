@@ -11,7 +11,7 @@
 
 import React, {useContext} from 'react';
 
-import {filterKeys} from '../../../shared/components/filter/util/filterConstants.es';
+import filterConstants from '../../../shared/components/filter/util/filterConstants.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {getFormattedPercentage} from '../../../shared/util/util.es';
 import {AppContext} from '../../AppContext.es';
@@ -40,13 +40,15 @@ const Item = ({
 
 	const getFiltersQuery = () => {
 		const filterParams = {
-			[filterKeys.assignee]: [id],
-			[filterKeys.processStatus]: [processStatusConstants.pending],
-			[filterKeys.slaStatus]: [slaStatusConstants[currentTab]]
+			[filterConstants.assignee.key]: [id],
+			[filterConstants.processStatus.key]: [
+				processStatusConstants.pending
+			],
+			[filterConstants.slaStatus.key]: [slaStatusConstants[currentTab]]
 		};
 
 		if (processStepKey && processStepKey !== 'allSteps') {
-			filterParams[filterKeys.processStep] = [processStepKey];
+			filterParams[filterConstants.processStep.key] = [processStepKey];
 		}
 
 		return filterParams;
