@@ -13,35 +13,6 @@ import React from 'react';
 
 import {formatDuration} from '../../../shared/util/duration.es';
 import {getFormattedPercentage} from '../../../shared/util/util.es';
-import PerformanceByStepCard from './PerformanceByStepCard.es';
-
-const Table = ({items = []}) => (
-	<div className="mb-3 table-responsive table-scrollable">
-		<table className="table table-autofit table-heading-nowrap table-hover table-list">
-			<thead>
-				<tr>
-					<th style={{width: '60%'}}>
-						{Liferay.Language.get('step-name')}
-					</th>
-
-					<th className="text-right" style={{width: '20%'}}>
-						{Liferay.Language.get('sla-breached-percent')}
-					</th>
-
-					<th className="text-right" style={{width: '20%'}}>
-						{Liferay.Language.get('average-completion-time')}
-					</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				{items.map((item, index) => (
-					<PerformanceByStepCard.Item {...item} key={index} />
-				))}
-			</tbody>
-		</table>
-	</div>
-);
 
 const Item = ({
 	breachedInstanceCount,
@@ -70,4 +41,34 @@ const Item = ({
 	);
 };
 
-export {Item, Table};
+const Table = ({items = []}) => (
+	<div className="mb-3 table-responsive table-scrollable">
+		<table className="table table-autofit table-heading-nowrap table-hover table-list">
+			<thead>
+				<tr>
+					<th style={{width: '60%'}}>
+						{Liferay.Language.get('step-name')}
+					</th>
+
+					<th className="text-right" style={{width: '20%'}}>
+						{Liferay.Language.get('sla-breached-percent')}
+					</th>
+
+					<th className="text-right" style={{width: '20%'}}>
+						{Liferay.Language.get('average-completion-time')}
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{items.map((item, index) => (
+					<Table.Item {...item} key={index} />
+				))}
+			</tbody>
+		</table>
+	</div>
+);
+
+Table.Item = Item;
+
+export {Table};
