@@ -9,50 +9,50 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render, waitForElement} from '@testing-library/react';
+import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import PerformanceByAssigneePage from '../../../src/main/resources/META-INF/resources/js/components/performance-by-assignee-page/PerformanceByAssigneePage.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
+const items = [
+	{
+		durationTaskAvg: 10800000,
+		image: 'path/to/image',
+		name: 'User Test First',
+		taskCount: 10
+	},
+	{
+		durationTaskAvg: 475200000,
+		image: 'path/to/image',
+		name: 'User Test Second',
+		taskCount: 31
+	},
+	{
+		durationTaskAvg: 0,
+		name: 'User Test Third',
+		taskCount: 1
+	}
+];
+
+const data = {items, totalCount: items.length};
+
+const clientMock = {
+	get: jest.fn().mockResolvedValue({data})
+};
+
+const wrapper = ({children}) => (
+	<MockRouter client={clientMock}>{children}</MockRouter>
+);
+
 describe('The PerformanceByAssigneePage component having data should', () => {
 	let getAllByTestId;
 
-	const items = [
-		{
-			durationTaskAvg: 10800000,
-			image: 'path/to/image',
-			name: 'User Test First',
-			taskCount: 10
-		},
-		{
-			durationTaskAvg: 475200000,
-			image: 'path/to/image',
-			name: 'User Test Second',
-			taskCount: 31
-		},
-		{
-			durationTaskAvg: 0,
-			name: 'User Test Third',
-			taskCount: 1
-		}
-	];
-
-	const data = {items, totalCount: items.length};
-
-	const clientMock = {
-		get: jest.fn().mockResolvedValue({data})
-	};
-
-	afterEach(() => cleanup);
-
-	const wrapper = ({children}) => (
-		<MockRouter client={clientMock}>{children}</MockRouter>
-	);
+	afterEach(cleanup);
 
 	beforeEach(() => {
 		const renderResult = render(
-			<PerformanceByAssigneePage routeParams={{processId: '1234'}} />,
+			<PerformanceByAssigneePage routeParams={{processId: 12345}} />,
 			{wrapper}
 		);
 
@@ -60,9 +60,7 @@ describe('The PerformanceByAssigneePage component having data should', () => {
 	});
 
 	test('Be rendered with user avatar or lexicon user icon', async () => {
-		const assigneeProfileInfo = await waitForElement(() =>
-			getAllByTestId('assigneeProfileInfo')
-		);
+		const assigneeProfileInfo = getAllByTestId('assigneeProfileInfo');
 
 		expect(assigneeProfileInfo[0].children[0].innerHTML).toContain(
 			'path/to/image'
@@ -76,9 +74,7 @@ describe('The PerformanceByAssigneePage component having data should', () => {
 	});
 
 	test('Be rendered with assignee names', async () => {
-		const assigneeName = await waitForElement(() =>
-			getAllByTestId('assigneeName')
-		);
+		const assigneeName = getAllByTestId('assigneeName');
 
 		expect(assigneeName[0].innerHTML).toEqual('User Test First');
 		expect(assigneeName[1].innerHTML).toEqual('User Test Second');
