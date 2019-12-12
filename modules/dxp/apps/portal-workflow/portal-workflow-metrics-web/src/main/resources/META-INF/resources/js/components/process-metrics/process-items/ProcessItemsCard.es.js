@@ -11,14 +11,17 @@
  */
 
 import {ClayTooltipProvider} from '@clayui/tooltip';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo} from 'react';
 
 import Icon from '../../../shared/components/Icon.es';
 import Panel from '../../../shared/components/Panel.es';
-import {ErrorContext} from '../../../shared/components/request/Error.es';
-import {LoadingContext} from '../../../shared/components/request/Loading.es';
-import Request from '../../../shared/components/request/Request.es';
+import EmptyState from '../../../shared/components/list/EmptyState.es';
+import ReloadButton from '../../../shared/components/list/ReloadButton.es';
+import LoadingState from '../../../shared/components/loading/LoadingState.es';
+import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
+import {useFetch} from '../../../shared/hooks/useFetch.es';
 import {AppContext} from '../../AppContext.es';
+import {isValidDate} from '../../filter/util/timeRangeUtil.es';
 import PANELS from './Panels.es';
 import SummaryCard from './SummaryCard.es';
 
@@ -30,10 +33,34 @@ function ProcessItemsCard({
 	timeRange,
 	title
 }) {
+	const {setTitle} = useContext(AppContext);
+
+	const {dateEnd, dateStart} = timeRange || {};
+
+	let timeRangeParams = {};
+	if (isValidDate(dateEnd) && isValidDate(dateStart)) {
+		timeRangeParams = {
+			dateEnd: dateEnd.toISOString(),
+			dateStart: dateStart.toISOString()
+		};
+	}
+
+	const {data, fetchData} = useFetch(`/processes/${processId}`, {
+		completed,
+		...timeRangeParams
+	});
+
+	useEffect(() => {
+		setTitle(data.title);
+	}, [data.title]);
+
+	const promises = useMemo(() => [fetchData()], [fetchData]);
+
 	return (
-		<Request>
+		<PromisesResolver promises={promises}>
 			<Panel>
 				<ProcessItemsCard.Header
+					data={data}
 					description={description}
 					title={title}
 				>
@@ -42,59 +69,20 @@ function ProcessItemsCard({
 
 				<ProcessItemsCard.Body
 					completed={completed}
+					data={data}
 					processId={processId}
 					timeRange={timeRange}
 				/>
 			</Panel>
-		</Request>
+		</PromisesResolver>
 	);
 }
 
-const Body = ({completed = false, processId, timeRange}) => {
-	const {client, setTitle} = useContext(AppContext);
-	const {dateEnd, dateStart} = timeRange || {};
-	const [process, setProcess] = useState(null);
-	const {setError} = useContext(ErrorContext);
-	const {setLoading} = useContext(LoadingContext);
-
-	const fetchData = () => {
-		setError(null);
-		setLoading(true);
-
-		const isValidDate = date => date && !isNaN(date);
-
-		let urlRequest = `/processes/${processId}?completed=${completed}`;
-
-		if (isValidDate(dateEnd) && isValidDate(dateStart)) {
-			urlRequest += `&dateEnd=${dateEnd.toISOString()}&dateStart=${dateStart.toISOString()}`;
-		}
-
-		return client
-			.get(urlRequest)
-			.then(({data}) => {
-				setTitle(data.title);
-				setProcess(data);
-			})
-			.catch(error => {
-				setError(error);
-			})
-			.then(() => {
-				setLoading(false);
-			});
-	};
-
-	useEffect(() => {
-		fetchData();
-	}, [dateStart, dateEnd]);
-
+const Body = ({completed = false, data, processId, timeRange}) => {
 	return (
 		<Panel.Body>
-			<Request.Error />
-
-			<Request.Loading />
-
-			<Request.Success>
-				{process && (
+			<PromisesResolver.Resolved>
+				{data ? (
 					<div className={'d-flex pb-4 pt-1'}>
 						{PANELS.map((panel, index) => (
 							<SummaryCard
@@ -106,18 +94,33 @@ const Body = ({completed = false, processId, timeRange}) => {
 								total={
 									panel.addressedToField === panel.totalField
 								}
-								totalValue={process[panel.totalField]}
-								value={process[panel.addressedToField]}
+								totalValue={data[panel.totalField]}
+								value={data[panel.addressedToField]}
 							/>
 						))}
 					</div>
-				)}
-			</Request.Success>
+				) : null}
+			</PromisesResolver.Resolved>
+
+			<PromisesResolver.Rejected>
+				<EmptyState
+					actionButton={<ReloadButton />}
+					className="border-0 mt-7"
+					hideAnimation={true}
+					message={Liferay.Language.get(
+						'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
+					)}
+				/>
+			</PromisesResolver.Rejected>
+
+			<PromisesResolver.Pending>
+				<LoadingState className="pb-6 pt-5" />
+			</PromisesResolver.Pending>
 		</Panel.Body>
 	);
 };
 
-const Header = ({children, description, title}) => (
+const Header = ({children, data, description, title}) => (
 	<Panel.Header
 		elementClasses={['dashboard-panel-header', children && 'pb-0']}
 	>
@@ -138,12 +141,10 @@ const Header = ({children, description, title}) => (
 				</ClayTooltipProvider>
 			</div>
 
-			{children && (
-				<Request.Success>
-					<div className="autofit-col m-0 management-bar management-bar-light navbar">
-						<ul className="navbar-nav">{children}</ul>
-					</div>
-				</Request.Success>
+			{children && data && (
+				<div className="autofit-col m-0 management-bar management-bar-light navbar">
+					<ul className="navbar-nav">{children}</ul>
+				</div>
 			)}
 		</div>
 	</Panel.Header>
