@@ -9,92 +9,75 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render} from '@testing-library/react';
+import {cleanup, render, waitForElement} from '@testing-library/react';
 import React from 'react';
 
 import PerformanceByStepPage from '../../../src/main/resources/META-INF/resources/js/components/performance-by-step-page/PerformanceByStepPage.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
-const data = {
-	items: [
+describe('The PerformanceByStepPage component having data should', () => {
+	let getAllByTestId;
+
+	const items = [
 		{
 			breachedInstanceCount: 4,
-			durationAvg: 0,
+			durationAvg: 10800000,
 			instanceCount: 4,
 			key: 'review',
 			name: 'Review',
-			onTimeInstanceCount: 0,
+			onTimeInstanceCount: 4,
 			overdueInstanceCount: 4
+		},
+		{
+			breachedInstanceCount: 2,
+			durationAvg: 475200000,
+			instanceCount: 2,
+			key: 'update',
+			name: 'Update',
+			onTimeInstanceCount: 2,
+			overdueInstanceCount: 2
 		}
-	],
-	totalCount: 1
-};
+	];
 
-const clientMock = {
-	get: jest.fn()
-};
+	const data = {items, totalCount: items.length};
 
-const wrapper = ({children}) => (
-	<MockRouter client={clientMock}>{children}</MockRouter>
-);
-
-describe('The performance by step page should', () => {
-	let getAllByTestId;
+	const clientMock = {
+		get: jest.fn().mockResolvedValue({data})
+	};
 
 	afterEach(cleanup);
 
-	beforeEach(() => {
-		clientMock.get.mockResolvedValue({data});
+	const wrapper = ({children}) => (
+		<MockRouter client={clientMock}>{children}</MockRouter>
+	);
 
+	beforeEach(() => {
 		const renderResult = render(
-			<PerformanceByStepPage
-				page={1}
-				pageSize={10}
-				processId="12345"
-				sort="overdueInstanceCount:desc"
-			/>,
+			<PerformanceByStepPage routeParams={{processId: '1234'}} />,
 			{wrapper}
 		);
 
 		getAllByTestId = renderResult.getAllByTestId;
 	});
 
-	test('Be rendered with 1 item on table', async () => {
-		const stepNameCell = await getAllByTestId('stepName');
+	test('Be rendered with step names', async () => {
+		const stepName = await waitForElement(() => getAllByTestId('stepName'));
 
-		expect(stepNameCell[0].innerHTML).toBe('Review');
-	});
-});
-
-describe('The performance by step page, when there is no item, should', () => {
-	let getByTestId;
-
-	afterEach(cleanup);
-
-	beforeEach(() => {
-		clientMock.get.mockResolvedValue({data: {}});
-
-		const renderResult = render(
-			<PerformanceByStepPage
-				page={1}
-				pageSize={10}
-				processId="12345"
-				query="?search=update"
-				sort="overdueInstanceCount:desc"
-			/>,
-			{
-				wrapper
-			}
-		);
-
-		getByTestId = renderResult.getByTestId;
+		expect(stepName[0].innerHTML).toEqual('Review');
+		expect(stepName[1].innerHTML).toEqual('Update');
 	});
 
-	test('Be rendered with empty view after search', () => {
-		const performanceByStepBody = getByTestId('performanceByStepBody');
+	test('Be rendered with SLA Breached (%)', () => {
+		const slas = getAllByTestId('stepSla');
 
-		expect(
-			performanceByStepBody.children[0].children[1].children[0].innerHTML
-		).toBe('no-results-were-found');
+		expect(slas[0].innerHTML).toEqual('4 (0%)');
+		expect(slas[1].innerHTML).toEqual('2 (0%)');
+	});
+
+	test('Be rendered with average completion time', () => {
+		const durations = getAllByTestId('durationTaskAvg');
+
+		expect(durations[0].innerHTML).toEqual('3h');
+		expect(durations[1].innerHTML).toEqual('5d 12h');
 	});
 });
