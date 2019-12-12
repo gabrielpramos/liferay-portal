@@ -9,61 +9,44 @@
  * distribution rights of the Software.
  */
 
-import React, {useContext, useMemo} from 'react';
+import React, {useMemo} from 'react';
 
-import filterConstants from '../../shared/components/filter/util/filterConstants.es';
-import {
-	getFiltersParam,
-	getFilterValues
-} from '../../shared/components/filter/util/filterUtil.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
-import Request from '../../shared/components/request/Request.es';
 import {parse} from '../../shared/components/router/queryString.es';
 import {useFetch} from '../../shared/hooks/useFetch.es';
 import {useFilter} from '../../shared/hooks/useFilter.es';
 import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
-import {
-	TimeRangeContext,
-	TimeRangeProvider
-} from '../process-metrics/filter/store/TimeRangeStore.es';
+import {isValidDate} from '../filter/util/timeRangeUtil.es';
 import {Body} from './PerformanceByAssigneePageBody.es';
 import {Header} from './PerformanceByAssigneePageHeader.es';
 
-const Container = ({filtersParam, query, routeParams, timeRangeKeys}) => {
-	const {getSelectedTimeRange} = useContext(TimeRangeContext);
+const PerformanceByAssigneePage = ({query, routeParams}) => {
 	const {processId} = routeParams;
 
 	useProcessTitle(processId, Liferay.Language.get('performance-by-assignee'));
+
+	const {search = null} = parse(query);
 
 	const filterKeys = ['processStep', 'roles'];
 
 	const {
 		dispatch,
+		filterState: {timeRange},
 		filterValues: {roleIds, taskKeys},
 		selectedFilters
 	} = useFilter(filterKeys);
 
-	const timeRange = getSelectedTimeRange(
-		timeRangeKeys,
-		filtersParam.dateEnd,
-		filtersParam.dateStart
-	);
+	const {dateEnd, dateStart} =
+		timeRange && timeRange.length ? timeRange[0] : {};
 
-	const isValidDate = date => date && !isNaN(date);
-	const timeRangeParams = {};
+	let timeRangeParams = {};
 
-	if (
-		timeRange &&
-		isValidDate(timeRange.dateEnd) &&
-		isValidDate(timeRange.dateStart)
-	) {
-		const {dateEnd, dateStart} = timeRange;
-
-		timeRangeParams.dateEnd = dateEnd.toISOString();
-		timeRangeParams.dateStart = dateStart.toISOString();
+	if (isValidDate(dateEnd) && isValidDate(dateStart)) {
+		timeRangeParams = {
+			dateEnd: dateEnd.toISOString(),
+			dateStart: dateStart.toISOString()
+		};
 	}
-
-	const {search = null} = parse(query);
 
 	const {data, fetchData} = useFetch(
 		`/processes/${processId}/assignee-users`,
@@ -96,28 +79,7 @@ const Container = ({filtersParam, query, routeParams, timeRangeKeys}) => {
 	);
 };
 
-const PerformanceByAssigneePage = props => {
-	const filtersParam = getFiltersParam(props.query);
-	const timeRangeKeys = getFilterValues(
-		filterConstants.timeRange.key,
-		filtersParam
-	);
-
-	return (
-		<Request>
-			<TimeRangeProvider timeRangeKeys={timeRangeKeys}>
-				<PerformanceByAssigneePage.Container
-					filtersParam={filtersParam}
-					timeRangeKeys={timeRangeKeys}
-					{...props}
-				/>
-			</TimeRangeProvider>
-		</Request>
-	);
-};
-
 PerformanceByAssigneePage.Body = Body;
-PerformanceByAssigneePage.Container = Container;
 PerformanceByAssigneePage.Header = Header;
 
 export default PerformanceByAssigneePage;

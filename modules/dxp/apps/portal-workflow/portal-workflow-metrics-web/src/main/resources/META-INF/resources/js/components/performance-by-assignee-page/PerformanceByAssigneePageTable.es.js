@@ -28,14 +28,17 @@ const Item = ({durationTaskAvg, image, name, taskCount}) => {
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>
-				<span className="task-count-value" data-testid="taskCount">
+				<span
+					className="task-count-value text-right"
+					data-testid="taskCount"
+				>
 					{taskCount}
 				</span>
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>
 				<span
-					className="task-count-value"
+					className="task-count-value text-right"
 					data-testid="durationTaskAvg"
 				>
 					{formattedDuration}
