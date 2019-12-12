@@ -214,7 +214,7 @@ exports[`Should render component 1`] = `
             onChange={[Function]}
             placeholder="search-for"
             type="text"
-            value=""
+            value={null}
           />
           <span
             className="input-group-inset-item input-group-inset-item-after"

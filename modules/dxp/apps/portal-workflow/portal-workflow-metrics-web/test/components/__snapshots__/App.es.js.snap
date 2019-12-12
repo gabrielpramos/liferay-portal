@@ -7,13 +7,13 @@ Array [
     className="portal-workflow-metrics-app"
   >
     <nav
-      className="management-bar management-bar-light navbar navbar-expand-md"
+      className="management-bar navbar navbar-expand-md management-bar-light"
     >
       <div
         className="container-fluid container-fluid-max-xl"
       >
         <div
-          className="navbar-form navbar-form-autofit"
+          className="navbar-form-autofit"
         >
           <div
             className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
@@ -39,7 +39,7 @@ Array [
                       onChange={[Function]}
                       placeholder="search-for"
                       type="text"
-                      value=""
+                      value={null}
                     />
                     <span
                       className="input-group-inset-item input-group-inset-item-after"
@@ -79,12 +79,11 @@ Array [
         </div>
       </div>
     </nav>
-    
     <div
       className="container-fluid-1280"
     >
       <div
-        className="border-1 pb-6 pt-6 sheet"
+        className="border-0 pb-6 pt-6 sheet"
         data-testid="loadingState"
       >
         <span
@@ -102,13 +101,13 @@ exports[`Should render default component without custom header 1`] = `
   className="portal-workflow-metrics-app"
 >
   <nav
-    className="management-bar management-bar-light navbar navbar-expand-md"
+    className="management-bar navbar navbar-expand-md management-bar-light"
   >
     <div
       className="container-fluid container-fluid-max-xl"
     >
       <div
-        className="navbar-form navbar-form-autofit"
+        className="navbar-form-autofit"
       >
         <div
           className="navbar-form navbar-form-autofit navbar-overlay navbar-overlay-sm-down show"
@@ -134,7 +133,7 @@ exports[`Should render default component without custom header 1`] = `
                     onChange={[Function]}
                     placeholder="search-for"
                     type="text"
-                    value=""
+                    value={null}
                   />
                   <span
                     className="input-group-inset-item input-group-inset-item-after"
@@ -174,12 +173,11 @@ exports[`Should render default component without custom header 1`] = `
       </div>
     </div>
   </nav>
-  
   <div
     className="container-fluid-1280"
   >
     <div
-      className="border-1 pb-6 pt-6 sheet"
+      className="border-0 pb-6 pt-6 sheet"
       data-testid="loadingState"
     >
       <span
