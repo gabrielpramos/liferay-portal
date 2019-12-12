@@ -9,52 +9,39 @@
  * distribution rights of the Software.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
 
-import {getFiltersParam} from '../../../shared/components/filter/util/filterUtil.es';
-import Request from '../../../shared/components/request/Request.es';
-import {TimeRangeFilter} from '../filter/TimeRangeFilter.es';
-import {
-	TimeRangeContext,
-	TimeRangeProvider
-} from '../filter/store/TimeRangeStore.es';
+import {useFilter} from '../../../shared/hooks/useFilter.es';
+import TimeRangeFilter from '../../filter/TimeRangeFilter.es';
 import ProcessItemsCard from './ProcessItemsCard.es';
 
-function CompletedItemsCard({processId, query}) {
-	const {timeRange = []} = getFiltersParam(query);
+const CompletedItemsCard = ({routeParams}) => {
+	const filterKeys = ['timeRange'];
+	const prefixKey = 'completed';
+	const prefixKeys = [prefixKey];
 
-	return (
-		<Request>
-			<TimeRangeProvider timeRangeKeys={timeRange}>
-				<CompletedItemsCard.Body processId={processId} />
-			</TimeRangeProvider>
-		</Request>
-	);
-}
+	const {
+		dispatch,
+		filterState: {completedtimeRange: timeRange = []}
+	} = useFilter(filterKeys, prefixKeys);
 
-const Body = ({processId}) => {
-	const {getSelectedTimeRange} = useContext(TimeRangeContext);
+	const timeRangeParams = timeRange && timeRange.length ? timeRange[0] : {};
 
 	return (
 		<ProcessItemsCard
-			completed
+			completed={true}
 			description={Liferay.Language.get('completed-items-description')}
-			processId={processId}
-			timeRange={getSelectedTimeRange()}
+			timeRange={timeRangeParams}
 			title={Liferay.Language.get('completed-items')}
+			{...routeParams}
 		>
-			<Request.Success>
-				<TimeRangeFilter
-					filterKey="timeRange"
-					hideControl={true}
-					position="right"
-					showFilterName={false}
-				/>
-			</Request.Success>
+			<TimeRangeFilter
+				dispatch={dispatch}
+				options={{position: 'right'}}
+				prefixKey={prefixKey}
+			/>
 		</ProcessItemsCard>
 	);
 };
-
-CompletedItemsCard.Body = Body;
 
 export default CompletedItemsCard;
