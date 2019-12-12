@@ -12,9 +12,8 @@
 import {cleanup, render, waitForElement} from '@testing-library/react';
 import React from 'react';
 
-import {ProcessStepContext} from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/filter/store/ProcessStepStore.es';
+import {AppContext} from '../../../../src/main/resources/META-INF/resources/js/components/AppContext.es';
 import WorkloadByAssigneeCard from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/workload-by-assignee-card/WorkloadByAssigneeCard.es';
-import Request from '../../../../src/main/resources/META-INF/resources/js/shared/components/request/Request.es';
 import {MockRouter} from '../../../mock/MockRouter.es';
 
 const items = [
@@ -31,173 +30,193 @@ const items = [
 		taskCount: 10
 	}
 ];
+const data = {items, totalCount: 2};
 
-const clientMock = {
-	get: jest.fn().mockResolvedValue({data: {items, totalCount: 2}})
-};
-
-const processStepContextMock = {
-	getSelectedProcessSteps: () => [{key: 'review'}]
-};
-
-const MockContext = ({children}) => (
-	<MockRouter client={clientMock}>
-		<Request>
-			<ProcessStepContext.Provider value={processStepContextMock}>
-				{children}
-			</ProcessStepContext.Provider>
-		</Request>
-	</MockRouter>
+const wrapper = ({children}) => (
+	<AppContext.Provider value={{defaultDelta: 20}}>
+		<MockRouter>{children}</MockRouter>
+	</AppContext.Provider>
 );
 
-describe('The workload by assignee body, when On Time tab is active, should', () => {
-	let getAllByTestId;
+describe('The workload by assignee body should', () => {
+	let getAllByTestId, getByTestId;
 
 	afterEach(cleanup);
 
-	beforeEach(() => {
-		const renderResult = render(
-			<MockContext>
+	describe('be rendered with overdue tab active', () => {
+		beforeEach(() => {
+			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="onTime"
+					data={data}
 					processId={12345}
-				/>
-			</MockContext>
-		);
+					processStepKey="allSteps"
+				/>,
+				{wrapper}
+			);
+			getAllByTestId = renderResult.getAllByTestId;
+		});
 
-		getAllByTestId = renderResult.getAllByTestId;
+		test('Be rendered with "User 1" and "User 2" items', async () => {
+			const assigneeNames = await waitForElement(() =>
+				getAllByTestId('assigneeName')
+			);
+
+			expect(assigneeNames[0].innerHTML).toBe('User 1');
+			expect(assigneeNames[1].innerHTML).toBe('User 2');
+		});
+
+		test('Be rendered with "View All Steps" button and total "(2)"', async () => {
+			const viewAllAssignees = await waitForElement(() =>
+				getAllByTestId('viewAllAssignees')
+			);
+
+			expect(viewAllAssignees[0].innerHTML).toBe(
+				'view-all-assignees (2)'
+			);
+			expect(
+				viewAllAssignees[0].parentNode.getAttribute('href')
+			).not.toContain('filters.taskKeys%5B0%5D=allSteps');
+		});
 	});
 
-	test('Be rendered with "User 1" and "User 2" items and On Time tab display as active', async () => {
-		const assigneeNames = await waitForElement(() =>
-			getAllByTestId('assigneeName')
-		);
-
-		expect(assigneeNames[0].innerHTML).toBe('User 1');
-		expect(assigneeNames[1].innerHTML).toBe('User 2');
-	});
-
-	test('Be rendered with "View All Steps" button and total "(2)"', async () => {
-		const viewAllAssignees = await waitForElement(() =>
-			getAllByTestId('viewAllAssignees')
-		);
-
-		expect(viewAllAssignees[0].innerHTML).toBe('view-all-assignees (2)');
-	});
-});
-
-describe('The workload by assignee body, when Overdue tab is active, should', () => {
-	let getAllByTestId;
-
-	afterEach(cleanup);
-
-	beforeEach(() => {
-		const renderResult = render(
-			<MockContext>
-				<WorkloadByAssigneeCard.Body
-					currentTab="overdue"
-					processId={12345}
-				/>
-			</MockContext>
-		);
-
-		getAllByTestId = renderResult.getAllByTestId;
-	});
-
-	test('Be rendered with "User 1" and "User 2" items', async () => {
-		const assigneeNames = await waitForElement(() =>
-			getAllByTestId('assigneeName')
-		);
-
-		expect(assigneeNames[0].innerHTML).toBe('User 1');
-		expect(assigneeNames[1].innerHTML).toBe('User 2');
-	});
-});
-
-describe('The workload by assignee body, when Total tab is active, should', () => {
-	let getAllByTestId;
-
-	afterEach(cleanup);
-
-	beforeEach(() => {
-		const renderResult = render(
-			<MockContext>
+	describe('be rendered with total tab active', () => {
+		beforeEach(() => {
+			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="total"
+					data={{items: [items[0]], totalCount: 1}}
 					processId={12345}
-				/>
-			</MockContext>
-		);
+					processStepKey="review"
+				/>,
+				{wrapper}
+			);
+			getByTestId = renderResult.getByTestId;
+		});
 
-		getAllByTestId = renderResult.getAllByTestId;
+		test('and with "User 1" item', async () => {
+			const assigneeName = await waitForElement(() =>
+				getByTestId('assigneeName')
+			);
+
+			expect(assigneeName.innerHTML).toBe('User 1');
+		});
+
+		test('and with "View All Steps" button and total "(1)"', async () => {
+			const viewAllAssignees = await waitForElement(() =>
+				getByTestId('viewAllAssignees')
+			);
+
+			expect(viewAllAssignees.innerHTML).toBe('view-all-assignees (1)');
+			expect(viewAllAssignees.parentNode.getAttribute('href')).toContain(
+				'filters.taskKeys%5B0%5D=review'
+			);
+		});
 	});
 
-	test('Be rendered with "User 1" and "User 2" items', async () => {
-		const assigneeNames = await waitForElement(() =>
-			getAllByTestId('assigneeName')
-		);
+	describe('be rendered with onTime tab active', () => {
+		beforeEach(() => {
+			const renderResult = render(
+				<WorkloadByAssigneeCard.Body
+					currentTab="onTime"
+					data={{items: [items[1]], totalCount: 1}}
+					processId={12345}
+					processStepKey="update"
+				/>,
+				{wrapper}
+			);
+			getByTestId = renderResult.getByTestId;
+		});
 
-		expect(assigneeNames[0].innerHTML).toBe('User 1');
-		expect(assigneeNames[1].innerHTML).toBe('User 2');
-	});
-});
+		test('and with "User 1" item', async () => {
+			const assigneeName = await waitForElement(() =>
+				getByTestId('assigneeName')
+			);
 
-describe('The WorkloadByAssigneeCardTable items component should', () => {
-	let getAllByTestId;
+			expect(assigneeName.innerHTML).toBe('User 2');
+		});
 
-	const items = [
-		{
-			name: 'User 1',
-			onTimeTaskCount: 10,
-			overdueTaskCount: 5,
-			taskCount: 15
-		},
-		{
-			name: 'User 2',
-			onTimeTaskCount: 3,
-			overdueTaskCount: 7,
-			taskCount: 10
-		}
-	];
-	const clientMock = {
-		get: jest.fn().mockResolvedValue({data: {items, totalCount: 2}})
-	};
+		test('and with "View All Steps" button and total "(1)"', async () => {
+			const viewAllAssignees = await waitForElement(() =>
+				getByTestId('viewAllAssignees')
+			);
 
-	const processStepContextMock = {
-		getSelectedProcessSteps: () => [{key: 'allSteps'}]
-	};
-
-	const wrapper = ({children}) => (
-		<Request>
-			<MockRouter client={clientMock}>
-				<ProcessStepContext.Provider value={processStepContextMock}>
-					{children}
-				</ProcessStepContext.Provider>
-			</MockRouter>
-		</Request>
-	);
-
-	afterEach(cleanup);
-
-	beforeEach(() => {
-		const renderResult = render(
-			<WorkloadByAssigneeCard.Body
-				currentTab="overdue"
-				items={items}
-				processId={12345}
-			/>,
-			{wrapper}
-		);
-
-		getAllByTestId = renderResult.getAllByTestId;
+			expect(viewAllAssignees.innerHTML).toBe('view-all-assignees (1)');
+			expect(viewAllAssignees.parentNode.getAttribute('href')).toContain(
+				'filters.taskKeys%5B0%5D=update'
+			);
+		});
 	});
 
-	test('Change route when item is clicked', async () => {
-		const tableItems = await waitForElement(() =>
-			getAllByTestId('workloadByAssigneeCardItem')
-		);
-		expect(tableItems[0].children[0].getAttribute('href')).not.toContain(
-			'allSteps'
-		);
+	describe('be rendered with overdue tab active and empty state', () => {
+		afterAll(cleanup);
+
+		beforeAll(() => {
+			const renderResult = render(
+				<WorkloadByAssigneeCard.Body
+					currentTab="overdue"
+					data={{items: [], totalCount: 0}}
+					processId={12345}
+				/>,
+				{wrapper}
+			);
+
+			getByTestId = renderResult.getByTestId;
+		});
+
+		test('Be rendered with a empty state', async () => {
+			const emptyStateDiv = getByTestId('emptyState');
+			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+				'there-are-no-assigned-items-overdue-at-the-moment'
+			);
+		});
+	});
+
+	describe('be rendered with total tab active and empty state', () => {
+		afterAll(cleanup);
+
+		beforeAll(() => {
+			const renderResult = render(
+				<WorkloadByAssigneeCard.Body
+					currentTab="total"
+					data={{items: [], totalCount: 0}}
+					processId={12345}
+				/>,
+				{wrapper}
+			);
+
+			getByTestId = renderResult.getByTestId;
+		});
+
+		test('Be rendered with a empty state', async () => {
+			const emptyStateDiv = getByTestId('emptyState');
+			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+				'there-are-no-items-assigned-to-users-at-the-moment'
+			);
+		});
+	});
+
+	describe('be rendered with onTime tab active and empty state', () => {
+		afterAll(cleanup);
+
+		beforeAll(() => {
+			const renderResult = render(
+				<WorkloadByAssigneeCard.Body
+					currentTab="onTime"
+					data={{items: [], totalCount: 0}}
+					processId={12345}
+				/>,
+				{wrapper}
+			);
+
+			getByTestId = renderResult.getByTestId;
+		});
+
+		test('Be rendered with a empty state', async () => {
+			const emptyStateDiv = getByTestId('emptyState');
+			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+				'there-are-no-assigned-items-on-time-at-the-moment'
+			);
+		});
 	});
 });
