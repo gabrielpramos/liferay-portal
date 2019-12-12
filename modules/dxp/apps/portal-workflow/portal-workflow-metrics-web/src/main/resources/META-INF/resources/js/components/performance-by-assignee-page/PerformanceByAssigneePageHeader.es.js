@@ -12,12 +12,12 @@
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import React from 'react';
 
-import {filterKeys} from '../../shared/components/filter/util/filterConstants.es';
+import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
 import SearchField from '../../shared/components/search-field/SearchField.es';
-import ProcessStepFilter from '../filter/ProcessStepFilterHooks.es';
-import RoleFilter from '../filter/RoleFilterHooks.es';
-import {TimeRangeFilter} from '../process-metrics/filter/TimeRangeFilter.es';
+import ProcessStepFilter from '../filter/ProcessStepFilter.es';
+import RoleFilter from '../filter/RoleFilter.es';
+import TimeRangeFilter from '../filter/TimeRangeFilter.es';
 
 const Header = ({dispatch, routeParams, selectedFilters, totalCount}) => {
 	const showFiltersResult = routeParams.search || selectedFilters.length > 0;
@@ -34,13 +34,13 @@ const Header = ({dispatch, routeParams, selectedFilters, totalCount}) => {
 				<RoleFilter
 					completed={true}
 					dispatch={dispatch}
-					filterKey={filterKeys.roles}
+					filterKey={filterConstants.roles.key}
 					processId={routeParams.processId}
 				/>
 
 				<ProcessStepFilter
 					dispatch={dispatch}
-					filterKey={filterKeys.processStep}
+					filterKey={filterConstants.processStep.key}
 					processId={routeParams.processId}
 				/>
 
@@ -55,9 +55,8 @@ const Header = ({dispatch, routeParams, selectedFilters, totalCount}) => {
 
 				<TimeRangeFilter
 					buttonClassName="btn-flat btn-sm"
-					hideControl={true}
-					position="right"
-					showFilterName={false}
+					dispatch={dispatch}
+					options={{position: 'right'}}
 				/>
 			</ClayManagementToolbar>
 
