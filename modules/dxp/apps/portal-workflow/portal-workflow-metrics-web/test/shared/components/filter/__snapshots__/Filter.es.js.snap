@@ -3,6 +3,7 @@
 exports[`Should render component 1`] = `
 <li
   className="dropdown nav-item"
+  data-testid="filterComponent"
 >
   <button
     aria-expanded={false}
@@ -57,6 +58,7 @@ exports[`Should render component 1`] = `
 exports[`Should render component with search wrapper 1`] = `
 <li
   className="dropdown nav-item"
+  data-testid="filterComponent"
 >
   <button
     aria-expanded={false}
@@ -130,6 +132,7 @@ exports[`Should render component with search wrapper 1`] = `
     >
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -158,6 +161,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -186,6 +190,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -214,6 +219,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -242,6 +248,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -270,6 +277,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -298,6 +306,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -326,6 +335,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -354,6 +364,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -382,6 +393,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -410,6 +422,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -438,6 +451,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -466,6 +480,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -494,6 +509,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
@@ -522,6 +538,7 @@ exports[`Should render component with search wrapper 1`] = `
       </li>
       <li
         className="dropdown-item active"
+        data-testid="filterItem"
       >
         <label
           className="custom-control custom-radio"
