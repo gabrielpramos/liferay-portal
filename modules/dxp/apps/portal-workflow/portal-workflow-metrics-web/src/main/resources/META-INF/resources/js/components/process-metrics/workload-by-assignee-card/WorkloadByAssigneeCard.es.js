@@ -9,17 +9,17 @@
  * distribution rights of the Software.
  */
 
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import {getFiltersParam} from '../../../shared/components/filter/util/filterUtil.es';
-import Request from '../../../shared/components/request/Request.es';
-import ProcessStepFilter from '../filter/ProcessStepFilter.es';
-import {ProcessStepProvider} from '../filter/store/ProcessStepStore.es';
+import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
+import {useFetch} from '../../../shared/hooks/useFetch.es';
+import {useFilter} from '../../../shared/hooks/useFilter.es';
+import ProcessStepFilter from '../../filter/ProcessStepFilter.es';
 import {Body} from './WorkloadByAssigneeCardBody.es';
 import Tabs from './WorkloadByAssigneeCardTabs.es';
 
-const Header = () => (
+const Header = ({dispatch, processId}) => (
 	<>
 		<Panel.HeaderWithOptions
 			description={Liferay.Language.get(
@@ -30,55 +30,88 @@ const Header = () => (
 			tooltipPosition="bottom"
 		/>
 
-		<Request.Success>
-			<div className="management-bar management-bar-light ml-3 navbar navbar-expand-md pl-1">
-				<ul className="navbar-nav">
-					<ProcessStepFilter
-						filterKey="assigneeTaskKeys"
-						hideControl={true}
-						multiple={false}
-						showFilterName={false}
-					/>
-				</ul>
-			</div>
-		</Request.Success>
+		<div className="management-bar management-bar-light ml-3 navbar navbar-expand-md pl-1">
+			<ul className="navbar-nav">
+				<ProcessStepFilter
+					dispatch={dispatch}
+					options={{
+						hideControl: true,
+						multiple: false,
+						withAllSteps: true,
+						withSelectionTitle: true
+					}}
+					processId={processId}
+				/>
+			</ul>
+		</div>
 	</>
 );
 
-const WorkloadByAssigneeCard = ({processId, query}) => {
-	const {assigneeTaskKeys = []} = getFiltersParam(query);
+const WorkloadByAssigneeCard = ({routeParams}) => {
+	const {processId} = routeParams;
 	const [currentTab, setCurrentTab] = useState('overdue');
 
-	return (
-		<Request>
-			<ProcessStepProvider
-				processId={processId}
-				processStepKeys={assigneeTaskKeys}
-				withAllSteps={true}
-			>
-				<Panel elementClasses="workload-by-assignee-card">
-					<WorkloadByAssigneeCard.Header />
+	const filterKeys = ['processStep'];
+	const {
+		dispatch,
+		filterValues: {taskKeys}
+	} = useFilter(filterKeys);
 
-					<WorkloadByAssigneeCard.Tabs
-						currentTab={currentTab}
-						setCurrentTab={setCurrentTab}
-					/>
-
-					<Panel.Body>
-						<Request.Error />
-
-						<Request.Loading />
-
-						<WorkloadByAssigneeCard.Body
-							currentTab={currentTab}
-							processId={processId}
-							query={query}
-						/>
-					</Panel.Body>
-				</Panel>
-			</ProcessStepProvider>
-		</Request>
+	const params = getParams(currentTab, taskKeys);
+	const {data, fetchData} = useFetch(
+		`/processes/${processId}/assignee-users`,
+		params
 	);
+
+	const promises = useMemo(() => [fetchData()], [fetchData]);
+
+	return (
+		<PromisesResolver promises={promises}>
+			<Panel elementClasses="workload-by-assignee-card">
+				<WorkloadByAssigneeCard.Header
+					dispatch={dispatch}
+					processId={processId}
+				/>
+
+				<WorkloadByAssigneeCard.Tabs
+					currentTab={currentTab}
+					setCurrentTab={setCurrentTab}
+				/>
+
+				<WorkloadByAssigneeCard.Body
+					currentTab={currentTab}
+					data={data}
+					processStepKey={params.taskKeys}
+					{...routeParams}
+				/>
+			</Panel>
+		</PromisesResolver>
+	);
+};
+
+const getParams = (currentTab, taskKeys) => {
+	const params = {
+		page: 1,
+		pageSize: 10
+	};
+
+	if (taskKeys && taskKeys.length) {
+		const key = taskKeys[0];
+
+		if (key !== 'allSteps') {
+			params.taskKeys = key;
+		}
+	}
+
+	if (currentTab === 'overdue') {
+		params.sort = 'overdueTaskCount:desc'; //%3Adesc
+	} else if (currentTab === 'onTime') {
+		params.sort = 'onTimeTaskCount:desc';
+	} else {
+		params.sort = 'taskCount:desc';
+	}
+
+	return params;
 };
 
 WorkloadByAssigneeCard.Body = Body;
