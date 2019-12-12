@@ -70,7 +70,7 @@ describe('The custom time range name should', () => {
 
 		const customTimeRange = result.current.timeRanges[0];
 
-		expect(customTimeRange.resultName(customTimeRange)).toBe(
+		expect(customTimeRange.getName(customTimeRange)).toBe(
 			'Invalid date - Invalid date'
 		);
 
@@ -96,7 +96,7 @@ describe('The custom time range name should', () => {
 
 		setTimeRanges([customTimeRange, ...timeRanges]);
 
-		expect(customTimeRange.resultName(customTimeRange)).toBe(
+		expect(customTimeRange.getName(customTimeRange)).toBe(
 			'Jan 9, 2019 - Jan 15, 2019'
 		);
 
