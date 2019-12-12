@@ -42,7 +42,7 @@ describe('The workload by assignee card should', () => {
 
 		const renderResult = render(
 			<MockRouter client={clientMock}>
-				<WorkloadByAssigneeCard processId={12345} />
+				<WorkloadByAssigneeCard routeParams={{processId: 12345}} />
 			</MockRouter>
 		);
 
