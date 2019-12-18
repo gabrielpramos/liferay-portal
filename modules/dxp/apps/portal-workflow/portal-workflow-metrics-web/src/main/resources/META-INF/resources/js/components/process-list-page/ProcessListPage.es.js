@@ -52,9 +52,12 @@ const ProcessListPage = ({query, routeParams}) => {
 
 	const {search = null} = parse(query);
 
-	const {data, fetchData} = useFetch('/processes', {
-		title: search,
-		...routeParams
+	const {data, fetchData} = useFetch({
+		params: {
+			title: search,
+			...routeParams
+		},
+		url: '/processes'
 	});
 
 	const promises = useMemo(() => [fetchData()], [fetchData]);
