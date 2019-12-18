@@ -106,7 +106,6 @@ const Body = ({page, pageSize, processId, showModal}) => {
 		}
 
 		return [];
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchInstances, showModal.visible]);
 
 	return (
