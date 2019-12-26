@@ -9,21 +9,28 @@ definition {
 
 		Button.clickSave();
 
-		Alert.viewSuccessMessageText(successMessage = "Repository was added.");
-
-		AssertTextEquals(
-			locator1 = "ControlMenu#HEADING",
-			value1 = "${depotName}");
-
-		if (isSet(depotDescription)) {
-			Type(
-				locator1 = "TextArea#DESCRIPTION",
-				value1 = "${depotDescription}");
+		if ("${depot}" == "Duplicate") {
+			AssertTextEquals(
+				locator1 = "Message#ERROR_FORM_FIELD_REQUIRED",
+				value1 = "Please enter a unique name.");
 		}
+		else {
+			Alert.viewSuccessMessageText(successMessage = "Repository was added.");
 
-		Button.clickSave();
+			AssertTextEquals(
+				locator1 = "ControlMenu#HEADING",
+				value1 = "${depotName}");
 
-		Alert.viewSuccessMessage();
+			if (isSet(depotDescription)) {
+				Type(
+					locator1 = "TextArea#DESCRIPTION",
+					value1 = "${depotDescription}");
+			}
+
+			Button.clickSave();
+
+			Alert.viewSuccessMessage();
+		}
 	}
 
 	macro configureSearch {
@@ -135,7 +142,14 @@ definition {
 
 		Button.clickSave();
 
-		Alert.viewSuccessMessage();
+		if ("${depot}" == "Duplicate") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#ERROR",
+				value1 = "Please enter a unique name.");
+		}
+		else {
+			Alert.viewSuccessMessage();
+		}
 	}
 
 	macro viewConnectedSite {
