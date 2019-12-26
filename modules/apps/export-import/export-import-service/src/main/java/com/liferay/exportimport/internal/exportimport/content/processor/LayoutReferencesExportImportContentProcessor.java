@@ -963,18 +963,18 @@ public class LayoutReferencesExportImportContentProcessor
 		throws PortalException {
 
 		try {
-			URL currentURL = new URL(url);
+			URL urlObject = new URL(url);
 
 			if (InetAddressUtil.isLocalInetAddress(
-					InetAddress.getByName(currentURL.getHost()))) {
+					InetAddress.getByName(urlObject.getHost()))) {
 
 				StringBundler sb = new StringBundler(5);
 
-				sb.append(currentURL.getProtocol());
+				sb.append(urlObject.getProtocol());
 				sb.append("://");
-				sb.append(currentURL.getHost());
+				sb.append(urlObject.getHost());
 				sb.append(StringPool.COLON);
-				sb.append(currentURL.getPort());
+				sb.append(urlObject.getPort());
 
 				return sb.toString();
 			}
