@@ -68,6 +68,80 @@ definition {
 			tableView = "true");
 	}
 
+	@description = "This ensures that a user can not create a repository with the same escape characters name as another repository."
+	@priority = "5"
+	test AddDuplicateWithEscapeCharacters {
+		DepotNavigator.openDepotAdmin();
+
+		Depot.addDepot(
+			depotDescription = "This is the description of a depot",
+			depotName = "&amp;");
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.addDepot(
+			depot = "Duplicate",
+			depotName = "&amp;");
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.deleteCP(depotName = "&amp;");
+
+		Depot.viewDefaultCP();
+	}
+
+	@description = "This ensures that users cannot create the same name as another site name."
+	@priority = "5"
+	test AddNameThatDuplicatesSite {
+		JSONGroup.addGroup(groupName = "Site Name");
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.addDepot(
+			depot = "Duplicate",
+			depotName = "Site Name");
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.viewDefaultCP();
+	}
+
+	@description = "This ensures that users cannot create the same name as another translated repository name."
+	@priority = "4"
+	test AddNameThatDuplicatesTranslation {
+		DepotNavigator.openDepotAdmin();
+
+		Depot.addDepot(
+			depotDescription = "This is the description of a depot",
+			depotName = "Test Depot Name");
+
+		DepotNavigator.openDepotAdmin();
+
+		DepotNavigator.gotoEdit(depotName = "Test Depot Name");
+
+		DepotNavigator.gotoLanguages(depotName = "Test Depot Name");
+
+		Click(
+			key_languagesOption = "Define a custom default language and additional available languages for this repository.",
+			locator1 = "Radio#DEPOT_LANGUAGES_OPTION");
+
+		PortalSettings.configureCurrentLanguagesCP(
+			currentPortalLanguages = "Spanish (Spain)",
+			defaultPortalLanguage = "Spanish (Spain)");
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.editDepot(
+			depotName = "Test Depot Name",
+			depotNameEdit = "título");
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.addDepot(
+			depot = "Duplicate",
+			depotName = "título");
+	}
+
 	@description = "This ensures that a depot can be deleted."
 	@priority = "5"
 	test DeleteDepot {
@@ -253,6 +327,31 @@ definition {
 			depotName = "Edited Test Depot Name",
 			portlet = "Documents and Media",
 			tableView = "true");
+	}
+
+	@description = "This ensures that users cannot edit repository name same as another repository name."
+	@priority = "5"
+	test RenameToDuplicate {
+		for (var depotName : list "Test Depot Name,Test Depot Name 2") {
+			DepotNavigator.openDepotAdmin();
+
+			Depot.addDepot(
+				depotDescription = "This is the description of a depot",
+				depotName = "${depotName}");
+		}
+
+		DepotNavigator.openDepotAdmin();
+
+		Depot.editDepot(
+			depot = "Duplicate",
+			depotName = "Test Depot Name 2",
+			depotNameEdit = "Test Depot Name");
+
+		DepotNavigator.openDepotAdmin();
+
+		DepotNavigator.gotoDepot(
+			depotName = "Test Depot Name 2",
+			portlet = "Documents and Media");
 	}
 
 	@description = "This ensures that a depot's description can be searched."
