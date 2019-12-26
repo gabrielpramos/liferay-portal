@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutFriendlyURLLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.util.Http;
+import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -49,6 +50,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.staging.StagingGroupHelper;
+
+import java.net.InetAddress;
+import java.net.URL;
 
 import java.util.Locale;
 import java.util.Map;
@@ -128,8 +132,11 @@ public class LayoutReferencesExportImportContentProcessor
 		String portalUrl = StringPool.BLANK;
 
 		if (!publicLayoutSetVirtualHostnames.isEmpty()) {
-			portalUrl = _portal.getPortalURL(
-				publicLayoutSetVirtualHostnames.firstKey(), serverPort, secure);
+			portalUrl = _getPortalUrl(
+				url,
+				_portal.getPortalURL(
+					publicLayoutSetVirtualHostnames.firstKey(), serverPort,
+					secure));
 
 			if (url.startsWith(portalUrl)) {
 				if (secure) {
@@ -149,9 +156,11 @@ public class LayoutReferencesExportImportContentProcessor
 			privateLayoutSet.getVirtualHostnames();
 
 		if (!privateLayoutSetVirtualHostnames.isEmpty()) {
-			portalUrl = _portal.getPortalURL(
-				privateLayoutSetVirtualHostnames.firstKey(), serverPort,
-				secure);
+			portalUrl = _getPortalUrl(
+				url,
+				_portal.getPortalURL(
+					privateLayoutSetVirtualHostnames.firstKey(), serverPort,
+					secure));
 
 			if (url.startsWith(portalUrl)) {
 				if (secure) {
@@ -170,8 +179,10 @@ public class LayoutReferencesExportImportContentProcessor
 		String companyVirtualHostname = company.getVirtualHostname();
 
 		if (Validator.isNotNull(companyVirtualHostname)) {
-			portalUrl = _portal.getPortalURL(
-				companyVirtualHostname, serverPort, secure);
+			portalUrl = _getPortalUrl(
+				url,
+				_portal.getPortalURL(
+					companyVirtualHostname, serverPort, secure));
 
 			if (url.startsWith(portalUrl)) {
 				if (secure) {
@@ -946,6 +957,33 @@ public class LayoutReferencesExportImportContentProcessor
 				throw eicve;
 			}
 		}
+	}
+
+	private String _getPortalUrl(String url, String portalURL)
+		throws PortalException {
+
+		try {
+			URL currentURL = new URL(url);
+
+			if (InetAddressUtil.isLocalInetAddress(
+					InetAddress.getByName(currentURL.getHost()))) {
+
+				StringBundler sb = new StringBundler(5);
+
+				sb.append(currentURL.getProtocol());
+				sb.append("://");
+				sb.append(currentURL.getHost());
+				sb.append(StringPool.COLON);
+				sb.append(currentURL.getPort());
+
+				return sb.toString();
+			}
+		}
+		catch (Exception e) {
+			throw new PortalException(e);
+		}
+
+		return portalURL;
 	}
 
 	private boolean _isVirtualHostDefined(StringBundler urlSB) {
