@@ -19,12 +19,16 @@ import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import Request from '../../shared/components/request/Request.es';
 import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
-import InstanceListPageFilters from './InstanceListPageFilters.es';
+import {Header} from './InstanceListPageHeader.es';
 import InstanceListPageItemDetail from './InstanceListPageItemDetail.es';
 import {Table} from './InstanceListPageTable.es';
 import {
-	SingleReassignModalContext,
-	SingleReassignModal
+	BulkReassignModal,
+	BulkReassignModalContext
+} from './modal/bulk-reassign/BulkReassignModal.es';
+import {
+	SingleReassignModal,
+	SingleReassignModalContext
 } from './modal/single-reassign/SingleReassignModal.es';
 import {InstanceFiltersProvider} from './store/InstanceListPageFiltersStore.es';
 import {
@@ -46,42 +50,52 @@ export function InstanceListPage({page, pageSize, processId, query}) {
 		visible: false
 	});
 
+	const [bulkReassignData, setBulkReassignData] = useState({
+		reassignedTasks: [],
+		reassigning: false,
+		selectedAssignee: null,
+		selectedTasks: [],
+		useSameAssignee: false,
+		visible: false
+	});
+
 	useProcessTitle(processId, Liferay.Language.get('all-items'));
 
 	return (
 		<Request>
-			<SingleReassignModalContext.Provider
-				value={{setShowModal, showModal}}
+			<BulkReassignModalContext.Provider
+				value={{bulkReassignData, setBulkReassignData}}
 			>
-				<InstanceFiltersProvider
-					assigneeKeys={assigneeUserIds}
-					processId={processId}
-					processStatusKeys={statuses}
-					processStepKeys={taskKeys}
-					slaStatusKeys={slaStatuses}
-					timeRangeKeys={timeRange}
+				<SingleReassignModalContext.Provider
+					value={{setShowModal, showModal}}
 				>
-					<InstanceListProvider
-						page={page}
-						pageSize={pageSize}
+					<InstanceFiltersProvider
+						assigneeKeys={assigneeUserIds}
 						processId={processId}
-						query={query}
+						processStatusKeys={statuses}
+						processStepKeys={taskKeys}
+						slaStatusKeys={slaStatuses}
+						timeRangeKeys={timeRange}
 					>
-						<InstanceListPage.Header
-							processId={processId}
-							query={query}
-						/>
-
-						<InstanceListPage.Body
+						<InstanceListProvider
 							page={page}
 							pageSize={pageSize}
 							processId={processId}
 							query={query}
-							showModal={showModal}
-						/>
-					</InstanceListProvider>
-				</InstanceFiltersProvider>
-			</SingleReassignModalContext.Provider>
+						>
+							<InstanceListPage.Header />
+
+							<InstanceListPage.Body
+								page={page}
+								pageSize={pageSize}
+								processId={processId}
+								query={query}
+								showModal={showModal}
+							/>
+						</InstanceListProvider>
+					</InstanceFiltersProvider>
+				</SingleReassignModalContext.Provider>
+			</BulkReassignModalContext.Provider>
 		</Request>
 	);
 }
@@ -151,24 +165,16 @@ const Body = ({page, pageSize, processId, showModal}) => {
 				</PromisesResolver>
 			</div>
 			<InstanceListPage.SingleReassignModal></InstanceListPage.SingleReassignModal>
+			<InstanceListPage.BulkReassignModal></InstanceListPage.BulkReassignModal>
 			<InstanceListPageItemDetail processId={processId} />
 		</>
 	);
 };
 
-const Header = () => {
-	const {totalCount} = useContext(InstanceListContext);
-
-	return (
-		<Request.Success>
-			<InstanceListPageFilters totalCount={totalCount} />
-		</Request.Success>
-	);
-};
-
-InstanceListPage.SingleReassignModal = SingleReassignModal;
 InstanceListPage.Body = Body;
-Body.Table = Table;
+InstanceListPage.Body.Table = Table;
+InstanceListPage.BulkReassignModal = BulkReassignModal;
 InstanceListPage.Header = Header;
+InstanceListPage.SingleReassignModal = SingleReassignModal;
 
 export default InstanceListPage;

@@ -32,9 +32,12 @@ const Autocomplete = ({
 	const handleChange = useCallback(value => {
 		setValue(() => value);
 		setDropDownVisible(() => value.length > 0);
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		setValue(defaultValue);
+	}, [defaultValue]);
 
 	useEffect(() => {
 		setDropDownItems(items);
