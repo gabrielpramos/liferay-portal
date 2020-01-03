@@ -62,7 +62,11 @@ const Item = taskItem => {
 	return (
 		<ClayTable.Row data-testid="instanceRow">
 			<ClayTable.Cell>
-				<ClayCheckbox checked={checked} onChange={handleCheck} />
+				<ClayCheckbox
+					checked={checked}
+					data-testid="instanceCheckbox"
+					onChange={handleCheck}
+				/>
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>

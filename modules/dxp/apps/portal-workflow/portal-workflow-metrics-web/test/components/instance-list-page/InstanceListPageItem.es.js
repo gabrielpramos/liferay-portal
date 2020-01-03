@@ -102,3 +102,47 @@ describe('The InstanceListPageItem quick action menu should', () => {
 		expect(setShowModal).toHaveBeenCalledTimes(1);
 	});
 });
+
+describe('The InstanceListPageItem instance checkbox component should', () => {
+	afterEach(cleanup);
+
+	const instance = {
+		assetTitle: 'New Post',
+		assetType: 'Blog',
+		dateCreated: new Date('2019-01-01'),
+		id: 1
+	};
+	const setShowModal = jest.fn();
+	let selectedItems = [];
+	const setSelectedItems = jest.fn(value => {
+		selectedItems = value;
+	});
+
+	test('Set checkbox value by clicking it', () => {
+		const {getByTestId} = render(
+			<InstanceListContext.Provider
+				value={{
+					selectedItems,
+					setInstanceId: jest.fn(),
+					setSelectedItems
+				}}
+			>
+				<SingleReassignModalContext.Provider
+					value={{setShowModal, showModal: false}}
+				>
+					<Table.Item {...instance} />
+				</SingleReassignModalContext.Provider>
+			</InstanceListContext.Provider>
+		);
+
+		const instanceCheckbox = getByTestId('instanceCheckbox');
+
+		expect(instanceCheckbox.checked).toEqual(false);
+
+		fireEvent.click(instanceCheckbox);
+		expect(instanceCheckbox.checked).toEqual(true);
+
+		fireEvent.click(instanceCheckbox);
+		expect(instanceCheckbox.checked).toEqual(false);
+	});
+});

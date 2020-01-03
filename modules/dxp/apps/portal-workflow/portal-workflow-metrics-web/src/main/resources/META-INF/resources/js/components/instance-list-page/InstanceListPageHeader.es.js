@@ -168,6 +168,7 @@ const Header = () => {
 					<ClayManagementToolbar.Item className="ml-2">
 						<ClayCheckbox
 							checked={toolbarOptions.checked}
+							data-testid="checkAllButton"
 							indeterminate={toolbarOptions.indeterminateCheckbox}
 							onChange={({target}) => {
 								handleSelectAll(target.checked);
@@ -215,6 +216,7 @@ const Header = () => {
 								<ClayManagementToolbar.Item>
 									<button
 										className="btn btn-link btn-sm font-weight-bold pl-0 text-primary"
+										data-testid="selectRemainingButton"
 										onClick={() => {
 											handleSelectAll(true);
 										}}
@@ -231,7 +233,10 @@ const Header = () => {
 
 				{toolbarOptions.active && (
 					<ClayManagementToolbar.Item>
-						<div className="autofit-col">
+						<div
+							className="autofit-col"
+							data-testid="headerQuickAction"
+						>
 							<QuickActionKebab items={kebabItems} />
 						</div>
 					</ClayManagementToolbar.Item>

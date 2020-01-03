@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render} from '@testing-library/react';
+import {cleanup, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
 import InstanceListPage from '../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPage.es';
@@ -23,12 +23,16 @@ const items = [
 	{
 		key: 'update',
 		name: 'Update'
+	},
+	{
+		key: 'update',
+		name: 'Update'
 	}
 ];
 
 describe('The instance list card should', () => {
 	const clientMock = {
-		get: jest.fn().mockResolvedValue({data: {items}})
+		get: jest.fn().mockResolvedValue({data: {items, totalCount: 2}})
 	};
 	let renderResult;
 
@@ -50,5 +54,42 @@ describe('The instance list card should', () => {
 		expect(filterNames[0].innerHTML).toBe('sla-status');
 		expect(filterNames[1].innerHTML).toBe('process-status');
 		expect(filterNames[2].innerHTML).toBe('process-step');
+	});
+
+	test('Select all instances by clicking on check all button', () => {
+		const {getByTestId} = renderResult;
+
+		const checkAllButton = getByTestId('checkAllButton');
+
+		fireEvent.click(checkAllButton);
+		expect(checkAllButton.checked).toEqual(true);
+
+		fireEvent.click(checkAllButton);
+		expect(checkAllButton.checked).toEqual(false);
+	});
+
+	test('Select remaining instances by clicking on select remaining button', () => {
+		const {getByTestId} = renderResult;
+
+		const checkAllButton = getByTestId('checkAllButton');
+
+		fireEvent.click(checkAllButton);
+		expect(checkAllButton.checked).toEqual(true);
+
+		const selectRemainingButton = getByTestId('selectRemainingButton');
+		fireEvent.click(selectRemainingButton);
+		expect(checkAllButton.checked).toEqual(true);
+	});
+
+	test('Set bulk reassign data by clicking on quick action menu item', () => {
+		const {getAllByTestId, getByTestId} = renderResult;
+
+		const checkAllButton = getByTestId('checkAllButton');
+
+		fireEvent.click(checkAllButton);
+		expect(checkAllButton.checked).toEqual(true);
+
+		const iconItemButton = getAllByTestId('iconItemButton');
+		expect(fireEvent.click(iconItemButton[0])).toBeTruthy();
 	});
 });
