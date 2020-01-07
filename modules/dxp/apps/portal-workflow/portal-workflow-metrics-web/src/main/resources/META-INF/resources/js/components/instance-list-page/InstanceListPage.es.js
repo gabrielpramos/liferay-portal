@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import React, {useContext, useMemo} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 
 import {getFiltersParam} from '../../shared/components/filter/util/filterUtil.es';
 import EmptyState from '../../shared/components/list/EmptyState.es';
@@ -19,16 +19,19 @@ import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import Request from '../../shared/components/request/Request.es';
 import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
-import InstanceListPageFilters from './InstanceListPageFilters.es';
+import {Header} from './InstanceListPageHeader.es';
 import InstanceListPageItemDetail from './InstanceListPageItemDetail.es';
-import InstanceListPageTable from './InstanceListPageTable.es';
+import {Table} from './InstanceListPageTable.es';
+import {ModalContext} from './modal/ModalContext.es';
+import {BulkReassignModal} from './modal/bulk-reassign/BulkReassignModal.es';
+import {SingleReassignModal} from './modal/single-reassign/SingleReassignModal.es';
 import {InstanceFiltersProvider} from './store/InstanceListPageFiltersStore.es';
 import {
 	InstanceListProvider,
 	InstanceListContext
 } from './store/InstanceListPageStore.es';
 
-export function InstanceListPage({page, pageSize, processId, query}) {
+const InstanceListPage = ({page, pageSize, processId, query}) => {
 	const {
 		assigneeUserIds = [],
 		slaStatuses = [],
@@ -37,42 +40,58 @@ export function InstanceListPage({page, pageSize, processId, query}) {
 		timeRange = []
 	} = getFiltersParam(query);
 
+	const [singleModal, setSingleModal] = useState({
+		selectedItem: undefined,
+		visible: false
+	});
+
+	const [bulkModal, setBulkModal] = useState({
+		reassignedTasks: [],
+		reassigning: false,
+		selectedAssignee: null,
+		selectedTasks: [],
+		useSameAssignee: false,
+		visible: false
+	});
+
+	const modalState = {bulkModal, setBulkModal, setSingleModal, singleModal};
+
 	useProcessTitle(processId, Liferay.Language.get('all-items'));
 
 	return (
 		<Request>
-			<InstanceFiltersProvider
-				assigneeKeys={assigneeUserIds}
-				processId={processId}
-				processStatusKeys={statuses}
-				processStepKeys={taskKeys}
-				slaStatusKeys={slaStatuses}
-				timeRangeKeys={timeRange}
-			>
-				<InstanceListProvider
-					page={page}
-					pageSize={pageSize}
+			<ModalContext.Provider value={modalState}>
+				<InstanceFiltersProvider
+					assigneeKeys={assigneeUserIds}
 					processId={processId}
-					query={query}
+					processStatusKeys={statuses}
+					processStepKeys={taskKeys}
+					slaStatusKeys={slaStatuses}
+					timeRangeKeys={timeRange}
 				>
-					<InstanceListPage.Header
-						processId={processId}
-						query={query}
-					/>
-
-					<InstanceListPage.Body
+					<InstanceListProvider
 						page={page}
 						pageSize={pageSize}
 						processId={processId}
 						query={query}
-					/>
-				</InstanceListProvider>
-			</InstanceFiltersProvider>
+					>
+						<InstanceListPage.Header />
+
+						<InstanceListPage.Body
+							page={page}
+							pageSize={pageSize}
+							processId={processId}
+							query={query}
+							singleModal={singleModal}
+						/>
+					</InstanceListProvider>
+				</InstanceFiltersProvider>
+			</ModalContext.Provider>
 		</Request>
 	);
-}
+};
 
-const Body = ({page, pageSize, processId}) => {
+const Body = ({page, pageSize, processId, singleModal}) => {
 	const {fetchInstances, items, searching, totalCount} = useContext(
 		InstanceListContext
 	);
@@ -86,7 +105,13 @@ const Body = ({page, pageSize, processId}) => {
 		'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
 	);
 
-	const promises = useMemo(() => [fetchInstances()], [fetchInstances]);
+	const promises = useMemo(() => {
+		if (!singleModal.visible) {
+			return [fetchInstances()];
+		}
+
+		return [];
+	}, [fetchInstances, singleModal.visible]);
 
 	return (
 		<>
@@ -99,7 +124,7 @@ const Body = ({page, pageSize, processId}) => {
 					<PromisesResolver.Resolved>
 						{items && items.length ? (
 							<>
-								<InstanceListPageTable items={items} />
+								<InstanceListPage.Body.Table items={items} />
 
 								<PaginationBar
 									page={page}
@@ -130,23 +155,17 @@ const Body = ({page, pageSize, processId}) => {
 					</PromisesResolver.Rejected>
 				</PromisesResolver>
 			</div>
-
+			<InstanceListPage.SingleReassignModal></InstanceListPage.SingleReassignModal>
+			<InstanceListPage.BulkReassignModal></InstanceListPage.BulkReassignModal>
 			<InstanceListPageItemDetail processId={processId} />
 		</>
 	);
 };
 
-const Header = () => {
-	const {totalCount} = useContext(InstanceListContext);
-
-	return (
-		<Request.Success>
-			<InstanceListPageFilters totalCount={totalCount} />
-		</Request.Success>
-	);
-};
-
 InstanceListPage.Body = Body;
+InstanceListPage.Body.Table = Table;
+InstanceListPage.BulkReassignModal = BulkReassignModal;
 InstanceListPage.Header = Header;
+InstanceListPage.SingleReassignModal = SingleReassignModal;
 
 export default InstanceListPage;

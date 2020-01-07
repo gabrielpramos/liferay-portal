@@ -10,8 +10,12 @@
 		padding-top: 1em;
 	}
 
-	.management-bar .navbar-text {
-		color: #6b6c7e;
+	.management-bar {
+		&.show-quick-actions-on-hover:hover {
+			.quick-action-menu {
+				display: flex;
+			}
+		}
 	}
 
 	.modal {
@@ -50,4 +54,26 @@
 
 .control-menu-level-1-nav .dropdown-menu-header .dropdown-item {
 	color: #6b6c7e;
+}
+
+.link-text:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.management-bar .navbar-text {
+	color: #6b6c7e;
+}
+
+.step-of-bar {
+	align-items: center;
+	border-bottom: 1px solid #e7e7ed;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 0.313rem 1.5rem;
+
+	small {
+		color: #6b6c7e;
+	}
 }

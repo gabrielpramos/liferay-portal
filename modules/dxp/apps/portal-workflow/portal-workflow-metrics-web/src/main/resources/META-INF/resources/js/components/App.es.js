@@ -14,7 +14,7 @@ import {Route, HashRouter as Router, Switch} from 'react-router-dom';
 
 import HeaderController from '../shared/components/header-controller/HeaderController.es';
 import {withParams} from '../shared/components/router/routerUtil.es';
-import fetch from '../shared/rest/fetch.es';
+import client, {getClient} from '../shared/rest/fetch.es';
 import {AppContext} from './AppContext.es';
 import InstanceListPage from './instance-list-page/InstanceListPage.es';
 import PerformanceByAssigneePage from './performance-by-assignee-page/PerformanceByAssigneePage.es';
@@ -34,10 +34,11 @@ export default class AppComponent extends React.Component {
 		super(props);
 
 		this.state = {
-			client: fetch,
+			client,
 			companyId: props.companyId,
 			defaultDelta: props.defaultDelta,
 			deltas: props.deltas,
+			getClient,
 			isAmPm: props.isAmPm,
 			maxPages: props.maxPages,
 			namespace: props.namespace,

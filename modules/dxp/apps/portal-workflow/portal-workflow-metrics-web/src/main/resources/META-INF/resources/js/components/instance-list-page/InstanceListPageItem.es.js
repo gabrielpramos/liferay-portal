@@ -9,114 +9,138 @@
  * distribution rights of the Software.
  */
 
-import React, {useContext} from 'react';
+import {ClayCheckbox} from '@clayui/form';
+import ClayTable from '@clayui/table';
+import React, {useContext, useState, useCallback, useEffect} from 'react';
 
-import Icon from '../../shared/components/Icon.es';
+import QuickActionKebab from '../../shared/components/quick-action-kebab/QuickActionKebab.es';
 import moment from '../../shared/util/moment.es';
+import {ModalContext} from './modal/ModalContext.es';
 import {InstanceListContext} from './store/InstanceListPageStore.es';
 
-const getStatusIcon = status => {
-	if (status === 'OnTime') {
-		return {
-			bgColor: 'bg-success-light',
-			iconColor: 'text-success',
-			iconName: 'check-circle'
-		};
-	}
+const Item = taskItem => {
+	const {selectedItems = [], setInstanceId, setSelectedItems} = useContext(
+		InstanceListContext
+	);
+	const [checked, setChecked] = useState(false);
 
-	if (status === 'Overdue') {
-		return {
-			bgColor: 'bg-danger-light',
-			iconColor: 'text-danger',
-			iconName: 'exclamation-circle'
-		};
-	}
+	useEffect(() => {
+		setChecked(selectedItems.find(item => item.id === id) !== undefined);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedItems]);
 
-	if (status === 'Untracked') {
-		return {
-			bgColor: 'bg-info-light',
-			iconColor: 'text-info',
-			iconName: 'hr'
-		};
-	}
+	const {
+		assetTitle,
+		assetType,
+		assigneeUsers,
+		creatorUser,
+		dateCreated,
+		id,
+		status,
+		taskNames = []
+	} = taskItem;
 
-	return null;
-};
-
-const InstanceListPageItem = ({
-	assetTitle,
-	assetType,
-	assigneeUsers,
-	creatorUser,
-	dateCreated,
-	id,
-	slaStatus,
-	status,
-	taskNames = []
-}) => {
 	const completed = status === 'Completed';
-	const {setInstanceId} = useContext(InstanceListContext);
-	const statusIcon = getStatusIcon(slaStatus);
-
-	const updateInstanceId = () => setInstanceId(id);
-
 	const formattedAssignees = !completed
 		? assigneeUsers && assigneeUsers.length
 			? assigneeUsers.map(assigneeUser => assigneeUser.name).join(', ')
 			: Liferay.Language.get('unassigned')
 		: Liferay.Language.get('not-available');
 
-	return (
-		<tr data-testid="instanceRow">
-			<td>
-				{statusIcon && (
-					<span
-						className={`mr-3 sticker sticker-sm ${statusIcon.bgColor}`}
-					>
-						<span className="inline-item">
-							<Icon
-								elementClasses={statusIcon.iconColor}
-								iconName={statusIcon.iconName}
-							/>
-						</span>
-					</span>
-				)}
-			</td>
+	const handleCheck = ({target}) => {
+		setChecked(target.checked);
 
-			<td className="lfr-title-column table-title">
-				<a
+		if (target.checked) {
+			setSelectedItems([...selectedItems, taskItem]);
+		} else {
+			setSelectedItems(selectedItems.filter(item => item.id !== id));
+		}
+	};
+
+	const updateInstanceId = () => setInstanceId(id);
+
+	return (
+		<ClayTable.Row data-testid="instanceRow">
+			<ClayTable.Cell>
+				<ClayCheckbox
+					checked={checked}
+					data-testid="instanceCheckbox"
+					onChange={handleCheck}
+				/>
+			</ClayTable.Cell>
+
+			<ClayTable.Cell>
+				<span
+					className="link-text"
 					data-target="#instanceDetailModal"
 					data-testid="instanceIdLink"
 					data-toggle="modal"
-					href="javascript:;"
 					onClick={updateInstanceId}
 					tabIndex="-1"
 				>
 					<strong>{id}</strong>
-				</a>
-			</td>
+				</span>
+			</ClayTable.Cell>
 
-			<td data-testid="assetInfoCell">{`${assetType}: ${assetTitle}`}</td>
+			<ClayTable.Cell data-testid="assetInfoCell">
+				{`${assetType}: ${assetTitle} `}
+			</ClayTable.Cell>
 
-			<td data-testid="taskNamesCell">
+			<ClayTable.Cell data-testid="taskNamesCell">
 				{!completed
 					? taskNames.join(', ')
 					: Liferay.Language.get('completed')}
-			</td>
+			</ClayTable.Cell>
 
-			<td data-testid="assigneesCell">{formattedAssignees}</td>
+			<ClayTable.Cell data-testid="assigneesCell">
+				{formattedAssignees}
+			</ClayTable.Cell>
 
-			<td data-testid="creatorUserCell">
+			<ClayTable.Cell data-testid="creatorUserCell">
 				{creatorUser ? creatorUser.name : ''}
-			</td>
+			</ClayTable.Cell>
 
-			<td className="pr-4 text-right" data-testid="dateCreatedCell">
+			<ClayTable.Cell data-testid="dateCreatedCell">
 				{moment
 					.utc(dateCreated)
 					.format(Liferay.Language.get('mmm-dd-yyyy-lt'))}
-			</td>
-		</tr>
+			</ClayTable.Cell>
+
+			<ClayTable.Cell style={{paddingRight: '0rem'}}>
+				<QuickActionMenu taskItem={taskItem} />
+			</ClayTable.Cell>
+		</ClayTable.Row>
 	);
 };
 
-export default InstanceListPageItem;
+const QuickActionMenu = ({taskItem}) => {
+	const {setSingleModal} = useContext(ModalContext);
+	const handleClickReassigneeTask = useCallback(
+		() => {
+			setSingleModal({
+				selectedItem: taskItem,
+				visible: true
+			});
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[taskItem]
+	);
+
+	const kebabItems = [
+		{
+			action: handleClickReassigneeTask,
+			icon: 'change',
+			title: Liferay.Language.get('reassign-task')
+		}
+	];
+
+	return (
+		<div className="autofit-col">
+			<QuickActionKebab items={kebabItems} />
+		</div>
+	);
+};
+
+Item.QuickActionMenu = QuickActionMenu;
+
+export {Item};
