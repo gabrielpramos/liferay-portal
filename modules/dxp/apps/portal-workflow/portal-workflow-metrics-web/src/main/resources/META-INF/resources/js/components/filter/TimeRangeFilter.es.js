@@ -9,13 +9,21 @@
  * distribution rights of the Software.
  */
 
-import React, {useCallback, useMemo, useState, useContext} from 'react';
+import React, {
+	useCallback,
+	useMemo,
+	useState,
+	useContext,
+	useEffect
+} from 'react';
 
 import Filter from '../../shared/components/filter/Filter.es';
-import {useFilterFetch} from '../../shared/components/filter/hooks/useFilterFetch.es';
 import {useFilterName} from '../../shared/components/filter/hooks/useFilterName.es';
+import {useFilterStatic} from '../../shared/components/filter/hooks/useFilterStatic.es';
 import filterConstants from '../../shared/components/filter/util/filterConstants.es';
+import {mergeItemsArray} from '../../shared/components/filter/util/filterUtil.es';
 import {useRouterParams} from '../../shared/hooks/useRouterParams.es';
+import {useSessionStorage} from '../../shared/hooks/useStorage.es';
 import {AppContext} from '../AppContext.es';
 import {
 	parseQueryDate,
@@ -35,6 +43,7 @@ const onChangeFilter = selectedFilter => {
 const TimeRangeFilter = ({
 	buttonClassName,
 	className,
+	disabled,
 	dispatch,
 	filterKey = filterConstants.timeRange.key,
 	options = {},
@@ -56,22 +65,33 @@ const TimeRangeFilter = ({
 	const dateEnd = filters[`${prefixKey}dateEnd`];
 	const dateStart = filters[`${prefixKey}dateStart`];
 
+	const [storageTimeRanges = {}] = useSessionStorage('timeRanges');
+
+	const {items: timeRanges} = useMemo(() => storageTimeRanges, [
+		storageTimeRanges
+	]);
+
+	const customRange = useMemo(() => getCustomTimeRange(dateEnd, dateStart), [
+		dateEnd,
+		dateStart
+	]);
+
 	const staticItems = useMemo(
-		() => [getCustomTimeRange(dateEnd, dateStart)],
-		[dateEnd, dateStart]
+		() =>
+			parseDateItems(isAmPm)(mergeItemsArray([customRange], timeRanges)),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[customRange, timeRanges]
 	);
 
-	const {items, selectedItems} = useFilterFetch({
+	const {items, selectedItems} = useFilterStatic(
 		dispatch,
 		filterKey,
-		parseItems: parseDateItems(isAmPm),
 		prefixKey,
-		requestUrl: '/time-ranges',
 		staticItems
-	});
+	);
 
 	const defaultItem = useMemo(
-		() => items.find(timeRange => timeRange.defaultTimeRange) || items[0],
+		() => items.find(timeRange => timeRange.defaultTimeRange),
 		[items]
 	);
 
@@ -91,6 +111,7 @@ const TimeRangeFilter = ({
 			buttonClassName={buttonClassName}
 			dataTestId="timeRangeFilter"
 			defaultItem={defaultItem}
+			disabled={disabled}
 			elementClasses={className}
 			filterKey={filterKey}
 			items={items}
@@ -129,6 +150,23 @@ const getCustomTimeRange = (dateEnd, dateStart) => {
 	return customTimeRange;
 };
 
+const parseDateItems = isAmPm => items => {
+	return items.map(item => {
+		const parsedItem = {
+			...item,
+			dateEnd: new Date(item.dateEnd),
+			dateStart: new Date(item.dateStart),
+			key: item.key
+		};
+
+		if (parsedItem.key !== 'custom') {
+			parsedItem.description = formatTimeRange(item, isAmPm);
+		}
+
+		return parsedItem;
+	});
+};
+
 const useCustomFormState = () => {
 	const [formVisible, setFormVisible] = useState(false);
 
@@ -153,21 +191,22 @@ const useCustomFormState = () => {
 	};
 };
 
-const parseDateItems = isAmPm => items => {
-	return items.map(item => {
-		const parsedItem = {
-			...item,
-			dateEnd: new Date(item.dateEnd),
-			dateStart: new Date(item.dateStart),
-			key: item.key
+const useTimeRangeFetch = () => {
+	const {client} = useContext(AppContext);
+
+	const [, update, remove] = useSessionStorage('timeRanges');
+
+	useEffect(() => {
+		client.get('/time-ranges').then(({data}) => {
+			update({items: data.items});
+		});
+
+		return () => {
+			remove();
 		};
-
-		if (parsedItem.key !== 'custom') {
-			parsedItem.description = formatTimeRange(item, isAmPm);
-		}
-
-		return parsedItem;
-	});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 };
 
+export {useTimeRangeFetch};
 export default TimeRangeFilter;
