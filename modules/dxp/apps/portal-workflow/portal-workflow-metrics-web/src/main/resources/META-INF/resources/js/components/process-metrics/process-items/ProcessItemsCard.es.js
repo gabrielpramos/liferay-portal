@@ -57,7 +57,16 @@ function ProcessItemsCard({
 		setTitle(data.title);
 	}, [data.title]);
 
-	const promises = useMemo(() => [fetchData()], [fetchData]);
+	const promises = useMemo(() => {
+		if (
+			!timeRange ||
+			(timeRangeParams.dateEnd && timeRangeParams.dateStart)
+		) {
+			return [fetchData()];
+		}
+
+		return [new Promise(() => {})];
+	}, [fetchData, timeRangeParams.dateEnd, timeRangeParams.dateStart]);
 
 	return (
 		<PromisesResolver promises={promises}>

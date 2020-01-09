@@ -25,17 +25,16 @@ const Header = ({dispatch, prefixKey, totalCount}) => (
 		elementClasses="dashboard-panel-header"
 		title={Liferay.Language.get('performance-by-step')}
 	>
-		{totalCount > 0 && (
-			<div className="autofit-col m-0 management-bar management-bar-light navbar">
-				<ul className="navbar-nav">
-					<TimeRangeFilter
-						dispatch={dispatch}
-						options={{position: 'right'}}
-						prefixKey={prefixKey}
-					/>
-				</ul>
-			</div>
-		)}
+		<div className="autofit-col m-0 management-bar management-bar-light navbar">
+			<ul className="navbar-nav">
+				<TimeRangeFilter
+					disabled={!totalCount}
+					dispatch={dispatch}
+					options={{position: 'right'}}
+					prefixKey={prefixKey}
+				/>
+			</ul>
+		</div>
 	</Panel.HeaderWithOptions>
 );
 
@@ -72,7 +71,13 @@ const PerformanceByStepCard = ({routeParams}) => {
 		url: `/processes/${processId}/tasks`
 	});
 
-	const promises = useMemo(() => [fetchData()], [fetchData]);
+	const promises = useMemo(() => {
+		if (timeRangeParams.dateEnd && timeRangeParams.dateStart) {
+			return [fetchData()];
+		}
+
+		return [new Promise(() => {})];
+	}, [fetchData, timeRangeParams.dateEnd, timeRangeParams.dateStart]);
 
 	return (
 		<Panel elementClasses="dashboard-card">
