@@ -16,11 +16,14 @@ import {parse} from '../../shared/components/router/queryString.es';
 import {useFetch} from '../../shared/hooks/useFetch.es';
 import {useFilter} from '../../shared/hooks/useFilter.es';
 import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
+import {useTimeRangeFetch} from '../filter/hooks/useTimeRangeFetch.es';
 import {isValidDate} from '../filter/util/timeRangeUtil.es';
 import {Body} from './PerformanceByStepPageBody.es';
 import {Header} from './PerformanceByStepPageHeader.es';
 
 const PerformanceByStepPage = ({query, routeParams}) => {
+	useTimeRangeFetch();
+
 	const {processId} = routeParams;
 
 	useProcessTitle(processId, Liferay.Language.get('performance-by-step'));
@@ -54,7 +57,13 @@ const PerformanceByStepPage = ({query, routeParams}) => {
 		url: `/processes/${processId}/tasks`
 	});
 
-	const promises = useMemo(() => [fetchData()], [fetchData]);
+	const promises = useMemo(() => {
+		if (timeRangeParams.dateEnd && timeRangeParams.dateStart) {
+			return [fetchData()];
+		}
+
+		return [new Promise(() => {})];
+	}, [fetchData, timeRangeParams.dateEnd, timeRangeParams.dateStart]);
 
 	return (
 		<PromisesResolver promises={promises}>

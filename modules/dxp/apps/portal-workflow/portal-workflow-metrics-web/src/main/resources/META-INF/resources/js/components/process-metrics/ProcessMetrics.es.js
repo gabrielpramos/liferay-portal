@@ -22,6 +22,7 @@ import Tabs from '../../shared/components/tabs/Tabs.es';
 import {sub} from '../../shared/util/lang.es';
 import {openErrorToast} from '../../shared/util/toast.es';
 import {AppContext} from '../AppContext.es';
+import {useTimeRangeFetch} from '../filter/hooks/useTimeRangeFetch.es';
 import AlertMessage from './AlertMessage.es';
 import DropDownHeader from './DropDownHeader.es';
 import CompletionVelocityCard from './completion-velocity/CompletionVelocityCard.es';
@@ -181,12 +182,7 @@ class ProcessMetrics extends React.Component {
 						<Route
 							exact
 							path={performanceTab.path}
-							render={withParams(
-								CompletedItemsCard,
-								CompletionVelocityCard,
-								PerformanceByStepCard,
-								PerformanceByAssigneeCard
-							)}
+							render={withParams(PerformanceTab)}
 						/>
 					</Switch>
 				</Router>
@@ -210,6 +206,19 @@ const DashboardTab = props => {
 				</div>
 			</div>
 		</div>
+	);
+};
+
+const PerformanceTab = props => {
+	useTimeRangeFetch();
+
+	return (
+		<>
+			<CompletedItemsCard {...props} />
+			<CompletionVelocityCard {...props} />
+			<PerformanceByStepCard {...props} />
+			<PerformanceByAssigneeCard {...props} />
+		</>
 	);
 };
 
