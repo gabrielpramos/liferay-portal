@@ -9,11 +9,14 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render, waitForElement} from '@testing-library/react';
+import {render, waitForElement} from '@testing-library/react';
 import React from 'react';
 
 import PerformanceByStepPage from '../../../src/main/resources/META-INF/resources/js/components/performance-by-step-page/PerformanceByStepPage.es';
+import {jsonSessionStorage} from '../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../mock/MockRouter.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 describe('The PerformanceByStepPage component having data should', () => {
 	let getAllByTestId;
@@ -41,11 +44,32 @@ describe('The PerformanceByStepPage component having data should', () => {
 
 	const data = {items, totalCount: items.length};
 
-	const clientMock = {
-		get: jest.fn().mockResolvedValue({data})
+	const timeRangeData = {
+		items: [
+			{
+				dateEnd: '2019-12-09T00:00:00Z',
+				dateStart: '2019-12-03T00:00:00Z',
+				defaultTimeRange: false,
+				id: 7,
+				name: 'Last 7 Days'
+			},
+			{
+				dateEnd: '2019-12-09T00:00:00Z',
+				dateStart: '2019-11-10T00:00:00Z',
+				defaultTimeRange: true,
+				id: 30,
+				name: 'Last 30 Days'
+			}
+		],
+		totalCount: 2
 	};
 
-	afterEach(cleanup);
+	const clientMock = {
+		get: jest
+			.fn()
+			.mockResolvedValueOnce({data: timeRangeData})
+			.mockResolvedValue({data})
+	};
 
 	const wrapper = ({children}) => (
 		<MockRouter client={clientMock} getClient={jest.fn(() => clientMock)}>
@@ -53,7 +77,8 @@ describe('The PerformanceByStepPage component having data should', () => {
 		</MockRouter>
 	);
 
-	beforeEach(() => {
+	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', timeRangeData);
 		const renderResult = render(
 			<PerformanceByStepPage routeParams={{processId: '1234'}} />,
 			{wrapper}
@@ -65,21 +90,21 @@ describe('The PerformanceByStepPage component having data should', () => {
 	test('Be rendered with step names', async () => {
 		const stepName = await waitForElement(() => getAllByTestId('stepName'));
 
-		expect(stepName[0].innerHTML).toEqual('Review');
-		expect(stepName[1].innerHTML).toEqual('Update');
+		expect(stepName[0]).toHaveTextContent('Review');
+		expect(stepName[1]).toHaveTextContent('Update');
 	});
 
 	test('Be rendered with SLA Breached (%)', () => {
 		const slas = getAllByTestId('stepSla');
 
-		expect(slas[0].innerHTML).toEqual('4 (0%)');
-		expect(slas[1].innerHTML).toEqual('2 (0%)');
+		expect(slas[0]).toHaveTextContent('4 (0%)');
+		expect(slas[1]).toHaveTextContent('2 (0%)');
 	});
 
 	test('Be rendered with average completion time', () => {
 		const durations = getAllByTestId('durationTaskAvg');
 
-		expect(durations[0].innerHTML).toEqual('3h');
-		expect(durations[1].innerHTML).toEqual('5d 12h');
+		expect(durations[0]).toHaveTextContent('3h');
+		expect(durations[1]).toHaveTextContent('5d 12h');
 	});
 });

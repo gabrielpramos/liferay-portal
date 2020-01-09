@@ -9,47 +9,44 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render, findByTestId} from '@testing-library/react';
+import {render, findByTestId} from '@testing-library/react';
 import React from 'react';
 
 import TimeRangeFilter from '../../../src/main/resources/META-INF/resources/js/components/filter/TimeRangeFilter.es';
+import {jsonSessionStorage} from '../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
 const query = '?filters.timeRange%5B0%5D=7';
 
-const items = [
-	{
-		dateEnd: '2019-12-09T00:00:00Z',
-		dateStart: '2019-12-03T00:00:00Z',
-		defaultTimeRange: false,
-		id: 7,
-		name: 'Last 7 Days'
-	},
-	{
-		dateEnd: '2019-12-09T00:00:00Z',
-		dateStart: '2019-11-10T00:00:00Z',
-		defaultTimeRange: true,
-		id: 30,
-		name: 'Last 30 Days'
-	}
-];
-
-const clientMock = {
-	get: jest.fn().mockResolvedValue({data: {items, totalCount: items.length}})
+const data = {
+	items: [
+		{
+			dateEnd: '2019-12-09T00:00:00Z',
+			dateStart: '2019-12-03T00:00:00Z',
+			defaultTimeRange: false,
+			id: 7,
+			name: 'Last 7 Days'
+		},
+		{
+			dateEnd: '2019-12-09T00:00:00Z',
+			dateStart: '2019-11-10T00:00:00Z',
+			defaultTimeRange: true,
+			id: 30,
+			name: 'Last 30 Days'
+		}
+	]
 };
 
 const wrapper = ({children}) => (
-	<MockRouter client={clientMock} query={query}>
-		{children}
-	</MockRouter>
+	<MockRouter query={query}>{children}</MockRouter>
 );
 
 describe('The time range filter component should', () => {
 	let getAllByTestId;
 
-	afterEach(cleanup);
+	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', data);
 
-	beforeEach(() => {
 		const renderResult = render(
 			<TimeRangeFilter dispatch={() => {}} processId={12345} />,
 			{wrapper}
