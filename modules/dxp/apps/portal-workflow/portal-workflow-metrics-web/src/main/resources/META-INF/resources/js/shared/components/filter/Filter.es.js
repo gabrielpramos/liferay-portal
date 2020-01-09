@@ -188,6 +188,7 @@ class Filter extends React.Component {
 			buttonClassName = 'btn-secondary btn-sm',
 			children,
 			dataTestId = 'filterComponent',
+			disabled,
 			elementClasses,
 			hideControl = false,
 			multiple,
@@ -235,6 +236,7 @@ class Filter extends React.Component {
 					aria-expanded={expanded}
 					aria-haspopup="true"
 					className={customButtonClassName}
+					disabled={disabled}
 					onClick={this.toggleDropDown}
 					type="button"
 				>
