@@ -93,7 +93,13 @@ const PerformanceByAssigneeCard = ({routeParams}) => {
 		url: `/processes/${processId}/assignee-users`
 	});
 
-	const promises = useMemo(() => [fetchData()], [fetchData]);
+	const promises = useMemo(() => {
+		if (params.dateEnd && params.dateStart) {
+			return [fetchData()];
+		}
+
+		return [new Promise(() => {})];
+	}, [fetchData, params.dateEnd, params.dateStart]);
 
 	return (
 		<Panel elementClasses="dashboard-card">
