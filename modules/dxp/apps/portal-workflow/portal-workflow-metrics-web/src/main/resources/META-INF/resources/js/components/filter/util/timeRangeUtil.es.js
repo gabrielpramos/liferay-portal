@@ -61,6 +61,23 @@ const formatTimeRange = (timeRange, isAmPm) => {
 	)} - ${dateEndMoment.format(dateEndPattern)}`;
 };
 
+const getCustomTimeRange = (dateEnd, dateStart) => {
+	const customTimeRange = {
+		active: false,
+		dateEnd: parseQueryDate(dateEnd, true),
+		dateStart: parseQueryDate(dateStart),
+		dividerAfter: true,
+		key: 'custom',
+		name: Liferay.Language.get('custom-range')
+	};
+
+	customTimeRange.resultName = `${formatDescriptionDate(
+		dateStart
+	)} - ${formatDescriptionDate(dateEnd)}`;
+
+	return customTimeRange;
+};
+
 const getFormatPattern = (dateEndMoment, dateStartMoment, isAmPm) => {
 	let dateStartPattern = Liferay.Language.get('mmm-dd-yyyy');
 
@@ -106,6 +123,22 @@ const parseDate = (date, format, isEndDate, locale) => {
 const parseDateMoment = (date, format = 'L', locale) =>
 	moment.utc(date, format, locale, true);
 
+const parseDateItems = isAmPm => items =>
+	items.map(item => {
+		const parsedItem = {
+			...item,
+			dateEnd: new Date(item.dateEnd),
+			dateStart: new Date(item.dateStart),
+			key: item.key
+		};
+
+		if (parsedItem.key !== 'custom') {
+			parsedItem.description = formatTimeRange(item, isAmPm);
+		}
+
+		return parsedItem;
+	});
+
 const parseDateMomentEnLocale = (date, format = 'L') =>
 	parseDateMoment(date, format, 'en');
 
@@ -122,9 +155,11 @@ export {
 	formatDescriptionDate,
 	formatQueryDate,
 	formatTimeRange,
+	getCustomTimeRange,
 	isValidDate,
 	parseDate,
 	parseDateMoment,
+	parseDateItems,
 	parseDateMomentEnLocale,
 	parseDateEnLocale,
 	parseQueryDate
