@@ -18,7 +18,10 @@ import {
 import React from 'react';
 
 import PerformanceByAssigneeCard from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/performance-by-assignee-card/PerformanceByAssigneeCard.es';
+import {jsonSessionStorage} from '../../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../../mock/MockRouter.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const {processId, query} = {
 	processId: 12345,
@@ -84,6 +87,10 @@ const timeRangeData = {
 describe('The performance by assignee card component should', () => {
 	let getByTestId;
 
+	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', timeRangeData);
+	});
+
 	describe('Be rendered with results', () => {
 		afterEach(cleanup);
 
@@ -91,9 +98,7 @@ describe('The performance by assignee card component should', () => {
 			const clientMock = {
 				get: jest
 					.fn()
-					.mockResolvedValueOnce({data})
 					.mockResolvedValueOnce({data: processStepsData})
-					.mockResolvedValueOnce({data: timeRangeData})
 					.mockResolvedValue({data})
 			};
 
@@ -118,7 +123,9 @@ describe('The performance by assignee card component should', () => {
 		test('Be rendered with "View All Assignees" button and total "(3)"', () => {
 			const viewAllAssignees = getByTestId('viewAllAssignees');
 
-			expect(viewAllAssignees.innerHTML).toBe('view-all-assignees (3)');
+			expect(viewAllAssignees).toHaveTextContent(
+				'view-all-assignees (3)'
+			);
 			expect(viewAllAssignees.parentNode.getAttribute('href')).toContain(
 				'filters.dateEnd=2019-12-09&filters.dateStart=2019-12-03&filters.timeRange%5B0%5D=7&filters.taskKeys%5B0%5D=update'
 			);
@@ -140,7 +147,7 @@ describe('The performance by assignee card component should', () => {
 			);
 
 			expect(processStepFilter).not.toBeNull();
-			expect(activeItemName.innerHTML).toBe('Update');
+			expect(activeItemName).toHaveTextContent('Update');
 		});
 
 		test('Be rendered with time range filter', async () => {
@@ -158,7 +165,7 @@ describe('The performance by assignee card component should', () => {
 			);
 
 			expect(timeRangeFilter).not.toBeNull();
-			expect(activeItemName.innerHTML).toBe('Last 7 Days');
+			expect(activeItemName).toHaveTextContent('Last 7 Days');
 		});
 	});
 
@@ -167,9 +174,7 @@ describe('The performance by assignee card component should', () => {
 			const clientMock = {
 				get: jest
 					.fn()
-					.mockResolvedValueOnce({data: {items: [], totalCount: 0}})
 					.mockResolvedValueOnce({data: processStepsData})
-					.mockResolvedValueOnce({data: timeRangeData})
 					.mockResolvedValue({data: {items: [], totalCount: 0}})
 			};
 
@@ -194,7 +199,7 @@ describe('The performance by assignee card component should', () => {
 		test('Be rendered with empty state view', () => {
 			const emptyStateDiv = getByTestId('emptyState');
 
-			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+			expect(emptyStateDiv.children[0].children[0]).toHaveTextContent(
 				'no-results-were-found'
 			);
 		});

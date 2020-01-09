@@ -18,7 +18,10 @@ import {
 import React from 'react';
 
 import CompletedItemsCard from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/process-items/CompletedItemsCard.es';
+import {jsonSessionStorage} from '../../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../../mock/MockRouter.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const {processId, query} = {
 	processId: 12345,
@@ -59,13 +62,13 @@ describe('The completed items card component should', () => {
 
 	afterEach(cleanup);
 
+	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', timeRangeData);
+	});
+
 	beforeEach(() => {
 		const clientMock = {
-			get: jest
-				.fn()
-				.mockResolvedValueOnce({data})
-				.mockResolvedValueOnce({data: timeRangeData})
-				.mockResolvedValue({data})
+			get: jest.fn().mockResolvedValue({data})
 		};
 
 		const wrapper = ({children}) => (
@@ -98,7 +101,7 @@ describe('The completed items card component should', () => {
 		const activeItemName = await findByTestId(activeItem, 'filterItemName');
 
 		expect(timeRangeFilter).not.toBeNull();
-		expect(activeItemName.innerHTML).toBe('Last 7 Days');
+		expect(activeItemName).toHaveTextContent('Last 7 Days');
 	});
 
 	test('Be rendered with overdue count "1"', () => {
@@ -109,9 +112,9 @@ describe('The completed items card component should', () => {
 		const overdueBody = overdueLink.children[0].children[1];
 		const overdueFooter = overdueLink.children[0].children[2].children[0];
 
-		expect(overdueHeader.innerHTML).toContain('overdue');
-		expect(overdueBody.innerHTML).toBe('1');
-		expect(overdueFooter.innerHTML).toBe('16.67%');
+		expect(overdueHeader).toHaveTextContent('overdue');
+		expect(overdueBody).toHaveTextContent('1');
+		expect(overdueFooter).toHaveTextContent('16.67%');
 		expect(overdueLink.getAttribute('href')).toContain(
 			'filters.statuses%5B0%5D=Completed&filters.slaStatuses%5B0%5D=Overdue&filters.dateEnd=2019-12-09&filters.dateStart=2019-12-03&filters.timeRange%5B0%5D=7'
 		);
@@ -125,9 +128,9 @@ describe('The completed items card component should', () => {
 		const ontimeBody = ontimeLink.children[0].children[1];
 		const ontimeFooter = ontimeLink.children[0].children[2].children[0];
 
-		expect(ontimeHeader.innerHTML).toContain('on-time');
-		expect(ontimeBody.innerHTML).toBe('2');
-		expect(ontimeFooter.innerHTML).toBe('33.33%');
+		expect(ontimeHeader).toHaveTextContent('on-time');
+		expect(ontimeBody).toHaveTextContent('2');
+		expect(ontimeFooter).toHaveTextContent('33.33%');
 		expect(ontimeLink.getAttribute('href')).toContain(
 			'filters.statuses%5B0%5D=Completed&filters.slaStatuses%5B0%5D=OnTime&filters.dateEnd=2019-12-09&filters.dateStart=2019-12-03&filters.timeRange%5B0%5D=7'
 		);
@@ -142,9 +145,9 @@ describe('The completed items card component should', () => {
 		const untrackedFooter =
 			untrackedLink.children[0].children[2].children[0];
 
-		expect(untrackedHeader.innerHTML).toContain('untracked');
-		expect(untrackedBody.innerHTML).toBe('3');
-		expect(untrackedFooter.innerHTML).toBe('50%');
+		expect(untrackedHeader).toHaveTextContent('untracked');
+		expect(untrackedBody).toHaveTextContent('3');
+		expect(untrackedFooter).toHaveTextContent('50%');
 		expect(untrackedLink.getAttribute('href')).toContain(
 			'filters.statuses%5B0%5D=Completed&filters.slaStatuses%5B0%5D=Untracked&filters.dateEnd=2019-12-09&filters.dateStart=2019-12-03&filters.timeRange%5B0%5D=7'
 		);
@@ -157,8 +160,8 @@ describe('The completed items card component should', () => {
 		const totalHeader = totalLink.children[0].children[0];
 		const totalBody = totalLink.children[0].children[1];
 
-		expect(totalHeader.innerHTML).toContain('total-completed');
-		expect(totalBody.innerHTML).toBe('6');
+		expect(totalHeader).toHaveTextContent('total-completed');
+		expect(totalBody).toHaveTextContent('6');
 		expect(totalLink.getAttribute('href')).toContain(
 			'filters.statuses%5B0%5D=Completed&filters.dateEnd=2019-12-09&filters.dateStart=2019-12-03&filters.timeRange%5B0%5D=7'
 		);

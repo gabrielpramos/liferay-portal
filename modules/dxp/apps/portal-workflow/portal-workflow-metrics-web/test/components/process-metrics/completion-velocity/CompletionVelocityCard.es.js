@@ -13,7 +13,10 @@ import {render, findAllByTestId, findByTestId} from '@testing-library/react';
 import React from 'react';
 
 import CompletionVelocityCard from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/completion-velocity/CompletionVelocityCard.es';
+import {jsonSessionStorage} from '../../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../../mock/MockRouter.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const {processId, query} = {
 	processId: 12345,
@@ -79,11 +82,10 @@ describe('The completion velocity card component should', () => {
 	let getByTestId;
 
 	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', timeRangeData);
+
 		const clientMock = {
-			get: jest
-				.fn()
-				.mockResolvedValueOnce({data: timeRangeData})
-				.mockResolvedValue({data})
+			get: jest.fn().mockResolvedValue({data})
 		};
 
 		const renderResult = render(
@@ -111,7 +113,7 @@ describe('The completion velocity card component should', () => {
 		const activeItemName = await findByTestId(activeItem, 'filterItemName');
 
 		expect(timeRangeFilter).not.toBeNull();
-		expect(activeItemName.innerHTML).toBe('Last 7 Days');
+		expect(activeItemName).toHaveTextContent('Last 7 Days');
 	});
 
 	test('Be rendered with time range filter', async () => {
@@ -127,6 +129,6 @@ describe('The completion velocity card component should', () => {
 		const activeItemName = await findByTestId(activeItem, 'filterItemName');
 
 		expect(velocityUnitFilter).not.toBeNull();
-		expect(activeItemName.innerHTML).toBe('inst-day');
+		expect(activeItemName).toHaveTextContent('inst-day');
 	});
 });

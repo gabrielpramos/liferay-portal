@@ -9,16 +9,14 @@
  * distribution rights of the Software.
  */
 
-import {
-	cleanup,
-	render,
-	findAllByTestId,
-	findByTestId
-} from '@testing-library/react';
+import {cleanup, render, findByTestId} from '@testing-library/react';
 import React from 'react';
 
 import PerformanceByStepCard from '../../../../src/main/resources/META-INF/resources/js/components/process-metrics/performance-by-step-card/PerformanceByStepCard.es';
+import {jsonSessionStorage} from '../../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../../mock/MockRouter.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const {processId, query} = {
 	processId: 12345,
@@ -68,16 +66,16 @@ const timeRangeData = {
 };
 
 describe('The performance by step card component should', () => {
-	let getByTestId;
+	let getAllByTestId, getByTestId;
+
+	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', timeRangeData);
+	});
 
 	describe('Be rendered with results', () => {
 		beforeAll(() => {
 			const clientMock = {
-				get: jest
-					.fn()
-					.mockResolvedValueOnce({data})
-					.mockResolvedValueOnce({data: timeRangeData})
-					.mockResolvedValue({data})
+				get: jest.fn().mockResolvedValue({data})
 			};
 
 			const wrapper = ({children}) => (
@@ -96,14 +94,14 @@ describe('The performance by step card component should', () => {
 			);
 
 			getByTestId = renderResult.getByTestId;
+			getAllByTestId = renderResult.getAllByTestId;
 		});
 
 		test('Be rendered with time range filter', async () => {
 			const timeRangeFilter = getByTestId('timeRangeFilter');
-			const filterItems = await findAllByTestId(
-				timeRangeFilter,
-				'filterItem'
-			);
+
+			const filterItems = await getAllByTestId('filterItem');
+
 			const activeItem = filterItems.find(item =>
 				item.className.includes('active')
 			);
@@ -113,13 +111,13 @@ describe('The performance by step card component should', () => {
 			);
 
 			expect(timeRangeFilter).not.toBeNull();
-			expect(activeItemName.innerHTML).toBe('Last 7 Days');
+			expect(activeItemName).toHaveTextContent('Last 7 Days');
 		});
 
 		test('Be rendered with "View All Steps" button and total "(3)"', () => {
 			const viewAllSteps = getByTestId('viewAllSteps');
 
-			expect(viewAllSteps.innerHTML).toBe('view-all-steps (3)');
+			expect(viewAllSteps).toHaveTextContent('view-all-steps (3)');
 			expect(viewAllSteps.parentNode.getAttribute('href')).toContain(
 				'filters.dateEnd=2019-12-09&filters.dateStart=2019-12-03&filters.timeRange%5B0%5D=7'
 			);
@@ -133,8 +131,6 @@ describe('The performance by step card component should', () => {
 			const clientMock = {
 				get: jest
 					.fn()
-					.mockResolvedValueOnce({data: {items: [], totalCount: 0}})
-					.mockResolvedValueOnce({data: timeRangeData})
 					.mockResolvedValue({data: {items: [], totalCount: 0}})
 			};
 
@@ -159,7 +155,7 @@ describe('The performance by step card component should', () => {
 		test('Be rendered with empty state view', () => {
 			const emptyStateDiv = getByTestId('emptyState');
 
-			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+			expect(emptyStateDiv.children[0].children[0]).toHaveTextContent(
 				'there-is-no-data-at-the-moment'
 			);
 		});

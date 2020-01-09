@@ -9,11 +9,14 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import React from 'react';
 
 import PerformanceByAssigneePage from '../../../src/main/resources/META-INF/resources/js/components/performance-by-assignee-page/PerformanceByAssigneePage.es';
+import {jsonSessionStorage} from '../../../src/main/resources/META-INF/resources/js/shared/util/storage.es';
 import {MockRouter} from '../../mock/MockRouter.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const items = [
 	{
@@ -37,8 +40,31 @@ const items = [
 
 const data = {items, totalCount: items.length};
 
+const timeRangeData = {
+	items: [
+		{
+			dateEnd: '2019-12-09T00:00:00Z',
+			dateStart: '2019-12-03T00:00:00Z',
+			defaultTimeRange: false,
+			id: 7,
+			name: 'Last 7 Days'
+		},
+		{
+			dateEnd: '2019-12-09T00:00:00Z',
+			dateStart: '2019-11-10T00:00:00Z',
+			defaultTimeRange: true,
+			id: 30,
+			name: 'Last 30 Days'
+		}
+	],
+	totalCount: 2
+};
+
 const clientMock = {
-	get: jest.fn().mockResolvedValue({data})
+	get: jest
+		.fn()
+		.mockResolvedValueOnce({data: timeRangeData})
+		.mockResolvedValue({data})
 };
 
 const wrapper = ({children}) => (
@@ -50,9 +76,8 @@ const wrapper = ({children}) => (
 describe('The PerformanceByAssigneePage component having data should', () => {
 	let getAllByTestId;
 
-	afterEach(cleanup);
-
-	beforeEach(() => {
+	beforeAll(() => {
+		jsonSessionStorage.set('timeRanges', timeRangeData);
 		const renderResult = render(
 			<PerformanceByAssigneePage routeParams={{processId: 12345}} />,
 			{wrapper}
@@ -78,16 +103,16 @@ describe('The PerformanceByAssigneePage component having data should', () => {
 	test('Be rendered with assignee names', async () => {
 		const assigneeName = getAllByTestId('assigneeName');
 
-		expect(assigneeName[0].innerHTML).toEqual('User Test First');
-		expect(assigneeName[1].innerHTML).toEqual('User Test Second');
-		expect(assigneeName[2].innerHTML).toEqual('User Test Third');
+		expect(assigneeName[0]).toHaveTextContent('User Test First');
+		expect(assigneeName[1]).toHaveTextContent('User Test Second');
+		expect(assigneeName[2]).toHaveTextContent('User Test Third');
 	});
 
 	test('Be rendered with average completion time', () => {
 		const durations = getAllByTestId('durationTaskAvg');
 
-		expect(durations[0].innerHTML).toEqual('3h');
-		expect(durations[1].innerHTML).toEqual('5d 12h');
-		expect(durations[2].innerHTML).toEqual('0min');
+		expect(durations[0]).toHaveTextContent('3h');
+		expect(durations[1]).toHaveTextContent('5d 12h');
+		expect(durations[2]).toHaveTextContent('0min');
 	});
 });
