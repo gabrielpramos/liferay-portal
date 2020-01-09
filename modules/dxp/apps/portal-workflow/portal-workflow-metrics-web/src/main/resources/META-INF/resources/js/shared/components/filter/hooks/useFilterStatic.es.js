@@ -12,7 +12,7 @@
 import {useEffect} from 'react';
 
 import {useRouterParams} from '../../../hooks/useRouterParams.es';
-import {handleFilterItems} from '../util/filterUtil.es';
+import {buildFilterItems} from '../util/filterUtil.es';
 import {useFilterState} from './useFilterState.es';
 
 const useFilterStatic = (dispatch, filterKey, prefixKey, staticItems) => {
@@ -25,7 +25,7 @@ const useFilterStatic = (dispatch, filterKey, prefixKey, staticItems) => {
 	);
 
 	useEffect(() => {
-		const mappedItems = handleFilterItems(
+		const mappedItems = buildFilterItems(
 			staticItems,
 			filters[prefixedFilterKey]
 		);

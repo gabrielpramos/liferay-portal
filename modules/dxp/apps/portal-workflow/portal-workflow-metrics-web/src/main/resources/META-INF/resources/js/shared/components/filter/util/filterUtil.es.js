@@ -20,6 +20,19 @@ const asFilterObject = (items, key, name, pinned = false) => ({
 	pinned
 });
 
+const buildFilterItems = (items, selectedKeys) => {
+	return items.map((item, index) => {
+		const key = item.key || String(item.id);
+
+		return {
+			...item,
+			active: selectedKeys && selectedKeys.includes(key),
+			dividerAfter: item.dividerAfter && !!items[index + 1],
+			key
+		};
+	});
+};
+
 const getFiltersParam = queryString => {
 	const queryParams = parse(queryString);
 
@@ -76,18 +89,6 @@ const getSelectedItems = filterResults => {
 		return filter.items.length > 0;
 	});
 };
-
-const handleFilterItems = (items, selectedKeys) =>
-	items.map((item, index) => {
-		const key = item.key || String(item.id);
-
-		return {
-			...item,
-			active: selectedKeys && selectedKeys.includes(key),
-			dividerAfter: item.dividerAfter && !!items[index + 1],
-			key
-		};
-	});
 
 const mergeItemsArray = (baseItems = [], ...items) => {
 	items = items.filter(value => value !== undefined && value !== null);
@@ -162,12 +163,12 @@ const replaceHistory = (filterQuery, routerProps) => {
 
 export {
 	asFilterObject,
+	buildFilterItems,
 	getFiltersParam,
 	getFilterResults,
 	getFilterValues,
 	getSelectedItems,
 	getSelectedItemsQuery,
-	handleFilterItems,
 	mergeItemsArray,
 	pushToHistory,
 	reduceFilters,
