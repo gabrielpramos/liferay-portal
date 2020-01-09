@@ -13,7 +13,7 @@ import {useContext, useEffect} from 'react';
 
 import {AppContext} from '../../../../components/AppContext.es';
 import {useRouterParams} from '../../../hooks/useRouterParams.es';
-import {handleFilterItems, mergeItemsArray} from '../util/filterUtil.es';
+import {buildFilterItems, mergeItemsArray} from '../util/filterUtil.es';
 import {useFilterState} from './useFilterState.es';
 
 const useFilterFetch = ({
@@ -41,7 +41,7 @@ const useFilterFetch = ({
 					? parseItems(mergedItems)
 					: mergedItems;
 
-				const mappedItems = handleFilterItems(
+				const mappedItems = buildFilterItems(
 					parsedItems,
 					filters[prefixedFilterKey]
 				);
