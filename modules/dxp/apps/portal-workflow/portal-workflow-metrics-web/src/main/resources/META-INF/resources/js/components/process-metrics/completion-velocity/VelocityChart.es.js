@@ -13,12 +13,8 @@ import LineChart from '@clayui/charts';
 import React, {useContext} from 'react';
 
 import TooltipChart from '../../../shared/components/chart/TooltipChart.es';
-import {
-	HOURS,
-	MONTHS,
-	WEEKS,
-	YEARS
-} from '../../../shared/util/chart-constants.es';
+import moment from '../../../shared/util/moment.es';
+import {AppContext} from '../../AppContext.es';
 import {
 	formatMonthDate,
 	formatWeekDateWithYear,
@@ -26,9 +22,13 @@ import {
 	formatYearDate,
 	getAxisMeasuresFromData,
 	getXAxisIntervals
-} from '../../../shared/util/chart.es';
-import moment from '../../../shared/util/moment.es';
-import {AppContext} from '../../AppContext.es';
+} from './util/chart.es';
+import {
+	HOURS,
+	MONTHS,
+	WEEKS,
+	YEARS
+} from './util/chartConstants.es';
 
 const VelocityChart = ({timeRange, velocityData = {}, velocityUnit}) => {
 	const {isAmPm} = useContext(AppContext);

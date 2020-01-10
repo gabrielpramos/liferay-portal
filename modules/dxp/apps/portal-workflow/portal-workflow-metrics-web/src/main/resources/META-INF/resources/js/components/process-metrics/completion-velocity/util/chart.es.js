@@ -10,7 +10,7 @@
  * distribution rights of the Software.
  */
 
-import moment from '../../shared/util/moment.es';
+import moment from '../../../../shared/util/moment.es';
 import {
 	DAYS,
 	HOURS,
@@ -24,7 +24,7 @@ import {
 	WEEKS,
 	YEARS,
 	YESTERDAY
-} from './chart-constants.es';
+} from './chartConstants.es';
 
 export const formatMonthDate = (date, timeRange) => {
 	const currentDate = moment.utc(date);
