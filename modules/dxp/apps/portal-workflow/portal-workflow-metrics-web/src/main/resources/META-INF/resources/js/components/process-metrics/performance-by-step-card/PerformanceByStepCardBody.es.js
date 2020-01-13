@@ -16,10 +16,10 @@ import Panel from '../../../shared/components/Panel.es';
 import EmptyState from '../../../shared/components/list/EmptyState.es';
 import ReloadButton from '../../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../../shared/components/loading/LoadingState.es';
-import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../shared/components/promises-resolver/PromisesResolver.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {AppContext} from '../../AppContext.es';
-import {formatQueryDate} from '../util/timeRangeUtil.es';
+import {formatQueryDate} from '../../filter/util/timeRangeUtil.es';
 import {Table} from './PerformanceByStepCardTable.es';
 
 const Body = ({data}) => {

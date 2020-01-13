@@ -30,7 +30,8 @@ const TimeRangeFilter = ({
 	dispatch,
 	filterKey = filterConstants.timeRange.key,
 	options = {},
-	prefixKey = ''
+	prefixKey = '',
+	style
 }) => {
 	const defaultOptions = {
 		hideControl: true,
@@ -106,6 +107,7 @@ const TimeRangeFilter = ({
 			onClickFilter={onClickFilter}
 			prefixKey={prefixKey}
 			{...options}
+			style={style}
 		>
 			{formVisible && (
 				<CustomTimeRangeForm

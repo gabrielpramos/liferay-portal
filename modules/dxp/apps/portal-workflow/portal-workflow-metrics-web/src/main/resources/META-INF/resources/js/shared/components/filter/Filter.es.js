@@ -42,7 +42,8 @@ const Filter = ({
 	onChangeFilter,
 	onClickFilter,
 	position = 'left',
-	prefixKey = ''
+	prefixKey = '',
+	style
 }) => {
 	const [expanded, setExpanded] = useState(false);
 	const [searchTerm, setSearchTerm] = useState('');
@@ -168,6 +169,7 @@ const Filter = ({
 			className={classes.dropdown}
 			data-testid={dataTestId}
 			ref={wrapperRef}
+			style={style}
 		>
 			<button
 				aria-expanded={expanded}

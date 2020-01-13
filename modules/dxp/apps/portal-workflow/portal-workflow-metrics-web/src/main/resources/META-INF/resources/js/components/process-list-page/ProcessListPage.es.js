@@ -12,7 +12,7 @@
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import React, {useMemo} from 'react';
 
-import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../shared/components/promises-resolver/PromisesResolver.es';
 import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
 import {parse} from '../../shared/components/router/queryString.es';
 import SearchField from '../../shared/components/search-field/SearchField.es';

@@ -57,7 +57,7 @@ const reducer = (state = {}, {filterKey, selectedItems}) => {
 
 const useFilter = (filterKeys = [], prefixKeys = ['']) => {
 	const {filters: filterValues} = useRouterParams();
-	const {keys, titles} = useFiltersConstants(filterKeys);
+	const {keys, pinnedValues, titles} = useFiltersConstants(filterKeys);
 
 	const initialState = useMemo(
 		() => buildInitialState(keys, filterValues, prefixKeys),
@@ -68,7 +68,7 @@ const useFilter = (filterKeys = [], prefixKeys = ['']) => {
 	const [filterState, dispatch] = useReducer(reducer, initialState);
 
 	const filterResults = useMemo(
-		() => getFilterResults(keys, titles, filterState),
+		() => getFilterResults(keys, pinnedValues, titles, filterState),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[filterState, filterValues]
 	);

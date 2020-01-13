@@ -63,9 +63,9 @@ const SLAStatusFilter = ({
 };
 
 const slaStatusConstants = {
-	onTime: 'onTime',
-	overdue: 'overdue',
-	untracked: 'untracked'
+	onTime: 'OnTime',
+	overdue: 'Overdue',
+	untracked: 'Untracked'
 };
 
 const slaStatuses = [

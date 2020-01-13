@@ -15,7 +15,7 @@ import ClayManagementToolbar from '@clayui/management-toolbar';
 import React, {useContext, useMemo, useState, useEffect} from 'react';
 
 import {Autocomplete} from '../../../../../shared/components/autocomplete/Autocomplete.es';
-import PromisesResolver from '../../../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {ModalContext} from '../../ModalContext.es';
 
 const Header = ({data}) => {

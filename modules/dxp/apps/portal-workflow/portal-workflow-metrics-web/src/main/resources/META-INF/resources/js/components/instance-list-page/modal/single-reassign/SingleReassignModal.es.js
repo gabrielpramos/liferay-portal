@@ -17,7 +17,7 @@ import React, {useCallback, useContext, useMemo, useState} from 'react';
 import EmptyState from '../../../../shared/components/list/EmptyState.es';
 import RetryButton from '../../../../shared/components/list/RetryButton.es';
 import LoadingState from '../../../../shared/components/loading/LoadingState.es';
-import PromisesResolver from '../../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {useFetch} from '../../../../shared/hooks/useFetch.es';
 import {usePost} from '../../../../shared/hooks/usePost.es';
 import {ModalContext} from '../ModalContext.es';

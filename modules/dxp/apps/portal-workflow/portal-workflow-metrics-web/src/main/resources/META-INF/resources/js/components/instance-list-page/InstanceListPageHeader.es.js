@@ -11,51 +11,47 @@
 
 import {ClayCheckbox} from '@clayui/form';
 import ClayManagementToolbar from '@clayui/management-toolbar';
-import React, {useContext, useState, useEffect, useCallback} from 'react';
+import React, {
+	useContext,
+	useState,
+	useEffect,
+	useCallback,
+	useMemo
+} from 'react';
 
-import FilterResultsBar from '../../shared/components/filter/FilterResultsBar.es';
-import {filterKeys} from '../../shared/components/filter/util/filterConstants.es';
-import {asFilterObject} from '../../shared/components/filter/util/filterUtil.es';
+import filterConstants from '../../shared/components/filter/util/filterConstants.es';
 import QuickActionKebab from '../../shared/components/quick-action-kebab/QuickActionKebab.es';
-import Request from '../../shared/components/request/Request.es';
+import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
 import {sub} from '../../shared/util/lang.es';
-import AssigneeFilter from '../process-metrics/filter/AssigneeFilter.es';
-import ProcessStatusFilter from '../process-metrics/filter/ProcessStatusFilter.es';
-import ProcessStepFilter from '../process-metrics/filter/ProcessStepFilter.es';
-import SLAStatusFilter from '../process-metrics/filter/SLAStatusFilter.es';
-import {TimeRangeFilter} from '../process-metrics/filter/TimeRangeFilter.es';
-import {AssigneeContext} from '../process-metrics/filter/store/AssigneeStore.es';
-import {ProcessStatusContext} from '../process-metrics/filter/store/ProcessStatusStore.es';
-import {ProcessStepContext} from '../process-metrics/filter/store/ProcessStepStore.es';
-import {SLAStatusContext} from '../process-metrics/filter/store/SLAStatusStore.es';
-import {TimeRangeContext} from '../process-metrics/filter/store/TimeRangeStore.es';
+import AssigneeFilter from '../filter/AssigneeFilter.es';
+import ProcessStatusFilter, {
+	processStatusConstants
+} from '../filter/ProcessStatusFilter.es';
+import ProcessStepFilter from '../filter/ProcessStepFilter.es';
+import SLAStatusFilter from '../filter/SLAStatusFilter.es';
+import TimeRangeFilter from '../filter/TimeRangeFilter.es';
 import {ModalContext} from './modal/ModalContext.es';
 import {InstanceListContext} from './store/InstanceListPageStore.es';
 
-const Header = () => {
+const Header = ({
+	dispatch,
+	items,
+	routeParams,
+	selectedFilters,
+	totalCount
+}) => {
 	const {
-		items,
 		selectAll,
 		selectedItems,
 		setSelectAll,
-		setSelectedItems,
-		totalCount
+		setSelectedItems
 	} = useContext(InstanceListContext);
-	const {assignees} = useContext(AssigneeContext);
 	const {bulkModal, setBulkModal, setSingleModal} = useContext(ModalContext);
-	const {isCompletedStatusSelected, processStatuses} = useContext(
-		ProcessStatusContext
-	);
-	const {processSteps} = useContext(ProcessStepContext);
-	const {slaStatuses} = useContext(SLAStatusContext);
-	const {timeRanges} = useContext(TimeRangeContext);
 
 	const [toolbarOptions, setToolbarOptions] = useState({
 		active: false,
 		indeterminateCheckbox: false
 	});
-
-	const completedStatusSelected = isCompletedStatusSelected();
 
 	const kebabItems = [
 		{
@@ -82,62 +78,18 @@ const Header = () => {
 		const selectedOnPage = selectedItems.filter(item =>
 			items.find(({id}) => id === item.id)
 		);
-		const allPageSelected = items.length === selectedOnPage.length;
+		const allPageSelected = items && items.length === selectedOnPage.length;
 
 		setSelectAll(totalCount > 0 && totalCount === selectedItems.length);
 
 		setToolbarOptions({
 			active,
-			checked: items.length > 0 && allPageSelected,
+			checked: items && items.length > 0 && allPageSelected,
 			indeterminateCheckbox: !allPageSelected && !selectAll && active,
 			label
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [items, selectedItems, selectAll]);
-
-	const getFilters = () => {
-		const filters = [
-			asFilterObject(
-				slaStatuses,
-				filterKeys.slaStatus,
-				Liferay.Language.get('sla-status')
-			),
-			asFilterObject(
-				processStatuses,
-				filterKeys.processStatus,
-				Liferay.Language.get('process-status')
-			)
-		];
-
-		if (completedStatusSelected) {
-			filters.push(
-				asFilterObject(
-					timeRanges,
-					filterKeys.timeRange,
-					Liferay.Language.get('completion-period'),
-					true
-				)
-			);
-		}
-
-		filters.push(
-			asFilterObject(
-				processSteps,
-				filterKeys.processStep,
-				Liferay.Language.get('process-step')
-			)
-		);
-
-		filters.push(
-			asFilterObject(
-				assignees,
-				filterKeys.assignee,
-				Liferay.Language.get('assignees')
-			)
-		);
-
-		return filters;
-	};
 
 	const handleSelectAll = useCallback(
 		checked => {
@@ -162,8 +114,32 @@ const Header = () => {
 		[items, selectedItems]
 	);
 
+	const statusesFilterItem = useMemo(
+		() => selectedFilters.find(filter => filter.key === 'statuses'),
+		[selectedFilters]
+	);
+	const {name} = statusesFilterItem ? statusesFilterItem.items[0] : {};
+	const completedStatusSelected = useMemo(
+		() =>
+			selectedFilters.length > 0 && statusesFilterItem
+				? name === processStatusConstants.completed
+				: false,
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[name]
+	);
+
+	const selectedFilterItems = useMemo(
+		() =>
+			selectedFilters.filter(
+				filter =>
+					completedStatusSelected ||
+					filter.key !== filterConstants.timeRange.key
+			),
+		[completedStatusSelected, selectedFilters]
+	);
+
 	return (
-		<Request.Success>
+		<>
 			<ClayManagementToolbar
 				active={toolbarOptions.active}
 				className="show-quick-actions-on-hover"
@@ -192,15 +168,38 @@ const Header = () => {
 								</strong>
 							</ClayManagementToolbar.Item>
 
-							<SLAStatusFilter />
+							<SLAStatusFilter
+								dispatch={dispatch}
+								processId={routeParams.processId}
+							/>
 
-							<ProcessStatusFilter />
+							<ProcessStatusFilter
+								dispatch={dispatch}
+								processId={routeParams.processId}
+							/>
 
-							{completedStatusSelected && <TimeRangeFilter />}
+							<TimeRangeFilter
+								dispatch={dispatch}
+								options={{
+									withSelectionTitle: false
+								}}
+								processId={routeParams.processId}
+								style={
+									completedStatusSelected
+										? {display: 'inherit'}
+										: {display: 'none'}
+								}
+							/>
 
-							<ProcessStepFilter />
+							<ProcessStepFilter
+								dispatch={dispatch}
+								processId={routeParams.processId}
+							/>
 
-							<AssigneeFilter />
+							<AssigneeFilter
+								dispatch={dispatch}
+								processId={routeParams.processId}
+							/>
 						</>
 					) : (
 						!selectAll && (
@@ -246,8 +245,25 @@ const Header = () => {
 				)}
 			</ClayManagementToolbar>
 
-			<FilterResultsBar filters={getFilters()} totalCount={totalCount} />
-		</Request.Success>
+			{selectedFilterItems.length > 0 && (
+				<ResultsBar>
+					<ResultsBar.TotalCount
+						search={routeParams.search}
+						totalCount={totalCount}
+					/>
+
+					<ResultsBar.FilterItems
+						filters={selectedFilterItems}
+						{...routeParams}
+					/>
+
+					<ResultsBar.Clear
+						filters={selectedFilters}
+						{...routeParams}
+					/>
+				</ResultsBar>
+			)}
+		</>
 	);
 };
 

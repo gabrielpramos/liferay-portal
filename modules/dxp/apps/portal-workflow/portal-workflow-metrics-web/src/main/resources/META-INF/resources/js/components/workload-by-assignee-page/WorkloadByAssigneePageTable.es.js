@@ -17,7 +17,7 @@ import {ChildLink} from '../../shared/components/router/routerWrapper.es';
 import UserAvatar from '../../shared/components/user-avatar/UserAvatar.es';
 import {AppContext} from '../AppContext.es';
 import {processStatusConstants} from '../filter/ProcessStatusFilter.es';
-import {slaStatusConstants} from '../process-metrics/filter/store/SLAStatusStore.es';
+import {slaStatusConstants} from '../filter/SLAStatusFilter.es';
 
 const Item = ({
 	id,

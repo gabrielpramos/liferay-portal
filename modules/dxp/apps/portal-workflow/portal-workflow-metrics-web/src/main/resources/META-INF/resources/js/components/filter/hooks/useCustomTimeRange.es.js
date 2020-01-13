@@ -44,7 +44,9 @@ const useCustomTimeRange = (filterKey, prefixKey = '') => {
 	const routerProps = useRouter();
 
 	const applyCustomFilter = () => {
-		if (!errors) {
+		const {dateEnd: dateEndError, dateStart: dateStartError} = errors || {};
+
+		if (!dateEndError && !dateStartError) {
 			const query = parse(routerProps.location.search);
 
 			query.filters = {
@@ -62,15 +64,11 @@ const useCustomTimeRange = (filterKey, prefixKey = '') => {
 		const dateEndMoment = parseDateMomentEnLocale(dateEnd);
 		const dateStartMoment = parseDateMomentEnLocale(dateStart);
 
-		let errors = validateDate(dateEndMoment, dateStartMoment);
-
-		if (!errors) {
-			errors = validateRangeConsistency(dateEndMoment, dateStartMoment);
-		}
-
-		if (!errors) {
-			errors = validateEarlierDate(dateEndMoment, dateStartMoment);
-		}
+		const errors = {
+			...validateDate(dateEndMoment, dateStartMoment),
+			...validateEarlierDate(dateEndMoment, dateStartMoment),
+			...validateRangeConsistency(dateEndMoment, dateStartMoment)
+		};
 
 		setErrors(errors);
 

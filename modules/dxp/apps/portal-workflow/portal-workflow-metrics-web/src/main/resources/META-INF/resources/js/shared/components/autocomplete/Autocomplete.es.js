@@ -13,7 +13,7 @@ import ClayAutocomplete from '@clayui/autocomplete';
 import {ClayInput} from '@clayui/form';
 import React, {useState, useCallback, useEffect} from 'react';
 
-import PromisesResolver from '../request/PromisesResolver.es';
+import PromisesResolver from '../promises-resolver/PromisesResolver.es';
 import {DropDown} from './AutocompleteDropDown.es';
 
 const Autocomplete = ({

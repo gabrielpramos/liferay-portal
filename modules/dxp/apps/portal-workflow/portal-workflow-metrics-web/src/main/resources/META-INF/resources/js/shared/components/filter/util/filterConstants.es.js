@@ -12,30 +12,37 @@
 const filterConstants = {
 	assignee: {
 		key: 'assigneeUserIds',
+		pinned: false,
 		title: Liferay.Language.get('assignee')
 	},
 	processStatus: {
 		key: 'statuses',
+		pinned: false,
 		title: Liferay.Language.get('process-status')
 	},
 	processStep: {
 		key: 'taskKeys',
+		pinned: false,
 		title: Liferay.Language.get('process-step')
 	},
 	roles: {
 		key: 'roleIds',
+		pinned: false,
 		title: Liferay.Language.get('roles')
 	},
 	slaStatus: {
 		key: 'slaStatuses',
+		pinned: false,
 		title: Liferay.Language.get('sla-status')
 	},
 	timeRange: {
 		key: 'timeRange',
+		pinned: true,
 		title: Liferay.Language.get('completion-period')
 	},
 	velocityUnit: {
 		key: 'velocityUnit',
+		pinned: false,
 		title: Liferay.Language.get('velocity-unit')
 	}
 };

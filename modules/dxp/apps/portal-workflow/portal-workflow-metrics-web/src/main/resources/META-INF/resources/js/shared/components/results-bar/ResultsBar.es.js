@@ -90,7 +90,11 @@ const FilterItem = props => {
 						<div className="label-section">
 							<span className="font-weight-normal">{`${filter.name}: `}</span>
 
-							<strong>{item.name}</strong>
+							<strong>
+								{filter.items[0].key !== 'custom'
+									? item.name
+									: item.resultName}
+							</strong>
 						</div>
 					</span>
 

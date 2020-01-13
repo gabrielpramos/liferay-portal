@@ -17,7 +17,7 @@ import moment from '../../shared/util/moment.es';
 import {AppContext} from '../AppContext.es';
 import {InstanceListContext} from './store/InstanceListPageStore.es';
 
-function ItemDetail({processId}) {
+const ItemDetail = ({processId}) => {
 	const {client} = useContext(AppContext);
 	const [instance, setInstance] = useState({});
 	const {instanceId} = useContext(InstanceListContext);
@@ -234,9 +234,9 @@ function ItemDetail({processId}) {
 			</div>
 		</div>
 	);
-}
+};
 
-ItemDetail.Item = ({dateOverdue, name, onTime, remainingTime, status}) => {
+const Item = ({dateOverdue, name, onTime, remainingTime, status}) => {
 	let bgColor = 'danger';
 	let iconClassName = 'text-danger';
 	let iconName = 'exclamation-circle';
@@ -295,13 +295,13 @@ ItemDetail.Item = ({dateOverdue, name, onTime, remainingTime, status}) => {
 	);
 };
 
-ItemDetail.SectionTitle = ({children, className = ''}) => {
+const SectionTitle = ({children, className = ''}) => {
 	const classNames = `${className} font-weight-medium mb-4`;
 
 	return <h4 className={classNames}>{children}</h4>;
 };
 
-ItemDetail.SectionSubTitle = ({children}) => {
+const SectionSubTitle = ({children}) => {
 	return (
 		<h5 className="font-weight-medium mb-4 mt-4 text-secondary">
 			{children}
@@ -309,7 +309,7 @@ ItemDetail.SectionSubTitle = ({children}) => {
 	);
 };
 
-ItemDetail.SectionAttribute = ({description, detail}) => {
+const SectionAttribute = ({description, detail}) => {
 	return (
 		<p className="row">
 			<span className="col-2 font-weight-medium small text-secondary">
@@ -322,5 +322,10 @@ ItemDetail.SectionAttribute = ({description, detail}) => {
 		</p>
 	);
 };
+
+ItemDetail.Item = Item;
+ItemDetail.SectionTitle = SectionTitle;
+ItemDetail.SectionSubTitle = SectionSubTitle;
+ItemDetail.SectionAttribute = SectionAttribute;
 
 export {ItemDetail};

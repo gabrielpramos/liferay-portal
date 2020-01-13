@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {slaStatusConstants} from '../filter/store/SLAStatusStore.es';
+import {slaStatusConstants} from '../../filter/SLAStatusFilter.es';
 
 const PANELS = [
 	{

@@ -15,8 +15,8 @@ import filterConstants from '../../../shared/components/filter/util/filterConsta
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {getFormattedPercentage} from '../../../shared/util/util.es';
 import {AppContext} from '../../AppContext.es';
-import {processStatusConstants} from '../filter/store/ProcessStatusStore.es';
-import {slaStatusConstants} from '../filter/store/SLAStatusStore.es';
+import {processStatusConstants} from '../../filter/ProcessStatusFilter.es';
+import {slaStatusConstants} from '../../filter/SLAStatusFilter.es';
 
 const Item = ({
 	currentTab,

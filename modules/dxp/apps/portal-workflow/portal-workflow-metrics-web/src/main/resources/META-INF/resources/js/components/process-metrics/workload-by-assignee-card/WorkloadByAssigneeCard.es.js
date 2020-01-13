@@ -12,7 +12,7 @@
 import React, {useMemo, useState} from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../shared/components/promises-resolver/PromisesResolver.es';
 import {useFetch} from '../../../shared/hooks/useFetch.es';
 import {useFilter} from '../../../shared/hooks/useFilter.es';
 import ProcessStepFilter from '../../filter/ProcessStepFilter.es';

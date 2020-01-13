@@ -16,7 +16,7 @@ import EmptyState from '../../../../../shared/components/list/EmptyState.es';
 import RetryButton from '../../../../../shared/components/list/RetryButton.es';
 import LoadingState from '../../../../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../../../../shared/components/pagination-bar/PaginationBar.es';
-import PromisesResolver from '../../../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {Table} from './BulkReassignSelectTasksStepTable.es';
 
 const Body = ({items, pagination, setRetry}) => {

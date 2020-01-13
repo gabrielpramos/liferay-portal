@@ -15,7 +15,7 @@ import Panel from '../../../shared/components/Panel.es';
 import EmptyState from '../../../shared/components/list/EmptyState.es';
 import ReloadButton from '../../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../../shared/components/loading/LoadingState.es';
-import PromisesResolver from '../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../shared/components/promises-resolver/PromisesResolver.es';
 import {formatNumber} from '../../../shared/util/numeral.es';
 import VelocityChart from './VelocityChart.es';
 

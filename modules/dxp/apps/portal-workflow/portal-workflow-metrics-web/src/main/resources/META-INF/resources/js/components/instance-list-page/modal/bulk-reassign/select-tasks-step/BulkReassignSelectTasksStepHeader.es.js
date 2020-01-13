@@ -13,7 +13,7 @@ import {ClayCheckbox} from '@clayui/form';
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import React, {useEffect, useState, useContext, useCallback} from 'react';
 
-import PromisesResolver from '../../../../../shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {sub} from '../../../../../shared/util/lang.es';
 import {ModalContext} from '../../ModalContext.es';
 

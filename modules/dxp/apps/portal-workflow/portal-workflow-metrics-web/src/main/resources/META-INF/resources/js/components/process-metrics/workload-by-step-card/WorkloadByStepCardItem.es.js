@@ -14,7 +14,7 @@ import React from 'react';
 import {filterKeys} from '../../../shared/components/filter/util/filterConstants.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {AppContext} from '../../AppContext.es';
-import {processStatusConstants} from '../filter/store/ProcessStatusStore.es';
+import {processStatusConstants} from '../../filter/ProcessStatusFilter.es';
 
 class WorkloadByStepCardItem extends React.Component {
 	constructor(props) {
