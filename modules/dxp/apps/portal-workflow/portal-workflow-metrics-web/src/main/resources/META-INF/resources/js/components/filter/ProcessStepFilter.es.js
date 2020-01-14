@@ -53,7 +53,11 @@ const ProcessStepFilter = ({
 		staticItems
 	});
 
-	const defaultItem = useMemo(() => (items ? items[0] : undefined), [items]);
+	const defaultItem = useMemo(() => items[0], [items]);
+
+	if (defaultItem && !selectedItems.length) {
+		selectedItems[0] = defaultItem;
+	}
 
 	const filterName = useFilterName(
 		options.multiple,

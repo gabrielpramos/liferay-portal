@@ -10,12 +10,12 @@
  */
 
 import getClassName from 'classnames';
-import React from 'react';
-import {withRouter} from 'react-router-dom';
+import React, {useState, useCallback, useEffect, useMemo, useRef} from 'react';
 
+import {useRouter} from '../../hooks/useRouter.es';
 import Icon from '../Icon.es';
-import FilterItem from './FilterItem.es';
-import FilterSearch from './FilterSearch.es';
+import {FilterItem} from './FilterItem.es';
+import {FilterSearch} from './FilterSearch.es';
 import {
 	addClickOutsideListener,
 	removeClickOutsideListener,
@@ -27,134 +27,104 @@ import {
 	replaceHistory
 } from './util/filterUtil.es';
 
-class Filter extends React.Component {
-	constructor(props) {
-		super(props);
+const Filter = ({
+	buttonClassName = 'btn-secondary btn-sm',
+	children,
+	dataTestId = 'filterComponent',
+	defaultItem,
+	disabled,
+	elementClasses,
+	filterKey,
+	hideControl = false,
+	items,
+	multiple = true,
+	name,
+	onChangeFilter,
+	onClickFilter,
+	position = 'left',
+	prefixKey = ''
+}) => {
+	const [expanded, setExpanded] = useState(false);
+	const [searchTerm, setSearchTerm] = useState('');
 
-		this.itemChanged = false;
+	const routerProps = useRouter();
 
-		this.state = {
-			expanded: false,
-			items: props.items || [],
-			searchTerm: ''
-		};
+	const wrapperRef = useRef();
 
-		this.toggleDropDown = () => this.setExpanded(!this.state.expanded);
-	}
+	const classes = useMemo(
+		() => ({
+			children: getClassName(
+				'custom',
+				'dropdown-menu',
+				children && 'show',
+				position && `dropdown-menu-${position}`
+			),
+			custom: getClassName(
+				'btn',
+				'dropdown-toggle',
+				'nav-link',
+				buttonClassName
+			),
+			dropdown: getClassName('dropdown', 'nav-item', elementClasses),
+			menu: getClassName(
+				'dropdown-menu',
+				expanded && 'show',
+				position && `dropdown-menu-${position}`
+			)
+		}),
+		[buttonClassName, children, elementClasses, expanded, position]
+	);
 
-	componentDidMount() {
-		this.selectDefaultItem(this.props);
+	const getFilterQuery = useCallback(
+		() =>
+			getSelectedItemsQuery(
+				items,
+				`${prefixKey}${filterKey}`,
+				routerProps.location.search
+			),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[routerProps.location.search, items]
+	);
 
-		this.onClickOutside = handleClickOutside(() => {
-			if (this.state.expanded) {
-				this.setState({
-					expanded: false,
-					searchTerm: ''
-				});
+	const filteredItems = useMemo(() => {
+		return searchTerm
+			? items.filter(item =>
+					item.name.toLowerCase().includes(searchTerm.toLowerCase())
+			  )
+			: items;
+	}, [items, searchTerm]);
 
-				if (this.itemChanged) {
-					pushToHistory(this.filterQuery, this.props);
+	const onClickHandler = item => () =>
+		onClickFilter ? onClickFilter(item) : true;
 
-					this.itemChanged = false;
-				}
-			}
-		}, this.wrapperRef);
-
-		addClickOutsideListener(this.onClickOutside);
-	}
-
-	componentWillUnmount() {
-		removeClickOutsideListener(this.onClickOutside);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.items !== this.state.items) {
-			this.setState({
-				items: nextProps.items
-			});
-		}
-
-		if (nextProps.defaultItem !== this.props.defaultItem) {
-			this.selectDefaultItem(nextProps);
-		}
-	}
-
-	get filteredItems() {
-		const {items, searchTerm} = this.state;
-
-		if (searchTerm) {
-			const searchTermLowerCase = searchTerm.toLowerCase();
-
-			return items.filter(item =>
-				item.name.toLowerCase().includes(searchTermLowerCase)
+	const onInputChange = useCallback(
+		({target}) => {
+			const index = items.findIndex(
+				item => item.key === target.dataset.key
 			);
-		}
+			const current = items[index];
 
-		return items;
-	}
+			const preventDefault = onChangeFilter
+				? onChangeFilter(current)
+				: false;
 
-	get filterQuery() {
-		const {
-			filterKey,
-			location: {search},
-			prefixKey
-		} = this.props;
-		const {items} = this.state;
+			if (!preventDefault) {
+				if (!multiple) {
+					items.forEach(item => {
+						item.active = false;
+					});
+				}
 
-		const prefixedFilterKey = prefixKey
-			? `${prefixKey}${filterKey}`
-			: filterKey;
+				current.active = target.checked;
 
-		return getSelectedItemsQuery(items, prefixedFilterKey, search);
-	}
-
-	onInputChange({target}) {
-		const {items} = this.state;
-		const {multiple, onChangeFilter} = this.props;
-
-		const currentIndex = items.findIndex(
-			item => item.key === target.dataset.key
-		);
-
-		const currentItem = items[currentIndex];
-
-		const resetAllItems = () => {
-			if (!multiple) {
-				items.forEach(item => {
-					item.active = false;
-				});
+				pushToHistory(getFilterQuery(), routerProps);
 			}
-		};
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[items, routerProps]
+	);
 
-		const updateCurrentItem = () => {
-			currentItem.active = target.checked;
-
-			this.setState({
-				items
-			});
-
-			this.itemChanged = true;
-		};
-
-		let preventDefault = false;
-
-		if (onChangeFilter) {
-			preventDefault = onChangeFilter(currentItem);
-		}
-
-		if (!preventDefault) {
-			resetAllItems();
-			updateCurrentItem();
-		}
-	}
-
-	onSearchChange({target}) {
-		this.setState({
-			searchTerm: target.value
-		});
-	}
-
-	selectDefaultItem({defaultItem, items, multiple}) {
+	const selectDefaultItem = useCallback(() => {
 		if (defaultItem && !multiple) {
 			const selectedItems = items.filter(item => item.active);
 
@@ -163,121 +133,89 @@ class Filter extends React.Component {
 					item => item.key === defaultItem.key
 				);
 
-				defaultItem.active = items[index].active = true;
+				defaultItem.active = true;
+				items[index].active = true;
 
-				this.setState({items}, () => {
-					replaceHistory(this.filterQuery, this.props);
-				});
+				replaceHistory(getFilterQuery(), routerProps);
 			}
 		}
-	}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [defaultItem, items]);
 
-	setExpanded(expanded) {
-		this.setState({
-			expanded
-		});
-	}
+	useEffect(() => {
+		selectDefaultItem();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [defaultItem]);
 
-	setWrapperRef(wrapperRef) {
-		this.wrapperRef = wrapperRef;
-	}
+	useEffect(() => {
+		selectDefaultItem();
 
-	render() {
-		const {expanded, items, searchTerm} = this.state;
-		const {
-			buttonClassName = 'btn-secondary btn-sm',
-			children,
-			dataTestId = 'filterComponent',
-			disabled,
-			elementClasses,
-			hideControl = false,
-			multiple,
-			name,
-			onClickFilter,
-			position
-		} = this.props;
+		const callback = handleClickOutside(() => {
+			setExpanded(false);
+			setSearchTerm('');
+		}, wrapperRef.current);
 
-		const childrenClassName = getClassName(
-			'custom',
-			'dropdown-menu',
-			children && 'show',
-			position && `dropdown-menu-${position}`
-		);
+		addClickOutsideListener(callback);
 
-		const customButtonClassName = getClassName(
-			'btn',
-			'dropdown-toggle',
-			'nav-link',
-			buttonClassName
-		);
+		return () => {
+			removeClickOutsideListener(callback);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-		const dropdownClassName = getClassName(
-			'dropdown',
-			'nav-item',
-			elementClasses
-		);
-
-		const menuClassName = getClassName(
-			'dropdown-menu',
-			expanded && 'show',
-			position && `dropdown-menu-${position}`
-		);
-
-		const onClickHandler = item => _ =>
-			(onClickFilter && onClickFilter(item)) || true;
-
-		return (
-			<li
-				className={dropdownClassName}
-				data-testid={dataTestId}
-				ref={this.setWrapperRef.bind(this)}
+	return (
+		<li
+			className={classes.dropdown}
+			data-testid={dataTestId}
+			ref={wrapperRef}
+		>
+			<button
+				aria-expanded={expanded}
+				aria-haspopup="true"
+				className={classes.custom}
+				disabled={disabled}
+				onClick={() => {
+					setExpanded(!expanded);
+				}}
+				type="button"
 			>
-				<button
-					aria-expanded={expanded}
-					aria-haspopup="true"
-					className={customButtonClassName}
-					disabled={disabled}
-					onClick={this.toggleDropDown}
-					type="button"
+				<span
+					className="mr-2 navbar-text-truncate"
+					data-testid="filterName"
 				>
-					<span
-						className="mr-2 navbar-text-truncate"
-						data-testid="filterName"
-					>
-						{name}
-					</span>
+					{name}
+				</span>
 
-					<Icon iconName="caret-bottom" />
-				</button>
+				<Icon iconName="caret-bottom" />
+			</button>
 
-				<div className={menuClassName} role="menu">
-					<FilterSearch
-						filteredItems={this.filteredItems}
-						onChange={this.onSearchChange.bind(this)}
-						searchTerm={searchTerm}
-						totalCount={items.length}
-					>
-						<ul className="list-unstyled">
-							{this.filteredItems.map((item, index) => (
-								<FilterItem
-									{...item}
-									hideControl={hideControl}
-									itemKey={item.key}
-									key={index}
-									multiple={multiple}
-									onChange={this.onInputChange.bind(this)}
-									onClick={onClickHandler(item)}
-								/>
-							))}
-						</ul>
-					</FilterSearch>
-				</div>
+			<div className={classes.menu} role="menu">
+				<FilterSearch
+					filteredItems={filteredItems}
+					onChange={({target}) => {
+						setSearchTerm(target.value);
+					}}
+					searchTerm={searchTerm}
+					totalCount={items.length}
+				>
+					<ul className="list-unstyled">
+						{filteredItems.map((item, index) => (
+							<FilterItem
+								{...item}
+								hideControl={hideControl}
+								itemKey={item.key}
+								key={index}
+								multiple={multiple}
+								onChange={onInputChange}
+								onClick={onClickHandler(item)}
+							/>
+						))}
+					</ul>
+				</FilterSearch>
+			</div>
 
-				<div className={childrenClassName}>{children}</div>
-			</li>
-		);
-	}
-}
-
-export default withRouter(Filter);
-export {Filter};
+			<div className={classes.children}>{children}</div>
+		</li>
+	);
+};
+export default Filter;

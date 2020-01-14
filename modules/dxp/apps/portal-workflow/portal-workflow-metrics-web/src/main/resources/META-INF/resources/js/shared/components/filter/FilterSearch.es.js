@@ -13,57 +13,54 @@ import React from 'react';
 
 import Icon from '../Icon.es';
 
-export default class FilterSearch extends React.Component {
-	render() {
-		const {
-			children,
-			filteredItems,
-			onChange,
-			searchTerm,
-			totalCount
-		} = this.props;
+const FilterSearch = ({
+	children,
+	filteredItems,
+	onChange,
+	searchTerm,
+	totalCount
+}) => {
+	const emptyResults = filteredItems.length === 0;
+	const searchEnabled = totalCount > 12;
 
-		const emptyResults = filteredItems.length === 0;
-		const searchEnabled = totalCount > 12;
+	return (
+		<>
+			{searchEnabled && (
+				<div className="dropdown-section">
+					<div className="input-group input-group-sm">
+						<div className="input-group-item">
+							<input
+								className="form-control input-group-inset input-group-inset-after"
+								data-testid="filterSearch"
+								onChange={onChange}
+								placeholder={Liferay.Language.get('search-for')}
+								type="text"
+								value={searchTerm}
+							/>
 
-		return (
-			<>
-				{searchEnabled && (
-					<div className="dropdown-section">
-						<div className="input-group input-group-sm">
-							<div className="input-group-item">
-								<input
-									className="form-control input-group-inset input-group-inset-after"
-									onChange={onChange}
-									placeholder={Liferay.Language.get(
-										'search-for'
-									)}
-									type="text"
-									value={searchTerm}
-								/>
-
-								<span className="input-group-inset-item input-group-inset-item-after">
-									<span className="ml-2 mr-2">
-										<Icon iconName="search" />
-									</span>
+							<span className="input-group-inset-item input-group-inset-item-after">
+								<span className="ml-2 mr-2">
+									<Icon iconName="search" />
 								</span>
-							</div>
+							</span>
 						</div>
 					</div>
-				)}
+				</div>
+			)}
 
-				{emptyResults && (
-					<ul className="list-unstyled">
-						<li>
-							<span className="disabled dropdown-item">
-								{Liferay.Language.get('no-results-were-found')}
-							</span>
-						</li>
-					</ul>
-				)}
+			{emptyResults && (
+				<ul className="list-unstyled">
+					<li>
+						<span className="disabled dropdown-item">
+							{Liferay.Language.get('no-results-were-found')}
+						</span>
+					</li>
+				</ul>
+			)}
 
-				{children}
-			</>
-		);
-	}
-}
+			{children}
+		</>
+	);
+};
+
+export {FilterSearch};

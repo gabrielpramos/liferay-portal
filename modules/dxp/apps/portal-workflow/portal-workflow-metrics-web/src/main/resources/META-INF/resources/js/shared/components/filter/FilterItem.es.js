@@ -10,85 +10,80 @@
  */
 
 import getClassName from 'classnames';
-import React from 'react';
+import React, {useMemo, useCallback} from 'react';
 
-export default class FilterItem extends React.Component {
-	onChange(event) {
-		const {multiple, onChange} = this.props;
+const FilterItem = ({
+	active,
+	description,
+	dividerAfter,
+	hideControl,
+	itemKey,
+	multiple,
+	name,
+	onChange,
+	onClick
+}) => {
+	const classes = useMemo(
+		() => ({
+			control: getClassName(
+				'custom-control',
+				multiple ? 'custom-checkbox' : 'custom-radio'
+			),
+			dropdown: getClassName(
+				'dropdown-item',
+				active && 'active',
+				description && 'with-description',
+				hideControl && 'control-hidden'
+			)
+		}),
+		[active, description, hideControl, multiple]
+	);
 
-		onChange(event);
+	const onChangeCallback = useCallback(
+		event => {
+			onChange(event);
 
-		if (!multiple) {
-			document.dispatchEvent(new Event('mousedown'));
-		}
-	}
+			if (!multiple) {
+				document.dispatchEvent(new Event('mousedown'));
+			}
+		},
+		[multiple, onChange]
+	);
 
-	render() {
-		const {
-			active,
-			description,
-			dividerAfter,
-			hideControl,
-			itemKey,
-			multiple,
-			name,
-			onClick
-		} = this.props;
+	return (
+		<>
+			<li className={classes.dropdown} data-testid="filterItem">
+				<label className={classes.control}>
+					<input
+						checked={!!active}
+						className="custom-control-input"
+						data-key={itemKey}
+						data-testid="filterItemInput"
+						onChange={onChangeCallback}
+						onClick={onClick}
+						type={multiple ? 'checkbox' : 'radio'}
+					/>
 
-		const controlClassName = getClassName(
-			'custom-control',
-			multiple ? 'custom-checkbox' : 'custom-radio'
-		);
-
-		const dropDownClassName = getClassName(
-			'dropdown-item',
-			active && 'active',
-			description && 'with-description',
-			hideControl && 'control-hidden'
-		);
-
-		const inputProps = {
-			type: 'checkbox'
-		};
-
-		if (!multiple) {
-			inputProps.name = 'filter-item-radio-group';
-			inputProps.type = 'radio';
-		}
-
-		return (
-			<>
-				<li className={dropDownClassName} data-testid="filterItem">
-					<label className={controlClassName}>
-						<input
-							{...inputProps}
-							checked={!!active}
-							className="custom-control-input"
-							data-key={itemKey}
-							data-testid="filterItemInput"
-							onChange={this.onChange.bind(this)}
-							onClick={onClick}
-						/>
-
-						<span className="custom-control-label">
-							<span
-								className="custom-control-label-text"
-								data-testid="filterItemName"
-							>
-								{name}
-							</span>
-
-							{description && (
-								<span className="custom-control-label-text dropdown-item-description">
-									{description}
-								</span>
-							)}
+					<span className="custom-control-label">
+						<span
+							className="custom-control-label-text"
+							data-testid="filterItemName"
+						>
+							{name}
 						</span>
-					</label>
-				</li>
 
-				{dividerAfter && <li className="dropdown-divider" />}
-			</>
-		);
-	}
-}
+						{description && (
+							<span className="custom-control-label-text dropdown-item-description">
+								{description}
+							</span>
+						)}
+					</span>
+				</label>
+			</li>
+
+			{dividerAfter && <li className="dropdown-divider" />}
+		</>
+	);
+};
+
+export {FilterItem};
