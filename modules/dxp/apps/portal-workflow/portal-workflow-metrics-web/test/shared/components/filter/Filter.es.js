@@ -9,183 +9,171 @@
  * distribution rights of the Software.
  */
 
+import {cleanup, render, fireEvent, findByTestId} from '@testing-library/react';
 import React from 'react';
-import renderer from 'react-test-renderer';
 
-import {Filter} from '../../../../src/main/resources/META-INF/resources/js/shared/components/filter/Filter.es';
-import {MockRouter as Router} from '../../../mock/MockRouter.es';
+import Filter from '../../../../src/main/resources/META-INF/resources/js/shared/components/filter/Filter.es';
+import {MockRouter} from '../../../mock/MockRouter.es';
 
-function mockItems(count) {
-	const items = [];
+import '@testing-library/jest-dom/extend-expect';
 
-	for (let i = 0; i < count; i++) {
-		items.push({
-			active: i % 2 === 0,
-			key: `key-${i}`,
-			name: `Item Name ${i}`
+describe('The filter component should', () => {
+	let items;
+
+	beforeEach(() => {
+		items = [
+			{active: false, key: 'overdue', name: 'Overdue'},
+			{active: false, key: 'onTime', name: 'OnTime'},
+			{active: false, key: 'untracked', name: 'Untracked'}
+		];
+	});
+
+	afterEach(cleanup);
+
+	test('Be rendered with filter item names and default item selected', async () => {
+		const {getAllByTestId} = render(
+			<MockRouter>
+				<Filter
+					defaultItem={items[2]}
+					filterKey="statuses"
+					items={items}
+					multiple={false}
+					name="status"
+				/>
+			</MockRouter>
+		);
+
+		const filterItems = getAllByTestId('filterItem');
+		const filterItemsNames = getAllByTestId('filterItemName');
+
+		expect(filterItemsNames[0]).toHaveTextContent('Overdue');
+		expect(filterItemsNames[1]).toHaveTextContent('OnTime');
+		expect(filterItemsNames[2]).toHaveTextContent('Untracked');
+
+		const activeItem = filterItems.find(item =>
+			item.className.includes('active')
+		);
+
+		const activeItemName = await findByTestId(activeItem, 'filterItemName');
+
+		expect(activeItemName).toHaveTextContent('Untracked');
+	});
+
+	test('Be rendered with other item selected', async () => {
+		items[0].active = true;
+
+		const {getAllByTestId} = render(
+			<MockRouter>
+				<Filter
+					defaultItem={items[2]}
+					filterKey="statuses"
+					items={items}
+					multiple={false}
+					name="status"
+				/>
+			</MockRouter>
+		);
+
+		const filterItems = getAllByTestId('filterItem');
+
+		const activeItem = filterItems.find(item =>
+			item.className.includes('active')
+		);
+
+		const activeItemName = await findByTestId(activeItem, 'filterItemName');
+
+		expect(activeItemName).toHaveTextContent('Overdue');
+	});
+
+	test('Be rendered with search field and filtering options', async () => {
+		const mappedItems = [{active: false, key: 'overdue', name: 'Overdue'}];
+
+		for (let i = 0; i < 12; i++) {
+			mappedItems.push({
+				active: false,
+				key: `${i}`,
+				name: `${i}test${i}`
+			});
+		}
+
+		const {getAllByTestId, getByTestId} = render(
+			<MockRouter>
+				<Filter
+					defaultItem={mappedItems[0]}
+					filterKey="statuses"
+					items={mappedItems}
+					multiple={false}
+					name="status"
+				/>
+			</MockRouter>
+		);
+
+		const filterBtn = getByTestId('filterComponent').children[0];
+
+		fireEvent.click(filterBtn);
+
+		const filterSearch = getByTestId('filterSearch');
+		const filterItemsNames = getAllByTestId('filterItemName');
+
+		filterItemsNames.forEach((item, index) => {
+			expect(item).toHaveTextContent(mappedItems[index].name);
 		});
-	}
 
-	return items;
-}
+		fireEvent.change(filterSearch, {target: {value: 'Over'}});
 
-test('Should active item when input is checked', () => {
-	const items = [
-		{
-			active: false,
-			key: 'overdue',
-			name: 'Overdue'
-		}
-	];
+		let filterItems = getAllByTestId('filterItem');
 
-	const component = mount(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter
-				filterKey="slaStatus"
-				items={items}
-				location={{search: '?filters.slaStatus%5B0%5D=overdue'}}
-				name="SLA Status"
-			/>
-		</Router>
-	);
+		expect(filterItems.length).toEqual(1);
+		expect(filterItems[0].className.includes('active')).toBe(true);
+		expect(filterItemsNames[0]).toHaveTextContent('Overdue');
 
-	const instance = component.find(Filter).instance();
+		fireEvent.change(filterSearch, {target: {value: 'test'}});
 
-	instance.onInputChange({
-		target: {checked: true, dataset: {key: 'overdue'}}
+		filterItems = getAllByTestId('filterItem');
+
+		expect(filterItems.length).toEqual(12);
+		expect(filterItemsNames[0]).toHaveTextContent('0test0');
+
+		const filterInputs = getAllByTestId('filterItemInput');
+
+		fireEvent.click(filterInputs[10]);
+
+		expect(filterItems[0].className.includes('active')).toBe(false);
 	});
 
-	expect(instance.state.items[0].active).toEqual(true);
-});
+	test('Be rendered with multiple options', async () => {
+		items.forEach(item => {
+			item.active = true;
+		});
 
-test('Should hide dropdown when click outside filter', () => {
-	const items = [
-		{
-			active: true,
-			key: 'overdue',
-			name: 'Overdue'
-		}
-	];
+		const {getAllByTestId, getByTestId} = render(
+			<MockRouter>
+				<Filter
+					filterKey="statuses"
+					items={items}
+					multiple={true}
+					name="status"
+					onChangeFilter={() => true}
+				/>
+			</MockRouter>
+		);
 
-	const component = mount(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter
-				filterKey="slaStatus"
-				items={items}
-				location={{search: '?filters.slaStatus%5B0%5D=overdue'}}
-				match={{params: {page: 3}, path: '/instances/:page'}}
-				name="SLA Status"
-			/>
-		</Router>
-	);
+		const filterBtn = getByTestId('filterComponent').children[0];
 
-	const instance = component.find(Filter).instance();
+		fireEvent.click(filterBtn);
 
-	instance.toggleDropDown();
-	instance.onInputChange({
-		target: {checked: true, dataset: {key: 'overdue'}}
+		const filterInputs = getAllByTestId('filterItemInput');
+		const filterItems = getAllByTestId('filterItem');
+
+		expect(filterItems[0].className.includes('active')).toBe(true);
+		expect(filterItems[1].className.includes('active')).toBe(true);
+		expect(filterItems[2].className.includes('active')).toBe(true);
+
+		expect(filterBtn.getAttribute('aria-expanded')).toBe('true');
+
+		await fireEvent.click(filterInputs[2]);
+
+		expect(filterItems[0].className.includes('active')).toBe(true);
+		expect(filterItems[1].className.includes('active')).toBe(true);
 	});
-	instance.onClickOutside(document.body);
-
-	expect(instance.state.expanded).toEqual(false);
-});
-
-test('Should keep dropdown open when click inside filter', () => {
-	const items = [
-		{
-			active: true,
-			key: 'overdue',
-			name: 'Overdue'
-		}
-	];
-
-	const component = mount(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter
-				filterKey="slaStatus"
-				items={items}
-				location={{search: '?filters.slaStatus%5B0%5D=overdue'}}
-				name="SLA Status"
-			/>
-		</Router>
-	);
-
-	const instance = component.find(Filter).instance();
-
-	instance.toggleDropDown();
-
-	instance.onClickOutside({target: instance.wrapperRef});
-
-	expect(instance.state.expanded).toEqual(true);
-});
-
-test('Should render component', () => {
-	const component = renderer.create(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter filterKey="slaStatus" name="SLA Status" />
-		</Router>
-	);
-
-	const tree = component.toJSON();
-
-	expect(tree).toMatchSnapshot();
-});
-
-test('Should render component with search wrapper', () => {
-	const items = mockItems(15);
-
-	const component = renderer.create(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter filterKey="slaStatus" items={items} name="SLA Status" />
-		</Router>
-	);
-
-	const tree = component.toJSON();
-
-	expect(tree).toMatchSnapshot();
-});
-
-test('Should search items', () => {
-	const items = [
-		{
-			active: true,
-			key: 'overdue',
-			name: 'Overdue'
-		},
-		{
-			active: false,
-			key: 'ontime',
-			name: 'On Time'
-		}
-	];
-
-	const component = mount(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter filterKey="slaStatus" items={items} name="SLA Status" />
-		</Router>
-	);
-
-	const instance = component.find(Filter).instance();
-
-	instance.onSearchChange({
-		target: {
-			value: 'over'
-		}
-	});
-
-	expect(instance.filteredItems.length).toEqual(1);
-});
-
-test('Should toggle dropdown', () => {
-	const component = mount(
-		<Router query="?filters.slaStatus%5B0%5D=overdue">
-			<Filter filterKey="slaStatus" name="SLA Status" />
-		</Router>
-	);
-
-	const instance = component.find(Filter).instance();
-
-	instance.toggleDropDown();
-
-	expect(instance.state.expanded).toEqual(true);
 });
