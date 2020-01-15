@@ -98,11 +98,7 @@ describe('The performance by assignee card component should', () => {
 			};
 
 			const wrapper = ({children}) => (
-				<MockRouter
-					client={clientMock}
-					getClient={jest.fn(() => clientMock)}
-					query={query}
-				>
+				<MockRouter client={clientMock} query={query}>
 					{children}
 				</MockRouter>
 			);
@@ -174,11 +170,7 @@ describe('The performance by assignee card component should', () => {
 			};
 
 			const wrapper = ({children}) => (
-				<MockRouter
-					client={clientMock}
-					getClient={jest.fn(() => clientMock)}
-					query={query}
-				>
+				<MockRouter client={clientMock} query={query}>
 					{children}
 				</MockRouter>
 			);

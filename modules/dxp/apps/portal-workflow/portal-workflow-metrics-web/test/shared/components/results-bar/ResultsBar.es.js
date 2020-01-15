@@ -13,12 +13,12 @@ import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import ResultsBar from '../../../../src/main/resources/META-INF/resources/js/shared/components/results-bar/ResultsBar.es';
-import {MockRouter as Router} from '../../../mock/MockRouter.es';
+import {MockRouter} from '../../../mock/MockRouter.es';
 
 describe('The ResultsBar component should', () => {
 	const mockProps = {
 		page: 1,
-		pageSize: 1,
+		pageSize: 10,
 		sort: encodeURIComponent('overdueTaskCount:asc')
 	};
 
@@ -29,13 +29,13 @@ describe('The ResultsBar component should', () => {
 
 	test('Render with search value "test" and total count "1"', () => {
 		const {getByTestId} = render(
-			<Router>
+			<MockRouter>
 				<ResultsBar>
 					<ResultsBar.TotalCount totalCount={1} />
 
 					<ResultsBar.Clear {...mockProps} />
 				</ResultsBar>
-			</Router>
+			</MockRouter>
 		);
 
 		const clearAll = getByTestId('clearAll');
@@ -43,7 +43,7 @@ describe('The ResultsBar component should', () => {
 		const totalCount = getByTestId('totalCount');
 		expect(totalCount.innerHTML).toBe('x-result-for-x');
 		expect(clearAll.getAttribute('href')).toBe(
-			'/?backPath=%2F&filters=&search='
+			'/1/10/overdueTaskCount%253Aasc?backPath=%2F&filters=&search='
 		);
 	});
 
@@ -61,7 +61,7 @@ describe('The ResultsBar component should', () => {
 		];
 
 		const {getAllByTestId, getByTestId} = render(
-			<Router query={mockQuery}>
+			<MockRouter query={mockQuery}>
 				<ResultsBar>
 					<ResultsBar.TotalCount search="test" totalCount={2} />
 
@@ -72,7 +72,7 @@ describe('The ResultsBar component should', () => {
 
 					<ResultsBar.Clear {...mockProps} />
 				</ResultsBar>
-			</Router>
+			</MockRouter>
 		);
 
 		const removeFilter = getAllByTestId('removeFilter');
@@ -81,11 +81,11 @@ describe('The ResultsBar component should', () => {
 		expect(removeFilter.length).toBe(2);
 
 		expect(removeFilter[0].getAttribute('href')).toBe(
-			'/?filters.taskKeys%5B0%5D=update&search=test'
+			'/1/10/overdueTaskCount%253Aasc?filters.taskKeys%5B0%5D=update&search=test'
 		);
 
 		expect(removeFilter[1].getAttribute('href')).toBe(
-			'/?filters.taskKeys%5B0%5D=review&search=test'
+			'/1/10/overdueTaskCount%253Aasc?filters.taskKeys%5B0%5D=review&search=test'
 		);
 
 		expect(totalCount.innerHTML).toBe('x-results-for-x');

@@ -38,13 +38,6 @@ describe('The process list page component having data should', () => {
 		get: jest.fn().mockResolvedValue({data})
 	};
 
-	const mockHistory = {
-		location: {
-			pathname: '/'
-		},
-		replace: jest.fn()
-	};
-
 	const routeParams = {
 		page: 1,
 		pageSize: 20,
@@ -55,14 +48,12 @@ describe('The process list page component having data should', () => {
 	afterEach(cleanup);
 
 	const wrapper = ({children}) => (
-		<MockRouter client={clientMock} getClient={jest.fn(() => clientMock)}>
-			{children}
-		</MockRouter>
+		<MockRouter client={clientMock}>{children}</MockRouter>
 	);
 
 	beforeEach(() => {
 		const renderResult = render(
-			<ProcessListPage history={mockHistory} routeParams={routeParams} />,
+			<ProcessListPage routeParams={routeParams} />,
 			{wrapper}
 		);
 
