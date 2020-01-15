@@ -75,7 +75,7 @@ describe('The SingleReassignModalTable component should', () => {
 
 	test('Render with statuses Completed and Overdue', () => {
 		const {getByTestId} = render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<ModalContext.Provider value={{setSingleModal, singleModal}}>
 					<SingleReassignModal.Table
 						data={data}
@@ -107,7 +107,7 @@ describe('The SingleReassignModalTable component should', () => {
 
 	test('Render with no taskName', () => {
 		const {getAllByTestId} = render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<ModalContext.Provider value={{setSingleModal, singleModal}}>
 					<SingleReassignModal.Table
 						data={data}
@@ -141,7 +141,7 @@ describe('The SingleReassignModalTable component should', () => {
 	test('Render with no data', () => {
 		const data = {items: undefined};
 		const {getAllByTestId} = render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<ModalContext.Provider value={{setSingleModal, singleModal}}>
 					<SingleReassignModal.Table
 						data={data}
@@ -195,7 +195,7 @@ describe('The SingleReassignModalTable component should', () => {
 		};
 
 		const {getAllByTestId} = render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<ModalContext.Provider value={{setSingleModal, singleModal}}>
 					<SingleReassignModal.Table
 						data={data}
@@ -239,7 +239,7 @@ describe('The AssigneeInput component should', () => {
 		cleanup();
 
 		const {getByTestId} = render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<Table.AssigneeInput
 					reassignedTasks={{
 						tasks: [{assigneeId: 20124, id: 39347}]
@@ -265,7 +265,7 @@ describe('The AssigneeInput component should', () => {
 		};
 
 		render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<Table.AssigneeInput
 					reassignedTasks={{
 						tasks: [{assigneeId: 20124, id: 39347}]
@@ -282,7 +282,7 @@ describe('The AssigneeInput component should', () => {
 		cleanup();
 
 		const {getByTestId} = await render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<Table.AssigneeInput
 					reassignedTasks={{tasks: []}}
 					setReassignedTasks={setReassignMock}
@@ -302,7 +302,7 @@ describe('The AssigneeInput component should', () => {
 		cleanup();
 
 		const {getByTestId} = await render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<Table.AssigneeInput
 					reassignedTasks={{tasks: [{assigneeId: 20124, id: 39347}]}}
 					setReassignedTasks={setReassignMock}

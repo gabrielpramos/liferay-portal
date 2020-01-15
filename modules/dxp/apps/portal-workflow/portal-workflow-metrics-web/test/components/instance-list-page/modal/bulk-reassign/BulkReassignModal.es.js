@@ -116,7 +116,7 @@ const ContainerMock = ({children}) => {
 	});
 
 	return (
-		<MockRouter client={clientMock} getClient={jest.fn(() => clientMock)}>
+		<MockRouter client={clientMock}>
 			<InstanceListContext.Provider value={{selectedItems}}>
 				<ModalContext.Provider value={{bulkModal, setBulkModal}}>
 					{children}

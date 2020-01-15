@@ -72,7 +72,7 @@ describe('The SingleReassignModal component should', () => {
 
 	beforeAll(() => {
 		const renderResult = render(
-			<MockRouter getClient={jest.fn(() => clientMock)}>
+			<MockRouter client={clientMock}>
 				<SingleReassignModal></SingleReassignModal>
 			</MockRouter>,
 			{
