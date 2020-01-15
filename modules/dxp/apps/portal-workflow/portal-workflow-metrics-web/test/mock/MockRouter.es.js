@@ -9,73 +9,79 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
-import {MemoryRouter as Router} from 'react-router-dom';
+import {createMemoryHistory} from 'history';
+import React, {cloneElement, useState, useMemo} from 'react';
+import {Router, Route} from 'react-router-dom';
 
 import {AppContext} from '../../src/main/resources/META-INF/resources/js/components/AppContext.es';
 
-export class MockRouter extends React.Component {
-	constructor(props) {
-		super(props);
+const withParamsMock = (...components) => ({
+	history,
+	location: {search: query},
+	match: {params: routeParams}
+}) => {
+	return components.map(component => {
+		if (routeParams.sort)
+			routeParams.sort = decodeURIComponent(routeParams.sort);
 
-		const {client, getClient, page = 1, query, sort} = this.props;
+		return cloneElement(component, {
+			...routeParams,
+			history,
+			query,
+			routeParams
+		});
+	});
+};
 
-		this.contextState = {
+const MockRouter = ({
+	children,
+	client,
+	initialPath = '/1/20/title%3Aasc',
+	path = '/:page/:pageSize/:sort',
+	query = '?backPath=%2F',
+	withRouterProps = true
+}) => {
+	const [title, setTitle] = useState(null);
+	const [status, setStatus] = useState(null);
+
+	const contextState = useMemo(
+		() => ({
 			client,
-			companyId: 1,
 			defaultDelta: 20,
 			deltas: [5, 10, 20, 30, 50, 75],
-			getClient,
+			getClient: () => client,
 			maxPages: 3,
 			namespace: 'workflow_',
-			page,
-			query,
-			setStatus: this.setStatus.bind(this),
-			setTitle: this.setTitle.bind(this),
-			sort,
-			status: null,
-			title: null
-		};
-	}
+			setStatus,
+			setTitle,
+			status,
+			title
+		}),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
+	);
 
-	setStatus(status, callback) {
-		this.contextState.status = status;
+	const initialEntries = useMemo(
+		() => [{pathname: initialPath, search: query}],
+		[initialPath, query]
+	);
 
-		if (callback) {
-			callback();
-		}
-	}
+	const history = useMemo(
+		() => createMemoryHistory({initialEntries, keyLength: 0}),
+		[initialEntries]
+	);
 
-	setTitle(title) {
-		this.contextState.title = title;
-	}
+	const component = withRouterProps
+		? withParamsMock(children)
+		: () => cloneElement(children);
 
-	render() {
-		const defaultPath = `/processes/1/10/${encodeURIComponent(
-			'title:asc'
-		)}`;
+	return (
+		<Router history={history}>
+			<AppContext.Provider value={contextState}>
+				<Route path={path} render={component} />
+			</AppContext.Provider>
+		</Router>
+	);
+};
 
-		const {initialPath = defaultPath, page = 1, query, sort} = this.props;
-
-		const initialEntries = [
-			{
-				match: {
-					params: {
-						page,
-						sort
-					}
-				},
-				pathname: initialPath,
-				search: query || '?backPath=%2F'
-			}
-		];
-
-		return (
-			<Router initialEntries={initialEntries} keyLength={0}>
-				<AppContext.Provider value={this.contextState}>
-					{this.props.children}
-				</AppContext.Provider>
-			</Router>
-		);
-	}
-}
+export {MockRouter};
