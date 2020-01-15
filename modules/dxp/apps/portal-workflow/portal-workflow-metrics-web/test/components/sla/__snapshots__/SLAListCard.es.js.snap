@@ -11,66 +11,81 @@ exports[`Should remove a item 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SLAListCard>
+      <SLAListCard
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <nav
           className="management-bar management-bar-light navbar navbar-expand-md"
         >
@@ -108,13 +123,7 @@ exports[`Should remove a item 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -126,13 +135,7 @@ exports[`Should remove a item 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -142,22 +145,20 @@ exports[`Should remove a item 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/sla/new/undefined"
@@ -165,7 +166,7 @@ exports[`Should remove a item 1`] = `
                           <ChildLinkWrapper
                             backPath="/"
                             className="btn btn-primary nav-btn nav-btn-monospaced"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -175,13 +176,7 @@ exports[`Should remove a item 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -193,19 +188,16 @@ exports[`Should remove a item 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/sla/new/undefined"
                           >
                             <Link
@@ -213,13 +205,13 @@ exports[`Should remove a item 1`] = `
                               to={
                                 Object {
                                   "pathname": "/sla/new/undefined",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <Icon
@@ -276,8 +268,8 @@ exports[`Should remove a item 1`] = `
           </ListView>
         </div>
       </SLAListCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -306,7 +298,7 @@ Array [
             >
               <a
                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                 onClick={[Function]}
               >
                 <svg
@@ -370,7 +362,7 @@ Array [
             >
               <a
                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                 onClick={[Function]}
               >
                 <svg
@@ -420,66 +412,81 @@ exports[`Should render toast with SLA saved message 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SLAListCard>
+      <SLAListCard
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <nav
           className="management-bar management-bar-light navbar navbar-expand-md"
         >
@@ -517,13 +524,7 @@ exports[`Should render toast with SLA saved message 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -535,13 +536,7 @@ exports[`Should render toast with SLA saved message 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -551,22 +546,20 @@ exports[`Should render toast with SLA saved message 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/sla/new/undefined"
@@ -574,7 +567,7 @@ exports[`Should render toast with SLA saved message 1`] = `
                           <ChildLinkWrapper
                             backPath="/"
                             className="btn btn-primary nav-btn nav-btn-monospaced"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -584,13 +577,7 @@ exports[`Should render toast with SLA saved message 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -602,19 +589,16 @@ exports[`Should render toast with SLA saved message 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/sla/new/undefined"
                           >
                             <Link
@@ -622,13 +606,13 @@ exports[`Should render toast with SLA saved message 1`] = `
                               to={
                                 Object {
                                   "pathname": "/sla/new/undefined",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <Icon
@@ -685,8 +669,8 @@ exports[`Should render toast with SLA saved message 1`] = `
           </ListView>
         </div>
       </SLAListCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -701,66 +685,81 @@ exports[`Should render toast with SLA updated message 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SLAListCard>
+      <SLAListCard
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <nav
           className="management-bar management-bar-light navbar navbar-expand-md"
         >
@@ -798,13 +797,7 @@ exports[`Should render toast with SLA updated message 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -816,13 +809,7 @@ exports[`Should render toast with SLA updated message 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -832,22 +819,20 @@ exports[`Should render toast with SLA updated message 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/sla/new/undefined"
@@ -855,7 +840,7 @@ exports[`Should render toast with SLA updated message 1`] = `
                           <ChildLinkWrapper
                             backPath="/"
                             className="btn btn-primary nav-btn nav-btn-monospaced"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -865,13 +850,7 @@ exports[`Should render toast with SLA updated message 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -883,19 +862,16 @@ exports[`Should render toast with SLA updated message 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/sla/new/undefined"
                           >
                             <Link
@@ -903,13 +879,13 @@ exports[`Should render toast with SLA updated message 1`] = `
                               to={
                                 Object {
                                   "pathname": "/sla/new/undefined",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <Icon
@@ -966,8 +942,8 @@ exports[`Should render toast with SLA updated message 1`] = `
           </ListView>
         </div>
       </SLAListCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -982,66 +958,81 @@ exports[`Should test props change 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SLAListCard>
+      <SLAListCard
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <nav
           className="management-bar management-bar-light navbar navbar-expand-md"
         >
@@ -1079,13 +1070,7 @@ exports[`Should test props change 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -1097,13 +1082,7 @@ exports[`Should test props change 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -1113,22 +1092,20 @@ exports[`Should test props change 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/sla/new/undefined"
@@ -1136,7 +1113,7 @@ exports[`Should test props change 1`] = `
                           <ChildLinkWrapper
                             backPath="/"
                             className="btn btn-primary nav-btn nav-btn-monospaced"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -1146,13 +1123,7 @@ exports[`Should test props change 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -1164,19 +1135,16 @@ exports[`Should test props change 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/sla/new/undefined"
                           >
                             <Link
@@ -1184,13 +1152,13 @@ exports[`Should test props change 1`] = `
                               to={
                                 Object {
                                   "pathname": "/sla/new/undefined",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <Icon
@@ -1247,7 +1215,7 @@ exports[`Should test props change 1`] = `
           </ListView>
         </div>
       </SLAListCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;

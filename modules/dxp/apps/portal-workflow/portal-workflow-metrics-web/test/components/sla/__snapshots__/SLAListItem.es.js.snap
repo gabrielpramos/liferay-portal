@@ -10,7 +10,7 @@ exports[`Should render component 1`] = `
     >
        
       <a
-        href="/sla/edit/undefined/1234?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+        href="/sla/edit/undefined/1234?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
         onClick={[Function]}
       />
     </div>
@@ -61,7 +61,7 @@ exports[`Should render component 1`] = `
         <li>
           <a
             className="dropdown-item"
-            href="/sla/edit/undefined/1234?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+            href="/sla/edit/undefined/1234?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
             onClick={[Function]}
           >
             edit
@@ -83,72 +83,86 @@ exports[`Should render component 1`] = `
 
 exports[`Should render component 2`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SLAListItem
         dateModified={2019-05-06T20:32:18.000Z}
         duration={58000}
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         instancesCount="10"
         onTime="5"
         overdue="5"
+        page="1"
+        pageSize="20"
         processName="Process test"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
       >
         <tr>
           <td
@@ -171,13 +185,7 @@ exports[`Should render component 2`] = `
                       "entries": Array [
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         },
                       ],
@@ -189,13 +197,7 @@ exports[`Should render component 2`] = `
                       "listen": [Function],
                       "location": Object {
                         "hash": "",
-                        "match": Object {
-                          "params": Object {
-                            "page": 1,
-                            "sort": undefined,
-                          },
-                        },
-                        "pathname": "/processes/1/10/title%3Aasc",
+                        "pathname": "/1/20/title%3Aasc",
                         "search": "?backPath=%2F",
                       },
                       "push": [Function],
@@ -205,29 +207,27 @@ exports[`Should render component 2`] = `
                   location={
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/processes/1/10/title%3Aasc",
+                      "pathname": "/1/20/title%3Aasc",
                       "search": "?backPath=%2F",
                     }
                   }
                   match={
                     Object {
-                      "isExact": false,
-                      "params": Object {},
-                      "path": "/",
-                      "url": "/",
+                      "isExact": true,
+                      "params": Object {
+                        "page": "1",
+                        "pageSize": "20",
+                        "sort": "title:asc",
+                      },
+                      "path": "/:page/:pageSize/:sort",
+                      "url": "/1/20/title%3Aasc",
                     }
                   }
                   to="/sla/edit/undefined/undefined"
                 >
                   <ChildLinkWrapper
                     backPath="/"
-                    currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                    currentPath="/1/20/title%3Aasc?backPath=%2F"
                     history={
                       Object {
                         "action": "POP",
@@ -237,13 +237,7 @@ exports[`Should render component 2`] = `
                         "entries": Array [
                           Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                         ],
@@ -255,31 +249,28 @@ exports[`Should render component 2`] = `
                         "listen": [Function],
                         "location": Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         },
                         "push": [Function],
                         "replace": [Function],
                       }
                     }
+                    page="1"
+                    pageSize="20"
+                    sort="title:asc"
                     to="/sla/edit/undefined/undefined"
                   >
                     <Link
                       to={
                         Object {
                           "pathname": "/sla/edit/undefined/undefined",
-                          "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                          "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                         }
                       }
                     >
                       <a
-                        href="/sla/edit/undefined/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                        href="/sla/edit/undefined/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                         onClick={[Function]}
                       />
                     </Link>
@@ -351,13 +342,7 @@ exports[`Should render component 2`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -369,13 +354,7 @@ exports[`Should render component 2`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -385,22 +364,20 @@ exports[`Should render component 2`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                       to="/sla/edit/undefined/undefined"
@@ -408,7 +385,7 @@ exports[`Should render component 2`] = `
                       <ChildLinkWrapper
                         backPath="/"
                         className="dropdown-item"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -418,13 +395,7 @@ exports[`Should render component 2`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -436,19 +407,16 @@ exports[`Should render component 2`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                         to="/sla/edit/undefined/undefined"
                       >
                         <Link
@@ -456,13 +424,13 @@ exports[`Should render component 2`] = `
                           to={
                             Object {
                               "pathname": "/sla/edit/undefined/undefined",
-                              "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                              "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                             }
                           }
                         >
                           <a
                             className="dropdown-item"
-                            href="/sla/edit/undefined/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                            href="/sla/edit/undefined/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                             onClick={[Function]}
                           >
                             edit
@@ -485,79 +453,93 @@ exports[`Should render component 2`] = `
           </td>
         </tr>
       </SLAListItem>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should render component blocked 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SLAListItem
         dateModified={2019-05-06T20:32:18.000Z}
         duration={58000}
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         instancesCount="10"
         onTime="5"
         overdue="5"
+        page="1"
+        pageSize="20"
         processName="Process test"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
         status={2}
       >
         <tr>
@@ -597,13 +579,7 @@ exports[`Should render component blocked 1`] = `
                       "entries": Array [
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         },
                       ],
@@ -615,13 +591,7 @@ exports[`Should render component blocked 1`] = `
                       "listen": [Function],
                       "location": Object {
                         "hash": "",
-                        "match": Object {
-                          "params": Object {
-                            "page": 1,
-                            "sort": undefined,
-                          },
-                        },
-                        "pathname": "/processes/1/10/title%3Aasc",
+                        "pathname": "/1/20/title%3Aasc",
                         "search": "?backPath=%2F",
                       },
                       "push": [Function],
@@ -631,29 +601,27 @@ exports[`Should render component blocked 1`] = `
                   location={
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/processes/1/10/title%3Aasc",
+                      "pathname": "/1/20/title%3Aasc",
                       "search": "?backPath=%2F",
                     }
                   }
                   match={
                     Object {
-                      "isExact": false,
-                      "params": Object {},
-                      "path": "/",
-                      "url": "/",
+                      "isExact": true,
+                      "params": Object {
+                        "page": "1",
+                        "pageSize": "20",
+                        "sort": "title:asc",
+                      },
+                      "path": "/:page/:pageSize/:sort",
+                      "url": "/1/20/title%3Aasc",
                     }
                   }
                   to="/sla/edit/undefined/undefined"
                 >
                   <ChildLinkWrapper
                     backPath="/"
-                    currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                    currentPath="/1/20/title%3Aasc?backPath=%2F"
                     history={
                       Object {
                         "action": "POP",
@@ -663,13 +631,7 @@ exports[`Should render component blocked 1`] = `
                         "entries": Array [
                           Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                         ],
@@ -681,31 +643,28 @@ exports[`Should render component blocked 1`] = `
                         "listen": [Function],
                         "location": Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         },
                         "push": [Function],
                         "replace": [Function],
                       }
                     }
+                    page="1"
+                    pageSize="20"
+                    sort="title:asc"
                     to="/sla/edit/undefined/undefined"
                   >
                     <Link
                       to={
                         Object {
                           "pathname": "/sla/edit/undefined/undefined",
-                          "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                          "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                         }
                       }
                     >
                       <a
-                        href="/sla/edit/undefined/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                        href="/sla/edit/undefined/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                         onClick={[Function]}
                       />
                     </Link>
@@ -777,13 +736,7 @@ exports[`Should render component blocked 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -795,13 +748,7 @@ exports[`Should render component blocked 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -811,22 +758,20 @@ exports[`Should render component blocked 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                       to="/sla/edit/undefined/undefined"
@@ -834,7 +779,7 @@ exports[`Should render component blocked 1`] = `
                       <ChildLinkWrapper
                         backPath="/"
                         className="dropdown-item"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -844,13 +789,7 @@ exports[`Should render component blocked 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -862,19 +801,16 @@ exports[`Should render component blocked 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                         to="/sla/edit/undefined/undefined"
                       >
                         <Link
@@ -882,13 +818,13 @@ exports[`Should render component blocked 1`] = `
                           to={
                             Object {
                               "pathname": "/sla/edit/undefined/undefined",
-                              "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                              "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                             }
                           }
                         >
                           <a
                             className="dropdown-item"
-                            href="/sla/edit/undefined/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                            href="/sla/edit/undefined/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                             onClick={[Function]}
                           >
                             edit
@@ -911,7 +847,7 @@ exports[`Should render component blocked 1`] = `
           </td>
         </tr>
       </SLAListItem>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;

@@ -10,78 +10,79 @@ exports[`Should render component with completed tab activated 1`] = `
       "put": [Function],
     }
   }
-  getClient={[MockFunction]}
   initialPath="/metrics/35315"
+  path="/metrics/:processId"
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/metrics/35315",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/metrics/35315",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "REPLACE",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/metrics/35315",
-            "search": "?backPath=%2F",
+            "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+            "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+          "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/metrics/:processId"
+      render={[Function]}
     >
       <ProcessMetrics
         history={
           Object {
+            "action": "REPLACE",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
             "location": Object {
-              "pathname": "/",
+              "hash": "",
+              "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+              "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
             },
-            "replace": [MockFunction],
+            "push": [Function],
+            "replace": [Function],
           }
         }
-        processId={35315}
+        processId="35315"
+        query="?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
+        routeParams={
+          Object {
+            "processId": "35315",
+          }
+        }
       >
         <div
           className="workflow-process-dashboard"
@@ -128,7 +129,7 @@ exports[`Should render component with completed tab activated 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
                             >
                               sla-settings
                             </a>
@@ -179,7 +180,7 @@ exports[`Should render component with completed tab activated 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
                             >
                               sla-settings
                             </a>
@@ -237,21 +238,15 @@ exports[`Should render component with completed tab activated 1`] = `
                               className="dropdown-item"
                               history={
                                 Object {
-                                  "action": "POP",
+                                  "action": "REPLACE",
                                   "block": [Function],
                                   "canGo": [Function],
                                   "createHref": [Function],
                                   "entries": Array [
                                     Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
-                                      "search": "?backPath=%2F",
+                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                     },
                                   ],
                                   "go": [Function],
@@ -262,14 +257,8 @@ exports[`Should render component with completed tab activated 1`] = `
                                   "listen": [Function],
                                   "location": Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315",
-                                    "search": "?backPath=%2F",
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                   },
                                   "push": [Function],
                                   "replace": [Function],
@@ -278,22 +267,18 @@ exports[`Should render component with completed tab activated 1`] = `
                               location={
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/metrics/35315",
-                                  "search": "?backPath=%2F",
+                                  "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                  "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                 }
                               }
                               match={
                                 Object {
                                   "isExact": false,
-                                  "params": Object {},
-                                  "path": "/",
-                                  "url": "/",
+                                  "params": Object {
+                                    "processId": "35315",
+                                  },
+                                  "path": "/metrics/:processId",
+                                  "url": "/metrics/35315",
                                 }
                               }
                               to="/slas/35315/20/1"
@@ -301,24 +286,25 @@ exports[`Should render component with completed tab activated 1`] = `
                               <ChildLinkWrapper
                                 backPath="/"
                                 className="dropdown-item"
-                                currentPath="/metrics/35315?backPath=%2F"
+                                currentPath="/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
+                                filters={
+                                  Object {
+                                    "taskKeys": Array [
+                                      "allSteps",
+                                    ],
+                                  }
+                                }
                                 history={
                                   Object {
-                                    "action": "POP",
+                                    "action": "REPLACE",
                                     "block": [Function],
                                     "canGo": [Function],
                                     "createHref": [Function],
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
-                                        "search": "?backPath=%2F",
+                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                       },
                                     ],
                                     "go": [Function],
@@ -329,19 +315,14 @@ exports[`Should render component with completed tab activated 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
-                                      "search": "?backPath=%2F",
+                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                     },
                                     "push": [Function],
                                     "replace": [Function],
                                   }
                                 }
+                                processId="35315"
                                 to="/slas/35315/20/1"
                               >
                                 <Link
@@ -349,13 +330,13 @@ exports[`Should render component with completed tab activated 1`] = `
                                   to={
                                     Object {
                                       "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F",
+                                      "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
                                     }
                                   }
                                 >
                                   <a
                                     className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
                                     onClick={[Function]}
                                   >
                                     sla-settings
@@ -381,7 +362,7 @@ exports[`Should render component with completed tab activated 1`] = `
                   "params": Object {
                     "page": 1,
                     "pageSize": 20,
-                    "processId": 35315,
+                    "processId": "35315",
                     "sort": "overdueInstanceCount%3Aasc",
                   },
                   "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -390,7 +371,7 @@ exports[`Should render component with completed tab activated 1`] = `
                   "key": "performance",
                   "name": "performance",
                   "params": Object {
-                    "processId": 35315,
+                    "processId": "35315",
                   },
                   "path": "/metrics/:processId/performance",
                 },
@@ -400,21 +381,15 @@ exports[`Should render component with completed tab activated 1`] = `
             <Tabs
               history={
                 Object {
-                  "action": "POP",
+                  "action": "REPLACE",
                   "block": [Function],
                   "canGo": [Function],
                   "createHref": [Function],
                   "entries": Array [
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/metrics/35315",
-                      "search": "?backPath=%2F",
+                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                     },
                   ],
                   "go": [Function],
@@ -425,14 +400,8 @@ exports[`Should render component with completed tab activated 1`] = `
                   "listen": [Function],
                   "location": Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/metrics/35315",
-                    "search": "?backPath=%2F",
+                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                   },
                   "push": [Function],
                   "replace": [Function],
@@ -441,22 +410,18 @@ exports[`Should render component with completed tab activated 1`] = `
               location={
                 Object {
                   "hash": "",
-                  "match": Object {
-                    "params": Object {
-                      "page": 1,
-                      "sort": undefined,
-                    },
-                  },
-                  "pathname": "/metrics/35315",
-                  "search": "?backPath=%2F",
+                  "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                  "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                 }
               }
               match={
                 Object {
                   "isExact": false,
-                  "params": Object {},
-                  "path": "/",
-                  "url": "/",
+                  "params": Object {
+                    "processId": "35315",
+                  },
+                  "path": "/metrics/:processId",
+                  "url": "/metrics/35315",
                 }
               }
               tabs={
@@ -467,7 +432,7 @@ exports[`Should render component with completed tab activated 1`] = `
                     "params": Object {
                       "page": 1,
                       "pageSize": 20,
-                      "processId": 35315,
+                      "processId": "35315",
                       "sort": "overdueInstanceCount%3Aasc",
                     },
                     "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -476,7 +441,7 @@ exports[`Should render component with completed tab activated 1`] = `
                     "key": "performance",
                     "name": "performance",
                     "params": Object {
-                      "processId": 35315,
+                      "processId": "35315",
                     },
                     "path": "/metrics/:processId/performance",
                   },
@@ -495,6 +460,7 @@ exports[`Should render component with completed tab activated 1`] = `
                     className="collapsed navbar-toggler navbar-toggler-link"
                     onClick={[Function]}
                   >
+                    dashboard
                     <Icon
                       iconName="caret-bottom"
                     >
@@ -526,44 +492,38 @@ exports[`Should render component with completed tab activated 1`] = `
                           onClick={[Function]}
                         >
                           <TabItem
-                            active={false}
+                            active={true}
                             key="dashboard"
                             name="dashboard"
                             params={
                               Object {
                                 "page": 1,
                                 "pageSize": 20,
-                                "processId": 35315,
+                                "processId": "35315",
                                 "sort": "overdueInstanceCount%3Aasc",
                               }
                             }
                             path="/metrics/:processId/dashboard/:pageSize/:page/:sort"
                           >
                             <withRouter()
-                              aria-label=""
-                              className=" nav-link"
+                              aria-label="current-page"
+                              className="active nav-link"
                               to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
                               <Component
-                                aria-label=""
-                                className=" nav-link"
+                                aria-label="current-page"
+                                className="active nav-link"
                                 history={
                                   Object {
-                                    "action": "POP",
+                                    "action": "REPLACE",
                                     "block": [Function],
                                     "canGo": [Function],
                                     "createHref": [Function],
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
-                                        "search": "?backPath=%2F",
+                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                       },
                                     ],
                                     "go": [Function],
@@ -574,14 +534,8 @@ exports[`Should render component with completed tab activated 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
-                                      "search": "?backPath=%2F",
+                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                     },
                                     "push": [Function],
                                     "replace": [Function],
@@ -590,48 +544,45 @@ exports[`Should render component with completed tab activated 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315",
-                                    "search": "?backPath=%2F",
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
                                 to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
                                 <ChildLinkWrapper
-                                  aria-label=""
+                                  aria-label="current-page"
                                   backPath="/"
-                                  className=" nav-link"
-                                  currentPath="/metrics/35315?backPath=%2F"
+                                  className="active nav-link"
+                                  currentPath="/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
+                                  filters={
+                                    Object {
+                                      "taskKeys": Array [
+                                        "allSteps",
+                                      ],
+                                    }
+                                  }
                                   history={
                                     Object {
-                                      "action": "POP",
+                                      "action": "REPLACE",
                                       "block": [Function],
                                       "canGo": [Function],
                                       "createHref": [Function],
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315",
-                                          "search": "?backPath=%2F",
+                                          "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                          "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                         },
                                       ],
                                       "go": [Function],
@@ -642,33 +593,28 @@ exports[`Should render component with completed tab activated 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
-                                        "search": "?backPath=%2F",
+                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
+                                  processId="35315"
                                   to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                                 >
                                   <Link
-                                    className=" nav-link"
+                                    className="active nav-link"
                                     to={
                                       Object {
                                         "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
                                       }
                                     }
                                   >
                                     <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                                      className="active nav-link"
+                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -694,7 +640,7 @@ exports[`Should render component with completed tab activated 1`] = `
                             name="performance"
                             params={
                               Object {
-                                "processId": 35315,
+                                "processId": "35315",
                               }
                             }
                             path="/metrics/:processId/performance"
@@ -709,21 +655,15 @@ exports[`Should render component with completed tab activated 1`] = `
                                 className=" nav-link"
                                 history={
                                   Object {
-                                    "action": "POP",
+                                    "action": "REPLACE",
                                     "block": [Function],
                                     "canGo": [Function],
                                     "createHref": [Function],
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
-                                        "search": "?backPath=%2F",
+                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                       },
                                     ],
                                     "go": [Function],
@@ -734,14 +674,8 @@ exports[`Should render component with completed tab activated 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
-                                      "search": "?backPath=%2F",
+                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                     },
                                     "push": [Function],
                                     "replace": [Function],
@@ -750,22 +684,18 @@ exports[`Should render component with completed tab activated 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315",
-                                    "search": "?backPath=%2F",
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
                                 to="/metrics/35315/performance"
@@ -774,24 +704,25 @@ exports[`Should render component with completed tab activated 1`] = `
                                   aria-label=""
                                   backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315?backPath=%2F"
+                                  currentPath="/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
+                                  filters={
+                                    Object {
+                                      "taskKeys": Array [
+                                        "allSteps",
+                                      ],
+                                    }
+                                  }
                                   history={
                                     Object {
-                                      "action": "POP",
+                                      "action": "REPLACE",
                                       "block": [Function],
                                       "canGo": [Function],
                                       "createHref": [Function],
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315",
-                                          "search": "?backPath=%2F",
+                                          "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                          "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                         },
                                       ],
                                       "go": [Function],
@@ -802,19 +733,14 @@ exports[`Should render component with completed tab activated 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
-                                        "search": "?backPath=%2F",
+                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
+                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
+                                  processId="35315"
                                   to="/metrics/35315/performance"
                                 >
                                   <Link
@@ -822,13 +748,13 @@ exports[`Should render component with completed tab activated 1`] = `
                                     to={
                                       Object {
                                         "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
                                       }
                                     }
                                   >
                                     <a
                                       className=" nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -878,8 +804,8 @@ exports[`Should render component with completed tab activated 1`] = `
           </HashRouter>
         </div>
       </ProcessMetrics>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -893,78 +819,79 @@ exports[`Should render component with default tab activated 1`] = `
       "put": [Function],
     }
   }
-  getClient={[MockFunction]}
-  initialPath="/metrics/35315"
+  initialPath="/metrics/35315/dashboard"
+  path="/metrics/:processId"
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/metrics/35315",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/metrics/35315",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/metrics/35315",
+            "pathname": "/metrics/35315/dashboard",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/metrics/35315/dashboard",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/metrics/:processId"
+      render={[Function]}
     >
       <ProcessMetrics
         history={
           Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/metrics/35315/dashboard",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
             "location": Object {
-              "pathname": "/",
+              "hash": "",
+              "pathname": "/metrics/35315/dashboard",
+              "search": "?backPath=%2F",
             },
-            "replace": [MockFunction],
+            "push": [Function],
+            "replace": [Function],
           }
         }
-        processId={35315}
+        processId="35315"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "processId": "35315",
+          }
+        }
       >
         <div
           className="workflow-process-dashboard"
@@ -1011,7 +938,7 @@ exports[`Should render component with default tab activated 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
                             >
                               sla-settings
                             </a>
@@ -1062,7 +989,7 @@ exports[`Should render component with default tab activated 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
                             >
                               sla-settings
                             </a>
@@ -1127,13 +1054,7 @@ exports[`Should render component with default tab activated 1`] = `
                                   "entries": Array [
                                     Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
+                                      "pathname": "/metrics/35315/dashboard",
                                       "search": "?backPath=%2F",
                                     },
                                   ],
@@ -1145,13 +1066,7 @@ exports[`Should render component with default tab activated 1`] = `
                                   "listen": [Function],
                                   "location": Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315",
+                                    "pathname": "/metrics/35315/dashboard",
                                     "search": "?backPath=%2F",
                                   },
                                   "push": [Function],
@@ -1161,22 +1076,18 @@ exports[`Should render component with default tab activated 1`] = `
                               location={
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/metrics/35315",
+                                  "pathname": "/metrics/35315/dashboard",
                                   "search": "?backPath=%2F",
                                 }
                               }
                               match={
                                 Object {
                                   "isExact": false,
-                                  "params": Object {},
-                                  "path": "/",
-                                  "url": "/",
+                                  "params": Object {
+                                    "processId": "35315",
+                                  },
+                                  "path": "/metrics/:processId",
+                                  "url": "/metrics/35315",
                                 }
                               }
                               to="/slas/35315/20/1"
@@ -1184,7 +1095,7 @@ exports[`Should render component with default tab activated 1`] = `
                               <ChildLinkWrapper
                                 backPath="/"
                                 className="dropdown-item"
-                                currentPath="/metrics/35315?backPath=%2F"
+                                currentPath="/metrics/35315/dashboard?backPath=%2F"
                                 history={
                                   Object {
                                     "action": "POP",
@@ -1194,13 +1105,7 @@ exports[`Should render component with default tab activated 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
+                                        "pathname": "/metrics/35315/dashboard",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -1212,19 +1117,14 @@ exports[`Should render component with default tab activated 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
+                                      "pathname": "/metrics/35315/dashboard",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
                                     "replace": [Function],
                                   }
                                 }
+                                processId="35315"
                                 to="/slas/35315/20/1"
                               >
                                 <Link
@@ -1232,13 +1132,13 @@ exports[`Should render component with default tab activated 1`] = `
                                   to={
                                     Object {
                                       "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F",
+                                      "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
                                     }
                                   }
                                 >
                                   <a
                                     className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
                                     onClick={[Function]}
                                   >
                                     sla-settings
@@ -1264,7 +1164,7 @@ exports[`Should render component with default tab activated 1`] = `
                   "params": Object {
                     "page": 1,
                     "pageSize": 20,
-                    "processId": 35315,
+                    "processId": "35315",
                     "sort": "overdueInstanceCount%3Aasc",
                   },
                   "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -1273,7 +1173,7 @@ exports[`Should render component with default tab activated 1`] = `
                   "key": "performance",
                   "name": "performance",
                   "params": Object {
-                    "processId": 35315,
+                    "processId": "35315",
                   },
                   "path": "/metrics/:processId/performance",
                 },
@@ -1290,13 +1190,7 @@ exports[`Should render component with default tab activated 1`] = `
                   "entries": Array [
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/metrics/35315",
+                      "pathname": "/metrics/35315/dashboard",
                       "search": "?backPath=%2F",
                     },
                   ],
@@ -1308,13 +1202,7 @@ exports[`Should render component with default tab activated 1`] = `
                   "listen": [Function],
                   "location": Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/metrics/35315",
+                    "pathname": "/metrics/35315/dashboard",
                     "search": "?backPath=%2F",
                   },
                   "push": [Function],
@@ -1324,22 +1212,18 @@ exports[`Should render component with default tab activated 1`] = `
               location={
                 Object {
                   "hash": "",
-                  "match": Object {
-                    "params": Object {
-                      "page": 1,
-                      "sort": undefined,
-                    },
-                  },
-                  "pathname": "/metrics/35315",
+                  "pathname": "/metrics/35315/dashboard",
                   "search": "?backPath=%2F",
                 }
               }
               match={
                 Object {
                   "isExact": false,
-                  "params": Object {},
-                  "path": "/",
-                  "url": "/",
+                  "params": Object {
+                    "processId": "35315",
+                  },
+                  "path": "/metrics/:processId",
+                  "url": "/metrics/35315",
                 }
               }
               tabs={
@@ -1350,7 +1234,7 @@ exports[`Should render component with default tab activated 1`] = `
                     "params": Object {
                       "page": 1,
                       "pageSize": 20,
-                      "processId": 35315,
+                      "processId": "35315",
                       "sort": "overdueInstanceCount%3Aasc",
                     },
                     "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -1359,7 +1243,7 @@ exports[`Should render component with default tab activated 1`] = `
                     "key": "performance",
                     "name": "performance",
                     "params": Object {
-                      "processId": 35315,
+                      "processId": "35315",
                     },
                     "path": "/metrics/:processId/performance",
                   },
@@ -1378,6 +1262,7 @@ exports[`Should render component with default tab activated 1`] = `
                     className="collapsed navbar-toggler navbar-toggler-link"
                     onClick={[Function]}
                   >
+                    dashboard
                     <Icon
                       iconName="caret-bottom"
                     >
@@ -1409,27 +1294,27 @@ exports[`Should render component with default tab activated 1`] = `
                           onClick={[Function]}
                         >
                           <TabItem
-                            active={false}
+                            active={true}
                             key="dashboard"
                             name="dashboard"
                             params={
                               Object {
                                 "page": 1,
                                 "pageSize": 20,
-                                "processId": 35315,
+                                "processId": "35315",
                                 "sort": "overdueInstanceCount%3Aasc",
                               }
                             }
                             path="/metrics/:processId/dashboard/:pageSize/:page/:sort"
                           >
                             <withRouter()
-                              aria-label=""
-                              className=" nav-link"
+                              aria-label="current-page"
+                              className="active nav-link"
                               to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
                               <Component
-                                aria-label=""
-                                className=" nav-link"
+                                aria-label="current-page"
+                                className="active nav-link"
                                 history={
                                   Object {
                                     "action": "POP",
@@ -1439,13 +1324,7 @@ exports[`Should render component with default tab activated 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
+                                        "pathname": "/metrics/35315/dashboard",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -1457,13 +1336,7 @@ exports[`Should render component with default tab activated 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
+                                      "pathname": "/metrics/35315/dashboard",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
@@ -1473,31 +1346,27 @@ exports[`Should render component with default tab activated 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315",
+                                    "pathname": "/metrics/35315/dashboard",
                                     "search": "?backPath=%2F",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
                                 to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
                                 <ChildLinkWrapper
-                                  aria-label=""
+                                  aria-label="current-page"
                                   backPath="/"
-                                  className=" nav-link"
-                                  currentPath="/metrics/35315?backPath=%2F"
+                                  className="active nav-link"
+                                  currentPath="/metrics/35315/dashboard?backPath=%2F"
                                   history={
                                     Object {
                                       "action": "POP",
@@ -1507,13 +1376,7 @@ exports[`Should render component with default tab activated 1`] = `
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315",
+                                          "pathname": "/metrics/35315/dashboard",
                                           "search": "?backPath=%2F",
                                         },
                                       ],
@@ -1525,33 +1388,28 @@ exports[`Should render component with default tab activated 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
+                                        "pathname": "/metrics/35315/dashboard",
                                         "search": "?backPath=%2F",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
+                                  processId="35315"
                                   to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                                 >
                                   <Link
-                                    className=" nav-link"
+                                    className="active nav-link"
                                     to={
                                       Object {
                                         "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
                                       }
                                     }
                                   >
                                     <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                                      className="active nav-link"
+                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -1577,7 +1435,7 @@ exports[`Should render component with default tab activated 1`] = `
                             name="performance"
                             params={
                               Object {
-                                "processId": 35315,
+                                "processId": "35315",
                               }
                             }
                             path="/metrics/:processId/performance"
@@ -1599,13 +1457,7 @@ exports[`Should render component with default tab activated 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
+                                        "pathname": "/metrics/35315/dashboard",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -1617,13 +1469,7 @@ exports[`Should render component with default tab activated 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315",
+                                      "pathname": "/metrics/35315/dashboard",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
@@ -1633,22 +1479,18 @@ exports[`Should render component with default tab activated 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315",
+                                    "pathname": "/metrics/35315/dashboard",
                                     "search": "?backPath=%2F",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
                                 to="/metrics/35315/performance"
@@ -1657,7 +1499,7 @@ exports[`Should render component with default tab activated 1`] = `
                                   aria-label=""
                                   backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315?backPath=%2F"
+                                  currentPath="/metrics/35315/dashboard?backPath=%2F"
                                   history={
                                     Object {
                                       "action": "POP",
@@ -1667,13 +1509,7 @@ exports[`Should render component with default tab activated 1`] = `
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315",
+                                          "pathname": "/metrics/35315/dashboard",
                                           "search": "?backPath=%2F",
                                         },
                                       ],
@@ -1685,19 +1521,14 @@ exports[`Should render component with default tab activated 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315",
+                                        "pathname": "/metrics/35315/dashboard",
                                         "search": "?backPath=%2F",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
+                                  processId="35315"
                                   to="/metrics/35315/performance"
                                 >
                                   <Link
@@ -1705,13 +1536,13 @@ exports[`Should render component with default tab activated 1`] = `
                                     to={
                                       Object {
                                         "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
                                       }
                                     }
                                   >
                                     <a
                                       className=" nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%3FbackPath%3D%252F"
+                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -1761,8 +1592,8 @@ exports[`Should render component with default tab activated 1`] = `
           </HashRouter>
         </div>
       </ProcessMetrics>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -1776,77 +1607,79 @@ exports[`Should render component with failure state 1`] = `
       "put": [Function],
     }
   }
-  initialPath="/metrics/35315/completed"
+  initialPath="/metrics/35315/performance"
+  path="/metrics/:processId"
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/metrics/35315/completed",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/metrics/35315/completed",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/metrics/35315/completed",
+            "pathname": "/metrics/35315/performance",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/metrics/35315/performance",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/metrics/:processId"
+      render={[Function]}
     >
       <ProcessMetrics
         history={
           Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/metrics/35315/performance",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
             "location": Object {
-              "pathname": "/",
+              "hash": "",
+              "pathname": "/metrics/35315/performance",
+              "search": "?backPath=%2F",
             },
-            "replace": [MockFunction],
+            "push": [Function],
+            "replace": [Function],
           }
         }
-        processId={35315}
+        processId="35315"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "processId": "35315",
+          }
+        }
       >
         <div
           className="workflow-process-dashboard"
@@ -1893,7 +1726,7 @@ exports[`Should render component with failure state 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                             >
                               sla-settings
                             </a>
@@ -1944,7 +1777,7 @@ exports[`Should render component with failure state 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                             >
                               sla-settings
                             </a>
@@ -2009,13 +1842,7 @@ exports[`Should render component with failure state 1`] = `
                                   "entries": Array [
                                     Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                   ],
@@ -2027,13 +1854,7 @@ exports[`Should render component with failure state 1`] = `
                                   "listen": [Function],
                                   "location": Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315/completed",
+                                    "pathname": "/metrics/35315/performance",
                                     "search": "?backPath=%2F",
                                   },
                                   "push": [Function],
@@ -2043,22 +1864,18 @@ exports[`Should render component with failure state 1`] = `
                               location={
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/metrics/35315/completed",
+                                  "pathname": "/metrics/35315/performance",
                                   "search": "?backPath=%2F",
                                 }
                               }
                               match={
                                 Object {
                                   "isExact": false,
-                                  "params": Object {},
-                                  "path": "/",
-                                  "url": "/",
+                                  "params": Object {
+                                    "processId": "35315",
+                                  },
+                                  "path": "/metrics/:processId",
+                                  "url": "/metrics/35315",
                                 }
                               }
                               to="/slas/35315/20/1"
@@ -2066,7 +1883,7 @@ exports[`Should render component with failure state 1`] = `
                               <ChildLinkWrapper
                                 backPath="/"
                                 className="dropdown-item"
-                                currentPath="/metrics/35315/completed?backPath=%2F"
+                                currentPath="/metrics/35315/performance?backPath=%2F"
                                 history={
                                   Object {
                                     "action": "POP",
@@ -2076,13 +1893,7 @@ exports[`Should render component with failure state 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -2094,19 +1905,14 @@ exports[`Should render component with failure state 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
                                     "replace": [Function],
                                   }
                                 }
+                                processId="35315"
                                 to="/slas/35315/20/1"
                               >
                                 <Link
@@ -2114,13 +1920,13 @@ exports[`Should render component with failure state 1`] = `
                                   to={
                                     Object {
                                       "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F",
+                                      "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                     }
                                   }
                                 >
                                   <a
                                     className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                                     onClick={[Function]}
                                   >
                                     sla-settings
@@ -2146,7 +1952,7 @@ exports[`Should render component with failure state 1`] = `
                   "params": Object {
                     "page": 1,
                     "pageSize": 20,
-                    "processId": 35315,
+                    "processId": "35315",
                     "sort": "overdueInstanceCount%3Aasc",
                   },
                   "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -2155,7 +1961,7 @@ exports[`Should render component with failure state 1`] = `
                   "key": "performance",
                   "name": "performance",
                   "params": Object {
-                    "processId": 35315,
+                    "processId": "35315",
                   },
                   "path": "/metrics/:processId/performance",
                 },
@@ -2172,13 +1978,7 @@ exports[`Should render component with failure state 1`] = `
                   "entries": Array [
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/metrics/35315/completed",
+                      "pathname": "/metrics/35315/performance",
                       "search": "?backPath=%2F",
                     },
                   ],
@@ -2190,13 +1990,7 @@ exports[`Should render component with failure state 1`] = `
                   "listen": [Function],
                   "location": Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/metrics/35315/completed",
+                    "pathname": "/metrics/35315/performance",
                     "search": "?backPath=%2F",
                   },
                   "push": [Function],
@@ -2206,22 +2000,18 @@ exports[`Should render component with failure state 1`] = `
               location={
                 Object {
                   "hash": "",
-                  "match": Object {
-                    "params": Object {
-                      "page": 1,
-                      "sort": undefined,
-                    },
-                  },
-                  "pathname": "/metrics/35315/completed",
+                  "pathname": "/metrics/35315/performance",
                   "search": "?backPath=%2F",
                 }
               }
               match={
                 Object {
                   "isExact": false,
-                  "params": Object {},
-                  "path": "/",
-                  "url": "/",
+                  "params": Object {
+                    "processId": "35315",
+                  },
+                  "path": "/metrics/:processId",
+                  "url": "/metrics/35315",
                 }
               }
               tabs={
@@ -2232,7 +2022,7 @@ exports[`Should render component with failure state 1`] = `
                     "params": Object {
                       "page": 1,
                       "pageSize": 20,
-                      "processId": 35315,
+                      "processId": "35315",
                       "sort": "overdueInstanceCount%3Aasc",
                     },
                     "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -2241,7 +2031,7 @@ exports[`Should render component with failure state 1`] = `
                     "key": "performance",
                     "name": "performance",
                     "params": Object {
-                      "processId": 35315,
+                      "processId": "35315",
                     },
                     "path": "/metrics/:processId/performance",
                   },
@@ -2260,6 +2050,7 @@ exports[`Should render component with failure state 1`] = `
                     className="collapsed navbar-toggler navbar-toggler-link"
                     onClick={[Function]}
                   >
+                    performance
                     <Icon
                       iconName="caret-bottom"
                     >
@@ -2298,7 +2089,7 @@ exports[`Should render component with failure state 1`] = `
                               Object {
                                 "page": 1,
                                 "pageSize": 20,
-                                "processId": 35315,
+                                "processId": "35315",
                                 "sort": "overdueInstanceCount%3Aasc",
                               }
                             }
@@ -2321,13 +2112,7 @@ exports[`Should render component with failure state 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -2339,13 +2124,7 @@ exports[`Should render component with failure state 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
@@ -2355,22 +2134,18 @@ exports[`Should render component with failure state 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315/completed",
+                                    "pathname": "/metrics/35315/performance",
                                     "search": "?backPath=%2F",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
                                 to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
@@ -2379,7 +2154,7 @@ exports[`Should render component with failure state 1`] = `
                                   aria-label=""
                                   backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315/completed?backPath=%2F"
+                                  currentPath="/metrics/35315/performance?backPath=%2F"
                                   history={
                                     Object {
                                       "action": "POP",
@@ -2389,13 +2164,7 @@ exports[`Should render component with failure state 1`] = `
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315/completed",
+                                          "pathname": "/metrics/35315/performance",
                                           "search": "?backPath=%2F",
                                         },
                                       ],
@@ -2407,19 +2176,14 @@ exports[`Should render component with failure state 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
+                                  processId="35315"
                                   to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                                 >
                                   <Link
@@ -2427,13 +2191,13 @@ exports[`Should render component with failure state 1`] = `
                                     to={
                                       Object {
                                         "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                       }
                                     }
                                   >
                                     <a
                                       className=" nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -2454,24 +2218,24 @@ exports[`Should render component with failure state 1`] = `
                           onClick={[Function]}
                         >
                           <TabItem
-                            active={false}
+                            active={true}
                             key="performance"
                             name="performance"
                             params={
                               Object {
-                                "processId": 35315,
+                                "processId": "35315",
                               }
                             }
                             path="/metrics/:processId/performance"
                           >
                             <withRouter()
-                              aria-label=""
-                              className=" nav-link"
+                              aria-label="current-page"
+                              className="active nav-link"
                               to="/metrics/35315/performance"
                             >
                               <Component
-                                aria-label=""
-                                className=" nav-link"
+                                aria-label="current-page"
+                                className="active nav-link"
                                 history={
                                   Object {
                                     "action": "POP",
@@ -2481,13 +2245,7 @@ exports[`Should render component with failure state 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -2499,13 +2257,7 @@ exports[`Should render component with failure state 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
@@ -2515,31 +2267,27 @@ exports[`Should render component with failure state 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315/completed",
+                                    "pathname": "/metrics/35315/performance",
                                     "search": "?backPath=%2F",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
                                 to="/metrics/35315/performance"
                               >
                                 <ChildLinkWrapper
-                                  aria-label=""
+                                  aria-label="current-page"
                                   backPath="/"
-                                  className=" nav-link"
-                                  currentPath="/metrics/35315/completed?backPath=%2F"
+                                  className="active nav-link"
+                                  currentPath="/metrics/35315/performance?backPath=%2F"
                                   history={
                                     Object {
                                       "action": "POP",
@@ -2549,13 +2297,7 @@ exports[`Should render component with failure state 1`] = `
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315/completed",
+                                          "pathname": "/metrics/35315/performance",
                                           "search": "?backPath=%2F",
                                         },
                                       ],
@@ -2567,33 +2309,28 @@ exports[`Should render component with failure state 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
+                                  processId="35315"
                                   to="/metrics/35315/performance"
                                 >
                                   <Link
-                                    className=" nav-link"
+                                    className="active nav-link"
                                     to={
                                       Object {
                                         "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                       }
                                     }
                                   >
                                     <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                                      className="active nav-link"
+                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -2643,332 +2380,8 @@ exports[`Should render component with failure state 1`] = `
           </HashRouter>
         </div>
       </ProcessMetrics>
-    </Router>
-  </MemoryRouter>
-</MockRouter>
-`;
-
-exports[`Should render dashboard route children 1`] = `
-<MockRouter
-  client={
-    Object {
-      "delete": [Function],
-      "get": [Function],
-      "post": [Function],
-      "put": [Function],
-    }
-  }
-  getClient={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          false,
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": Object {
-            "delete": [Function],
-            "get": [Function],
-            "post": [Function],
-            "put": [Function],
-          },
-        },
-      ],
-    }
-  }
->
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
-            "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
-            "search": "?backPath=%2F",
-          },
-          "push": [Function],
-          "replace": [Function],
-        }
-      }
-    >
-      <PendingItemsCard
-        key="0"
-        processId={35315}
-        query=""
-        routeParams={
-          Object {
-            "processId": 35315,
-          }
-        }
-      >
-        <ProcessItemsCard
-          description="pending-items-description"
-          processId={35315}
-          title="pending-items"
-        >
-          <PromisesResolver
-            promises={
-              Array [
-                Promise {},
-              ]
-            }
-          >
-            <Panel>
-              <div
-                className="container-fluid-1280 mt-4"
-              >
-                <div
-                  className="panel panel-secondary"
-                >
-                  <Header
-                    data={Object {}}
-                    description="pending-items-description"
-                    title="pending-items"
-                  >
-                    <Header
-                      elementClasses={
-                        Array [
-                          "dashboard-panel-header",
-                          undefined,
-                        ]
-                      }
-                    >
-                      <div
-                        className="panel-header dashboard-panel-header"
-                        data-testid="panelHeader"
-                      >
-                        <div>
-                          <div
-                            className="autofit-row"
-                          >
-                            <div
-                              className="autofit-col autofit-col-expand flex-row"
-                            >
-                              <span
-                                className="mr-2"
-                              >
-                                pending-items
-                              </span>
-                              <TooltipProvider>
-                                <span
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                >
-                                  <span
-                                    className="workflow-tooltip"
-                                    data-tooltip-align="right"
-                                    title="pending-items-description"
-                                  >
-                                    <Icon
-                                      iconName="question-circle-full"
-                                    >
-                                      <svg
-                                        className="lexicon-icon lexicon-icon-question-circle-full"
-                                        dangerouslySetInnerHTML={
-                                          Object {
-                                            "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#question-circle-full\\" />",
-                                          }
-                                        }
-                                        data-testid="icon"
-                                        focusable="false"
-                                        role="presentation"
-                                      />
-                                    </Icon>
-                                  </span>
-                                </span>
-                              </TooltipProvider>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Header>
-                  </Header>
-                  <Body
-                    data={Object {}}
-                    processId={35315}
-                  >
-                    <Body>
-                      <div
-                        className="panel-body"
-                        data-testid="panelBody"
-                      >
-                        <Resolved />
-                        <Rejected />
-                        <Pending>
-                          <LoadingState
-                            className="pb-6 pt-5"
-                          >
-                            <div
-                              className="pb-6 pt-5"
-                              data-testid="loadingState"
-                            >
-                              <span
-                                aria-hidden="true"
-                                className="loading-animation"
-                              />
-                            </div>
-                          </LoadingState>
-                        </Pending>
-                      </div>
-                    </Body>
-                  </Body>
-                </div>
-              </div>
-            </Panel>
-          </PromisesResolver>
-        </ProcessItemsCard>
-      </PendingItemsCard>
-      <WorkloadByStepCard
-        key="1"
-        processId={35315}
-        query=""
-        routeParams={
-          Object {
-            "processId": 35315,
-          }
-        }
-      >
-        <Panel
-          className="container-fluid-1280 mt-4"
-        >
-          <div
-            className="container-fluid-1280 mt-4"
-          >
-            <div
-              className="panel panel-secondary"
-            >
-              <Header
-                elementClasses="dashboard-panel-header"
-              >
-                <div
-                  className="panel-header dashboard-panel-header"
-                  data-testid="panelHeader"
-                >
-                  <div>
-                    <div>
-                      <span
-                        className="mr-2"
-                      >
-                        workload-by-step
-                      </span>
-                      <TooltipProvider>
-                        <span
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          <span
-                            className="workflow-tooltip"
-                            data-tooltip-align="right"
-                            title="workload-by-step-description"
-                          >
-                            <Icon
-                              iconName="question-circle-full"
-                            >
-                              <svg
-                                className="lexicon-icon lexicon-icon-question-circle-full"
-                                dangerouslySetInnerHTML={
-                                  Object {
-                                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#question-circle-full\\" />",
-                                  }
-                                }
-                                data-testid="icon"
-                                focusable="false"
-                                role="presentation"
-                              />
-                            </Icon>
-                          </span>
-                        </span>
-                      </TooltipProvider>
-                    </div>
-                  </div>
-                </div>
-              </Header>
-              <Body>
-                <div
-                  className="panel-body"
-                  data-testid="panelBody"
-                >
-                  <ListView
-                    className="border-0"
-                    emptyActionButton={<ReloadButton />}
-                    emptyMessageClassName="small"
-                    emptyMessageText="there-are-no-pending-items-at-the-moment"
-                    errorMessageText={null}
-                    fetching={false}
-                    hideAnimation={true}
-                    loading={true}
-                  >
-                    <div>
-                      <LoadingState
-                        className="border-0 pb-6 pt-6 sheet"
-                      >
-                        <div
-                          className="border-0 pb-6 pt-6 sheet"
-                          data-testid="loadingState"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="loading-animation"
-                          />
-                        </div>
-                      </LoadingState>
-                    </div>
-                  </ListView>
-                </div>
-              </Body>
-            </div>
-          </div>
-        </Panel>
-      </WorkloadByStepCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -2982,78 +2395,79 @@ exports[`Should render with blocked SLA 1`] = `
       "put": [Function],
     }
   }
-  getClient={[MockFunction]}
-  initialPath="/metrics/35315/completed"
+  initialPath="/metrics/35315/performance"
+  path="/metrics/:processId"
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/metrics/35315/completed",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/metrics/35315/completed",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/metrics/35315/completed",
+            "pathname": "/metrics/35315/performance",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/metrics/35315/performance",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/metrics/:processId"
+      render={[Function]}
     >
       <ProcessMetrics
         history={
           Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/metrics/35315/performance",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
             "location": Object {
-              "pathname": "/",
+              "hash": "",
+              "pathname": "/metrics/35315/performance",
+              "search": "?backPath=%2F",
             },
-            "replace": [MockFunction],
+            "push": [Function],
+            "replace": [Function],
           }
         }
-        processId="123"
+        processId="35315"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "processId": "35315",
+          }
+        }
       >
         <div
           className="workflow-process-dashboard"
@@ -3100,7 +2514,7 @@ exports[`Should render with blocked SLA 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/123/20/1?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                             >
                               sla-settings
                             </a>
@@ -3151,7 +2565,7 @@ exports[`Should render with blocked SLA 1`] = `
                           <li>
                             <a
                               class="dropdown-item"
-                              href="/slas/123/20/1?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                             >
                               sla-settings
                             </a>
@@ -3203,7 +2617,7 @@ exports[`Should render with blocked SLA 1`] = `
                         <li>
                           <withRouter()
                             className="dropdown-item"
-                            to="/slas/123/20/1"
+                            to="/slas/35315/20/1"
                           >
                             <Component
                               className="dropdown-item"
@@ -3216,13 +2630,7 @@ exports[`Should render with blocked SLA 1`] = `
                                   "entries": Array [
                                     Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                   ],
@@ -3234,13 +2642,7 @@ exports[`Should render with blocked SLA 1`] = `
                                   "listen": [Function],
                                   "location": Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315/completed",
+                                    "pathname": "/metrics/35315/performance",
                                     "search": "?backPath=%2F",
                                   },
                                   "push": [Function],
@@ -3250,30 +2652,26 @@ exports[`Should render with blocked SLA 1`] = `
                               location={
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/metrics/35315/completed",
+                                  "pathname": "/metrics/35315/performance",
                                   "search": "?backPath=%2F",
                                 }
                               }
                               match={
                                 Object {
                                   "isExact": false,
-                                  "params": Object {},
-                                  "path": "/",
-                                  "url": "/",
+                                  "params": Object {
+                                    "processId": "35315",
+                                  },
+                                  "path": "/metrics/:processId",
+                                  "url": "/metrics/35315",
                                 }
                               }
-                              to="/slas/123/20/1"
+                              to="/slas/35315/20/1"
                             >
                               <ChildLinkWrapper
                                 backPath="/"
                                 className="dropdown-item"
-                                currentPath="/metrics/35315/completed?backPath=%2F"
+                                currentPath="/metrics/35315/performance?backPath=%2F"
                                 history={
                                   Object {
                                     "action": "POP",
@@ -3283,13 +2681,7 @@ exports[`Should render with blocked SLA 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -3301,33 +2693,28 @@ exports[`Should render with blocked SLA 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
                                     "replace": [Function],
                                   }
                                 }
-                                to="/slas/123/20/1"
+                                processId="35315"
+                                to="/slas/35315/20/1"
                               >
                                 <Link
                                   className="dropdown-item"
                                   to={
                                     Object {
-                                      "pathname": "/slas/123/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F",
+                                      "pathname": "/slas/35315/20/1",
+                                      "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                     }
                                   }
                                 >
                                   <a
                                     className="dropdown-item"
-                                    href="/slas/123/20/1?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                                     onClick={[Function]}
                                   >
                                     sla-settings
@@ -3353,7 +2740,7 @@ exports[`Should render with blocked SLA 1`] = `
                   "params": Object {
                     "page": 1,
                     "pageSize": 20,
-                    "processId": "123",
+                    "processId": "35315",
                     "sort": "overdueInstanceCount%3Aasc",
                   },
                   "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -3362,7 +2749,7 @@ exports[`Should render with blocked SLA 1`] = `
                   "key": "performance",
                   "name": "performance",
                   "params": Object {
-                    "processId": "123",
+                    "processId": "35315",
                   },
                   "path": "/metrics/:processId/performance",
                 },
@@ -3379,13 +2766,7 @@ exports[`Should render with blocked SLA 1`] = `
                   "entries": Array [
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/metrics/35315/completed",
+                      "pathname": "/metrics/35315/performance",
                       "search": "?backPath=%2F",
                     },
                   ],
@@ -3397,13 +2778,7 @@ exports[`Should render with blocked SLA 1`] = `
                   "listen": [Function],
                   "location": Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/metrics/35315/completed",
+                    "pathname": "/metrics/35315/performance",
                     "search": "?backPath=%2F",
                   },
                   "push": [Function],
@@ -3413,22 +2788,18 @@ exports[`Should render with blocked SLA 1`] = `
               location={
                 Object {
                   "hash": "",
-                  "match": Object {
-                    "params": Object {
-                      "page": 1,
-                      "sort": undefined,
-                    },
-                  },
-                  "pathname": "/metrics/35315/completed",
+                  "pathname": "/metrics/35315/performance",
                   "search": "?backPath=%2F",
                 }
               }
               match={
                 Object {
                   "isExact": false,
-                  "params": Object {},
-                  "path": "/",
-                  "url": "/",
+                  "params": Object {
+                    "processId": "35315",
+                  },
+                  "path": "/metrics/:processId",
+                  "url": "/metrics/35315",
                 }
               }
               tabs={
@@ -3439,7 +2810,7 @@ exports[`Should render with blocked SLA 1`] = `
                     "params": Object {
                       "page": 1,
                       "pageSize": 20,
-                      "processId": "123",
+                      "processId": "35315",
                       "sort": "overdueInstanceCount%3Aasc",
                     },
                     "path": "/metrics/:processId/dashboard/:pageSize/:page/:sort",
@@ -3448,7 +2819,7 @@ exports[`Should render with blocked SLA 1`] = `
                     "key": "performance",
                     "name": "performance",
                     "params": Object {
-                      "processId": "123",
+                      "processId": "35315",
                     },
                     "path": "/metrics/:processId/performance",
                   },
@@ -3467,6 +2838,7 @@ exports[`Should render with blocked SLA 1`] = `
                     className="collapsed navbar-toggler navbar-toggler-link"
                     onClick={[Function]}
                   >
+                    performance
                     <Icon
                       iconName="caret-bottom"
                     >
@@ -3505,7 +2877,7 @@ exports[`Should render with blocked SLA 1`] = `
                               Object {
                                 "page": 1,
                                 "pageSize": 20,
-                                "processId": "123",
+                                "processId": "35315",
                                 "sort": "overdueInstanceCount%3Aasc",
                               }
                             }
@@ -3514,7 +2886,7 @@ exports[`Should render with blocked SLA 1`] = `
                             <withRouter()
                               aria-label=""
                               className=" nav-link"
-                              to="/metrics/123/dashboard/20/1/overdueInstanceCount%253Aasc"
+                              to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
                               <Component
                                 aria-label=""
@@ -3528,13 +2900,7 @@ exports[`Should render with blocked SLA 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -3546,13 +2912,7 @@ exports[`Should render with blocked SLA 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
@@ -3562,31 +2922,27 @@ exports[`Should render with blocked SLA 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315/completed",
+                                    "pathname": "/metrics/35315/performance",
                                     "search": "?backPath=%2F",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
-                                to="/metrics/123/dashboard/20/1/overdueInstanceCount%253Aasc"
+                                to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
                                 <ChildLinkWrapper
                                   aria-label=""
                                   backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315/completed?backPath=%2F"
+                                  currentPath="/metrics/35315/performance?backPath=%2F"
                                   history={
                                     Object {
                                       "action": "POP",
@@ -3596,13 +2952,7 @@ exports[`Should render with blocked SLA 1`] = `
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315/completed",
+                                          "pathname": "/metrics/35315/performance",
                                           "search": "?backPath=%2F",
                                         },
                                       ],
@@ -3614,33 +2964,28 @@ exports[`Should render with blocked SLA 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
-                                  to="/metrics/123/dashboard/20/1/overdueInstanceCount%253Aasc"
+                                  processId="35315"
+                                  to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                                 >
                                   <Link
                                     className=" nav-link"
                                     to={
                                       Object {
-                                        "pathname": "/metrics/123/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F",
+                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                       }
                                     }
                                   >
                                     <a
                                       className=" nav-link"
-                                      href="/metrics/123/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -3661,24 +3006,24 @@ exports[`Should render with blocked SLA 1`] = `
                           onClick={[Function]}
                         >
                           <TabItem
-                            active={false}
+                            active={true}
                             key="performance"
                             name="performance"
                             params={
                               Object {
-                                "processId": "123",
+                                "processId": "35315",
                               }
                             }
                             path="/metrics/:processId/performance"
                           >
                             <withRouter()
-                              aria-label=""
-                              className=" nav-link"
-                              to="/metrics/123/performance"
+                              aria-label="current-page"
+                              className="active nav-link"
+                              to="/metrics/35315/performance"
                             >
                               <Component
-                                aria-label=""
-                                className=" nav-link"
+                                aria-label="current-page"
+                                className="active nav-link"
                                 history={
                                   Object {
                                     "action": "POP",
@@ -3688,13 +3033,7 @@ exports[`Should render with blocked SLA 1`] = `
                                     "entries": Array [
                                       Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                     ],
@@ -3706,13 +3045,7 @@ exports[`Should render with blocked SLA 1`] = `
                                     "listen": [Function],
                                     "location": Object {
                                       "hash": "",
-                                      "match": Object {
-                                        "params": Object {
-                                          "page": 1,
-                                          "sort": undefined,
-                                        },
-                                      },
-                                      "pathname": "/metrics/35315/completed",
+                                      "pathname": "/metrics/35315/performance",
                                       "search": "?backPath=%2F",
                                     },
                                     "push": [Function],
@@ -3722,31 +3055,27 @@ exports[`Should render with blocked SLA 1`] = `
                                 location={
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/metrics/35315/completed",
+                                    "pathname": "/metrics/35315/performance",
                                     "search": "?backPath=%2F",
                                   }
                                 }
                                 match={
                                   Object {
                                     "isExact": false,
-                                    "params": Object {},
-                                    "path": "/",
-                                    "url": "/",
+                                    "params": Object {
+                                      "processId": "35315",
+                                    },
+                                    "path": "/metrics/:processId",
+                                    "url": "/metrics/35315",
                                   }
                                 }
-                                to="/metrics/123/performance"
+                                to="/metrics/35315/performance"
                               >
                                 <ChildLinkWrapper
-                                  aria-label=""
+                                  aria-label="current-page"
                                   backPath="/"
-                                  className=" nav-link"
-                                  currentPath="/metrics/35315/completed?backPath=%2F"
+                                  className="active nav-link"
+                                  currentPath="/metrics/35315/performance?backPath=%2F"
                                   history={
                                     Object {
                                       "action": "POP",
@@ -3756,13 +3085,7 @@ exports[`Should render with blocked SLA 1`] = `
                                       "entries": Array [
                                         Object {
                                           "hash": "",
-                                          "match": Object {
-                                            "params": Object {
-                                              "page": 1,
-                                              "sort": undefined,
-                                            },
-                                          },
-                                          "pathname": "/metrics/35315/completed",
+                                          "pathname": "/metrics/35315/performance",
                                           "search": "?backPath=%2F",
                                         },
                                       ],
@@ -3774,33 +3097,28 @@ exports[`Should render with blocked SLA 1`] = `
                                       "listen": [Function],
                                       "location": Object {
                                         "hash": "",
-                                        "match": Object {
-                                          "params": Object {
-                                            "page": 1,
-                                            "sort": undefined,
-                                          },
-                                        },
-                                        "pathname": "/metrics/35315/completed",
+                                        "pathname": "/metrics/35315/performance",
                                         "search": "?backPath=%2F",
                                       },
                                       "push": [Function],
                                       "replace": [Function],
                                     }
                                   }
-                                  to="/metrics/123/performance"
+                                  processId="35315"
+                                  to="/metrics/35315/performance"
                                 >
                                   <Link
-                                    className=" nav-link"
+                                    className="active nav-link"
                                     to={
                                       Object {
-                                        "pathname": "/metrics/123/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F",
+                                        "pathname": "/metrics/35315/performance",
+                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                       }
                                     }
                                   >
                                     <a
-                                      className=" nav-link"
-                                      href="/metrics/123/performance?backPath=%2Fmetrics%2F35315%2Fcompleted%3FbackPath%3D%252F"
+                                      className="active nav-link"
+                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
                                       onClick={[Function]}
                                     >
                                       <span
@@ -3850,7 +3168,7 @@ exports[`Should render with blocked SLA 1`] = `
           </HashRouter>
         </div>
       </ProcessMetrics>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
