@@ -11,64 +11,39 @@ exports[`Should display error on alert when receive a server error after submit 
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         id="123"
@@ -597,13 +572,7 @@ exports[`Should display error on alert when receive a server error after submit 
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -615,13 +584,7 @@ exports[`Should display error on alert when receive a server error after submit 
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -631,29 +594,27 @@ exports[`Should display error on alert when receive a server error after submit 
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -663,13 +624,7 @@ exports[`Should display error on alert when receive a server error after submit 
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -681,19 +636,16 @@ exports[`Should display error on alert when receive a server error after submit 
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -716,8 +668,8 @@ exports[`Should display error on alert when receive a server error after submit 
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -732,64 +684,39 @@ exports[`Should display error on field when receive a server error after submit 
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         id="123"
@@ -1318,13 +1245,7 @@ exports[`Should display error on field when receive a server error after submit 
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -1336,13 +1257,7 @@ exports[`Should display error on field when receive a server error after submit 
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -1352,29 +1267,27 @@ exports[`Should display error on field when receive a server error after submit 
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -1384,13 +1297,7 @@ exports[`Should display error on field when receive a server error after submit 
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -1402,19 +1309,16 @@ exports[`Should display error on field when receive a server error after submit 
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -1437,8 +1341,8 @@ exports[`Should display error on field when receive a server error after submit 
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -1453,64 +1357,39 @@ exports[`Should edit the SLA with valid values 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         id="123"
@@ -2042,13 +1921,7 @@ exports[`Should edit the SLA with valid values 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -2060,13 +1933,7 @@ exports[`Should edit the SLA with valid values 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -2076,29 +1943,27 @@ exports[`Should edit the SLA with valid values 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -2108,13 +1973,7 @@ exports[`Should edit the SLA with valid values 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -2126,19 +1985,16 @@ exports[`Should edit the SLA with valid values 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -2161,71 +2017,46 @@ exports[`Should edit the SLA with valid values 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should redirect to SLA list 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         id="123"
@@ -2757,13 +2588,7 @@ exports[`Should redirect to SLA list 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -2775,13 +2600,7 @@ exports[`Should redirect to SLA list 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -2791,29 +2610,27 @@ exports[`Should redirect to SLA list 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -2823,13 +2640,7 @@ exports[`Should redirect to SLA list 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -2841,19 +2652,16 @@ exports[`Should redirect to SLA list 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -2876,8 +2684,8 @@ exports[`Should redirect to SLA list 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -2892,64 +2700,39 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         id="123"
@@ -3481,13 +3264,7 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -3499,13 +3276,7 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -3515,29 +3286,27 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -3547,13 +3316,7 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -3565,19 +3328,16 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -3600,8 +3360,8 @@ exports[`Should redirect to SLA list with blocked nodes 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -3616,73 +3376,88 @@ exports[`Should render component 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SLAForm
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         id={1234}
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
       >
         <div
           className="sla-form"
         >
           <Body
             id={1234}
+            query="?backPath=%2F"
           >
             <form
               className="sheet sheet-lg"
@@ -4172,6 +3947,7 @@ exports[`Should render component 1`] = `
               <Footer
                 id={1234}
                 onReloadNodes={[Function]}
+                query="?backPath=%2F"
               >
                 <div
                   className="sheet-footer sheet-footer-btn-block-sm-down"
@@ -4207,13 +3983,7 @@ exports[`Should render component 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -4225,13 +3995,7 @@ exports[`Should render component 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -4241,29 +4005,27 @@ exports[`Should render component 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                         >
                           <BackLinkWrapper
                             backPath="/"
                             className="btn btn-secondary"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -4273,13 +4035,7 @@ exports[`Should render component 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -4291,19 +4047,16 @@ exports[`Should render component 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                           >
                             <Link
                               className="btn btn-secondary"
@@ -4328,8 +4081,8 @@ exports[`Should render component 1`] = `
           </Body>
         </div>
       </SLAForm>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -4344,73 +4097,88 @@ exports[`Should render component in edit mode 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SLAForm
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         id={1234}
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
       >
         <div
           className="sla-form"
         >
           <Body
             id={1234}
+            query="?backPath=%2F"
           >
             <form
               className="sheet sheet-lg"
@@ -4900,6 +4668,7 @@ exports[`Should render component in edit mode 1`] = `
               <Footer
                 id={1234}
                 onReloadNodes={[Function]}
+                query="?backPath=%2F"
               >
                 <div
                   className="sheet-footer sheet-footer-btn-block-sm-down"
@@ -4935,13 +4704,7 @@ exports[`Should render component in edit mode 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -4953,13 +4716,7 @@ exports[`Should render component in edit mode 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -4969,29 +4726,27 @@ exports[`Should render component in edit mode 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                         >
                           <BackLinkWrapper
                             backPath="/"
                             className="btn btn-secondary"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -5001,13 +4756,7 @@ exports[`Should render component in edit mode 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -5019,19 +4768,16 @@ exports[`Should render component in edit mode 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                           >
                             <Link
                               className="btn btn-secondary"
@@ -5056,8 +4802,8 @@ exports[`Should render component in edit mode 1`] = `
           </Body>
         </div>
       </SLAForm>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -5072,64 +4818,39 @@ exports[`Should submit a new SLA with valid values 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Footer
         id="123"
@@ -5171,13 +4892,7 @@ exports[`Should submit a new SLA with valid values 1`] = `
                       "entries": Array [
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         },
                       ],
@@ -5189,13 +4904,7 @@ exports[`Should submit a new SLA with valid values 1`] = `
                       "listen": [Function],
                       "location": Object {
                         "hash": "",
-                        "match": Object {
-                          "params": Object {
-                            "page": 1,
-                            "sort": undefined,
-                          },
-                        },
-                        "pathname": "/processes/1/10/title%3Aasc",
+                        "pathname": "/1/20/title%3Aasc",
                         "search": "?backPath=%2F",
                       },
                       "push": [Function],
@@ -5205,29 +4914,27 @@ exports[`Should submit a new SLA with valid values 1`] = `
                   location={
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/processes/1/10/title%3Aasc",
+                      "pathname": "/1/20/title%3Aasc",
                       "search": "?backPath=%2F",
                     }
                   }
                   match={
                     Object {
-                      "isExact": false,
-                      "params": Object {},
-                      "path": "/",
-                      "url": "/",
+                      "isExact": true,
+                      "params": Object {
+                        "page": "1",
+                        "pageSize": "20",
+                        "sort": "title:asc",
+                      },
+                      "path": "/:page/:pageSize/:sort",
+                      "url": "/1/20/title%3Aasc",
                     }
                   }
                 >
                   <BackLinkWrapper
                     backPath="/"
                     className="btn btn-secondary"
-                    currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                    currentPath="/1/20/title%3Aasc?backPath=%2F"
                     history={
                       Object {
                         "action": "POP",
@@ -5237,13 +4944,7 @@ exports[`Should submit a new SLA with valid values 1`] = `
                         "entries": Array [
                           Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                         ],
@@ -5255,19 +4956,16 @@ exports[`Should submit a new SLA with valid values 1`] = `
                         "listen": [Function],
                         "location": Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         },
                         "push": [Function],
                         "replace": [Function],
                       }
                     }
+                    page="1"
+                    pageSize="20"
+                    sort="title:asc"
                   >
                     <Link
                       className="btn btn-secondary"
@@ -5288,71 +4986,46 @@ exports[`Should submit a new SLA with valid values 1`] = `
           </div>
         </div>
       </Footer>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should test handler erros 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         processId="123"
@@ -5876,13 +5549,7 @@ exports[`Should test handler erros 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -5894,13 +5561,7 @@ exports[`Should test handler erros 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -5910,29 +5571,27 @@ exports[`Should test handler erros 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -5942,13 +5601,7 @@ exports[`Should test handler erros 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -5960,19 +5613,16 @@ exports[`Should test handler erros 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -5995,71 +5645,46 @@ exports[`Should test handler erros 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should test handler erros at start node keys 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         processId="123"
@@ -6583,13 +6208,7 @@ exports[`Should test handler erros at start node keys 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -6601,13 +6220,7 @@ exports[`Should test handler erros at start node keys 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -6617,29 +6230,27 @@ exports[`Should test handler erros at start node keys 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -6649,13 +6260,7 @@ exports[`Should test handler erros at start node keys 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -6667,19 +6272,16 @@ exports[`Should test handler erros at start node keys 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -6702,71 +6304,46 @@ exports[`Should test handler erros at start node keys 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should test handler no array erros 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         processId="123"
@@ -7290,13 +6867,7 @@ exports[`Should test handler no array erros 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -7308,13 +6879,7 @@ exports[`Should test handler no array erros 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -7324,29 +6889,27 @@ exports[`Should test handler no array erros 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -7356,13 +6919,7 @@ exports[`Should test handler no array erros 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -7374,19 +6931,16 @@ exports[`Should test handler no array erros 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -7409,71 +6963,46 @@ exports[`Should test handler no array erros 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should test load data callback 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         processId="123"
@@ -7997,13 +7526,7 @@ exports[`Should test load data callback 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -8015,13 +7538,7 @@ exports[`Should test load data callback 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -8031,29 +7548,27 @@ exports[`Should test load data callback 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -8063,13 +7578,7 @@ exports[`Should test load data callback 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -8081,19 +7590,16 @@ exports[`Should test load data callback 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -8116,71 +7622,46 @@ exports[`Should test load data callback 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should update state after input changes 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Body
         id="123"
@@ -8706,13 +8187,7 @@ exports[`Should update state after input changes 1`] = `
                           "entries": Array [
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                           ],
@@ -8724,13 +8199,7 @@ exports[`Should update state after input changes 1`] = `
                           "listen": [Function],
                           "location": Object {
                             "hash": "",
-                            "match": Object {
-                              "params": Object {
-                                "page": 1,
-                                "sort": undefined,
-                              },
-                            },
-                            "pathname": "/processes/1/10/title%3Aasc",
+                            "pathname": "/1/20/title%3Aasc",
                             "search": "?backPath=%2F",
                           },
                           "push": [Function],
@@ -8740,29 +8209,27 @@ exports[`Should update state after input changes 1`] = `
                       location={
                         Object {
                           "hash": "",
-                          "match": Object {
-                            "params": Object {
-                              "page": 1,
-                              "sort": undefined,
-                            },
-                          },
-                          "pathname": "/processes/1/10/title%3Aasc",
+                          "pathname": "/1/20/title%3Aasc",
                           "search": "?backPath=%2F",
                         }
                       }
                       match={
                         Object {
-                          "isExact": false,
-                          "params": Object {},
-                          "path": "/",
-                          "url": "/",
+                          "isExact": true,
+                          "params": Object {
+                            "page": "1",
+                            "pageSize": "20",
+                            "sort": "title:asc",
+                          },
+                          "path": "/:page/:pageSize/:sort",
+                          "url": "/1/20/title%3Aasc",
                         }
                       }
                     >
                       <BackLinkWrapper
                         backPath="/"
                         className="btn btn-secondary"
-                        currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                        currentPath="/1/20/title%3Aasc?backPath=%2F"
                         history={
                           Object {
                             "action": "POP",
@@ -8772,13 +8239,7 @@ exports[`Should update state after input changes 1`] = `
                             "entries": Array [
                               Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                             ],
@@ -8790,19 +8251,16 @@ exports[`Should update state after input changes 1`] = `
                             "listen": [Function],
                             "location": Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             },
                             "push": [Function],
                             "replace": [Function],
                           }
                         }
+                        page="1"
+                        pageSize="20"
+                        sort="title:asc"
                       >
                         <Link
                           className="btn btn-secondary"
@@ -8825,7 +8283,7 @@ exports[`Should update state after input changes 1`] = `
           </Footer>
         </form>
       </Body>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;

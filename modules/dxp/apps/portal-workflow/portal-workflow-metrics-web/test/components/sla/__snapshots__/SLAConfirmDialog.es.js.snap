@@ -2,67 +2,81 @@
 
 exports[`Should cancel dialog 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SLAConfirmDialog
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         itemToRemove={1234}
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
       >
         <div
           className="modal show"
@@ -121,8 +135,8 @@ exports[`Should cancel dialog 1`] = `
           </div>
         </div>
       </SLAConfirmDialog>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -137,66 +151,81 @@ exports[`Should cancel dialog through SLA List 1`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SLAListCard>
+      <SLAListCard
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <nav
           className="management-bar management-bar-light navbar navbar-expand-md"
         >
@@ -234,13 +263,7 @@ exports[`Should cancel dialog through SLA List 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -252,13 +275,7 @@ exports[`Should cancel dialog through SLA List 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -268,22 +285,20 @@ exports[`Should cancel dialog through SLA List 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/sla/new/undefined"
@@ -291,7 +306,7 @@ exports[`Should cancel dialog through SLA List 1`] = `
                           <ChildLinkWrapper
                             backPath="/"
                             className="btn btn-primary nav-btn nav-btn-monospaced"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -301,13 +316,7 @@ exports[`Should cancel dialog through SLA List 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -319,19 +328,16 @@ exports[`Should cancel dialog through SLA List 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/sla/new/undefined"
                           >
                             <Link
@@ -339,13 +345,13 @@ exports[`Should cancel dialog through SLA List 1`] = `
                               to={
                                 Object {
                                   "pathname": "/sla/new/undefined",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <Icon
@@ -402,8 +408,8 @@ exports[`Should cancel dialog through SLA List 1`] = `
           </ListView>
         </div>
       </SLAListCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -418,66 +424,81 @@ exports[`Should cancel dialog through SLA List 2`] = `
     }
   }
 >
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SLAListCard>
+      <SLAListCard
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <nav
           className="management-bar management-bar-light navbar navbar-expand-md"
         >
@@ -515,13 +536,7 @@ exports[`Should cancel dialog through SLA List 2`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -533,13 +548,7 @@ exports[`Should cancel dialog through SLA List 2`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -549,22 +558,20 @@ exports[`Should cancel dialog through SLA List 2`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/sla/new/undefined"
@@ -572,7 +579,7 @@ exports[`Should cancel dialog through SLA List 2`] = `
                           <ChildLinkWrapper
                             backPath="/"
                             className="btn btn-primary nav-btn nav-btn-monospaced"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -582,13 +589,7 @@ exports[`Should cancel dialog through SLA List 2`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -600,19 +601,16 @@ exports[`Should cancel dialog through SLA List 2`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/sla/new/undefined"
                           >
                             <Link
@@ -620,13 +618,13 @@ exports[`Should cancel dialog through SLA List 2`] = `
                               to={
                                 Object {
                                   "pathname": "/sla/new/undefined",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="btn btn-primary nav-btn nav-btn-monospaced"
-                                href="/sla/new/undefined?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/sla/new/undefined?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <Icon
@@ -683,74 +681,88 @@ exports[`Should cancel dialog through SLA List 2`] = `
           </ListView>
         </div>
       </SLAListCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should remove item 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SLAConfirmDialog
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         itemToRemove={1234}
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
       >
         <div
           className="modal show"
@@ -809,8 +821,8 @@ exports[`Should remove item 1`] = `
           </div>
         </div>
       </SLAConfirmDialog>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 

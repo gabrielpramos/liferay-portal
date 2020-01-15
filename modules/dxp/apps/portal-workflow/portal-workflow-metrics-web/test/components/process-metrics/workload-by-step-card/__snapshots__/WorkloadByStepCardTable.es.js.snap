@@ -19,7 +19,7 @@ exports[`Should display hyphen when the task has no count 1`] = `
         >
           <a
             className="inline-item text-truncate-inline"
-            href="/?backPath=%2F"
+            href="/1/20/overdueInstanceCount%3Adesc?backPath=%2F"
             onClick={[Function]}
           >
             <span
@@ -52,21 +52,6 @@ exports[`Should display hyphen when the task has no count 1`] = `
             >
               overdue
             </span>
-            <span
-              className="inline-item inline-item-after"
-            >
-              <svg
-                className="lexicon-icon lexicon-icon-order-arrow-up"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#order-arrow-up\\" />",
-                  }
-                }
-                data-testid="icon"
-                focusable="false"
-                role="presentation"
-              />
-            </span>
           </a>
         </th>
         <th
@@ -74,7 +59,7 @@ exports[`Should display hyphen when the task has no count 1`] = `
         >
           <a
             className="inline-item text-truncate-inline"
-            href="/?backPath=%2F"
+            href="/1/20/onTimeInstanceCount%3Adesc?backPath=%2F"
             onClick={[Function]}
           >
             <span
@@ -107,21 +92,6 @@ exports[`Should display hyphen when the task has no count 1`] = `
             >
               on-time
             </span>
-            <span
-              className="inline-item inline-item-after"
-            >
-              <svg
-                className="lexicon-icon lexicon-icon-order-arrow-up"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#order-arrow-up\\" />",
-                  }
-                }
-                data-testid="icon"
-                focusable="false"
-                role="presentation"
-              />
-            </span>
           </a>
         </th>
         <th
@@ -129,7 +99,7 @@ exports[`Should display hyphen when the task has no count 1`] = `
         >
           <a
             className="inline-item text-truncate-inline"
-            href="/?backPath=%2F"
+            href="/1/20/instanceCount%3Adesc?backPath=%2F"
             onClick={[Function]}
           >
             <span
@@ -138,21 +108,6 @@ exports[`Should display hyphen when the task has no count 1`] = `
               title="total-pending"
             >
               total-pending
-            </span>
-            <span
-              className="inline-item inline-item-after"
-            >
-              <svg
-                className="lexicon-icon lexicon-icon-order-arrow-up"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#order-arrow-up\\" />",
-                  }
-                }
-                data-testid="icon"
-                focusable="false"
-                role="presentation"
-              />
             </span>
           </a>
         </th>
@@ -170,7 +125,7 @@ exports[`Should display hyphen when the task has no count 1`] = `
         >
           <a
             className="workload-by-step-link"
-            href="/instance/123456/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=Overdue"
+            href="/instance/123456/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=Overdue"
             onClick={[Function]}
           >
             -
@@ -181,7 +136,7 @@ exports[`Should display hyphen when the task has no count 1`] = `
         >
           <a
             className="workload-by-step-link"
-            href="/instance/123456/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=OnTime"
+            href="/instance/123456/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=OnTime"
             onClick={[Function]}
           >
             -
@@ -192,7 +147,7 @@ exports[`Should display hyphen when the task has no count 1`] = `
         >
           <a
             className="workload-by-step-link"
-            href="/instance/123456/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
+            href="/instance/123456/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
             onClick={[Function]}
           >
             -
@@ -223,7 +178,7 @@ exports[`Should render component 1`] = `
         >
           <a
             className="inline-item text-truncate-inline"
-            href="/?backPath=%2F"
+            href="/1/20/overdueInstanceCount%3Adesc?backPath=%2F"
             onClick={[Function]}
           >
             <span
@@ -256,21 +211,6 @@ exports[`Should render component 1`] = `
             >
               overdue
             </span>
-            <span
-              className="inline-item inline-item-after"
-            >
-              <svg
-                className="lexicon-icon lexicon-icon-order-arrow-up"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#order-arrow-up\\" />",
-                  }
-                }
-                data-testid="icon"
-                focusable="false"
-                role="presentation"
-              />
-            </span>
           </a>
         </th>
         <th
@@ -278,7 +218,7 @@ exports[`Should render component 1`] = `
         >
           <a
             className="inline-item text-truncate-inline"
-            href="/?backPath=%2F"
+            href="/1/20/onTimeInstanceCount%3Adesc?backPath=%2F"
             onClick={[Function]}
           >
             <span
@@ -311,21 +251,6 @@ exports[`Should render component 1`] = `
             >
               on-time
             </span>
-            <span
-              className="inline-item inline-item-after"
-            >
-              <svg
-                className="lexicon-icon lexicon-icon-order-arrow-up"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#order-arrow-up\\" />",
-                  }
-                }
-                data-testid="icon"
-                focusable="false"
-                role="presentation"
-              />
-            </span>
           </a>
         </th>
         <th
@@ -333,7 +258,7 @@ exports[`Should render component 1`] = `
         >
           <a
             className="inline-item text-truncate-inline"
-            href="/?backPath=%2F"
+            href="/1/20/instanceCount%3Adesc?backPath=%2F"
             onClick={[Function]}
           >
             <span
@@ -342,21 +267,6 @@ exports[`Should render component 1`] = `
               title="total-pending"
             >
               total-pending
-            </span>
-            <span
-              className="inline-item inline-item-after"
-            >
-              <svg
-                className="lexicon-icon lexicon-icon-order-arrow-up"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#order-arrow-up\\" />",
-                  }
-                }
-                data-testid="icon"
-                focusable="false"
-                role="presentation"
-              />
             </span>
           </a>
         </th>
@@ -374,7 +284,7 @@ exports[`Should render component 1`] = `
         >
           <a
             className="workload-by-step-link"
-            href="/instance/undefined/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=Overdue"
+            href="/instance/undefined/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=Overdue"
             onClick={[Function]}
           >
             0
@@ -385,7 +295,7 @@ exports[`Should render component 1`] = `
         >
           <a
             className="workload-by-step-link"
-            href="/instance/undefined/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=OnTime"
+            href="/instance/undefined/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending&filters.slaStatuses%5B0%5D=OnTime"
             onClick={[Function]}
           >
             1
@@ -396,7 +306,7 @@ exports[`Should render component 1`] = `
         >
           <a
             className="workload-by-step-link"
-            href="/instance/undefined/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
+            href="/instance/undefined/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
             onClick={[Function]}
           >
             1
