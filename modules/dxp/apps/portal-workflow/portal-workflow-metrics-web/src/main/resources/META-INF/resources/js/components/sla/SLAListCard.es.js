@@ -14,7 +14,7 @@ import React from 'react';
 
 import Icon from '../../shared/components/Icon.es';
 import ListView from '../../shared/components/list/ListView.es';
-import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
+import PaginationBar from '../../shared/components/pagination-bar/PaginationBar.es';
 import {ChildLink} from '../../shared/components/router/routerWrapper.es';
 import {openErrorToast, openSuccessToast} from '../../shared/util/toast.es';
 import {AppContext, AppStatus} from '../AppContext.es';
@@ -275,7 +275,6 @@ class SLAListCard extends React.Component {
 
 						<PaginationBar
 							page={page}
-							pageCount={items.length}
 							pageSize={pageSize}
 							totalCount={totalCount}
 						/>

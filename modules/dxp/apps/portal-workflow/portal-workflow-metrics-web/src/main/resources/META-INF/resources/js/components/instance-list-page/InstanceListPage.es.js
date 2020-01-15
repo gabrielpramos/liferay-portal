@@ -15,7 +15,7 @@ import {getFiltersParam} from '../../shared/components/filter/util/filterUtil.es
 import EmptyState from '../../shared/components/list/EmptyState.es';
 import ReloadButton from '../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../shared/components/loading/LoadingState.es';
-import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
+import PaginationBar from '../../shared/components/pagination-bar/PaginationBar.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import Request from '../../shared/components/request/Request.es';
 import {useProcessTitle} from '../../shared/hooks/useProcessTitle.es';
@@ -128,7 +128,7 @@ const Body = ({page, pageSize, processId, singleModal}) => {
 
 								<PaginationBar
 									page={page}
-									pageCount={items.length}
+									pageBuffer={3}
 									pageSize={pageSize}
 									totalCount={totalCount}
 								/>

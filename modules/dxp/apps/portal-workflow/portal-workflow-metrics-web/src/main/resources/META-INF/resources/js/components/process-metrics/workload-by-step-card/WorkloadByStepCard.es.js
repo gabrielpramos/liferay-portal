@@ -16,7 +16,7 @@ import Icon from '../../../shared/components/Icon.es';
 import Panel from '../../../shared/components/Panel.es';
 import ListView from '../../../shared/components/list/ListView.es';
 import ReloadButton from '../../../shared/components/list/ReloadButton.es';
-import PaginationBar from '../../../shared/components/pagination/PaginationBar.es';
+import PaginationBar from '../../../shared/components/pagination-bar/PaginationBar.es';
 import {AppContext} from '../../AppContext.es';
 import WorkloadByStepCardTable from './WorkloadByStepCardTable.es';
 
@@ -153,7 +153,6 @@ class WorkloadByStepCard extends React.Component {
 
 						<PaginationBar
 							page={page}
-							pageCount={items.length}
 							pageSize={pageSize}
 							totalCount={totalCount}
 						/>
