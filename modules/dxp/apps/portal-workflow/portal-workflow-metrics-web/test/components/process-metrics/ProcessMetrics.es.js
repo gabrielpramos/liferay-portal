@@ -12,19 +12,9 @@
 import React from 'react';
 
 import ProcessMetrics from '../../../src/main/resources/META-INF/resources/js/components/process-metrics/ProcessMetrics.es';
-import PendingItemsCard from '../../../src/main/resources/META-INF/resources/js/components/process-metrics/process-items/PendingItemsCard.es';
-import WorkloadByStepCard from '../../../src/main/resources/META-INF/resources/js/components/process-metrics/workload-by-step-card/WorkloadByStepCard.es';
-import {withParams} from '../../../src/main/resources/META-INF/resources/js/shared/components/router/routerUtil.es';
-import {MockRouter as Router} from '../../mock/MockRouter.es';
+import {MockRouter} from '../../mock/MockRouter.es';
 import fetch from '../../mock/fetch.es';
 import fetchFailure from '../../mock/fetchFailure.es';
-
-const mockHistory = {
-	location: {
-		pathname: '/'
-	},
-	replace: jest.fn()
-};
 
 beforeAll(() => {
 	const vbody = document.createElement('div');
@@ -41,13 +31,13 @@ beforeAll(() => {
 
 test('Should render component with completed tab activated', () => {
 	const component = mount(
-		<Router
+		<MockRouter
 			client={fetchFailure()}
-			getClient={jest.fn(() => fetchFailure())}
 			initialPath="/metrics/35315"
+			path="/metrics/:processId"
 		>
-			<ProcessMetrics history={mockHistory} processId={35315} />
-		</Router>
+			<ProcessMetrics />
+		</MockRouter>
 	);
 
 	expect(component).toMatchSnapshot();
@@ -63,13 +53,13 @@ test('Should render component with default tab activated', () => {
 	};
 
 	const component = mount(
-		<Router
+		<MockRouter
 			client={fetch({data})}
-			getClient={jest.fn(() => fetch({data}))}
-			initialPath="/metrics/35315"
+			initialPath="/metrics/35315/dashboard"
+			path="/metrics/:processId"
 		>
-			<ProcessMetrics history={mockHistory} processId={35315} />
-		</Router>
+			<ProcessMetrics />
+		</MockRouter>
 	);
 
 	expect(component).toMatchSnapshot();
@@ -77,34 +67,13 @@ test('Should render component with default tab activated', () => {
 
 test('Should render component with failure state', () => {
 	const component = mount(
-		<Router client={fetchFailure()} initialPath="/metrics/35315/completed">
-			<ProcessMetrics history={mockHistory} processId={35315} />
-		</Router>
-	);
-
-	expect(component).toMatchSnapshot();
-});
-
-test('Should render dashboard route children', () => {
-	const component = mount(
-		<Router
-			client={fetch({data: {}})}
-			getClient={jest.fn(() => fetch({data: {}}))}
+		<MockRouter
+			client={fetchFailure()}
+			initialPath="/metrics/35315/performance"
+			path="/metrics/:processId"
 		>
-			{withParams(
-				PendingItemsCard,
-				WorkloadByStepCard
-			)({
-				location: {
-					search: ''
-				},
-				match: {
-					params: {
-						processId: 35315
-					}
-				}
-			})}
-		</Router>
+			<ProcessMetrics />
+		</MockRouter>
 	);
 
 	expect(component).toMatchSnapshot();
@@ -112,13 +81,13 @@ test('Should render dashboard route children', () => {
 
 test('Should render with blocked SLA', () => {
 	const component = mount(
-		<Router
+		<MockRouter
 			client={fetchFailure()}
-			getClient={jest.fn(() => fetchFailure())}
-			initialPath="/metrics/35315/completed"
+			initialPath="/metrics/35315/performance"
+			path="/metrics/:processId"
 		>
-			<ProcessMetrics history={mockHistory} processId="123" />
-		</Router>
+			<ProcessMetrics />
+		</MockRouter>
 	);
 
 	const instance = component.find(ProcessMetrics).instance();

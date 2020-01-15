@@ -72,9 +72,7 @@ describe('The PerformanceByStepPage component having data should', () => {
 	};
 
 	const wrapper = ({children}) => (
-		<MockRouter client={clientMock} getClient={jest.fn(() => clientMock)}>
-			{children}
-		</MockRouter>
+		<MockRouter client={clientMock}>{children}</MockRouter>
 	);
 
 	beforeAll(() => {

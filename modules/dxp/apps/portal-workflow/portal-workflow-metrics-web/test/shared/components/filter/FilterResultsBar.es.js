@@ -13,45 +13,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import {FilterResultsBar} from '../../../../src/main/resources/META-INF/resources/js/shared/components/filter/FilterResultsBar.es';
-import {MockRouter as Router} from '../../../mock/MockRouter.es';
-
-test('Should clear filters', () => {
-	const filters = [
-		{
-			items: [
-				{
-					active: true,
-					key: 'overdue',
-					name: 'Overdue'
-				}
-			],
-			key: 'slaStatus',
-			name: 'SLA Status'
-		}
-	];
-
-	const mockHistory = {
-		push: jest.fn()
-	};
-
-	const component = mount(
-		<Router>
-			<FilterResultsBar
-				filters={filters}
-				history={mockHistory}
-				location={{search: '?filters.slaStatus%5B0%5D=overdue'}}
-				match={{params: {page: 3}, path: '/instances/:page'}}
-				totalCount={1}
-			/>
-		</Router>
-	);
-
-	const instance = component.find(FilterResultsBar).instance();
-
-	instance.onClearAllButtonClick();
-
-	expect(mockHistory.push).toHaveBeenCalled();
-});
+import {MockRouter} from '../../../mock/MockRouter.es';
 
 test('Should not render component when the items are not selected', () => {
 	const filters = [
@@ -73,9 +35,9 @@ test('Should not render component when the items are not selected', () => {
 	];
 
 	const component = renderer.create(
-		<Router>
+		<MockRouter>
 			<FilterResultsBar filters={filters} totalCount={1} />
-		</Router>
+		</MockRouter>
 	);
 
 	const tree = component.toJSON();
@@ -104,16 +66,9 @@ test('Should render component', () => {
 	];
 
 	const component = renderer.create(
-		<Router>
-			<FilterResultsBar
-				filters={filters}
-				location={{
-					pathname: '/instances',
-					search: '?filters.slaStatus%5B0%5D=overdue'
-				}}
-				totalCount={2}
-			/>
-		</Router>
+		<MockRouter>
+			<FilterResultsBar filters={filters} totalCount={2} />
+		</MockRouter>
 	);
 
 	const tree = component.toJSON();
