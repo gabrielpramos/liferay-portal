@@ -2,65 +2,91 @@
 
 exports[`Should change search value 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "PUSH",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-            Object {
-              "hash": "",
-              "pathname": "/",
-              "search": "?backPath=%2F&search=",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 1,
-          "length": 2,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "PUSH",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "pathname": "/",
+            "pathname": "/1/20/title%3Aasc",
+            "search": "?backPath=%2F",
+          },
+          Object {
+            "hash": "",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F&search=",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 1,
+        "length": 2,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F&search=",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
-      <SearchField>
+      <SearchField
+        history={
+          Object {
+            "action": "PUSH",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F&search=",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 1,
+            "length": 2,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F&search=",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F&search="
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
+      >
         <Search
           method="GET"
           onSubmit={[Function]}
@@ -152,8 +178,8 @@ exports[`Should change search value 1`] = `
           </div>
         </Search>
       </SearchField>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 

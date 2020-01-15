@@ -2,70 +2,84 @@
 
 exports[`Should render component 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SummaryCard
         getTitle={[Function]}
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         iconColor="success"
         iconName="check-circle"
+        page="1"
+        pageSize="20"
         processId={12345}
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
         total={false}
         totalValue={55}
         value={31}
@@ -99,13 +113,7 @@ exports[`Should render component 1`] = `
                 "entries": Array [
                   Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/processes/1/10/title%3Aasc",
+                    "pathname": "/1/20/title%3Aasc",
                     "search": "?backPath=%2F",
                   },
                 ],
@@ -117,13 +125,7 @@ exports[`Should render component 1`] = `
                 "listen": [Function],
                 "location": Object {
                   "hash": "",
-                  "match": Object {
-                    "params": Object {
-                      "page": 1,
-                      "sort": undefined,
-                    },
-                  },
-                  "pathname": "/processes/1/10/title%3Aasc",
+                  "pathname": "/1/20/title%3Aasc",
                   "search": "?backPath=%2F",
                 },
                 "push": [Function],
@@ -133,22 +135,20 @@ exports[`Should render component 1`] = `
             location={
               Object {
                 "hash": "",
-                "match": Object {
-                  "params": Object {
-                    "page": 1,
-                    "sort": undefined,
-                  },
-                },
-                "pathname": "/processes/1/10/title%3Aasc",
+                "pathname": "/1/20/title%3Aasc",
                 "search": "?backPath=%2F",
               }
             }
             match={
               Object {
-                "isExact": false,
-                "params": Object {},
-                "path": "/",
-                "url": "/",
+                "isExact": true,
+                "params": Object {
+                  "page": "1",
+                  "pageSize": "20",
+                  "sort": "title:asc",
+                },
+                "path": "/:page/:pageSize/:sort",
+                "url": "/1/20/title%3Aasc",
               }
             }
             onMouseOut={[Function]}
@@ -170,7 +170,7 @@ exports[`Should render component 1`] = `
             <ChildLinkWrapper
               backPath="/"
               className=" process-dashboard-summary-card"
-              currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+              currentPath="/1/20/title%3Aasc?backPath=%2F"
               history={
                 Object {
                   "action": "POP",
@@ -180,13 +180,7 @@ exports[`Should render component 1`] = `
                   "entries": Array [
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/processes/1/10/title%3Aasc",
+                      "pathname": "/1/20/title%3Aasc",
                       "search": "?backPath=%2F",
                     },
                   ],
@@ -198,13 +192,7 @@ exports[`Should render component 1`] = `
                   "listen": [Function],
                   "location": Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/processes/1/10/title%3Aasc",
+                    "pathname": "/1/20/title%3Aasc",
                     "search": "?backPath=%2F",
                   },
                   "push": [Function],
@@ -213,6 +201,8 @@ exports[`Should render component 1`] = `
               }
               onMouseOut={[Function]}
               onMouseOver={[Function]}
+              page="1"
+              pageSize="20"
               query={
                 Object {
                   "filters": Object {
@@ -225,6 +215,7 @@ exports[`Should render component 1`] = `
                   },
                 }
               }
+              sort="title:asc"
               to="/instance/12345/20/1"
             >
               <Link
@@ -234,13 +225,13 @@ exports[`Should render component 1`] = `
                 to={
                   Object {
                     "pathname": "/instance/12345/20/1",
-                    "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending",
+                    "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending",
                   }
                 }
               >
                 <a
                   className=" process-dashboard-summary-card"
-                  href="/instance/12345/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
+                  href="/instance/12345/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
                   onClick={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
@@ -299,77 +290,91 @@ exports[`Should render component 1`] = `
           </Component>
         </withRouter()>
       </SummaryCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should render component with disabled state 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <SummaryCard
         getTitle={[Function]}
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         iconColor="success"
         iconName="check-circle"
+        page="1"
+        pageSize="20"
         processId={12345}
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
         total={false}
         totalValue={55}
       >
@@ -402,13 +407,7 @@ exports[`Should render component with disabled state 1`] = `
                 "entries": Array [
                   Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/processes/1/10/title%3Aasc",
+                    "pathname": "/1/20/title%3Aasc",
                     "search": "?backPath=%2F",
                   },
                 ],
@@ -420,13 +419,7 @@ exports[`Should render component with disabled state 1`] = `
                 "listen": [Function],
                 "location": Object {
                   "hash": "",
-                  "match": Object {
-                    "params": Object {
-                      "page": 1,
-                      "sort": undefined,
-                    },
-                  },
-                  "pathname": "/processes/1/10/title%3Aasc",
+                  "pathname": "/1/20/title%3Aasc",
                   "search": "?backPath=%2F",
                 },
                 "push": [Function],
@@ -436,22 +429,20 @@ exports[`Should render component with disabled state 1`] = `
             location={
               Object {
                 "hash": "",
-                "match": Object {
-                  "params": Object {
-                    "page": 1,
-                    "sort": undefined,
-                  },
-                },
-                "pathname": "/processes/1/10/title%3Aasc",
+                "pathname": "/1/20/title%3Aasc",
                 "search": "?backPath=%2F",
               }
             }
             match={
               Object {
-                "isExact": false,
-                "params": Object {},
-                "path": "/",
-                "url": "/",
+                "isExact": true,
+                "params": Object {
+                  "page": "1",
+                  "pageSize": "20",
+                  "sort": "title:asc",
+                },
+                "path": "/:page/:pageSize/:sort",
+                "url": "/1/20/title%3Aasc",
               }
             }
             onMouseOut={[Function]}
@@ -473,7 +464,7 @@ exports[`Should render component with disabled state 1`] = `
             <ChildLinkWrapper
               backPath="/"
               className="disabled process-dashboard-summary-card"
-              currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+              currentPath="/1/20/title%3Aasc?backPath=%2F"
               history={
                 Object {
                   "action": "POP",
@@ -483,13 +474,7 @@ exports[`Should render component with disabled state 1`] = `
                   "entries": Array [
                     Object {
                       "hash": "",
-                      "match": Object {
-                        "params": Object {
-                          "page": 1,
-                          "sort": undefined,
-                        },
-                      },
-                      "pathname": "/processes/1/10/title%3Aasc",
+                      "pathname": "/1/20/title%3Aasc",
                       "search": "?backPath=%2F",
                     },
                   ],
@@ -501,13 +486,7 @@ exports[`Should render component with disabled state 1`] = `
                   "listen": [Function],
                   "location": Object {
                     "hash": "",
-                    "match": Object {
-                      "params": Object {
-                        "page": 1,
-                        "sort": undefined,
-                      },
-                    },
-                    "pathname": "/processes/1/10/title%3Aasc",
+                    "pathname": "/1/20/title%3Aasc",
                     "search": "?backPath=%2F",
                   },
                   "push": [Function],
@@ -516,6 +495,8 @@ exports[`Should render component with disabled state 1`] = `
               }
               onMouseOut={[Function]}
               onMouseOver={[Function]}
+              page="1"
+              pageSize="20"
               query={
                 Object {
                   "filters": Object {
@@ -528,6 +509,7 @@ exports[`Should render component with disabled state 1`] = `
                   },
                 }
               }
+              sort="title:asc"
               to="/instance/12345/20/1"
             >
               <Link
@@ -537,13 +519,13 @@ exports[`Should render component with disabled state 1`] = `
                 to={
                   Object {
                     "pathname": "/instance/12345/20/1",
-                    "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending",
+                    "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending",
                   }
                 }
               >
                 <a
                   className="disabled process-dashboard-summary-card"
-                  href="/instance/12345/20/1?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
+                  href="/instance/12345/20/1?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F&filters.statuses%5B0%5D=Pending"
                   onClick={[Function]}
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
@@ -587,7 +569,7 @@ exports[`Should render component with disabled state 1`] = `
           </Component>
         </withRouter()>
       </SummaryCard>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;

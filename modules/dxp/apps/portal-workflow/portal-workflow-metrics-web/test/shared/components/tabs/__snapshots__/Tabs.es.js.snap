@@ -2,71 +2,85 @@
 
 exports[`Should expand tab items 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Tabs
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         location={
           Object {
             "pathname": "/metrics/:processId/completed",
           }
         }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
         tabs={
           Array [
             Object {
@@ -159,13 +173,7 @@ exports[`Should expand tab items 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -177,13 +185,7 @@ exports[`Should expand tab items 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -193,22 +195,20 @@ exports[`Should expand tab items 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/metrics/35135/completed"
@@ -217,7 +217,7 @@ exports[`Should expand tab items 1`] = `
                             aria-label="current-page"
                             backPath="/"
                             className="active nav-link"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -227,13 +227,7 @@ exports[`Should expand tab items 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -245,19 +239,16 @@ exports[`Should expand tab items 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/metrics/35135/completed"
                           >
                             <Link
@@ -265,13 +256,13 @@ exports[`Should expand tab items 1`] = `
                               to={
                                 Object {
                                   "pathname": "/metrics/35135/completed",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="active nav-link"
-                                href="/metrics/35135/completed?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/metrics/35135/completed?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <span
@@ -319,13 +310,7 @@ exports[`Should expand tab items 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -337,13 +322,7 @@ exports[`Should expand tab items 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -353,22 +332,20 @@ exports[`Should expand tab items 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/metrics/35135/pending"
@@ -377,7 +354,7 @@ exports[`Should expand tab items 1`] = `
                             aria-label=""
                             backPath="/"
                             className=" nav-link"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -387,13 +364,7 @@ exports[`Should expand tab items 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -405,19 +376,16 @@ exports[`Should expand tab items 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/metrics/35135/pending"
                           >
                             <Link
@@ -425,13 +393,13 @@ exports[`Should expand tab items 1`] = `
                               to={
                                 Object {
                                   "pathname": "/metrics/35135/pending",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className=" nav-link"
-                                href="/metrics/35135/pending?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/metrics/35135/pending?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <span
@@ -452,78 +420,92 @@ exports[`Should expand tab items 1`] = `
           </div>
         </nav>
       </Tabs>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
 exports[`Should hide tab items 1`] = `
 <MockRouter>
-  <MemoryRouter
-    initialEntries={
-      Array [
-        Object {
-          "match": Object {
-            "params": Object {
-              "page": 1,
-              "sort": undefined,
-            },
-          },
-          "pathname": "/processes/1/10/title%3Aasc",
-          "search": "?backPath=%2F",
-        },
-      ]
-    }
-    keyLength={0}
-  >
-    <Router
-      history={
-        Object {
-          "action": "POP",
-          "block": [Function],
-          "canGo": [Function],
-          "createHref": [Function],
-          "entries": Array [
-            Object {
-              "hash": "",
-              "match": Object {
-                "params": Object {
-                  "page": 1,
-                  "sort": undefined,
-                },
-              },
-              "pathname": "/processes/1/10/title%3Aasc",
-              "search": "?backPath=%2F",
-            },
-          ],
-          "go": [Function],
-          "goBack": [Function],
-          "goForward": [Function],
-          "index": 0,
-          "length": 1,
-          "listen": [Function],
-          "location": Object {
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
             "hash": "",
-            "match": Object {
-              "params": Object {
-                "page": 1,
-                "sort": undefined,
-              },
-            },
-            "pathname": "/processes/1/10/title%3Aasc",
+            "pathname": "/1/20/title%3Aasc",
             "search": "?backPath=%2F",
           },
-          "push": [Function],
-          "replace": [Function],
-        }
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/1/20/title%3Aasc",
+          "search": "?backPath=%2F",
+        },
+        "push": [Function],
+        "replace": [Function],
       }
+    }
+  >
+    <Route
+      path="/:page/:pageSize/:sort"
+      render={[Function]}
     >
       <Tabs
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "pathname": "/1/20/title%3Aasc",
+                "search": "?backPath=%2F",
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "pathname": "/1/20/title%3Aasc",
+              "search": "?backPath=%2F",
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
         location={
           Object {
             "pathname": "/metrics/:processId/completed",
           }
         }
+        page="1"
+        pageSize="20"
+        query="?backPath=%2F"
+        routeParams={
+          Object {
+            "page": "1",
+            "pageSize": "20",
+            "sort": "title:asc",
+          }
+        }
+        sort="title:asc"
         tabs={
           Array [
             Object {
@@ -616,13 +598,7 @@ exports[`Should hide tab items 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -634,13 +610,7 @@ exports[`Should hide tab items 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -650,22 +620,20 @@ exports[`Should hide tab items 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/metrics/35135/completed"
@@ -674,7 +642,7 @@ exports[`Should hide tab items 1`] = `
                             aria-label="current-page"
                             backPath="/"
                             className="active nav-link"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -684,13 +652,7 @@ exports[`Should hide tab items 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -702,19 +664,16 @@ exports[`Should hide tab items 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/metrics/35135/completed"
                           >
                             <Link
@@ -722,13 +681,13 @@ exports[`Should hide tab items 1`] = `
                               to={
                                 Object {
                                   "pathname": "/metrics/35135/completed",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className="active nav-link"
-                                href="/metrics/35135/completed?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/metrics/35135/completed?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <span
@@ -776,13 +735,7 @@ exports[`Should hide tab items 1`] = `
                               "entries": Array [
                                 Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                               ],
@@ -794,13 +747,7 @@ exports[`Should hide tab items 1`] = `
                               "listen": [Function],
                               "location": Object {
                                 "hash": "",
-                                "match": Object {
-                                  "params": Object {
-                                    "page": 1,
-                                    "sort": undefined,
-                                  },
-                                },
-                                "pathname": "/processes/1/10/title%3Aasc",
+                                "pathname": "/1/20/title%3Aasc",
                                 "search": "?backPath=%2F",
                               },
                               "push": [Function],
@@ -810,22 +757,20 @@ exports[`Should hide tab items 1`] = `
                           location={
                             Object {
                               "hash": "",
-                              "match": Object {
-                                "params": Object {
-                                  "page": 1,
-                                  "sort": undefined,
-                                },
-                              },
-                              "pathname": "/processes/1/10/title%3Aasc",
+                              "pathname": "/1/20/title%3Aasc",
                               "search": "?backPath=%2F",
                             }
                           }
                           match={
                             Object {
-                              "isExact": false,
-                              "params": Object {},
-                              "path": "/",
-                              "url": "/",
+                              "isExact": true,
+                              "params": Object {
+                                "page": "1",
+                                "pageSize": "20",
+                                "sort": "title:asc",
+                              },
+                              "path": "/:page/:pageSize/:sort",
+                              "url": "/1/20/title%3Aasc",
                             }
                           }
                           to="/metrics/35135/pending"
@@ -834,7 +779,7 @@ exports[`Should hide tab items 1`] = `
                             aria-label=""
                             backPath="/"
                             className=" nav-link"
-                            currentPath="/processes/1/10/title%3Aasc?backPath=%2F"
+                            currentPath="/1/20/title%3Aasc?backPath=%2F"
                             history={
                               Object {
                                 "action": "POP",
@@ -844,13 +789,7 @@ exports[`Should hide tab items 1`] = `
                                 "entries": Array [
                                   Object {
                                     "hash": "",
-                                    "match": Object {
-                                      "params": Object {
-                                        "page": 1,
-                                        "sort": undefined,
-                                      },
-                                    },
-                                    "pathname": "/processes/1/10/title%3Aasc",
+                                    "pathname": "/1/20/title%3Aasc",
                                     "search": "?backPath=%2F",
                                   },
                                 ],
@@ -862,19 +801,16 @@ exports[`Should hide tab items 1`] = `
                                 "listen": [Function],
                                 "location": Object {
                                   "hash": "",
-                                  "match": Object {
-                                    "params": Object {
-                                      "page": 1,
-                                      "sort": undefined,
-                                    },
-                                  },
-                                  "pathname": "/processes/1/10/title%3Aasc",
+                                  "pathname": "/1/20/title%3Aasc",
                                   "search": "?backPath=%2F",
                                 },
                                 "push": [Function],
                                 "replace": [Function],
                               }
                             }
+                            page="1"
+                            pageSize="20"
+                            sort="title:asc"
                             to="/metrics/35135/pending"
                           >
                             <Link
@@ -882,13 +818,13 @@ exports[`Should hide tab items 1`] = `
                               to={
                                 Object {
                                   "pathname": "/metrics/35135/pending",
-                                  "search": "?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F",
+                                  "search": "?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F",
                                 }
                               }
                             >
                               <a
                                 className=" nav-link"
-                                href="/metrics/35135/pending?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+                                href="/metrics/35135/pending?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
                                 onClick={[Function]}
                               >
                                 <span
@@ -909,8 +845,8 @@ exports[`Should hide tab items 1`] = `
           </div>
         </nav>
       </Tabs>
-    </Router>
-  </MemoryRouter>
+    </Route>
+  </Router>
 </MockRouter>
 `;
 
@@ -955,7 +891,7 @@ exports[`Should render component 1`] = `
           >
             <a
               className=" nav-link"
-              href="/metrics/35135/completed?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+              href="/metrics/35135/completed?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
               onClick={[Function]}
             >
               <span
@@ -971,7 +907,7 @@ exports[`Should render component 1`] = `
           >
             <a
               className="active nav-link"
-              href="/metrics/35135/pending?backPath=%2Fprocesses%2F1%2F10%2Ftitle%253Aasc%3FbackPath%3D%252F"
+              href="/metrics/35135/pending?backPath=%2F1%2F20%2Ftitle%253Aasc%3FbackPath%3D%252F"
               onClick={[Function]}
             >
               <span
