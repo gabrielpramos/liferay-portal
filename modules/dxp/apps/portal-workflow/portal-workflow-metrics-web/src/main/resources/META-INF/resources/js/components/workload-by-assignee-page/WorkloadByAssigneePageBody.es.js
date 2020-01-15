@@ -14,7 +14,7 @@ import React from 'react';
 import EmptyState from '../../shared/components/list/EmptyState.es';
 import ReloadButton from '../../shared/components/list/ReloadButton.es';
 import LoadingState from '../../shared/components/loading/LoadingState.es';
-import PaginationBar from '../../shared/components/pagination/PaginationBar.es';
+import PaginationBar from '../../shared/components/pagination-bar/PaginationBar.es';
 import PromisesResolver from '../../shared/components/request/PromisesResolver.es';
 import {Table} from './WorkloadByAssigneePageTable.es';
 
@@ -36,6 +36,7 @@ const Body = ({data, filtered, processId, taskKeys}) => {
 
 						<PaginationBar
 							page={data.page}
+							pageBuffer={4}
 							pageCount={data.items.length}
 							pageSize={data.pageSize}
 							totalCount={data.totalCount}
