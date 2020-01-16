@@ -20,4 +20,8 @@ const compareArrays = (array1, array2) => {
 	);
 };
 
-export {compareArrays};
+const paginateArray = (array, page, pageSize) => {
+	return array.slice((page - 1) * pageSize, page * pageSize);
+};
+
+export {compareArrays, paginateArray};
