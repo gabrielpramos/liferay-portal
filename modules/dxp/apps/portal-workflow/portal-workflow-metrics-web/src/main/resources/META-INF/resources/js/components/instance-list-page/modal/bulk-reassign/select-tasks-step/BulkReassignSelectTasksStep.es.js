@@ -13,6 +13,7 @@ import React, {useContext, useMemo, useState, useEffect} from 'react';
 
 import PromisesResolver from '../../../../../shared/components/request/PromisesResolver.es';
 import {useFetch} from '../../../../../shared/hooks/useFetch.es';
+import {usePaginationState} from '../../../../../shared/hooks/usePaginationState.es';
 import {InstanceListContext} from '../../../store/InstanceListPageStore.es';
 import {Body} from './BulkReassignSelectTasksStepBody.es';
 import {Header} from './BulkReassignSelectTasksStepHeader.es';
@@ -23,15 +24,25 @@ const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 	const [tasks, setTasks] = useState([]);
 	const [retry, setRetry] = useState(0);
 
+	const {page, pageSize, pagination} = usePaginationState({
+		initialPageSize: 5
+	});
+
 	const {data, fetchData} = useFetch({
 		admin: true,
 		params: {
 			andOperator: true,
-			pageSize: 1000,
+			page,
+			pageSize,
 			workflowInstanceIds: selectedItems.map(item => item.id)
 		},
 		url: '/workflow-tasks'
 	});
+
+	const paginationState = {
+		...pagination,
+		totalCount: data.totalCount
+	};
 
 	useEffect(() => {
 		if (data.items && data.items.length) {
@@ -39,7 +50,7 @@ const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 				data.items.map(task => {
 					const {assetTitle, assetType} =
 						selectedItems.find(
-							item => item.id === task.instanceId
+							item => item.id === task.workflowInstanceId
 						) || {};
 
 					return {
@@ -79,6 +90,7 @@ const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 			<BulkReassignSelectTasksStep.Body
 				{...data}
 				items={tasks}
+				pagination={paginationState}
 				setRetry={setRetry}
 			/>
 		</PromisesResolver>

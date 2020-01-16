@@ -105,7 +105,7 @@ const Header = ({items, totalCount}) => {
 										Liferay.Language.get(
 											'x-of-x-items-selected'
 										),
-										[selectedTasks.length, items.length]
+										[selectedTasks.length, totalCount]
 									)}
 								</span>
 							</ClayManagementToolbar.Item>

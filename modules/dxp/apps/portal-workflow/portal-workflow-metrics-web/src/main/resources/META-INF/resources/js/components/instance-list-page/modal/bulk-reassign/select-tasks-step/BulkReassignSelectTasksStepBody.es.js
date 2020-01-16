@@ -15,10 +15,11 @@ import React from 'react';
 import EmptyState from '../../../../../shared/components/list/EmptyState.es';
 import RetryButton from '../../../../../shared/components/list/RetryButton.es';
 import LoadingState from '../../../../../shared/components/loading/LoadingState.es';
+import PaginationBar from '../../../../../shared/components/pagination-bar/PaginationBar.es';
 import PromisesResolver from '../../../../../shared/components/request/PromisesResolver.es';
 import {Table} from './BulkReassignSelectTasksStepTable.es';
 
-const Body = ({items, setRetry}) => {
+const Body = ({items, pagination, setRetry}) => {
 	return (
 		<ClayModal.Body>
 			<div style={{maxHeight: '23rem'}}>
@@ -28,14 +29,18 @@ const Body = ({items, setRetry}) => {
 
 				<PromisesResolver.Resolved>
 					{items && items.length > 0 ? (
-						<Body.Table items={items} />
+						<>
+							<Body.Table items={items} />
+
+							<PaginationBar routing={false} {...pagination} />
+						</>
 					) : (
 						<Body.Empty />
 					)}
 				</PromisesResolver.Resolved>
 
 				<PromisesResolver.Rejected>
-					<Body.Error onClick={() => setRetry(retry => ++retry)} />
+					<Body.Error onClick={() => setRetry(retry => retry + 1)} />
 				</PromisesResolver.Rejected>
 			</div>
 		</ClayModal.Body>

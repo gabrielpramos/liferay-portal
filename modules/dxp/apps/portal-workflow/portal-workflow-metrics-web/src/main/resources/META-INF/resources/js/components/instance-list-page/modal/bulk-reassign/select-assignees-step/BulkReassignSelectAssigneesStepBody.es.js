@@ -15,10 +15,17 @@ import React from 'react';
 import EmptyState from '../../../../../shared/components/list/EmptyState.es';
 import RetryButton from '../../../../../shared/components/list/RetryButton.es';
 import LoadingState from '../../../../../shared/components/loading/LoadingState.es';
+import PaginationBar from '../../../../../shared/components/pagination-bar/PaginationBar.es';
 import PromisesResolver from '../../../../../shared/components/request/PromisesResolver.es';
+import {usePaginationState} from '../../../../../shared/hooks/usePaginationState.es';
 import {Table} from './BulkReassignSelectAssigneesStepTable.es';
 
 const Body = ({data, setRetry, tasks}) => {
+	const {paginatedItems, pagination} = usePaginationState({
+		initialPageSize: 5,
+		items: tasks
+	});
+
 	return (
 		<ClayModal.Body>
 			<div style={{maxHeight: '23rem'}}>
@@ -27,7 +34,13 @@ const Body = ({data, setRetry, tasks}) => {
 				</PromisesResolver.Pending>
 
 				<PromisesResolver.Resolved>
-					<Body.Table data={data} items={tasks} />
+					<Body.Table data={data} items={paginatedItems} />
+
+					<PaginationBar
+						{...pagination}
+						routing={false}
+						totalCount={tasks.length}
+					/>
 				</PromisesResolver.Resolved>
 
 				<PromisesResolver.Rejected>
@@ -52,15 +65,11 @@ const ErrorView = ({onClick}) => {
 
 const LoadingView = () => {
 	return (
-		<>
-			<LoadingState
-				className="border-0 pb-8 pt-8"
-				message={Liferay.Language.get(
-					'retrieving-all-possible-assignees'
-				)}
-				messageClassName="small"
-			/>
-		</>
+		<LoadingState
+			className="border-0 pb-8 pt-8"
+			message={Liferay.Language.get('retrieving-all-possible-assignees')}
+			messageClassName="small"
+		/>
 	);
 };
 
