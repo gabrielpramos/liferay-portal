@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, fireEvent, render} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
 import InstanceListPage from '../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPage.es';
@@ -35,6 +35,13 @@ const items = [
 	}
 ];
 
+const routeParams = {
+	page: 1,
+	pageSize: 20,
+	query: '',
+	sort: 'overdueInstanceCount%3Adesc'
+};
+
 describe('The instance list card should', () => {
 	const clientMock = {
 		get: jest
@@ -43,12 +50,13 @@ describe('The instance list card should', () => {
 	};
 	let getByTestId, getAllByTestId;
 
-	afterEach(cleanup);
-
-	beforeEach(() => {
+	beforeAll(() => {
 		const renderResult = render(
-			<MockRouter client={clientMock}>
-				<InstanceListPage />
+			<MockRouter
+				client={clientMock}
+				getClient={jest.fn(() => clientMock)}
+			>
+				<InstanceListPage routeParams={routeParams} />
 			</MockRouter>
 		);
 
@@ -61,7 +69,9 @@ describe('The instance list card should', () => {
 
 		expect(filterNames[0].innerHTML).toBe('sla-status');
 		expect(filterNames[1].innerHTML).toBe('process-status');
-		expect(filterNames[2].innerHTML).toBe('process-step');
+		expect(filterNames[2].innerHTML).toBe('completion-period');
+		expect(filterNames[3].innerHTML).toBe('process-step');
+		expect(filterNames[4].innerHTML).toBe('assignee');
 	});
 
 	test('Select all instances by clicking on check all button', () => {

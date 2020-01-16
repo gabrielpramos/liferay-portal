@@ -13,7 +13,7 @@ import {cleanup, render, waitForElement} from '@testing-library/react';
 import React from 'react';
 
 import PerformanceByStepPage from '../../../src/main/resources/META-INF/resources/js/components/performance-by-step-page/PerformanceByStepPage.es';
-import PromisesResolver from '../../../src/main/resources/META-INF/resources/js/shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../src/main/resources/META-INF/resources/js/shared/components/promises-resolver/PromisesResolver.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
 const items = [

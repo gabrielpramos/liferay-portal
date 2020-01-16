@@ -15,7 +15,7 @@ import React from 'react';
 import SLAStatusFilter from '../../../src/main/resources/META-INF/resources/js/components/filter/SLAStatusFilter.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
-const query = '?filters.slaStatuses%5B0%5D=overdue';
+const query = '?filters.slaStatuses%5B0%5D=Overdue';
 
 const wrapper = ({children}) => (
 	<MockRouter query={query}>{children}</MockRouter>

@@ -13,7 +13,7 @@ import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import WorkloadByAssigneePage from '../../../src/main/resources/META-INF/resources/js/components/workload-by-assignee-page/WorkloadByAssigneePage.es';
-import PromisesResolver from '../../../src/main/resources/META-INF/resources/js/shared/components/request/PromisesResolver.es';
+import PromisesResolver from '../../../src/main/resources/META-INF/resources/js/shared/components/promises-resolver/PromisesResolver.es';
 import {MockRouter} from '../../mock/MockRouter.es';
 
 const items = [
