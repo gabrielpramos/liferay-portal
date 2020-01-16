@@ -44,7 +44,7 @@ const Body = ({data, setRetry, tasks}) => {
 				</PromisesResolver.Resolved>
 
 				<PromisesResolver.Rejected>
-					<Body.Error onClick={() => setRetry(retry => ++retry)} />
+					<Body.Error onClick={() => setRetry(retry => retry + 1)} />
 				</PromisesResolver.Rejected>
 			</div>
 		</ClayModal.Body>

@@ -29,7 +29,7 @@ const BulkReassignSelectAssigneesStep = ({setErrorToast}) => {
 		params: {
 			workflowTaskIds: selectedTasks.map(task => task.id)
 		},
-		url: '/workflow-tasks/assignable-users-bag'
+		url: '/workflow-tasks/assignable-users'
 	});
 
 	const promises = useMemo(() => {

@@ -188,7 +188,7 @@ const SingleReassignModal = () => {
 							<PromisesResolver.Rejected>
 								<SingleReassignModal.ErrorView
 									onClick={() => {
-										setRetry(retry => ++retry);
+										setRetry(retry => retry + 1);
 									}}
 								/>
 							</PromisesResolver.Rejected>

@@ -23,8 +23,8 @@ const Item = ({
 	assigneePerson,
 	data,
 	id,
-	instanceId,
-	name
+	name,
+	workflowInstanceId
 }) => {
 	const {bulkModal, setBulkModal} = useContext(ModalContext);
 
@@ -45,7 +45,7 @@ const Item = ({
 
 		if (users && users.length) {
 			const {assignableUsers = []} =
-				users.find(item => item.taskId === id) || {};
+				users.find(item => item.workflowTaskId === id) || {};
 
 			return assignableUsers;
 		}
@@ -56,11 +56,14 @@ const Item = ({
 
 	const handleSelect = newAssignee => {
 		const filteredTasks = reassignedTasks.filter(
-			task => task.taskId !== id
+			task => task.workflowTaskId !== id
 		);
 
 		if (newAssignee) {
-			filteredTasks.push({assigneeId: newAssignee.id, taskId: id});
+			filteredTasks.push({
+				assigneeId: newAssignee.id,
+				workflowTaskId: id
+			});
 		}
 
 		setBulkModal({
@@ -72,7 +75,7 @@ const Item = ({
 	return (
 		<ClayTable.Row>
 			<ClayTable.Cell className="font-weight-bold">
-				{instanceId}
+				{workflowInstanceId}
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>{`${assetType}: ${assetTitle}`} </ClayTable.Cell>

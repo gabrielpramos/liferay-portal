@@ -18,7 +18,14 @@ import {ModalContext} from '../../ModalContext.es';
 const Item = task => {
 	const {bulkModal, setBulkModal} = useContext(ModalContext);
 
-	const {assetTitle, assetType, assigneePerson, id, instanceId, name} = task;
+	const {
+		assetTitle,
+		assetType,
+		assigneePerson,
+		id,
+		name,
+		workflowInstanceId
+	} = task;
 	const {selectedTasks} = bulkModal;
 
 	const [checked, setChecked] = useState(false);
@@ -59,7 +66,7 @@ const Item = task => {
 			</ClayTable.Cell>
 
 			<ClayTable.Cell className="font-weight-bold">
-				{instanceId}
+				{workflowInstanceId}
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>{`${assetType}: ${assetTitle}`}</ClayTable.Cell>

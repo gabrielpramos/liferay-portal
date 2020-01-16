@@ -49,7 +49,7 @@ const BulkReassignModal = () => {
 	const {patchData} = usePatch({
 		admin: true,
 		body: reassignedTasks,
-		url: 'workflow-tasks/assign-to-user/batch'
+		url: 'workflow-tasks/assign-to-user'
 	});
 
 	const handleReassign = useCallback(() => {

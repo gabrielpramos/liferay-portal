@@ -34,7 +34,7 @@ const Header = ({data}) => {
 
 		if (users && users.length) {
 			const {assignableUsers = []} =
-				users.find(item => item.taskId === 0) || {};
+				users.find(item => item.workflowTaskId === 0) || {};
 
 			setAssignees(assignableUsers);
 		}
@@ -67,7 +67,7 @@ const Header = ({data}) => {
 			selectedTasks.forEach(task => {
 				reassignedTasks.push({
 					assigneeId: newAssignee.id,
-					taskId: task.id
+					workflowTaskId: task.id
 				});
 			});
 

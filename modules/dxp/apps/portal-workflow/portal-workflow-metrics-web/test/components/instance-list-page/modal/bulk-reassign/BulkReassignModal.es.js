@@ -27,8 +27,8 @@ const {items, selectedItems, workflowTaskAssignableUsers} = {
 				name: 'Test Test'
 			},
 			id: 1,
-			instanceId: 1,
-			name: 'Review'
+			name: 'Review',
+			workflowInstanceId: 1
 		},
 		{
 			assigneePerson: {
@@ -36,8 +36,8 @@ const {items, selectedItems, workflowTaskAssignableUsers} = {
 				name: 'Test Test'
 			},
 			id: 2,
-			instanceId: 2,
-			name: 'Update'
+			name: 'Update',
+			workflowInstanceId: 2
 		}
 	],
 	selectedItems: [
@@ -76,7 +76,7 @@ const {items, selectedItems, workflowTaskAssignableUsers} = {
 					name: 'Test Test'
 				}
 			],
-			taskId: 1
+			workflowTaskId: 1
 		},
 		{
 			assignableUsers: [
@@ -85,7 +85,7 @@ const {items, selectedItems, workflowTaskAssignableUsers} = {
 					name: 'Test Test'
 				}
 			],
-			taskId: 0
+			workflowTaskId: 0
 		}
 	]
 };
