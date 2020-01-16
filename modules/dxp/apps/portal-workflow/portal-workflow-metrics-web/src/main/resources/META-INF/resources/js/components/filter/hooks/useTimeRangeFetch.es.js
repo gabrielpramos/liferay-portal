@@ -11,6 +11,7 @@
 
 import {useContext, useEffect} from 'react';
 
+import {useBeforeUnload} from '../../../shared/hooks/useBeforeUnload.es';
 import {useSessionStorage} from '../../../shared/hooks/useStorage.es';
 import {AppContext} from '../../AppContext.es';
 
@@ -18,6 +19,8 @@ const useTimeRangeFetch = () => {
 	const {client} = useContext(AppContext);
 
 	const [, update, remove] = useSessionStorage('timeRanges');
+
+	useBeforeUnload(() => remove());
 
 	useEffect(() => {
 		client.get('/time-ranges').then(({data}) => {
