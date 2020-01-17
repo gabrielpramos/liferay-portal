@@ -50,8 +50,6 @@ const Header = ({data}) => {
 		reassigning
 	]);
 
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
-
 	const handleCheck = ({target}) => {
 		setBulkModal({
 			...bulkModal,
@@ -112,7 +110,6 @@ const Header = ({data}) => {
 							<ClayIcon
 								className="m-2"
 								displayType="unstyled"
-								spritemap={spritemap}
 								symbol="search"
 							/>
 						</ClayInput.GroupInsetItem>

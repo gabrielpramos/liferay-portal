@@ -138,8 +138,6 @@ const BulkReassignModal = () => {
 		setErrorToast(false);
 	};
 
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
-
 	return (
 		<>
 			<ClayAlert.ToastContainer data-testid="alertContainer">
@@ -154,7 +152,6 @@ const BulkReassignModal = () => {
 								prevItems.filter(item => item !== message)
 							);
 						}}
-						spritemap={spritemap}
 						title={Liferay.Language.get('success')}
 					>
 						{message}
@@ -167,7 +164,6 @@ const BulkReassignModal = () => {
 					data-testid="bulkReassignModal"
 					observer={observer}
 					size="lg"
-					spritemap={spritemap}
 				>
 					<ClayModal.Header>{step.title}</ClayModal.Header>
 
@@ -176,7 +172,6 @@ const BulkReassignModal = () => {
 							className="mb-0"
 							data-testid="alertError"
 							displayType="danger"
-							spritemap={spritemap}
 							title={Liferay.Language.get('error')}
 						>
 							{errorToast}

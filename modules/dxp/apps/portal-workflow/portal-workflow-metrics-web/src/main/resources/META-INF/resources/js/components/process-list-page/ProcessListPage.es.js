@@ -56,6 +56,7 @@ const ProcessListPage = ({history, query, routeParams}) => {
 
 	usePageTitle(Liferay.Language.get('metrics'));
 
+	const {page, pageSize, sort} = routeParams;
 	const {search = null} = parse(query);
 
 	const {data, fetchData} = useFetch({
@@ -66,7 +67,13 @@ const ProcessListPage = ({history, query, routeParams}) => {
 		url: '/processes'
 	});
 
-	const promises = useMemo(() => [fetchData()], [fetchData]);
+	const promises = useMemo(() => {
+		if (page && pageSize && sort) {
+			return [fetchData()];
+		}
+
+		return [new Promise(() => {})];
+	}, [fetchData, page, pageSize, sort]);
 
 	return (
 		<PromisesResolver promises={promises}>

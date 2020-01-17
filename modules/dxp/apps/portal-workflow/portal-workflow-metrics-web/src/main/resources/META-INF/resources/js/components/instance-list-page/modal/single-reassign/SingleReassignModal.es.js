@@ -131,8 +131,6 @@ const SingleReassignModal = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchData, retry]);
 
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
-
 	return (
 		<>
 			<ClayAlert.ToastContainer data-testid="alertContainer">
@@ -147,7 +145,6 @@ const SingleReassignModal = () => {
 								prevItems.filter(item => item !== value)
 							);
 						}}
-						spritemap={spritemap}
 						title={Liferay.Language.get('success')}
 					>
 						{value}
@@ -161,7 +158,6 @@ const SingleReassignModal = () => {
 						data-testid="reassignModal"
 						observer={observer}
 						size="lg"
-						spritemap={spritemap}
 					>
 						<ClayModal.Header>
 							{Liferay.Language.get('select-new-assignee')}
@@ -171,7 +167,6 @@ const SingleReassignModal = () => {
 							<ClayAlert
 								data-testid="alertError"
 								displayType="danger"
-								spritemap={spritemap}
 								title={Liferay.Language.get('error')}
 							>
 								{Liferay.Language.get(

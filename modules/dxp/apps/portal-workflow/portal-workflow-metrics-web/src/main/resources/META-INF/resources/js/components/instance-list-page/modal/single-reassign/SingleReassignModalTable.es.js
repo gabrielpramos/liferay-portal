@@ -116,7 +116,6 @@ const Table = ({
 }) => {
 	const completed = status === 'Completed';
 	const {items} = data;
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
 
 	return (
 		<ClayTable borderless={true} data-testid="singleReassignModalTable">
@@ -177,7 +176,6 @@ const Table = ({
 						<ClayTooltipProvider>
 							<ClayIcon
 								data-tooltip-align="top"
-								spritemap={spritemap}
 								style={{color: '#6B6C7E'}}
 								symbol="question-circle-full"
 								title={Liferay.Language.get(

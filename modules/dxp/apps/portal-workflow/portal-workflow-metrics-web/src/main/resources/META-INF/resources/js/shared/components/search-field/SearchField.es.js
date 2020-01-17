@@ -26,8 +26,6 @@ const SearchField = props => {
 
 	const {disabled, placeholder = Liferay.Language.get('search-for')} = props;
 
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
-
 	const [searchValue, setSearchValue] = useState(null);
 	const [redirect, setRedirect] = useState(false);
 
@@ -73,7 +71,6 @@ const SearchField = props => {
 					<ClayInput.GroupInsetItem after tag="span">
 						<ClayButtonWithIcon
 							displayType="unstyled"
-							spritemap={spritemap}
 							symbol="search"
 							type="submit"
 						/>

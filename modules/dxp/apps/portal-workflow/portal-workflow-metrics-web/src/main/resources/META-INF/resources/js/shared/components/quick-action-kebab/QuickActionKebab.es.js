@@ -52,7 +52,6 @@ const QuickActionKebab = ({dropDownItems = [], iconItems = [], items = []}) => {
 
 const KebabDropDown = ({children}) => {
 	const [active, setActive] = useState(false);
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
 
 	return (
 		<ClayDropDown
@@ -64,7 +63,7 @@ const KebabDropDown = ({children}) => {
 					displayType="unstyled"
 					monospaced
 				>
-					<ClayIcon spritemap={spritemap} symbol="ellipsis-v" />
+					<ClayIcon symbol="ellipsis-v" />
 				</ClayButton>
 			}
 		>

@@ -13,8 +13,6 @@ import ClayIcon from '@clayui/icon';
 import React from 'react';
 
 const IconItem = ({action, icon}) => {
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
-
 	return (
 		<>
 			<button
@@ -23,7 +21,7 @@ const IconItem = ({action, icon}) => {
 				onClick={action}
 				role="button"
 			>
-				<ClayIcon spritemap={spritemap} symbol={icon} />
+				<ClayIcon symbol={icon} />
 			</button>
 		</>
 	);
