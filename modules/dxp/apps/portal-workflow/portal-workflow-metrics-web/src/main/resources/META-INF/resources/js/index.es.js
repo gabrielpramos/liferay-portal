@@ -9,36 +9,18 @@
  * distribution rights of the Software.
  */
 
-import 'string.prototype.startswith';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import AppComponent from './components/App.es';
+import App from './components/App.es';
+import client, {getClient} from './shared/rest/fetch.es';
 
-export default function(defaultDelta, deltas, isAmPm, maxPages, namespace) {
-	const container = document.getElementById(`${namespace}root`);
-
-	const buildContainer = () => {
-		// eslint-disable-next-line liferay-portal/no-react-dom-render
-		ReactDOM.render(
-			<AppComponent
-				companyId={Liferay.ThemeDisplay.getCompanyId()}
-				defaultDelta={defaultDelta}
-				deltas={deltas}
-				isAmPm={isAmPm}
-				maxPages={maxPages}
-				namespace={namespace}
-			/>,
-			container
-		);
-		container.setAttribute('data-rendered', true);
-	};
-
-	if (!container.getAttribute('data-rendered')) {
-		buildContainer();
-	}
-
-	Liferay.once('destroyPortlet', () => {
-		ReactDOM.unmountComponentAtNode(container);
-	});
+export default function(props) {
+	return (
+		<App
+			client={client}
+			companyId={Liferay.ThemeDisplay.getCompanyId()}
+			getClient={getClient}
+			{...props}
+		/>
+	);
 }

@@ -9,12 +9,29 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
-export const AppContext = React.createContext();
+const AppContext = React.createContext();
 
-export const AppStatus = {
+const AppContextProvider = ({children, ...props}) => {
+	const [status, setStatus] = useState();
+	const [title, setTitle] = useState(Liferay.Language.get('metrics'));
+
+	const state = {
+		...props,
+		setStatus,
+		setTitle,
+		status,
+		title
+	};
+
+	return <AppContext.Provider value={state}>{children}</AppContext.Provider>;
+};
+
+const AppStatus = {
 	slaDeleted: 'sla-deleted',
 	slaSaved: 'sla-saved',
 	slaUpdated: 'sla-updated'
 };
+
+export {AppContext, AppContextProvider, AppStatus};

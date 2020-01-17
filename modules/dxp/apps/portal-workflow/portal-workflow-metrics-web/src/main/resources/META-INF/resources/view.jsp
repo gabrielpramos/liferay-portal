@@ -16,16 +16,16 @@
 
 <%@ include file="/init.jsp" %>
 
-<div id="<portlet:namespace />root">
-	<span aria-hidden="true" class="loading-animation"></span>
-</div>
+<%
+Map<String, Object> data = new HashMap<>();
 
-<aui:script require='<%= npmResolvedPackageName + " as bootstrapRequire" %>'>
-	bootstrapRequire.default(
-		<%= PropsValues.SEARCH_CONTAINER_PAGE_DEFAULT_DELTA %>,
-		<%= Arrays.toString(PropsValues.SEARCH_CONTAINER_PAGE_DELTA_VALUES) %>,
-		<%= DateUtil.isFormatAmPm(locale) %>,
-		<%= PropsValues.SEARCH_CONTAINER_PAGE_ITERATOR_MAX_PAGES %>,
-		'<portlet:namespace />'
-	);
-</aui:script>
+data.put("defaultDelta", PropsValues.SEARCH_CONTAINER_PAGE_DEFAULT_DELTA);
+data.put("deltas", PropsValues.SEARCH_CONTAINER_PAGE_DELTA_VALUES);
+data.put("isAmPm", DateUtil.isFormatAmPm(locale));
+data.put("maxPages", PropsValues.SEARCH_CONTAINER_PAGE_ITERATOR_MAX_PAGES);
+%>
+
+<react:component
+	data="<%= data %>"
+	module="js/index.es"
+/>

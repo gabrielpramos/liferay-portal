@@ -9,41 +9,44 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useContext, useMemo} from 'react';
 
+import {AppContext} from '../../../components/AppContext.es';
 import HeaderMenuBackItem from './HeaderMenuBackItem.es';
 import HeaderTitle from './HeaderTitle.es';
 
-export default class HeaderController extends React.Component {
-	componentWillMount() {
-		const {namespace} = this.props;
+const HeaderController = ({basePath}) => {
+	const {portletNamespace, title} = useContext(AppContext);
 
-		const headerContainer = document.getElementById(
-			`${namespace}controlMenu`
+	const container = useMemo(() => {
+		const header = document.getElementById(
+			`_${portletNamespace}_controlMenu`
 		);
 
-		if (headerContainer) {
-			this.backButtonContainer = headerContainer.querySelector(
-				'.sites-control-group .control-menu-nav'
-			);
-			this.titleContainer = headerContainer.querySelector(
-				'.tools-control-group .control-menu-level-1-heading'
-			);
+		if (!header) {
+			return {};
 		}
-	}
 
-	render() {
-		const {basePath, title} = this.props;
+		return {
+			button: header.querySelector(
+				'.sites-control-group .control-menu-nav'
+			),
+			title: header.querySelector(
+				'.tools-control-group .control-menu-level-1-heading'
+			)
+		};
+	}, [portletNamespace]);
 
-		return (
-			<>
-				<HeaderMenuBackItem
-					basePath={basePath}
-					container={this.backButtonContainer}
-				/>
+	return (
+		<>
+			<HeaderMenuBackItem
+				basePath={basePath}
+				container={container.button}
+			/>
 
-				<HeaderTitle container={this.titleContainer} title={title} />
-			</>
-		);
-	}
-}
+			<HeaderTitle container={container.title} title={title} />
+		</>
+	);
+};
+
+export default HeaderController;
