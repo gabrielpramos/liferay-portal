@@ -2664,8 +2664,20 @@ exports[`Should render dashboard route children 1`] = `
         Array [
           false,
         ],
+        Array [
+          false,
+        ],
       ],
       "results": Array [
+        Object {
+          "type": "return",
+          "value": Object {
+            "delete": [Function],
+            "get": [Function],
+            "post": [Function],
+            "put": [Function],
+          },
+        },
         Object {
           "type": "return",
           "value": Object {
@@ -2875,97 +2887,87 @@ exports[`Should render dashboard route children 1`] = `
           }
         }
       >
-        <Panel
-          className="container-fluid-1280 mt-4"
+        <PromisesResolver
+          promises={
+            Array [
+              Promise {},
+            ]
+          }
         >
-          <div
+          <Panel
             className="container-fluid-1280 mt-4"
           >
             <div
-              className="panel panel-secondary"
+              className="container-fluid-1280 mt-4"
             >
-              <Header
-                elementClasses="dashboard-panel-header"
+              <div
+                className="panel panel-secondary"
               >
-                <div
-                  className="panel-header dashboard-panel-header"
-                  data-testid="panelHeader"
+                <HeaderWithOptions
+                  description="workload-by-step-description"
+                  elementClasses="dashboard-panel-header"
+                  title="workload-by-step"
+                  tooltipPosition="bottom"
                 >
-                  <div>
-                    <div>
-                      <span
-                        className="mr-2"
-                      >
-                        workload-by-step
-                      </span>
-                      <TooltipProvider>
-                        <span
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          <span
-                            className="workflow-tooltip"
-                            data-tooltip-align="right"
-                            title="workload-by-step-description"
-                          >
-                            <Icon
-                              iconName="question-circle-full"
-                            >
-                              <svg
-                                className="lexicon-icon lexicon-icon-question-circle-full"
-                                dangerouslySetInnerHTML={
-                                  Object {
-                                    "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#question-circle-full\\" />",
-                                  }
-                                }
-                                data-testid="icon"
-                                focusable="false"
-                                role="presentation"
-                              />
-                            </Icon>
-                          </span>
-                        </span>
-                      </TooltipProvider>
-                    </div>
-                  </div>
-                </div>
-              </Header>
-              <Body>
-                <div
-                  className="panel-body"
-                  data-testid="panelBody"
-                >
-                  <ListView
-                    className="border-0"
-                    emptyActionButton={<ReloadButton />}
-                    emptyMessageClassName="small"
-                    emptyMessageText="there-are-no-pending-items-at-the-moment"
-                    errorMessageText={null}
-                    fetching={false}
-                    hideAnimation={true}
-                    loading={true}
+                  <Header
+                    elementClasses="dashboard-panel-header"
                   >
-                    <div>
-                      <LoadingState
-                        className="border-0 pb-6 pt-6 sheet"
-                      >
+                    <div
+                      className="panel-header dashboard-panel-header"
+                      data-testid="panelHeader"
+                    >
+                      <div>
                         <div
-                          className="border-0 pb-6 pt-6 sheet"
-                          data-testid="loadingState"
+                          className="autofit-row"
                         >
-                          <span
-                            aria-hidden="true"
-                            className="loading-animation"
-                          />
+                          <div
+                            className="autofit-col autofit-col-expand flex-row"
+                          >
+                            <span
+                              className="mr-2"
+                            >
+                              workload-by-step
+                            </span>
+                            <TooltipProvider>
+                              <span
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                              >
+                                <span
+                                  className="workflow-tooltip"
+                                  data-tooltip-align="bottom"
+                                  title="workload-by-step-description"
+                                >
+                                  <Icon
+                                    iconName="question-circle-full"
+                                  >
+                                    <svg
+                                      className="lexicon-icon lexicon-icon-question-circle-full"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#question-circle-full\\" />",
+                                        }
+                                      }
+                                      data-testid="icon"
+                                      focusable="false"
+                                      role="presentation"
+                                    />
+                                  </Icon>
+                                </span>
+                              </span>
+                            </TooltipProvider>
+                          </div>
                         </div>
-                      </LoadingState>
+                      </div>
                     </div>
-                  </ListView>
-                </div>
-              </Body>
+                  </Header>
+                </HeaderWithOptions>
+                <Resolved />
+                <Rejected />
+              </div>
             </div>
-          </div>
-        </Panel>
+          </Panel>
+        </PromisesResolver>
       </WorkloadByStepCard>
     </Router>
   </MemoryRouter>
