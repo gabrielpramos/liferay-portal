@@ -9,69 +9,96 @@
  * distribution rights of the Software.
  */
 
+import {fireEvent, render} from '@testing-library/react';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
 
 import App from '../../src/main/resources/META-INF/resources/js/components/App.es';
 
-beforeAll(() => {
-	const vbody = document.createElement('div');
+import '@testing-library/jest-dom/extend-expect';
 
-	vbody.innerHTML = `<div id="workflow_controlMenu">
-		<div class="sites-control-group">
-			<ul class="control-menu-nav"></ul>
-		</div>
-		<div class="tools-control-group">
-			<ul class="control-menu-nav">
-				<label class="control-menu-level-1-heading">title</label>
-			</ul>
-		</div>
-	</div>`;
-	document.body.appendChild(vbody);
+const processItems = [
+	{
+		id: 1,
+		instancesCount: 5,
+		title: 'Single Approver'
+	}
+];
 
-	ReactDOM.createPortal = jest.fn(element => {
-		return element;
+const pending = {
+	id: 1,
+	instanceCount: 0,
+	onTimeInstanceCount: 0,
+	overdueInstanceCount: 0,
+	title: 'Single Approver',
+	untrackedInstanceCount: 0
+};
+
+const empty = {items: [], totalCount: 0};
+
+const client = {
+	get: jest
+		.fn()
+		.mockResolvedValueOnce({
+			data: {
+				items: processItems,
+				totalCount: processItems.length
+			}
+		})
+		.mockResolvedValueOnce({data: pending})
+		.mockResolvedValue({data: empty})
+};
+
+const mockProps = {
+	client,
+	companyId: 12345,
+	defaultDelta: 20,
+	deltas: [5, 10, 20, 30, 50, 75],
+	getClient: jest.fn(() => client),
+	isAmPm: false,
+	maxPages: 15,
+	namespace: 'WorkflowMetricsPortlet'
+};
+
+describe('The App component should', () => {
+	let container, getAllByTestId;
+
+	beforeAll(() => {
+		const renderResult = render(<App {...mockProps} />);
+
+		container = renderResult.container;
+		getAllByTestId = renderResult.getAllByTestId;
 	});
 
-	global.Liferay = {
-		Language: {
-			get: key => key
-		},
-		ThemeDisplay: {
-			getPathThemeImages: () => '/'
-		}
-	};
-});
+	test('Render the process list page', () => {
+		const processName = getAllByTestId('processName');
+		const processNameLink = processName[0].children[0];
 
-afterAll(() => {
-	global.Liferay = null;
-});
+		expect(processNameLink).toHaveTextContent('Single Approver');
 
-test('Should render default component', () => {
-	const component = renderer.create(<App namespace="workflow_" />);
+		fireEvent.click(processNameLink);
+	});
 
-	const tree = component.toJSON();
+	test('Render the process metrics page on dashboard tab', () => {
+		const tabs = container.querySelectorAll('a.nav-link');
 
-	expect(tree).toMatchSnapshot();
-});
+		expect(tabs[0]).toHaveTextContent('dashboard');
+		expect(tabs[0].className.includes('active')).toBe(true);
+		expect(tabs[1]).toHaveTextContent('performance');
 
-test('Should render default component without custom header', () => {
-	document.getElementById('workflow_controlMenu').id = '';
+		expect(window.location.hash).toContain(
+			'#/metrics/1/dashboard/20/1/overdueInstanceCount%3Aasc'
+		);
 
-	const component = renderer.create(<App />);
+		fireEvent.click(tabs[1]);
+	});
 
-	const tree = component.toJSON();
+	test('Render the process metrics page on performance tab', () => {
+		const tabs = container.querySelectorAll('a.nav-link');
 
-	expect(tree).toMatchSnapshot();
-});
+		expect(tabs[0]).toHaveTextContent('dashboard');
+		expect(tabs[1]).toHaveTextContent('performance');
+		expect(tabs[1].className.includes('active')).toBe(true);
 
-test('Should set status', () => {
-	const component = renderer.create(<App />);
-
-	const instance = component.getInstance();
-
-	instance.setStatus('sla-updated');
-
-	expect(instance.state.status).toEqual('sla-updated');
+		expect(window.location.hash).toContain('#/metrics/1/performance');
+	});
 });
