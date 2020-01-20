@@ -9,15 +9,14 @@
  * distribution rights of the Software.
  */
 
+import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import ProcessMetrics from '../../../src/main/resources/META-INF/resources/js/components/process-metrics/ProcessMetrics.es';
-import PendingItemsCard from '../../../src/main/resources/META-INF/resources/js/components/process-metrics/process-items/PendingItemsCard.es';
-import WorkloadByStepCard from '../../../src/main/resources/META-INF/resources/js/components/process-metrics/workload-by-step-card/WorkloadByStepCard.es';
-import {withParams} from '../../../src/main/resources/META-INF/resources/js/shared/components/router/routerUtil.es';
-import {MockRouter as Router} from '../../mock/MockRouter.es';
-import fetch from '../../mock/fetch.es';
+import {MockRouter} from '../../mock/MockRouter.es';
 import fetchFailure from '../../mock/fetchFailure.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const mockHistory = {
 	location: {
@@ -26,104 +25,70 @@ const mockHistory = {
 	replace: jest.fn()
 };
 
-beforeAll(() => {
-	const vbody = document.createElement('div');
+const client = {
+	get: jest
+		.fn()
+		.mockResolvedValueOnce({data: {totalCount: 1}})
+		.mockResolvedValueOnce({data: {totalCount: 0}})
+};
 
-	vbody.innerHTML = `
-		<div id="workflow">
-			<div class="user-control-group">
-				<div class="control-menu-icon"></div>
-			</div>
-		</div>
-	`;
-	document.body.appendChild(vbody);
+describe('The ProcessMetrics component should', () => {
+	let getByTestId;
+
+	beforeAll(() => {
+		const component = render(
+			<MockRouter
+				client={client}
+				getClient={jest.fn(() => fetchFailure())}
+				initialPath="/metrics/35315/completed"
+			>
+				<ProcessMetrics history={mockHistory} processId="123" />
+			</MockRouter>
+		);
+		getByTestId = component.getByTestId;
+	});
+
+	test('Show SLA setup alert and new SLA creation alert when has neither SLA blocked nor SLA created for instances gave', () => {
+		const processMetricsDashBoard = getByTestId('processMetricsDashBoard');
+
+		expect(
+			processMetricsDashBoard.children[1].children[0]
+		).toHaveTextContent(
+			'fix-the-sla-configuration-to-resume-accurate-reporting'
+		);
+
+		expect(
+			processMetricsDashBoard.children[1].children[0]
+		).toHaveTextContent('set-up-slas');
+
+		expect(
+			processMetricsDashBoard.children[2].children[0]
+		).toHaveTextContent('no-slas-are-defined-for-this-process');
+
+		expect(
+			processMetricsDashBoard.children[2].children[0]
+		).toHaveTextContent('add-a-new-sla');
+	});
 });
 
-test('Should render component with completed tab activated', () => {
-	const component = mount(
-		<Router
-			client={fetchFailure()}
-			getClient={jest.fn(() => fetchFailure())}
-			initialPath="/metrics/35315"
-		>
-			<ProcessMetrics history={mockHistory} processId={35315} />
-		</Router>
-	);
+describe('The ProcessMetrics component should', () => {
+	let getByTestId;
 
-	expect(component).toMatchSnapshot();
-});
+	beforeAll(() => {
+		cleanup();
+		const component = render(
+			<MockRouter
+				client={fetchFailure()}
+				getClient={jest.fn(() => fetchFailure())}
+				initialPath="/metrics/35315/completed"
+			>
+				<ProcessMetrics history={mockHistory} processId="123" />
+			</MockRouter>
+		);
+		getByTestId = component.getByTestId;
+	});
 
-test('Should render component with default tab activated', () => {
-	const data = {
-		id: 35315,
-		onTimeInstanceCount: 1,
-		overdueInstanceCount: 0,
-		title: 'Single Approver',
-		totalCount: 1
-	};
-
-	const component = mount(
-		<Router
-			client={fetch({data})}
-			getClient={jest.fn(() => fetch({data}))}
-			initialPath="/metrics/35315"
-		>
-			<ProcessMetrics history={mockHistory} processId={35315} />
-		</Router>
-	);
-
-	expect(component).toMatchSnapshot();
-});
-
-test('Should render component with failure state', () => {
-	const component = mount(
-		<Router client={fetchFailure()} initialPath="/metrics/35315/completed">
-			<ProcessMetrics history={mockHistory} processId={35315} />
-		</Router>
-	);
-
-	expect(component).toMatchSnapshot();
-});
-
-test('Should render dashboard route children', () => {
-	const component = mount(
-		<Router
-			client={fetch({data: {}})}
-			getClient={jest.fn(() => fetch({data: {}}))}
-		>
-			{withParams(
-				PendingItemsCard,
-				WorkloadByStepCard
-			)({
-				location: {
-					search: ''
-				},
-				match: {
-					params: {
-						processId: 35315
-					}
-				}
-			})}
-		</Router>
-	);
-
-	expect(component).toMatchSnapshot();
-});
-
-test('Should render with blocked SLA', () => {
-	const component = mount(
-		<Router
-			client={fetchFailure()}
-			getClient={jest.fn(() => fetchFailure())}
-			initialPath="/metrics/35315/completed"
-		>
-			<ProcessMetrics history={mockHistory} processId="123" />
-		</Router>
-	);
-
-	const instance = component.find(ProcessMetrics).instance();
-
-	instance.setState({blockedSLACount: 1}, () => {
-		expect(component).toMatchSnapshot();
+	test('Show error toast when request fails', () => {
+		const processMetricsDashBoard = getByTestId('processMetricsDashBoard');
 	});
 });
