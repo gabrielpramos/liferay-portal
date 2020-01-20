@@ -11,7 +11,7 @@
 
 import React from 'react';
 
-import HeaderMenuBackItem from './HeaderMenuBackItem.es';
+import HeaderBackButton from './HeaderBackButton.es';
 import HeaderTitle from './HeaderTitle.es';
 
 export default class HeaderController extends React.Component {
@@ -37,7 +37,7 @@ export default class HeaderController extends React.Component {
 
 		return (
 			<>
-				<HeaderMenuBackItem
+				<HeaderBackButton
 					basePath={basePath}
 					container={this.backButtonContainer}
 				/>

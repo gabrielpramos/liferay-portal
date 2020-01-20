@@ -9,31 +9,28 @@
  * distribution rights of the Software.
  */
 
-import {usePrevious} from 'frontend-js-react-web';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
+import ReactDOM from 'react-dom';
 
-import Portal from '../portal/Portal.es';
-
-const HeaderTitle = ({container, title}) => {
-	const [currentTitle, setCurrentTitle] = useState(title);
-	const prevTitle = usePrevious(currentTitle);
+const Portal = ({children, container, replace}) => {
+	const element = useMemo(() => document.createElement('div'), []);
 
 	useEffect(() => {
-		if (title) {
-			setCurrentTitle(title);
-
-			if (prevTitle !== title) {
-				document.title = document.title.replace(prevTitle, title);
+		if (container) {
+			if (replace) {
+				container.innerHTML = '';
 			}
+
+			container.appendChild(element);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [title]);
+	}, []);
 
-	return (
-		<Portal container={container} replace>
-			{currentTitle}
-		</Portal>
-	);
+	if (!container) {
+		return null;
+	}
+
+	return <>{ReactDOM.createPortal(children, element)}</>;
 };
 
-export default HeaderTitle;
+export default Portal;

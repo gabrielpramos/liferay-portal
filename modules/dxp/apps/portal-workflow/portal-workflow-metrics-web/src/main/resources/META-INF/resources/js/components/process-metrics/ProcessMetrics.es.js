@@ -12,6 +12,7 @@
 import React from 'react';
 import {Route, HashRouter as Router, Switch} from 'react-router-dom';
 
+import HeaderKebab from '../../shared/components/header-controller/HeaderKebab.es';
 import {parse, stringify} from '../../shared/components/router/queryString.es';
 import {
 	getPathname,
@@ -24,7 +25,6 @@ import {openErrorToast} from '../../shared/util/toast.es';
 import {AppContext} from '../AppContext.es';
 import {useTimeRangeFetch} from '../filter/hooks/useTimeRangeFetch.es';
 import AlertMessage from './AlertMessage.es';
-import DropDownHeader from './DropDownHeader.es';
 import CompletionVelocityCard from './completion-velocity/CompletionVelocityCard.es';
 import PerformanceByAssigneeCard from './performance-by-assignee-card/PerformanceByAssigneeCard.es';
 import PerformanceByStepCard from './performance-by-step-card/PerformanceByStepCard.es';
@@ -118,16 +118,14 @@ class ProcessMetrics extends React.Component {
 
 		return (
 			<div className="workflow-process-dashboard">
-				<DropDownHeader>
-					<DropDownHeader.Item>
-						<ChildLink
-							className="dropdown-item"
-							to={`/slas/${processId}/${defaultDelta}/1`}
-						>
-							{Liferay.Language.get('sla-settings')}
-						</ChildLink>
-					</DropDownHeader.Item>
-				</DropDownHeader>
+				<HeaderKebab
+					kebabItems={[
+						{
+							label: Liferay.Language.get('sla-settings'),
+							link: `/slas/${processId}/${defaultDelta}/1`
+						}
+					]}
+				/>
 
 				<Tabs tabs={[dashboardTab, performanceTab]} />
 
