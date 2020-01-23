@@ -22,6 +22,7 @@ Array [
               className="container-fluid container-fluid-max-xl"
             >
               <form
+                data-testid="searchFieldForm"
                 method="GET"
                 onSubmit={[Function]}
                 role="search"
@@ -35,6 +36,7 @@ Array [
                     <input
                       aria-label="Search"
                       className="form-control form-control input-group-inset input-group-inset-after"
+                      data-testid="searchField"
                       disabled={false}
                       onChange={[Function]}
                       placeholder="search-for"
@@ -103,6 +105,7 @@ exports[`Should render default component without custom header 1`] = `
             className="container-fluid container-fluid-max-xl"
           >
             <form
+              data-testid="searchFieldForm"
               method="GET"
               onSubmit={[Function]}
               role="search"
@@ -116,6 +119,7 @@ exports[`Should render default component without custom header 1`] = `
                   <input
                     aria-label="Search"
                     className="form-control form-control input-group-inset input-group-inset-after"
+                    data-testid="searchField"
                     disabled={false}
                     onChange={[Function]}
                     placeholder="search-for"
