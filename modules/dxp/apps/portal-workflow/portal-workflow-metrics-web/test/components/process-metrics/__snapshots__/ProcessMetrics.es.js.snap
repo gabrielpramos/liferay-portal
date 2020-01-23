@@ -87,55 +87,42 @@ exports[`Should render component with completed tab activated 1`] = `
         <div
           className="workflow-process-dashboard"
         >
-          <DropDownHeader>
-            <PortalComponent
+          <HeaderKebab
+            kebabItems={
+              Array [
+                Object {
+                  "label": "sla-settings",
+                  "link": "/slas/35315/20/1",
+                },
+              ]
+            }
+          >
+            <Portal
               container={
                 <div
                   class="control-menu-icon"
                 >
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -146,213 +133,212 @@ exports[`Should render component with completed tab activated 1`] = `
                 containerInfo={
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 }
               >
-                <div
-                  className="dropdown lfr-icon-menu nav-item portlet-options"
-                >
-                  <a
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    className="direction-right dropdown-toggle icon-monospaced"
-                    data-toggle="dropdown"
-                    href="javascript:;"
-                    role="button"
-                    title="Options"
-                  >
-                    <span>
+                <ClayDropDown
+                  active={false}
+                  onActiveChange={[Function]}
+                  trigger={
+                    <ForwardRef
+                      className="component-action"
+                      data-testid="headerKebabButton"
+                      displayType="unstyled"
+                      monospaced={true}
+                    >
                       <Icon
                         iconName="ellipsis-v"
+                      />
+                    </ForwardRef>
+                  }
+                >
+                  <FocusScope>
+                    <div
+                      className="dropdown"
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                    >
+                      <ForwardRef
+                        className="dropdown-toggle component-action"
+                        data-testid="headerKebabButton"
+                        displayType="unstyled"
+                        monospaced={true}
+                        onClick={[Function]}
                       >
-                        <svg
-                          className="lexicon-icon lexicon-icon-ellipsis-v"
-                          dangerouslySetInnerHTML={
+                        <button
+                          className="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                          data-testid="headerKebabButton"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <Icon
+                            iconName="ellipsis-v"
+                          >
+                            <svg
+                              className="lexicon-icon lexicon-icon-ellipsis-v"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                                }
+                              }
+                              data-testid="icon"
+                              focusable="false"
+                              role="presentation"
+                            />
+                          </Icon>
+                        </button>
+                      </ForwardRef>
+                      <ForwardRef
+                        active={false}
+                        alignElementRef={
+                          Object {
+                            "current": <button
+                              class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                              data-testid="headerKebabButton"
+                              style=""
+                              type="button"
+                            >
+                              <svg
+                                class="lexicon-icon lexicon-icon-ellipsis-v"
+                                data-testid="icon"
+                                focusable="false"
+                                role="presentation"
+                              >
+                                <use
+                                  xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                                />
+                              </svg>
+                            </button>,
+                          }
+                        }
+                        onSetActive={[Function]}
+                      >
+                        <ClayPortal
+                          subPortalRef={
                             Object {
-                              "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                              "current": <div>
+                                <div
+                                  class="dropdown-menu"
+                                  style="left: -999px; top: -995px;"
+                                >
+                                  <ul
+                                    class="list-unstyled"
+                                  >
+                                    <li>
+                                      <a
+                                        class="dropdown-item"
+                                        data-testid="headerKebabItem"
+                                        href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
+                                      >
+                                        sla-settings
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>,
                             }
                           }
-                          data-testid="icon"
-                          focusable="false"
-                          role="presentation"
-                        />
-                      </Icon>
-                    </span>
-                  </a>
-                  <div
-                    className="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                    role="menu"
-                  >
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <MenuItem>
-                        <li>
-                          <withRouter()
-                            className="dropdown-item"
-                            to="/slas/35315/20/1"
-                          >
-                            <Component
-                              className="dropdown-item"
-                              history={
-                                Object {
-                                  "action": "REPLACE",
-                                  "block": [Function],
-                                  "canGo": [Function],
-                                  "createHref": [Function],
-                                  "entries": Array [
-                                    Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                    },
-                                  ],
-                                  "go": [Function],
-                                  "goBack": [Function],
-                                  "goForward": [Function],
-                                  "index": 0,
-                                  "length": 1,
-                                  "listen": [Function],
-                                  "location": Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                  },
-                                  "push": [Function],
-                                  "replace": [Function],
-                                }
-                              }
-                              location={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                  "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                }
-                              }
-                              match={
-                                Object {
-                                  "isExact": false,
-                                  "params": Object {
-                                    "processId": "35315",
-                                  },
-                                  "path": "/metrics/:processId",
-                                  "url": "/metrics/35315",
-                                }
-                              }
-                              to="/slas/35315/20/1"
-                            >
-                              <ChildLinkWrapper
-                                backPath="/"
-                                className="dropdown-item"
-                                currentPath="/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
-                                filters={
-                                  Object {
-                                    "taskKeys": Array [
-                                      "allSteps",
-                                    ],
-                                  }
-                                }
-                                history={
-                                  Object {
-                                    "action": "REPLACE",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
-                                  }
-                                }
-                                processId="35315"
-                                to="/slas/35315/20/1"
-                              >
-                                <Link
-                                  className="dropdown-item"
-                                  to={
-                                    Object {
-                                      "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
-                                    }
-                                  }
-                                >
-                                  <a
-                                    className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
-                                    onClick={[Function]}
+                        >
+                          <Portal
+                            containerInfo={
+                              <div>
+                                <div>
+                                  <div
+                                    class="dropdown-menu"
+                                    style="left: -999px; top: -995px;"
                                   >
-                                    sla-settings
-                                  </a>
-                                </Link>
-                              </ChildLinkWrapper>
-                            </Component>
-                          </withRouter()>
-                        </li>
-                      </MenuItem>
-                    </ul>
-                  </div>
-                </div>
+                                    <ul
+                                      class="list-unstyled"
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
+                                        >
+                                          sla-settings
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                          >
+                            <div>
+                              <div
+                                className="dropdown-menu"
+                              >
+                                <Item
+                                  key="0"
+                                  label="sla-settings"
+                                  link="/slas/35315/20/1"
+                                >
+                                  <ClayDropDownItemList>
+                                    <ul
+                                      className="list-unstyled"
+                                    >
+                                      <li>
+                                        <ChildLink
+                                          className="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          to="/slas/35315/20/1"
+                                        >
+                                          <Link
+                                            className="dropdown-item"
+                                            data-testid="headerKebabItem"
+                                            to={
+                                              Object {
+                                                "pathname": "/slas/35315/20/1",
+                                                "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
+                                              }
+                                            }
+                                          >
+                                            <a
+                                              className="dropdown-item"
+                                              data-testid="headerKebabItem"
+                                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
+                                              onClick={[Function]}
+                                            >
+                                              sla-settings
+                                            </a>
+                                          </Link>
+                                        </ChildLink>
+                                      </li>
+                                    </ul>
+                                  </ClayDropDownItemList>
+                                </Item>
+                              </div>
+                            </div>
+                          </Portal>
+                        </ClayPortal>
+                      </ForwardRef>
+                    </div>
+                  </FocusScope>
+                </ClayDropDown>
               </Portal>
-            </PortalComponent>
-          </DropDownHeader>
+            </Portal>
+          </HeaderKebab>
           <withRouter(Tabs)
             tabs={
               Array [
@@ -505,128 +491,35 @@ exports[`Should render component with completed tab activated 1`] = `
                             }
                             path="/metrics/:processId/dashboard/:pageSize/:page/:sort"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label="current-page"
                               className="active nav-link"
                               to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
-                              <Component
+                              <Link
                                 aria-label="current-page"
                                 className="active nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "REPLACE",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
                                   }
                                 }
-                                location={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                  }
-                                }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label="current-page"
-                                  backPath="/"
                                   className="active nav-link"
-                                  currentPath="/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
-                                  filters={
-                                    Object {
-                                      "taskKeys": Array [
-                                        "allSteps",
-                                      ],
-                                    }
-                                  }
-                                  history={
-                                    Object {
-                                      "action": "REPLACE",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                          "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
+                                  href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className="active nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className="active nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        dashboard
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    dashboard
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                         <li
@@ -645,128 +538,35 @@ exports[`Should render component with completed tab activated 1`] = `
                             }
                             path="/metrics/:processId/performance"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label=""
                               className=" nav-link"
                               to="/metrics/35315/performance"
                             >
-                              <Component
+                              <Link
                                 aria-label=""
                                 className=" nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "REPLACE",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                      "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
+                                    "pathname": "/metrics/35315/performance",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
                                   }
                                 }
-                                location={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                    "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                  }
-                                }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/performance"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label=""
-                                  backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc?backPath=%2F&filters.taskKeys%5B0%5D=allSteps"
-                                  filters={
-                                    Object {
-                                      "taskKeys": Array [
-                                        "allSteps",
-                                      ],
-                                    }
-                                  }
-                                  history={
-                                    Object {
-                                      "action": "REPLACE",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                          "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%3Aasc",
-                                        "search": "?backPath=%2F&filters.taskKeys%5B0%5D=allSteps",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/performance"
+                                  href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className=" nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fdashboard%2F20%2F1%2FoverdueInstanceCount%253Aasc%3FbackPath%3D%252F%26filters.taskKeys%255B0%255D%3DallSteps"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        performance
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    performance
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                       </ul>
@@ -896,55 +696,42 @@ exports[`Should render component with default tab activated 1`] = `
         <div
           className="workflow-process-dashboard"
         >
-          <DropDownHeader>
-            <PortalComponent
+          <HeaderKebab
+            kebabItems={
+              Array [
+                Object {
+                  "label": "sla-settings",
+                  "link": "/slas/35315/20/1",
+                },
+              ]
+            }
+          >
+            <Portal
               container={
                 <div
                   class="control-menu-icon"
                 >
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -955,206 +742,212 @@ exports[`Should render component with default tab activated 1`] = `
                 containerInfo={
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 }
               >
-                <div
-                  className="dropdown lfr-icon-menu nav-item portlet-options"
-                >
-                  <a
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    className="direction-right dropdown-toggle icon-monospaced"
-                    data-toggle="dropdown"
-                    href="javascript:;"
-                    role="button"
-                    title="Options"
-                  >
-                    <span>
+                <ClayDropDown
+                  active={false}
+                  onActiveChange={[Function]}
+                  trigger={
+                    <ForwardRef
+                      className="component-action"
+                      data-testid="headerKebabButton"
+                      displayType="unstyled"
+                      monospaced={true}
+                    >
                       <Icon
                         iconName="ellipsis-v"
+                      />
+                    </ForwardRef>
+                  }
+                >
+                  <FocusScope>
+                    <div
+                      className="dropdown"
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                    >
+                      <ForwardRef
+                        className="dropdown-toggle component-action"
+                        data-testid="headerKebabButton"
+                        displayType="unstyled"
+                        monospaced={true}
+                        onClick={[Function]}
                       >
-                        <svg
-                          className="lexicon-icon lexicon-icon-ellipsis-v"
-                          dangerouslySetInnerHTML={
+                        <button
+                          className="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                          data-testid="headerKebabButton"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <Icon
+                            iconName="ellipsis-v"
+                          >
+                            <svg
+                              className="lexicon-icon lexicon-icon-ellipsis-v"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                                }
+                              }
+                              data-testid="icon"
+                              focusable="false"
+                              role="presentation"
+                            />
+                          </Icon>
+                        </button>
+                      </ForwardRef>
+                      <ForwardRef
+                        active={false}
+                        alignElementRef={
+                          Object {
+                            "current": <button
+                              class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                              data-testid="headerKebabButton"
+                              style=""
+                              type="button"
+                            >
+                              <svg
+                                class="lexicon-icon lexicon-icon-ellipsis-v"
+                                data-testid="icon"
+                                focusable="false"
+                                role="presentation"
+                              >
+                                <use
+                                  xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                                />
+                              </svg>
+                            </button>,
+                          }
+                        }
+                        onSetActive={[Function]}
+                      >
+                        <ClayPortal
+                          subPortalRef={
                             Object {
-                              "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                              "current": <div>
+                                <div
+                                  class="dropdown-menu"
+                                  style="left: -999px; top: -995px;"
+                                >
+                                  <ul
+                                    class="list-unstyled"
+                                  >
+                                    <li>
+                                      <a
+                                        class="dropdown-item"
+                                        data-testid="headerKebabItem"
+                                        href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
+                                      >
+                                        sla-settings
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>,
                             }
                           }
-                          data-testid="icon"
-                          focusable="false"
-                          role="presentation"
-                        />
-                      </Icon>
-                    </span>
-                  </a>
-                  <div
-                    className="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                    role="menu"
-                  >
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <MenuItem>
-                        <li>
-                          <withRouter()
-                            className="dropdown-item"
-                            to="/slas/35315/20/1"
-                          >
-                            <Component
-                              className="dropdown-item"
-                              history={
-                                Object {
-                                  "action": "POP",
-                                  "block": [Function],
-                                  "canGo": [Function],
-                                  "createHref": [Function],
-                                  "entries": Array [
-                                    Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard",
-                                      "search": "?backPath=%2F",
-                                    },
-                                  ],
-                                  "go": [Function],
-                                  "goBack": [Function],
-                                  "goForward": [Function],
-                                  "index": 0,
-                                  "length": 1,
-                                  "listen": [Function],
-                                  "location": Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/dashboard",
-                                    "search": "?backPath=%2F",
-                                  },
-                                  "push": [Function],
-                                  "replace": [Function],
-                                }
-                              }
-                              location={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/metrics/35315/dashboard",
-                                  "search": "?backPath=%2F",
-                                }
-                              }
-                              match={
-                                Object {
-                                  "isExact": false,
-                                  "params": Object {
-                                    "processId": "35315",
-                                  },
-                                  "path": "/metrics/:processId",
-                                  "url": "/metrics/35315",
-                                }
-                              }
-                              to="/slas/35315/20/1"
-                            >
-                              <ChildLinkWrapper
-                                backPath="/"
-                                className="dropdown-item"
-                                currentPath="/metrics/35315/dashboard?backPath=%2F"
-                                history={
-                                  Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
-                                  }
-                                }
-                                processId="35315"
-                                to="/slas/35315/20/1"
-                              >
-                                <Link
-                                  className="dropdown-item"
-                                  to={
-                                    Object {
-                                      "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
-                                    }
-                                  }
-                                >
-                                  <a
-                                    className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
-                                    onClick={[Function]}
+                        >
+                          <Portal
+                            containerInfo={
+                              <div>
+                                <div>
+                                  <div
+                                    class="dropdown-menu"
+                                    style="left: -999px; top: -995px;"
                                   >
-                                    sla-settings
-                                  </a>
-                                </Link>
-                              </ChildLinkWrapper>
-                            </Component>
-                          </withRouter()>
-                        </li>
-                      </MenuItem>
-                    </ul>
-                  </div>
-                </div>
+                                    <ul
+                                      class="list-unstyled"
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
+                                        >
+                                          sla-settings
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                          >
+                            <div>
+                              <div
+                                className="dropdown-menu"
+                              >
+                                <Item
+                                  key="0"
+                                  label="sla-settings"
+                                  link="/slas/35315/20/1"
+                                >
+                                  <ClayDropDownItemList>
+                                    <ul
+                                      className="list-unstyled"
+                                    >
+                                      <li>
+                                        <ChildLink
+                                          className="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          to="/slas/35315/20/1"
+                                        >
+                                          <Link
+                                            className="dropdown-item"
+                                            data-testid="headerKebabItem"
+                                            to={
+                                              Object {
+                                                "pathname": "/slas/35315/20/1",
+                                                "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
+                                              }
+                                            }
+                                          >
+                                            <a
+                                              className="dropdown-item"
+                                              data-testid="headerKebabItem"
+                                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
+                                              onClick={[Function]}
+                                            >
+                                              sla-settings
+                                            </a>
+                                          </Link>
+                                        </ChildLink>
+                                      </li>
+                                    </ul>
+                                  </ClayDropDownItemList>
+                                </Item>
+                              </div>
+                            </div>
+                          </Portal>
+                        </ClayPortal>
+                      </ForwardRef>
+                    </div>
+                  </FocusScope>
+                </ClayDropDown>
               </Portal>
-            </PortalComponent>
-          </DropDownHeader>
+            </Portal>
+          </HeaderKebab>
           <withRouter(Tabs)
             tabs={
               Array [
@@ -1307,121 +1100,35 @@ exports[`Should render component with default tab activated 1`] = `
                             }
                             path="/metrics/:processId/dashboard/:pageSize/:page/:sort"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label="current-page"
                               className="active nav-link"
                               to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
-                              <Component
+                              <Link
                                 aria-label="current-page"
                                 className="active nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
                                   }
                                 }
-                                location={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/dashboard",
-                                    "search": "?backPath=%2F",
-                                  }
-                                }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label="current-page"
-                                  backPath="/"
                                   className="active nav-link"
-                                  currentPath="/metrics/35315/dashboard?backPath=%2F"
-                                  history={
-                                    Object {
-                                      "action": "POP",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/dashboard",
-                                          "search": "?backPath=%2F",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard",
-                                        "search": "?backPath=%2F",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
+                                  href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className="active nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className="active nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        dashboard
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    dashboard
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                         <li
@@ -1440,121 +1147,35 @@ exports[`Should render component with default tab activated 1`] = `
                             }
                             path="/metrics/:processId/performance"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label=""
                               className=" nav-link"
                               to="/metrics/35315/performance"
                             >
-                              <Component
+                              <Link
                                 aria-label=""
                                 className=" nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/dashboard",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
+                                    "pathname": "/metrics/35315/performance",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
                                   }
                                 }
-                                location={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/dashboard",
-                                    "search": "?backPath=%2F",
-                                  }
-                                }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/performance"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label=""
-                                  backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315/dashboard?backPath=%2F"
-                                  history={
-                                    Object {
-                                      "action": "POP",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/dashboard",
-                                          "search": "?backPath=%2F",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/dashboard",
-                                        "search": "?backPath=%2F",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/performance"
+                                  href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className=" nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fdashboard%3FbackPath%3D%252F"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        performance
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    performance
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                       </ul>
@@ -1684,55 +1305,42 @@ exports[`Should render component with failure state 1`] = `
         <div
           className="workflow-process-dashboard"
         >
-          <DropDownHeader>
-            <PortalComponent
+          <HeaderKebab
+            kebabItems={
+              Array [
+                Object {
+                  "label": "sla-settings",
+                  "link": "/slas/35315/20/1",
+                },
+              ]
+            }
+          >
+            <Portal
               container={
                 <div
                   class="control-menu-icon"
                 >
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1743,206 +1351,212 @@ exports[`Should render component with failure state 1`] = `
                 containerInfo={
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 }
               >
-                <div
-                  className="dropdown lfr-icon-menu nav-item portlet-options"
-                >
-                  <a
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    className="direction-right dropdown-toggle icon-monospaced"
-                    data-toggle="dropdown"
-                    href="javascript:;"
-                    role="button"
-                    title="Options"
-                  >
-                    <span>
+                <ClayDropDown
+                  active={false}
+                  onActiveChange={[Function]}
+                  trigger={
+                    <ForwardRef
+                      className="component-action"
+                      data-testid="headerKebabButton"
+                      displayType="unstyled"
+                      monospaced={true}
+                    >
                       <Icon
                         iconName="ellipsis-v"
+                      />
+                    </ForwardRef>
+                  }
+                >
+                  <FocusScope>
+                    <div
+                      className="dropdown"
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                    >
+                      <ForwardRef
+                        className="dropdown-toggle component-action"
+                        data-testid="headerKebabButton"
+                        displayType="unstyled"
+                        monospaced={true}
+                        onClick={[Function]}
                       >
-                        <svg
-                          className="lexicon-icon lexicon-icon-ellipsis-v"
-                          dangerouslySetInnerHTML={
+                        <button
+                          className="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                          data-testid="headerKebabButton"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <Icon
+                            iconName="ellipsis-v"
+                          >
+                            <svg
+                              className="lexicon-icon lexicon-icon-ellipsis-v"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                                }
+                              }
+                              data-testid="icon"
+                              focusable="false"
+                              role="presentation"
+                            />
+                          </Icon>
+                        </button>
+                      </ForwardRef>
+                      <ForwardRef
+                        active={false}
+                        alignElementRef={
+                          Object {
+                            "current": <button
+                              class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                              data-testid="headerKebabButton"
+                              style=""
+                              type="button"
+                            >
+                              <svg
+                                class="lexicon-icon lexicon-icon-ellipsis-v"
+                                data-testid="icon"
+                                focusable="false"
+                                role="presentation"
+                              >
+                                <use
+                                  xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                                />
+                              </svg>
+                            </button>,
+                          }
+                        }
+                        onSetActive={[Function]}
+                      >
+                        <ClayPortal
+                          subPortalRef={
                             Object {
-                              "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                              "current": <div>
+                                <div
+                                  class="dropdown-menu"
+                                  style="left: -999px; top: -995px;"
+                                >
+                                  <ul
+                                    class="list-unstyled"
+                                  >
+                                    <li>
+                                      <a
+                                        class="dropdown-item"
+                                        data-testid="headerKebabItem"
+                                        href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                      >
+                                        sla-settings
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>,
                             }
                           }
-                          data-testid="icon"
-                          focusable="false"
-                          role="presentation"
-                        />
-                      </Icon>
-                    </span>
-                  </a>
-                  <div
-                    className="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                    role="menu"
-                  >
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <MenuItem>
-                        <li>
-                          <withRouter()
-                            className="dropdown-item"
-                            to="/slas/35315/20/1"
-                          >
-                            <Component
-                              className="dropdown-item"
-                              history={
-                                Object {
-                                  "action": "POP",
-                                  "block": [Function],
-                                  "canGo": [Function],
-                                  "createHref": [Function],
-                                  "entries": Array [
-                                    Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                  ],
-                                  "go": [Function],
-                                  "goBack": [Function],
-                                  "goForward": [Function],
-                                  "index": 0,
-                                  "length": 1,
-                                  "listen": [Function],
-                                  "location": Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/performance",
-                                    "search": "?backPath=%2F",
-                                  },
-                                  "push": [Function],
-                                  "replace": [Function],
-                                }
-                              }
-                              location={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/metrics/35315/performance",
-                                  "search": "?backPath=%2F",
-                                }
-                              }
-                              match={
-                                Object {
-                                  "isExact": false,
-                                  "params": Object {
-                                    "processId": "35315",
-                                  },
-                                  "path": "/metrics/:processId",
-                                  "url": "/metrics/35315",
-                                }
-                              }
-                              to="/slas/35315/20/1"
-                            >
-                              <ChildLinkWrapper
-                                backPath="/"
-                                className="dropdown-item"
-                                currentPath="/metrics/35315/performance?backPath=%2F"
-                                history={
-                                  Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
-                                  }
-                                }
-                                processId="35315"
-                                to="/slas/35315/20/1"
-                              >
-                                <Link
-                                  className="dropdown-item"
-                                  to={
-                                    Object {
-                                      "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
-                                    }
-                                  }
-                                >
-                                  <a
-                                    className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                                    onClick={[Function]}
+                        >
+                          <Portal
+                            containerInfo={
+                              <div>
+                                <div>
+                                  <div
+                                    class="dropdown-menu"
+                                    style="left: -999px; top: -995px;"
                                   >
-                                    sla-settings
-                                  </a>
-                                </Link>
-                              </ChildLinkWrapper>
-                            </Component>
-                          </withRouter()>
-                        </li>
-                      </MenuItem>
-                    </ul>
-                  </div>
-                </div>
+                                    <ul
+                                      class="list-unstyled"
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                        >
+                                          sla-settings
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                          >
+                            <div>
+                              <div
+                                className="dropdown-menu"
+                              >
+                                <Item
+                                  key="0"
+                                  label="sla-settings"
+                                  link="/slas/35315/20/1"
+                                >
+                                  <ClayDropDownItemList>
+                                    <ul
+                                      className="list-unstyled"
+                                    >
+                                      <li>
+                                        <ChildLink
+                                          className="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          to="/slas/35315/20/1"
+                                        >
+                                          <Link
+                                            className="dropdown-item"
+                                            data-testid="headerKebabItem"
+                                            to={
+                                              Object {
+                                                "pathname": "/slas/35315/20/1",
+                                                "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
+                                              }
+                                            }
+                                          >
+                                            <a
+                                              className="dropdown-item"
+                                              data-testid="headerKebabItem"
+                                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                              onClick={[Function]}
+                                            >
+                                              sla-settings
+                                            </a>
+                                          </Link>
+                                        </ChildLink>
+                                      </li>
+                                    </ul>
+                                  </ClayDropDownItemList>
+                                </Item>
+                              </div>
+                            </div>
+                          </Portal>
+                        </ClayPortal>
+                      </ForwardRef>
+                    </div>
+                  </FocusScope>
+                </ClayDropDown>
               </Portal>
-            </PortalComponent>
-          </DropDownHeader>
+            </Portal>
+          </HeaderKebab>
           <withRouter(Tabs)
             tabs={
               Array [
@@ -2095,121 +1709,35 @@ exports[`Should render component with failure state 1`] = `
                             }
                             path="/metrics/:processId/dashboard/:pageSize/:page/:sort"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label=""
                               className=" nav-link"
                               to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
-                              <Component
+                              <Link
                                 aria-label=""
                                 className=" nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                   }
                                 }
-                                location={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/performance",
-                                    "search": "?backPath=%2F",
-                                  }
-                                }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label=""
-                                  backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315/performance?backPath=%2F"
-                                  history={
-                                    Object {
-                                      "action": "POP",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/performance",
-                                          "search": "?backPath=%2F",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
+                                  href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className=" nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        dashboard
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    dashboard
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                         <li
@@ -2228,121 +1756,35 @@ exports[`Should render component with failure state 1`] = `
                             }
                             path="/metrics/:processId/performance"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label="current-page"
                               className="active nav-link"
                               to="/metrics/35315/performance"
                             >
-                              <Component
+                              <Link
                                 aria-label="current-page"
                                 className="active nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
-                                  }
-                                }
-                                location={
-                                  Object {
-                                    "hash": "",
                                     "pathname": "/metrics/35315/performance",
-                                    "search": "?backPath=%2F",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                   }
                                 }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/performance"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label="current-page"
-                                  backPath="/"
                                   className="active nav-link"
-                                  currentPath="/metrics/35315/performance?backPath=%2F"
-                                  history={
-                                    Object {
-                                      "action": "POP",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/performance",
-                                          "search": "?backPath=%2F",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/performance"
+                                  href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className="active nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className="active nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        performance
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    performance
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                       </ul>
@@ -2472,55 +1914,42 @@ exports[`Should render with blocked SLA 1`] = `
         <div
           className="workflow-process-dashboard"
         >
-          <DropDownHeader>
-            <PortalComponent
+          <HeaderKebab
+            kebabItems={
+              Array [
+                Object {
+                  "label": "sla-settings",
+                  "link": "/slas/35315/20/1",
+                },
+              ]
+            }
+          >
+            <Portal
               container={
                 <div
                   class="control-menu-icon"
                 >
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -2531,206 +1960,212 @@ exports[`Should render with blocked SLA 1`] = `
                 containerInfo={
                   <div>
                     <div
-                      class="dropdown lfr-icon-menu nav-item portlet-options"
+                      class="dropdown"
                     >
-                      <a
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="direction-right dropdown-toggle icon-monospaced"
-                        data-toggle="dropdown"
-                        href="javascript:;"
-                        role="button"
-                        title="Options"
+                      <button
+                        class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                        data-testid="headerKebabButton"
+                        style=""
+                        type="button"
                       >
-                        <span>
-                          <svg
-                            class="lexicon-icon lexicon-icon-ellipsis-v"
-                            data-testid="icon"
-                            focusable="false"
-                            role="presentation"
-                          >
-                            <use
-                              xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
-                            />
-                          </svg>
-                        </span>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                        role="menu"
-                      >
-                        <ul
-                          class="list-unstyled"
+                        <svg
+                          class="lexicon-icon lexicon-icon-ellipsis-v"
+                          data-testid="icon"
+                          focusable="false"
+                          role="presentation"
                         >
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                            >
-                              sla-settings
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                          <use
+                            xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 }
               >
-                <div
-                  className="dropdown lfr-icon-menu nav-item portlet-options"
-                >
-                  <a
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    className="direction-right dropdown-toggle icon-monospaced"
-                    data-toggle="dropdown"
-                    href="javascript:;"
-                    role="button"
-                    title="Options"
-                  >
-                    <span>
+                <ClayDropDown
+                  active={false}
+                  onActiveChange={[Function]}
+                  trigger={
+                    <ForwardRef
+                      className="component-action"
+                      data-testid="headerKebabButton"
+                      displayType="unstyled"
+                      monospaced={true}
+                    >
                       <Icon
                         iconName="ellipsis-v"
+                      />
+                    </ForwardRef>
+                  }
+                >
+                  <FocusScope>
+                    <div
+                      className="dropdown"
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                    >
+                      <ForwardRef
+                        className="dropdown-toggle component-action"
+                        data-testid="headerKebabButton"
+                        displayType="unstyled"
+                        monospaced={true}
+                        onClick={[Function]}
                       >
-                        <svg
-                          className="lexicon-icon lexicon-icon-ellipsis-v"
-                          dangerouslySetInnerHTML={
+                        <button
+                          className="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                          data-testid="headerKebabButton"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <Icon
+                            iconName="ellipsis-v"
+                          >
+                            <svg
+                              className="lexicon-icon lexicon-icon-ellipsis-v"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                                }
+                              }
+                              data-testid="icon"
+                              focusable="false"
+                              role="presentation"
+                            />
+                          </Icon>
+                        </button>
+                      </ForwardRef>
+                      <ForwardRef
+                        active={false}
+                        alignElementRef={
+                          Object {
+                            "current": <button
+                              class="dropdown-toggle component-action btn btn-monospaced btn-unstyled"
+                              data-testid="headerKebabButton"
+                              style=""
+                              type="button"
+                            >
+                              <svg
+                                class="lexicon-icon lexicon-icon-ellipsis-v"
+                                data-testid="icon"
+                                focusable="false"
+                                role="presentation"
+                              >
+                                <use
+                                  xlink:href="http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v"
+                                />
+                              </svg>
+                            </button>,
+                          }
+                        }
+                        onSetActive={[Function]}
+                      >
+                        <ClayPortal
+                          subPortalRef={
                             Object {
-                              "__html": "<use xlink:href=\\"http://localhost:8080/o/admin-theme/images/lexicon/icons.svg#ellipsis-v\\" />",
+                              "current": <div>
+                                <div
+                                  class="dropdown-menu"
+                                  style="left: -999px; top: -995px;"
+                                >
+                                  <ul
+                                    class="list-unstyled"
+                                  >
+                                    <li>
+                                      <a
+                                        class="dropdown-item"
+                                        data-testid="headerKebabItem"
+                                        href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                      >
+                                        sla-settings
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>,
                             }
                           }
-                          data-testid="icon"
-                          focusable="false"
-                          role="presentation"
-                        />
-                      </Icon>
-                    </span>
-                  </a>
-                  <div
-                    className="dropdown-menu dropdown-menu-header dropdown-menu-right"
-                    role="menu"
-                  >
-                    <ul
-                      className="list-unstyled"
-                    >
-                      <MenuItem>
-                        <li>
-                          <withRouter()
-                            className="dropdown-item"
-                            to="/slas/35315/20/1"
-                          >
-                            <Component
-                              className="dropdown-item"
-                              history={
-                                Object {
-                                  "action": "POP",
-                                  "block": [Function],
-                                  "canGo": [Function],
-                                  "createHref": [Function],
-                                  "entries": Array [
-                                    Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                  ],
-                                  "go": [Function],
-                                  "goBack": [Function],
-                                  "goForward": [Function],
-                                  "index": 0,
-                                  "length": 1,
-                                  "listen": [Function],
-                                  "location": Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/performance",
-                                    "search": "?backPath=%2F",
-                                  },
-                                  "push": [Function],
-                                  "replace": [Function],
-                                }
-                              }
-                              location={
-                                Object {
-                                  "hash": "",
-                                  "pathname": "/metrics/35315/performance",
-                                  "search": "?backPath=%2F",
-                                }
-                              }
-                              match={
-                                Object {
-                                  "isExact": false,
-                                  "params": Object {
-                                    "processId": "35315",
-                                  },
-                                  "path": "/metrics/:processId",
-                                  "url": "/metrics/35315",
-                                }
-                              }
-                              to="/slas/35315/20/1"
-                            >
-                              <ChildLinkWrapper
-                                backPath="/"
-                                className="dropdown-item"
-                                currentPath="/metrics/35315/performance?backPath=%2F"
-                                history={
-                                  Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
-                                  }
-                                }
-                                processId="35315"
-                                to="/slas/35315/20/1"
-                              >
-                                <Link
-                                  className="dropdown-item"
-                                  to={
-                                    Object {
-                                      "pathname": "/slas/35315/20/1",
-                                      "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
-                                    }
-                                  }
-                                >
-                                  <a
-                                    className="dropdown-item"
-                                    href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                                    onClick={[Function]}
+                        >
+                          <Portal
+                            containerInfo={
+                              <div>
+                                <div>
+                                  <div
+                                    class="dropdown-menu"
+                                    style="left: -999px; top: -995px;"
                                   >
-                                    sla-settings
-                                  </a>
-                                </Link>
-                              </ChildLinkWrapper>
-                            </Component>
-                          </withRouter()>
-                        </li>
-                      </MenuItem>
-                    </ul>
-                  </div>
-                </div>
+                                    <ul
+                                      class="list-unstyled"
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                        >
+                                          sla-settings
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                          >
+                            <div>
+                              <div
+                                className="dropdown-menu"
+                              >
+                                <Item
+                                  key="0"
+                                  label="sla-settings"
+                                  link="/slas/35315/20/1"
+                                >
+                                  <ClayDropDownItemList>
+                                    <ul
+                                      className="list-unstyled"
+                                    >
+                                      <li>
+                                        <ChildLink
+                                          className="dropdown-item"
+                                          data-testid="headerKebabItem"
+                                          to="/slas/35315/20/1"
+                                        >
+                                          <Link
+                                            className="dropdown-item"
+                                            data-testid="headerKebabItem"
+                                            to={
+                                              Object {
+                                                "pathname": "/slas/35315/20/1",
+                                                "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
+                                              }
+                                            }
+                                          >
+                                            <a
+                                              className="dropdown-item"
+                                              data-testid="headerKebabItem"
+                                              href="/slas/35315/20/1?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                              onClick={[Function]}
+                                            >
+                                              sla-settings
+                                            </a>
+                                          </Link>
+                                        </ChildLink>
+                                      </li>
+                                    </ul>
+                                  </ClayDropDownItemList>
+                                </Item>
+                              </div>
+                            </div>
+                          </Portal>
+                        </ClayPortal>
+                      </ForwardRef>
+                    </div>
+                  </FocusScope>
+                </ClayDropDown>
               </Portal>
-            </PortalComponent>
-          </DropDownHeader>
+            </Portal>
+          </HeaderKebab>
           <withRouter(Tabs)
             tabs={
               Array [
@@ -2883,121 +2318,35 @@ exports[`Should render with blocked SLA 1`] = `
                             }
                             path="/metrics/:processId/dashboard/:pageSize/:page/:sort"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label=""
                               className=" nav-link"
                               to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                             >
-                              <Component
+                              <Link
                                 aria-label=""
                                 className=" nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
+                                    "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                   }
                                 }
-                                location={
-                                  Object {
-                                    "hash": "",
-                                    "pathname": "/metrics/35315/performance",
-                                    "search": "?backPath=%2F",
-                                  }
-                                }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label=""
-                                  backPath="/"
                                   className=" nav-link"
-                                  currentPath="/metrics/35315/performance?backPath=%2F"
-                                  history={
-                                    Object {
-                                      "action": "POP",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/performance",
-                                          "search": "?backPath=%2F",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc"
+                                  href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className=" nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className=" nav-link"
-                                      href="/metrics/35315/dashboard/20/1/overdueInstanceCount%253Aasc?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        dashboard
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    dashboard
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                         <li
@@ -3016,121 +2365,35 @@ exports[`Should render with blocked SLA 1`] = `
                             }
                             path="/metrics/:processId/performance"
                           >
-                            <withRouter()
+                            <ChildLink
                               aria-label="current-page"
                               className="active nav-link"
                               to="/metrics/35315/performance"
                             >
-                              <Component
+                              <Link
                                 aria-label="current-page"
                                 className="active nav-link"
-                                history={
+                                to={
                                   Object {
-                                    "action": "POP",
-                                    "block": [Function],
-                                    "canGo": [Function],
-                                    "createHref": [Function],
-                                    "entries": Array [
-                                      Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                    ],
-                                    "go": [Function],
-                                    "goBack": [Function],
-                                    "goForward": [Function],
-                                    "index": 0,
-                                    "length": 1,
-                                    "listen": [Function],
-                                    "location": Object {
-                                      "hash": "",
-                                      "pathname": "/metrics/35315/performance",
-                                      "search": "?backPath=%2F",
-                                    },
-                                    "push": [Function],
-                                    "replace": [Function],
-                                  }
-                                }
-                                location={
-                                  Object {
-                                    "hash": "",
                                     "pathname": "/metrics/35315/performance",
-                                    "search": "?backPath=%2F",
+                                    "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
                                   }
                                 }
-                                match={
-                                  Object {
-                                    "isExact": false,
-                                    "params": Object {
-                                      "processId": "35315",
-                                    },
-                                    "path": "/metrics/:processId",
-                                    "url": "/metrics/35315",
-                                  }
-                                }
-                                to="/metrics/35315/performance"
                               >
-                                <ChildLinkWrapper
+                                <a
                                   aria-label="current-page"
-                                  backPath="/"
                                   className="active nav-link"
-                                  currentPath="/metrics/35315/performance?backPath=%2F"
-                                  history={
-                                    Object {
-                                      "action": "POP",
-                                      "block": [Function],
-                                      "canGo": [Function],
-                                      "createHref": [Function],
-                                      "entries": Array [
-                                        Object {
-                                          "hash": "",
-                                          "pathname": "/metrics/35315/performance",
-                                          "search": "?backPath=%2F",
-                                        },
-                                      ],
-                                      "go": [Function],
-                                      "goBack": [Function],
-                                      "goForward": [Function],
-                                      "index": 0,
-                                      "length": 1,
-                                      "listen": [Function],
-                                      "location": Object {
-                                        "hash": "",
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2F",
-                                      },
-                                      "push": [Function],
-                                      "replace": [Function],
-                                    }
-                                  }
-                                  processId="35315"
-                                  to="/metrics/35315/performance"
+                                  href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
+                                  onClick={[Function]}
                                 >
-                                  <Link
-                                    className="active nav-link"
-                                    to={
-                                      Object {
-                                        "pathname": "/metrics/35315/performance",
-                                        "search": "?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F",
-                                      }
-                                    }
+                                  <span
+                                    className="navbar-text-truncate"
                                   >
-                                    <a
-                                      className="active nav-link"
-                                      href="/metrics/35315/performance?backPath=%2Fmetrics%2F35315%2Fperformance%3FbackPath%3D%252F"
-                                      onClick={[Function]}
-                                    >
-                                      <span
-                                        className="navbar-text-truncate"
-                                      >
-                                        performance
-                                      </span>
-                                    </a>
-                                  </Link>
-                                </ChildLinkWrapper>
-                              </Component>
-                            </withRouter()>
+                                    performance
+                                  </span>
+                                </a>
+                              </Link>
+                            </ChildLink>
                           </TabItem>
                         </li>
                       </ul>
