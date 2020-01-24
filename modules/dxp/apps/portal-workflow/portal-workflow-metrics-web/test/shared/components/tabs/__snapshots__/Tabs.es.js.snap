@@ -139,6 +139,7 @@ exports[`Should expand tab items 1`] = `
               >
                 <ul
                   className="navbar-nav"
+                  data-testid="tabElements"
                 >
                   <li
                     className="nav-item"
@@ -564,6 +565,7 @@ exports[`Should hide tab items 1`] = `
               >
                 <ul
                   className="navbar-nav"
+                  data-testid="tabElements"
                 >
                   <li
                     className="nav-item"
@@ -884,6 +886,7 @@ exports[`Should render component 1`] = `
       >
         <ul
           className="navbar-nav"
+          data-testid="tabElements"
         >
           <li
             className="nav-item"
