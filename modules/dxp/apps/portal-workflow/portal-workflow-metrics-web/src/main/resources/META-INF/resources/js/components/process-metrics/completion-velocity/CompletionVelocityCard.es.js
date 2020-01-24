@@ -104,7 +104,7 @@ const CompletionVelocityCard = ({routeParams}) => {
 	);
 };
 
-const Header = ({dispatch, prefixKey, timeRange}) => {
+const Header = ({dispatch, prefixKey, timeRange: {dateEnd, dateStart}}) => {
 	return (
 		<Panel.HeaderWithOptions
 			description={Liferay.Language.get(
@@ -121,12 +121,14 @@ const Header = ({dispatch, prefixKey, timeRange}) => {
 						prefixKey={prefixKey}
 					/>
 
-					<VelocityUnitFilter
-						className={'pl-3'}
-						dispatch={dispatch}
-						prefixKey={prefixKey}
-						timeRange={timeRange}
-					/>
+					{dateEnd && dateStart && (
+						<VelocityUnitFilter
+							className={'pl-3'}
+							dispatch={dispatch}
+							prefixKey={prefixKey}
+							timeRange={{dateEnd, dateStart}}
+						/>
+					)}
 				</ul>
 			</div>
 		</Panel.HeaderWithOptions>

@@ -73,7 +73,10 @@ class Tabs extends React.Component {
 						className={`collapse navbar-collapse ${navbarClassName}`}
 					>
 						<div className="container-fluid container-fluid-max-xl">
-							<ul className="navbar-nav">
+							<ul
+								className="navbar-nav"
+								data-testid="tabElements"
+							>
 								{tabs.map((tab, index) => (
 									<li
 										className="nav-item"
