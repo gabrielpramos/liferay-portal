@@ -80,6 +80,7 @@ const PerformanceByAssigneeCard = ({routeParams}) => {
 	}
 
 	const timeRange = filterState.assigneetimeRange || [];
+	const {timeRange: timeRangeError} = filterState.errors;
 	const timeRangeValues = timeRange.length ? timeRange[0] : {};
 	const {dateEnd, dateStart} = timeRangeValues;
 
@@ -98,8 +99,8 @@ const PerformanceByAssigneeCard = ({routeParams}) => {
 			return [fetchData()];
 		}
 
-		return [new Promise(() => {})];
-	}, [fetchData, params.dateEnd, params.dateStart]);
+		return [timeRangeError ? Promise.reject() : new Promise(() => {})];
+	}, [fetchData, params.dateEnd, params.dateStart, timeRangeError]);
 
 	return (
 		<Panel elementClasses="dashboard-card">

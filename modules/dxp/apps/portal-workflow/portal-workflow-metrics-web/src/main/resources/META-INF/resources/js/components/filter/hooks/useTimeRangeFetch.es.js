@@ -11,21 +11,31 @@
 
 import {useContext, useEffect} from 'react';
 
+import filterConstants from '../../../shared/components/filter/util/filterConstants.es';
 import {useBeforeUnload} from '../../../shared/hooks/useBeforeUnload.es';
+import {useFilter} from '../../../shared/hooks/useFilter.es';
 import {useSessionStorage} from '../../../shared/hooks/useStorage.es';
 import {AppContext} from '../../AppContext.es';
 
 const useTimeRangeFetch = () => {
 	const {client} = useContext(AppContext);
+	const {dispatch} = useFilter();
 
 	const [, update, remove] = useSessionStorage('timeRanges');
 
 	useBeforeUnload(() => remove());
 
 	useEffect(() => {
-		client.get('/time-ranges').then(({data}) => {
-			update({items: data.items});
-		});
+		dispatch({filterKey: filterConstants.timeRange.key});
+
+		client
+			.get('/time-ranges')
+			.then(({data}) => {
+				update({items: data.items});
+			})
+			.catch(error => {
+				dispatch({error, filterKey: filterConstants.timeRange.key});
+			});
 
 		return () => {
 			remove();

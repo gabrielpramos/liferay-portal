@@ -33,7 +33,7 @@ const buildFilterItem = data => {
 };
 
 const buildInitialState = (filterKeys, filters, prefixKeys) => {
-	const initialState = {};
+	const initialState = {errors: {}};
 
 	filterKeys.forEach(filterKey => {
 		prefixKeys.forEach(prefixKey => {
@@ -48,10 +48,18 @@ const buildInitialState = (filterKeys, filters, prefixKeys) => {
 	return initialState;
 };
 
-const reducer = (state = {}, {filterKey, selectedItems}) => {
+const reducer = (state = {}, {error, filterKey, selectedItems}) => {
+	const newState = {
+		errors: {...state.errors, [filterKey]: error}
+	};
+
+	if (!error) {
+		newState[filterKey] = selectedItems;
+	}
+
 	return {
 		...state,
-		[filterKey]: selectedItems
+		...newState
 	};
 };
 

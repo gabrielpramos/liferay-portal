@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useCallback} from 'react';
 
 import {AppContext} from '../../../../components/AppContext.es';
 import {useRouterParams} from '../../../hooks/useRouterParams.es';
@@ -33,21 +33,35 @@ const useFilterFetch = ({
 		prefixedFilterKey
 	);
 
+	const updateFilterItems = useCallback(
+		items => {
+			const parsedItems = parseItems ? parseItems(items) : items;
+
+			const mappedItems = buildFilterItems(
+				parsedItems,
+				filters[prefixedFilterKey]
+			);
+
+			setItems(mappedItems);
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[filters[prefixedFilterKey]]
+	);
+
 	useEffect(
 		() => {
-			client.get(requestUrl).then(({data = {}}) => {
-				const mergedItems = mergeItemsArray(staticItems, data.items);
-				const parsedItems = parseItems
-					? parseItems(mergedItems)
-					: mergedItems;
-
-				const mappedItems = buildFilterItems(
-					parsedItems,
-					filters[prefixedFilterKey]
-				);
-
-				setItems(mappedItems);
-			});
+			client
+				.get(requestUrl)
+				.then(({data = {}}) => {
+					const mergedItems = mergeItemsArray(
+						staticItems,
+						data.items
+					);
+					updateFilterItems(mergedItems);
+				})
+				.catch(() => {
+					updateFilterItems(staticItems);
+				});
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[staticItems]
