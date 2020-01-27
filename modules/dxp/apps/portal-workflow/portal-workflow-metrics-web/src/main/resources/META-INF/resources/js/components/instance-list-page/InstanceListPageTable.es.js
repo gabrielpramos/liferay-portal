@@ -19,7 +19,7 @@ const Table = ({items}) => {
 		<ClayTable>
 			<ClayTable.Head>
 				<ClayTable.Row>
-					<ClayTable.Cell headingCell style={{width: '3%'}} />
+					<ClayTable.Cell headingCell style={{width: '7%'}} />
 					<ClayTable.Cell headingCell style={{width: '8%'}}>
 						{Liferay.Language.get('id')}
 					</ClayTable.Cell>

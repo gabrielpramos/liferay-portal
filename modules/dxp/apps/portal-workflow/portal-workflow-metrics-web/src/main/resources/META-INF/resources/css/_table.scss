@@ -10,3 +10,13 @@
 		line-height: 24px;
 	}
 }
+
+.table-list {
+	td:first-child,
+	th:first-child {
+		> .table-first-element-group {
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+}

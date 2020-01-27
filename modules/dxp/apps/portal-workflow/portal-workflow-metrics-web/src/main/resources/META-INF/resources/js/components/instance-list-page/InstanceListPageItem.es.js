@@ -13,10 +13,39 @@ import {ClayCheckbox} from '@clayui/form';
 import ClayTable from '@clayui/table';
 import React, {useContext, useState, useCallback, useEffect} from 'react';
 
+import Icon from '../../shared/components/Icon.es';
 import QuickActionKebab from '../../shared/components/quick-action-kebab/QuickActionKebab.es';
 import moment from '../../shared/util/moment.es';
 import {ModalContext} from './modal/ModalContext.es';
 import {InstanceListContext} from './store/InstanceListPageStore.es';
+
+const getStatusIcon = status => {
+	if (status === 'OnTime') {
+		return {
+			bgColor: 'bg-success-light',
+			iconColor: 'text-success',
+			iconName: 'check-circle'
+		};
+	}
+
+	if (status === 'Overdue') {
+		return {
+			bgColor: 'bg-danger-light',
+			iconColor: 'text-danger',
+			iconName: 'exclamation-circle'
+		};
+	}
+
+	if (status === 'Untracked') {
+		return {
+			bgColor: 'bg-info-light',
+			iconColor: 'text-info',
+			iconName: 'hr'
+		};
+	}
+
+	return null;
+};
 
 const Item = taskItem => {
 	const {selectedItems = [], setInstanceId, setSelectedItems} = useContext(
@@ -37,10 +66,12 @@ const Item = taskItem => {
 		dateCreated,
 		id,
 		status,
+		slaStatus,
 		taskNames = []
 	} = taskItem;
 
 	const completed = status === 'Completed';
+	const statusIcon = getStatusIcon(slaStatus);
 	const formattedAssignees = !completed
 		? assigneeUsers && assigneeUsers.length
 			? assigneeUsers.map(assigneeUser => assigneeUser.name).join(', ')
@@ -62,11 +93,26 @@ const Item = taskItem => {
 	return (
 		<ClayTable.Row data-testid="instanceRow">
 			<ClayTable.Cell>
-				<ClayCheckbox
-					checked={checked}
-					data-testid="instanceCheckbox"
-					onChange={handleCheck}
-				/>
+				<div className="table-first-element-group">
+					<ClayCheckbox
+						checked={checked}
+						data-testid="instanceCheckbox"
+						onChange={handleCheck}
+					/>
+
+					{statusIcon && (
+						<span
+							className={`sticker sticker-sm ${statusIcon.bgColor}`}
+						>
+							<span className="inline-item">
+								<Icon
+									elementClasses={statusIcon.iconColor}
+									iconName={statusIcon.iconName}
+								/>
+							</span>
+						</span>
+					)}
+				</div>
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>
