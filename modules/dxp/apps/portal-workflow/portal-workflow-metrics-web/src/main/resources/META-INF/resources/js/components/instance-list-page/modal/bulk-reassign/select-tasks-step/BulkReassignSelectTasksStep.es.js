@@ -15,11 +15,13 @@ import PromisesResolver from '../../../../../shared/components/promises-resolver
 import {useFetch} from '../../../../../shared/hooks/useFetch.es';
 import {usePaginationState} from '../../../../../shared/hooks/usePaginationState.es';
 import {InstanceListContext} from '../../../store/InstanceListPageStore.es';
+import {ModalContext} from '../../ModalContext.es';
 import {Body} from './BulkReassignSelectTasksStepBody.es';
 import {Header} from './BulkReassignSelectTasksStepHeader.es';
 
 const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 	const {selectedItems} = useContext(InstanceListContext);
+	const {singleModal} = useContext(ModalContext);
 
 	const [tasks, setTasks] = useState([]);
 	const [retry, setRetry] = useState(0);
@@ -28,13 +30,20 @@ const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 		initialPageSize: 5
 	});
 
+	const workflowInstanceIds = useMemo(() => {
+		return selectedItems.length
+			? selectedItems.map(item => item.id)
+			: singleModal.selectedItem.id;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	const {data, fetchData} = useFetch({
 		admin: true,
 		params: {
 			andOperator: true,
 			page,
 			pageSize,
-			workflowInstanceIds: selectedItems.map(item => item.id)
+			workflowInstanceIds
 		},
 		url: '/workflow-tasks'
 	});
@@ -48,10 +57,13 @@ const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 		if (data.items && data.items.length) {
 			const parsedTasks =
 				data.items.map(task => {
-					const {assetTitle, assetType} =
-						selectedItems.find(
-							item => item.id === task.workflowInstanceId
-						) || {};
+					const item = selectedItems.length
+						? selectedItems.find(
+								item => item.id === task.workflowInstanceId
+						  )
+						: singleModal.selectedItem;
+
+					const {assetTitle, assetType} = item || {};
 
 					return {
 						assetTitle,

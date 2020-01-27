@@ -56,7 +56,10 @@ const Header = ({
 	const kebabItems = [
 		{
 			action: () => {
-				if (selectedItems.length > 1) {
+				if (
+					selectedItems.length > 1 ||
+					selectedItems[0].taskNames.length > 1
+				) {
 					setBulkModal({...bulkModal, visible: true});
 				} else {
 					setSingleModal({

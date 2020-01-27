@@ -132,7 +132,8 @@ describe('The InstanceListPageItem quick action menu should', () => {
 		assetTitle: 'New Post',
 		assetType: 'Blog',
 		dateCreated: new Date('2019-01-01'),
-		id: 1
+		id: 1,
+		taskNames: ['Review']
 	};
 
 	const setSingleModal = jest.fn();
@@ -162,7 +163,8 @@ describe('The InstanceListPageItem instance checkbox component should', () => {
 		assetTitle: 'New Post',
 		assetType: 'Blog',
 		dateCreated: new Date('2019-01-01'),
-		id: 1
+		id: 1,
+		taskNames: ['Review']
 	};
 
 	let selectedItems = [];
