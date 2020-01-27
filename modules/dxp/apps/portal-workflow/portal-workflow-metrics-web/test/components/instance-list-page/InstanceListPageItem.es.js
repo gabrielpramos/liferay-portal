@@ -51,6 +51,58 @@ describe('The instance list item should', () => {
 		expect(taskNamesCell.innerHTML).toBe('Review, Update');
 	});
 
+	test('Be rendered with check icon when the slaStatus is "OnTime"', () => {
+		const {getByTestId} = render(
+			<InstanceListContext.Provider value={{setInstanceId: jest.fn()}}>
+				<ModalContext.Provider
+					value={{setSingleModal: () => {}, singleModal: false}}
+				>
+					<Table.Item {...instance} slaStatus="OnTime" />
+				</ModalContext.Provider>
+			</InstanceListContext.Provider>
+		);
+
+		const instanceStatusIcon = getByTestId('icon');
+
+		expect([...instanceStatusIcon.classList]).toContain(
+			'lexicon-icon-check-circle'
+		);
+	});
+
+	test('Be rendered with exclamation icon when the slaStatus is "Overdue"', () => {
+		const {getByTestId} = render(
+			<InstanceListContext.Provider value={{setInstanceId: jest.fn()}}>
+				<ModalContext.Provider
+					value={{setSingleModal: () => {}, singleModal: false}}
+				>
+					<Table.Item {...instance} slaStatus="Overdue" />
+				</ModalContext.Provider>
+			</InstanceListContext.Provider>
+		);
+
+		const instanceStatusIcon = getByTestId('icon');
+
+		expect([...instanceStatusIcon.classList]).toContain(
+			'lexicon-icon-exclamation-circle'
+		);
+	});
+
+	test('Be rendered with hr icon when the slaStatus is "Untracked"', () => {
+		const {getByTestId} = render(
+			<InstanceListContext.Provider value={{setInstanceId: jest.fn()}}>
+				<ModalContext.Provider
+					value={{setSingleModal: () => {}, singleModal: false}}
+				>
+					<Table.Item {...instance} slaStatus="Untracked" />
+				</ModalContext.Provider>
+			</InstanceListContext.Provider>
+		);
+
+		const instanceStatusIcon = getByTestId('icon');
+
+		expect([...instanceStatusIcon.classList]).toContain('lexicon-icon-hr');
+	});
+
 	test('Call setInstanceId with "1" as instance id param', () => {
 		const contextMock = {setInstanceId: jest.fn()};
 		instance.status = 'Completed';
