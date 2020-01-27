@@ -29,22 +29,22 @@ const BulkReassignModal = () => {
 	const [errorToast, setErrorToast] = useState(null);
 	const [successToast, setSuccessToast] = useState([]);
 
-	const onClose = () => {
-		setBulkModal({
-			reassignedTasks: [],
-			reassigning: false,
-			selectedAssignee: null,
-			selectedTasks: [],
-			useSameAssignee: false,
-			visible: false
-		});
+	const {observer, onClose} = useModal({
+		onClose: () => {
+			setBulkModal({
+				reassignedTasks: [],
+				reassigning: false,
+				selectedAssignee: null,
+				selectedTasks: [],
+				useSameAssignee: false,
+				visible: false
+			});
 
-		setCurrentStep('selectTasks');
+			setCurrentStep('selectTasks');
 
-		setErrorToast(false);
-	};
-
-	const {observer} = useModal({onClose});
+			setErrorToast(false);
+		}
+	});
 
 	const {patchData} = usePatch({
 		admin: true,

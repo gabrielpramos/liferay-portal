@@ -51,14 +51,16 @@ const SingleReassignModal = () => {
 	const [sendingPost, setSendingPost] = useState(false);
 	const [successToast, setSuccessToast] = useState(() => []);
 	const {setSingleModal, singleModal} = useContext(ModalContext);
-	const onClose = () => {
-		setSingleModal(() => ({selectedItem: undefined, visible: false}));
-		setReassignedTasks(() => ({
-			tasks: []
-		}));
-	};
 
-	const {observer} = useModal({onClose});
+	const {observer, onClose} = useModal({
+		onClose: () => {
+			setSingleModal(() => ({selectedItem: undefined, visible: false}));
+
+			setReassignedTasks(() => ({
+				tasks: []
+			}));
+		}
+	});
 
 	const instanceItem = useMemo(
 		() => (singleModal.selectedItem ? singleModal.selectedItem : {}),
@@ -226,33 +228,7 @@ const SingleReassignModal = () => {
 	);
 };
 
-const Footer = ({onClose, reassignButtonHandler, sendingPost}) => {
-	return (
-		<ClayModal.Footer
-			first={
-				<ClayButton
-					data-testid="cancelButton"
-					displayType="secondary"
-					onClick={onClose}
-				>
-					{Liferay.Language.get('cancel')}
-				</ClayButton>
-			}
-			last={
-				<ClayButton
-					data-testid="reassignButton"
-					disabled={sendingPost}
-					onClick={reassignButtonHandler}
-				>
-					{Liferay.Language.get('reassign')}
-				</ClayButton>
-			}
-		/>
-	);
-};
-
 SingleReassignModal.ErrorView = ErrorView;
-SingleReassignModal.Footer = Footer;
 SingleReassignModal.LoadingView = LoadingView;
 SingleReassignModal.Table = Table;
 
