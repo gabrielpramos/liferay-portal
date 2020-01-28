@@ -40,7 +40,7 @@ const BulkReassignSelectTasksStep = ({setErrorToast}) => {
 	const {data, fetchData} = useFetch({
 		admin: true,
 		params: {
-			andOperator: true,
+			completed: false,
 			page,
 			pageSize,
 			workflowInstanceIds
