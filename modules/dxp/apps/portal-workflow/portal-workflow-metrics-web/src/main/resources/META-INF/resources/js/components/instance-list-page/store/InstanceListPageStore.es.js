@@ -28,11 +28,9 @@ const useInstanceListData = () => {
 
 const InstanceListContext = createContext(null);
 
-const InstanceListProvider = ({children, page, pageSize, processId, query}) => {
+const InstanceListProvider = ({children}) => {
 	return (
-		<InstanceListContext.Provider
-			value={useInstanceListData(page, pageSize, processId, query)}
-		>
+		<InstanceListContext.Provider value={useInstanceListData()}>
 			{children}
 		</InstanceListContext.Provider>
 	);

@@ -20,6 +20,7 @@ import LoadingState from '../../../../shared/components/loading/LoadingState.es'
 import PromisesResolver from '../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {useFetch} from '../../../../shared/hooks/useFetch.es';
 import {usePost} from '../../../../shared/hooks/usePost.es';
+import {InstanceListContext} from '../../store/InstanceListPageStore.es';
 import {ModalContext} from '../ModalContext.es';
 import {Table} from './SingleReassignModalTable.es';
 
@@ -50,7 +51,9 @@ const SingleReassignModal = () => {
 	const [retry, setRetry] = useState(0);
 	const [sendingPost, setSendingPost] = useState(false);
 	const [successToast, setSuccessToast] = useState(() => []);
+
 	const {setSingleModal, singleModal} = useContext(ModalContext);
+	const {setSelectedItems} = useContext(InstanceListContext);
 
 	const {observer, onClose} = useModal({
 		onClose: () => {
@@ -109,6 +112,7 @@ const SingleReassignModal = () => {
 					]);
 					setSendingPost(() => false);
 					setErrorToast(() => false);
+					setSelectedItems([]);
 				})
 				.catch(() => {
 					setErrorToast(() => true);
