@@ -17,7 +17,12 @@ import React, {useState} from 'react';
 import {DropDownItem} from './DropDownItem.es';
 import {IconItem} from './IconItem';
 
-const QuickActionKebab = ({dropDownItems = [], iconItems = [], items = []}) => {
+const QuickActionKebab = ({
+	dropDownItems = [],
+	disabled = false,
+	iconItems = [],
+	items = []
+}) => {
 	if (items.length > 0) {
 		dropDownItems = items;
 		iconItems = items;
@@ -25,7 +30,7 @@ const QuickActionKebab = ({dropDownItems = [], iconItems = [], items = []}) => {
 
 	return (
 		<>
-			<div className="quick-action-menu">
+			<div className={`quick-action-menu ${disabled ? 'disabled' : ''}`}>
 				{iconItems.map((iconItem, index) => (
 					<IconItem
 						action={iconItem.action}
@@ -36,10 +41,11 @@ const QuickActionKebab = ({dropDownItems = [], iconItems = [], items = []}) => {
 			</div>
 
 			{dropDownItems.length > 0 && (
-				<KebabDropDown>
+				<KebabDropDown disabled={disabled}>
 					{dropDownItems.map((dropDownItem, index) => (
 						<DropDownItem
 							action={dropDownItem.action}
+							disabled={disabled}
 							key={index}
 							title={dropDownItem.title}
 						/>
@@ -50,7 +56,7 @@ const QuickActionKebab = ({dropDownItems = [], iconItems = [], items = []}) => {
 	);
 };
 
-const KebabDropDown = ({children}) => {
+const KebabDropDown = ({children, disabled}) => {
 	const [active, setActive] = useState(false);
 
 	return (
@@ -60,6 +66,7 @@ const KebabDropDown = ({children}) => {
 			trigger={
 				<ClayButton
 					className="component-action"
+					disabled={disabled}
 					displayType="unstyled"
 					monospaced
 				>

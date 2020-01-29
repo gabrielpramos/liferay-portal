@@ -11,7 +11,7 @@
 	}
 
 	.management-bar {
-		&.show-quick-actions-on-hover:hover {
+		&.show-quick-actions-on-hover {
 			.quick-action-menu {
 				display: flex;
 			}
@@ -75,5 +75,22 @@
 
 	small {
 		color: #6b6c7e;
+	}
+}
+
+.show-quick-actions-on-hover {
+	tr.table-active {
+		&:hover {
+			.quick-action-menu {
+				display: flex;
+			}
+		}
+	}
+	tr:not(.table-disabled) {
+		&:hover {
+			.quick-action-menu.disabled {
+				display: none;
+			}
+		}
 	}
 }

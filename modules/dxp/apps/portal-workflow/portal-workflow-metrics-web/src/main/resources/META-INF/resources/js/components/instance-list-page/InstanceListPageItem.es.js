@@ -90,12 +90,16 @@ const Item = taskItem => {
 	const updateInstanceId = () => setInstanceId(id);
 
 	return (
-		<ClayTable.Row data-testid="instanceRow">
+		<ClayTable.Row
+			className={checked ? 'table-active' : ''}
+			data-testid="instanceRow"
+		>
 			<ClayTable.Cell>
 				<div className="table-first-element-group">
 					<ClayCheckbox
 						checked={checked}
 						data-testid="instanceCheckbox"
+						disabled={completed}
 						onChange={handleCheck}
 					/>
 
@@ -150,18 +154,18 @@ const Item = taskItem => {
 			</ClayTable.Cell>
 
 			<ClayTable.Cell style={{paddingRight: '0rem'}}>
-				<QuickActionMenu completed={completed} taskItem={taskItem} />
+				<QuickActionMenu disabled={completed} taskItem={taskItem} />
 			</ClayTable.Cell>
 		</ClayTable.Row>
 	);
 };
 
-const QuickActionMenu = ({completed, taskItem}) => {
+const QuickActionMenu = ({disabled, taskItem}) => {
 	const {bulkModal, setBulkModal, setSingleModal} = useContext(ModalContext);
 
 	const handleClickReassignTask = useCallback(
 		() => {
-			if (!completed && taskItem.taskNames.length > 1) {
+			if (taskItem.taskNames.length > 1) {
 				setBulkModal({...bulkModal, visible: true});
 
 				setSingleModal({selectedItem: taskItem});
@@ -186,7 +190,7 @@ const QuickActionMenu = ({completed, taskItem}) => {
 
 	return (
 		<div className="autofit-col">
-			<QuickActionKebab items={kebabItems} />
+			<QuickActionKebab disabled={disabled} items={kebabItems} />
 		</div>
 	);
 };
