@@ -68,13 +68,13 @@ const Item = taskItem => {
 
 	const completed = status === 'Completed';
 	const slaStatusIcon = getSLAStatusIcon(slaStatus);
-	
-	const assignees = assigneeUsers
+
+	const assigneeUserNames = assigneeUsers
 		.map(assigneeUser => assigneeUser.name)
 		.join(', ');
 
 	const formattedAssignees = !completed
-		? assignees || Liferay.Language.get('unassigned')
+		? assigneeUserNames || Liferay.Language.get('unassigned')
 		: Liferay.Language.get('not-available');
 
 	const handleCheck = ({target}) => {
@@ -158,7 +158,7 @@ const Item = taskItem => {
 
 const QuickActionMenu = ({completed, taskItem}) => {
 	const {bulkModal, setBulkModal, setSingleModal} = useContext(ModalContext);
-	
+
 	const handleClickReassignTask = useCallback(
 		() => {
 			if (!completed && taskItem.taskNames.length > 1) {

@@ -141,6 +141,10 @@ const Header = ({
 		[completedStatusSelected, selectedFilters]
 	);
 
+	const timeRangeStyle = completedStatusSelected
+		? {display: 'inherit'}
+		: {display: 'none'};
+
 	return (
 		<>
 			<ClayManagementToolbar
@@ -187,11 +191,7 @@ const Header = ({
 									withSelectionTitle: false
 								}}
 								processId={routeParams.processId}
-								style={
-									completedStatusSelected
-										? {display: 'inherit'}
-										: {display: 'none'}
-								}
+								style={timeRangeStyle}
 							/>
 
 							<ProcessStepFilter
