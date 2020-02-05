@@ -162,7 +162,7 @@ components:
             description:
                 Represents the transition to be launched by the task's workflow.
             properties:
-                transitionName:
+                name:
                     readOnly: true
                     type: string
             type: object
@@ -208,14 +208,6 @@ components:
                     format: date-time
                     readOnly: true
                     type: string
-                definitionName:
-                    description:
-                        The name of the instance's workflow definition.
-                    readOnly: true
-                    type: string
-                definitionVersion:
-                    readOnly: true
-                    type: string
                 id:
                     description:
                         The instance's ID.
@@ -228,6 +220,14 @@ components:
                     description:
                         The object/asset that the instance's workflow is managing.
                     readOnly: true
+                workflowDefinitionName:
+                    description:
+                        The name of the instance's workflow definition.
+                    readOnly: true
+                    type: string
+                workflowDefinitionVersion:
+                    readOnly: true
+                    type: string
             type: object
         WorkflowInstanceSubmit:
             properties:
@@ -235,17 +235,17 @@ components:
                     additionalProperties: true
                     type: object
                     writeOnly: true
-                definitionName:
-                    type: string
-                    writeOnly: true
-                definitionVersion:
-                    type: string
-                    writeOnly: true
                 siteId:
                     format: int64
                     type: integer
                     writeOnly: true
                 transitionName:
+                    type: string
+                    writeOnly: true
+                workflowDefinitionName:
+                    type: string
+                    writeOnly: true
+                workflowDefinitionVersion:
                     type: string
                     writeOnly: true
             type: object
@@ -353,18 +353,6 @@ components:
                     format: date-time
                     readOnly: true
                     type: string
-                definitionId:
-                    format: int64
-                    readOnly: true
-                    type: integer
-                definitionName:
-                    description:
-                        The name of the task's workflow definition.
-                    readOnly: true
-                    type: string
-                definitionVersion:
-                    readOnly: true
-                    type: string
                 description:
                     description:
                         The task's description.
@@ -387,6 +375,18 @@ components:
                     description:
                         The object/asset that the task's workflow is managing.
                     readOnly: true
+                workflowDefinitionId:
+                    format: int64
+                    readOnly: true
+                    type: integer
+                workflowDefinitionName:
+                    description:
+                        The name of the task's workflow definition.
+                    readOnly: true
+                    type: string
+                workflowDefinitionVersion:
+                    readOnly: true
+                    type: string
                 workflowInstanceId:
                     format: int64
                     readOnly: true

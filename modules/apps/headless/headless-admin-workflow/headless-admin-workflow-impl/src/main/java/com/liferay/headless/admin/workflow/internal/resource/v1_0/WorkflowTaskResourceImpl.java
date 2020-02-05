@@ -451,16 +451,17 @@ public class WorkflowTaskResourceImpl extends BaseWorkflowTaskResourceImpl {
 				dateCompletion = workflowTask.getCompletionDate();
 				dateCreated = workflowTask.getCreateDate();
 				dateDue = workflowTask.getDueDate();
-				definitionId = workflowTask.getWorkflowDefinitionId();
-				definitionName = workflowTask.getWorkflowDefinitionName();
-				definitionVersion = GetterUtil.getString(
-					workflowTask.getWorkflowDefinitionVersion());
 				description = workflowTask.getDescription();
 				id = workflowTask.getWorkflowTaskId();
 				name = workflowTask.getName();
 				objectReviewed = ObjectReviewedUtil.toObjectReviewed(
 					contextAcceptLanguage.getPreferredLocale(),
 					workflowTask.getOptionalAttributes());
+				workflowDefinitionId = workflowTask.getWorkflowDefinitionId();
+				workflowDefinitionName =
+					workflowTask.getWorkflowDefinitionName();
+				workflowDefinitionVersion = String.valueOf(
+					workflowTask.getWorkflowDefinitionVersion());
 				workflowInstanceId = workflowTask.getWorkflowInstanceId();
 			}
 		};

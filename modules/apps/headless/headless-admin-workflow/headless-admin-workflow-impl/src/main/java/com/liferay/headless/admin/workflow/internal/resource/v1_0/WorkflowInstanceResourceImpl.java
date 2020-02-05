@@ -102,9 +102,9 @@ public class WorkflowInstanceResourceImpl
 			_workflowInstanceManager.startWorkflowInstance(
 				contextCompany.getCompanyId(),
 				workflowInstanceSubmit.getSiteId(), contextUser.getUserId(),
-				workflowInstanceSubmit.getDefinitionName(),
+				workflowInstanceSubmit.getWorkflowDefinitionName(),
 				GetterUtil.getInteger(
-					workflowInstanceSubmit.getDefinitionVersion()),
+					workflowInstanceSubmit.getWorkflowDefinitionVersion()),
 				workflowInstanceSubmit.getTransitionName(),
 				_toWorkflowContext(workflowInstanceSubmit.getContext())));
 	}
@@ -134,13 +134,14 @@ public class WorkflowInstanceResourceImpl
 				completed = workflowInstance.isComplete();
 				dateCompletion = workflowInstance.getEndDate();
 				dateCreated = workflowInstance.getStartDate();
-				definitionName = workflowInstance.getWorkflowDefinitionName();
-				definitionVersion = GetterUtil.getString(
-					workflowInstance.getWorkflowDefinitionVersion());
 				id = workflowInstance.getWorkflowInstanceId();
 				objectReviewed = ObjectReviewedUtil.toObjectReviewed(
 					contextAcceptLanguage.getPreferredLocale(),
 					workflowInstance.getWorkflowContext());
+				workflowDefinitionName =
+					workflowInstance.getWorkflowDefinitionName();
+				workflowDefinitionVersion = String.valueOf(
+					workflowInstance.getWorkflowDefinitionVersion());
 			}
 		};
 	}
