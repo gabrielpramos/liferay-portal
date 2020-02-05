@@ -23,6 +23,10 @@ components:
                 transitionName:
                     type: string
                     writeOnly: true
+                workflowTaskId:
+                    format: int64
+                    type: integer
+                    writeOnly: true
             type: object
         Creator:
             description:
@@ -1332,6 +1336,29 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/WorkflowTask"
                                 type: array
+                    description:
+                        ""
+            tags: ["WorkflowTask"]
+    "/workflow-tasks/change-transition":
+        patch:
+            operationId: patchWorkflowTaskChangeTransition
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            items:
+                                $ref: "#/components/schemas/ChangeTransition"
+                            type: array
+                    application/xml:
+                        schema:
+                            items:
+                                $ref: "#/components/schemas/ChangeTransition"
+                            type: array
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
                     description:
                         ""
             tags: ["WorkflowTask"]

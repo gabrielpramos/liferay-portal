@@ -303,6 +303,20 @@ public class WorkflowTaskResourceImpl extends BaseWorkflowTaskResourceImpl {
 	}
 
 	@Override
+	public void patchWorkflowTaskChangeTransition(
+			ChangeTransition[] changeTransitions)
+		throws Exception {
+
+		for (ChangeTransition changeTransition : changeTransitions) {
+			_workflowTaskManager.completeWorkflowTask(
+				contextCompany.getCompanyId(), contextUser.getUserId(),
+				changeTransition.getWorkflowTaskId(),
+				changeTransition.getTransitionName(),
+				changeTransition.getComment(), null);
+		}
+	}
+
+	@Override
 	public WorkflowTask postWorkflowTaskAssignToMe(
 			Long workflowTaskId, WorkflowTaskAssignToMe workflowTaskAssignToMe)
 		throws Exception {
