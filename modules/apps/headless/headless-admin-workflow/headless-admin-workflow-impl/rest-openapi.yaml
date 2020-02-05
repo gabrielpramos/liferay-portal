@@ -476,6 +476,24 @@ components:
                         type: object
                     type: array
             type: object
+        WorkflowTaskTransitions:
+            properties:
+                workflowTaskTransitions:
+                    items:
+                        properties:
+                            transitions:
+                                items:
+                                    $ref: "#/components/schemas/Transition"
+                                type: array
+                            workflowDefinitionVersion:
+                                type: string
+                            workflowTaskLabel:
+                                type: string
+                            workflowTaskName:
+                                type: string
+                        type: object
+                    type: array
+            type: object
 info:
     description:
         ""
@@ -1317,6 +1335,30 @@ paths:
                     description:
                         ""
             tags: ["WorkflowTask"]
+    "/workflow-tasks/next-transitions":
+        get:
+            operationId: getWorkflowTaskTransition
+            parameters:
+                - in: query
+                  name: workflowTaskIds
+                  required: true
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkflowTaskTransitions"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/WorkflowTaskTransitions"
+                    description:
+                        ""
+            tags: ["WorkflowTaskTransitions"]
     "/workflow-tasks/submitting-user":
         get:
             operationId: getWorkflowTasksSubmittingUserPage
