@@ -20,6 +20,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -280,7 +281,7 @@ public class SLAResourceImpl extends BaseSLAResourceImpl {
 	}
 
 	private String[] _toStringArray(NodeKey[] nodeKeys) {
-		if (nodeKeys == null) {
+		if (ArrayUtil.isEmpty(nodeKeys)) {
 			return new String[0];
 		}
 
@@ -288,7 +289,7 @@ public class SLAResourceImpl extends BaseSLAResourceImpl {
 			nodeKeys
 		).map(
 			nodeKey -> {
-				if (nodeKey.getExecutionType() == null) {
+				if (Validator.isNull(nodeKey.getExecutionType())) {
 					return nodeKey.getId();
 				}
 

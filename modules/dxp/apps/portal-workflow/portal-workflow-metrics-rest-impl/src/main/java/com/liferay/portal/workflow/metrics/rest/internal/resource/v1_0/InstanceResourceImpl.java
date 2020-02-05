@@ -696,7 +696,7 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 	private void _setAssigneeUsers(Bucket bucket, Instance instance) {
 		List<AssigneeUser> assigneeUsers = _getAssigneeUsers(bucket);
 
-		if (assigneeUsers == null) {
+		if (ListUtil.isNull(assigneeUsers)) {
 			return;
 		}
 
@@ -750,7 +750,7 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 	private void _setTaskNames(Bucket bucket, Instance instance) {
 		List<String> taskNames = _getTaskNames(bucket);
 
-		if (taskNames == null) {
+		if (ListUtil.isNull(taskNames)) {
 			return;
 		}
 
