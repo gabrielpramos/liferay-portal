@@ -345,24 +345,13 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 				assetTitle = document.getString(
 					_getLocalizedName("assetTitle"));
 				assetType = document.getString(_getLocalizedName("assetType"));
+				creatorUser = _toCreatorUser(document.getLong("userId"));
 				dateCompletion = _toDate(document.getDate("completionDate"));
 				dateCreated = _toDate(document.getDate("createDate"));
 				id = document.getLong("instanceId");
 				processId = document.getLong("processId");
 				status = _getStatus(
 					GetterUtil.getBoolean(document.getString("completed")));
-
-				setCreatorUser(
-					() -> {
-						CreatorUser creatorUser = _toCreatorUser(
-							document.getLong("userId"));
-
-						if (creatorUser == null) {
-							return null;
-						}
-
-						return creatorUser;
-					});
 			}
 		};
 	}
@@ -374,6 +363,8 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 					sourcesMap.get(_getLocalizedName("assetTitle")));
 				assetType = GetterUtil.getString(
 					sourcesMap.get(_getLocalizedName("assetType")));
+				creatorUser = _toCreatorUser(
+					GetterUtil.getLong(sourcesMap.get("userId")));
 				dateCompletion = _toDate(
 					GetterUtil.getString(sourcesMap.get("completionDate")));
 				dateCreated = _toDate(
@@ -382,18 +373,6 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 				processId = GetterUtil.getLong(sourcesMap.get("processId"));
 				status = _getStatus(
 					GetterUtil.getBoolean(sourcesMap.get("completed")));
-
-				setCreatorUser(
-					() -> {
-						CreatorUser creatorUser = _toCreatorUser(
-							GetterUtil.getLong(sourcesMap.get("userId")));
-
-						if (creatorUser == null) {
-							return null;
-						}
-
-						return creatorUser;
-					});
 			}
 		};
 	}
