@@ -23,10 +23,12 @@ import com.liferay.headless.admin.workflow.dto.v1_0.WorkflowTaskAssignToUser;
 import com.liferay.headless.admin.workflow.internal.dto.v1_0.util.CreatorUtil;
 import com.liferay.headless.admin.workflow.internal.dto.v1_0.util.ObjectReviewedUtil;
 import com.liferay.headless.admin.workflow.internal.dto.v1_0.util.RoleUtil;
+import com.liferay.headless.admin.workflow.internal.resource.v1_0.helper.ResourceHelper;
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowTaskResource;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -453,6 +455,10 @@ public class WorkflowTaskResourceImpl extends BaseWorkflowTaskResourceImpl {
 				dateDue = workflowTask.getDueDate();
 				description = workflowTask.getDescription();
 				id = workflowTask.getWorkflowTaskId();
+				label = _language.get(
+					_resourceHelper.getResourceBundle(
+						contextAcceptLanguage.getPreferredLocale()),
+					workflowTask.getName());
 				name = workflowTask.getName();
 				objectReviewed = ObjectReviewedUtil.toObjectReviewed(
 					contextAcceptLanguage.getPreferredLocale(),
@@ -480,9 +486,14 @@ public class WorkflowTaskResourceImpl extends BaseWorkflowTaskResourceImpl {
 
 		_transactionConfig = builder.build();
 	}
+	@Reference
+	private Language _language;
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private ResourceHelper _resourceHelper;
 
 	@Reference
 	private RoleLocalService _roleLocalService;

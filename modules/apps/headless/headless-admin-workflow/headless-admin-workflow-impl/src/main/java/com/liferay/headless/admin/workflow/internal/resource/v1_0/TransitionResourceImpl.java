@@ -15,7 +15,10 @@
 package com.liferay.headless.admin.workflow.internal.resource.v1_0;
 
 import com.liferay.headless.admin.workflow.dto.v1_0.Transition;
+import com.liferay.headless.admin.workflow.internal.dto.v1_0.util.TransitionUtil;
+import com.liferay.headless.admin.workflow.internal.resource.v1_0.helper.ResourceHelper;
 import com.liferay.headless.admin.workflow.resource.v1_0.TransitionResource;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.workflow.WorkflowInstanceManager;
 import com.liferay.portal.kernel.workflow.WorkflowTaskManager;
@@ -52,7 +55,10 @@ public class TransitionResourceImpl extends BaseTransitionResourceImpl {
 				ListUtil.subList(
 					nextTransitionNames, pagination.getStartPosition(),
 					pagination.getEndPosition()),
-				this::_toTransition),
+				transitionName -> TransitionUtil.toTransition(
+					_language, transitionName,
+					_resourceHelper.getResourceBundle(
+						contextAcceptLanguage.getPreferredLocale()))),
 			pagination, nextTransitionNames.size());
 	}
 
@@ -71,17 +77,18 @@ public class TransitionResourceImpl extends BaseTransitionResourceImpl {
 				ListUtil.subList(
 					nextTransitionNames, pagination.getStartPosition(),
 					pagination.getEndPosition()),
-				this::_toTransition),
+				transitionName -> TransitionUtil.toTransition(
+					_language, transitionName,
+					_resourceHelper.getResourceBundle(
+						contextAcceptLanguage.getPreferredLocale()))),
 			pagination, nextTransitionNames.size());
 	}
 
-	private Transition _toTransition(String transitionName) {
-		Transition transition = new Transition();
+	@Reference
+	private Language _language;
 
-		transition.setTransitionName(transitionName);
-
-		return transition;
-	}
+	@Reference
+	private ResourceHelper _resourceHelper;
 
 	@Reference
 	private WorkflowInstanceManager _workflowInstanceManager;

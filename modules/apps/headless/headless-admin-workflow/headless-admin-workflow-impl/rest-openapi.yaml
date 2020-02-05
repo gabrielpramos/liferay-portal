@@ -162,6 +162,9 @@ components:
             description:
                 Represents the transition to be launched by the task's workflow.
             properties:
+                label:
+                    readOnly: true
+                    type: string
                 name:
                     readOnly: true
                     type: string
@@ -364,6 +367,9 @@ components:
                     format: int64
                     readOnly: true
                     type: integer
+                label:
+                    readOnly: true
+                    type: string
                 name:
                     description:
                         The task's name.
