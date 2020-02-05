@@ -120,6 +120,10 @@ components:
                     items:
                         type: string
                     type: array
+                transitions:
+                    items:
+                        $ref: "#/components/schemas/Transition"
+                    type: array
             type: object
         Metric:
             description:
@@ -314,6 +318,17 @@ components:
                 id:
                     type: integer
                 name:
+                    type: string
+            type: object
+        Transition:
+            description:
+                Represents the transition to be launched by the task's workflow.
+            properties:
+                label:
+                    readOnly: true
+                    type: string
+                name:
+                    readOnly: true
                     type: string
             type: object
 info:

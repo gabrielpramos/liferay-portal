@@ -29,6 +29,8 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.workflow.WorkflowException;
+import com.liferay.portal.kernel.workflow.WorkflowInstanceManager;
 import com.liferay.portal.search.aggregation.AggregationResult;
 import com.liferay.portal.search.aggregation.Aggregations;
 import com.liferay.portal.search.aggregation.bucket.Bucket;
@@ -61,6 +63,7 @@ import com.liferay.portal.workflow.metrics.rest.dto.v1_0.AssigneeUser;
 import com.liferay.portal.workflow.metrics.rest.dto.v1_0.CreatorUser;
 import com.liferay.portal.workflow.metrics.rest.dto.v1_0.Instance;
 import com.liferay.portal.workflow.metrics.rest.dto.v1_0.SLAResult;
+import com.liferay.portal.workflow.metrics.rest.dto.v1_0.Transition;
 import com.liferay.portal.workflow.metrics.rest.internal.resource.helper.ResourceHelper;
 import com.liferay.portal.workflow.metrics.rest.resource.v1_0.InstanceResource;
 import com.liferay.portal.workflow.metrics.service.WorkflowMetricsSLADefinitionLocalService;
@@ -186,6 +189,7 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 						_setSLAResults(bucket, instance);
 						_setSLAStatus(bucket, instance);
 						_setTaskNames(bucket, instance);
+						_setTransitions(instance);
 					}
 				);
 
@@ -596,6 +600,7 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 					_setAssigneeUsers(bucket, instance);
 					_setSLAStatus(bucket, instance);
 					_setTaskNames(bucket, instance);
+					_setTransitions(instance);
 
 					return instance;
 				}
@@ -773,6 +778,16 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 		instance.setTaskNames(taskNames.toArray(new String[0]));
 	}
 
+	private void _setTransitions(Instance instance) {
+		if (ArrayUtil.isEmpty(instance.getAssigneeUsers()) ||
+			(ArrayUtil.getLength(instance.getTaskNames()) != 1)) {
+
+			return;
+		}
+
+		instance.setTransitions(_toTransitions(instance.getId()));
+	}
+
 	private AssigneeUser _toAssigneeUser(long userId) {
 		try {
 			User user = _userService.getUserById(userId);
@@ -848,6 +863,36 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 		}
 	}
 
+	private Transition _toTransition(String name) {
+		Transition transition = new Transition();
+
+		transition.setLabel(
+			_language.get(
+				_resourceHelper.getResourceBundle(
+					contextAcceptLanguage.getPreferredLocale()),
+				name));
+		transition.setName(name);
+
+		return transition;
+	}
+
+	private Transition[] _toTransitions(long instanceId) {
+		try {
+			return transformToArray(
+				_workflowInstanceManager.getNextTransitionNames(
+					contextCompany.getCompanyId(), contextUser.getUserId(),
+					instanceId),
+				this::_toTransition, Transition.class);
+		}
+		catch (WorkflowException workflowException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(workflowException, workflowException);
+			}
+
+			return null;
+		}
+	}
+
 	private static final String _INDEX_DATE_FORMAT_PATTERN = PropsUtil.get(
 		PropsKeys.INDEX_DATE_FORMAT_PATTERN);
 
@@ -880,6 +925,9 @@ public class InstanceResourceImpl extends BaseInstanceResourceImpl {
 
 	@Reference
 	private UserService _userService;
+
+	@Reference
+	private WorkflowInstanceManager _workflowInstanceManager;
 
 	@Reference
 	private WorkflowMetricsSLADefinitionLocalService
