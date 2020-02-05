@@ -92,48 +92,6 @@ public class WorkflowInstance {
 
 	protected Date dateCreated;
 
-	public String getDefinitionName() {
-		return definitionName;
-	}
-
-	public void setDefinitionName(String definitionName) {
-		this.definitionName = definitionName;
-	}
-
-	public void setDefinitionName(
-		UnsafeSupplier<String, Exception> definitionNameUnsafeSupplier) {
-
-		try {
-			definitionName = definitionNameUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected String definitionName;
-
-	public String getDefinitionVersion() {
-		return definitionVersion;
-	}
-
-	public void setDefinitionVersion(String definitionVersion) {
-		this.definitionVersion = definitionVersion;
-	}
-
-	public void setDefinitionVersion(
-		UnsafeSupplier<String, Exception> definitionVersionUnsafeSupplier) {
-
-		try {
-			definitionVersion = definitionVersionUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected String definitionVersion;
-
 	public Long getId() {
 		return id;
 	}
@@ -174,6 +132,51 @@ public class WorkflowInstance {
 	}
 
 	protected ObjectReviewed objectReviewed;
+
+	public String getWorkflowDefinitionName() {
+		return workflowDefinitionName;
+	}
+
+	public void setWorkflowDefinitionName(String workflowDefinitionName) {
+		this.workflowDefinitionName = workflowDefinitionName;
+	}
+
+	public void setWorkflowDefinitionName(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionNameUnsafeSupplier) {
+
+		try {
+			workflowDefinitionName = workflowDefinitionNameUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String workflowDefinitionName;
+
+	public String getWorkflowDefinitionVersion() {
+		return workflowDefinitionVersion;
+	}
+
+	public void setWorkflowDefinitionVersion(String workflowDefinitionVersion) {
+		this.workflowDefinitionVersion = workflowDefinitionVersion;
+	}
+
+	public void setWorkflowDefinitionVersion(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionVersionUnsafeSupplier) {
+
+		try {
+			workflowDefinitionVersion =
+				workflowDefinitionVersionUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String workflowDefinitionVersion;
 
 	@Override
 	public boolean equals(Object object) {

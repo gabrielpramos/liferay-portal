@@ -23,6 +23,7 @@ import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowInstanceResourc
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowLogResource;
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowTaskAssignableUsersResource;
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowTaskResource;
+import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowTaskTransitionsResource;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
 
 import javax.annotation.Generated;
@@ -65,6 +66,8 @@ public class ServletDataImpl implements ServletData {
 			_workflowTaskResourceComponentServiceObjects);
 		Query.setWorkflowTaskAssignableUsersResourceComponentServiceObjects(
 			_workflowTaskAssignableUsersResourceComponentServiceObjects);
+		Query.setWorkflowTaskTransitionsResourceComponentServiceObjects(
+			_workflowTaskTransitionsResourceComponentServiceObjects);
 	}
 
 	@Override
@@ -109,5 +112,9 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<WorkflowTaskAssignableUsersResource>
 		_workflowTaskAssignableUsersResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<WorkflowTaskTransitionsResource>
+		_workflowTaskTransitionsResourceComponentServiceObjects;
 
 }

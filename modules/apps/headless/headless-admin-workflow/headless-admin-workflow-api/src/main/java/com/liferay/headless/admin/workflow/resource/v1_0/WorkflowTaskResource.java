@@ -93,6 +93,10 @@ public interface WorkflowTaskResource {
 			Long assigneeId, Pagination pagination)
 		throws Exception;
 
+	public void patchWorkflowTaskChangeTransition(
+			ChangeTransition[] changeTransitions)
+		throws Exception;
+
 	public Page<WorkflowTask> getWorkflowTasksSubmittingUserPage(
 			Long creatorId, Pagination pagination)
 		throws Exception;

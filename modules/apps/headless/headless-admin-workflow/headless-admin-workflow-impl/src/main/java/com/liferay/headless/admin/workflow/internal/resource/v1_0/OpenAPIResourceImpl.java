@@ -78,6 +78,8 @@ public class OpenAPIResourceImpl {
 
 			add(WorkflowTaskAssignableUsersResourceImpl.class);
 
+			add(WorkflowTaskTransitionsResourceImpl.class);
+
 			add(OpenAPIResourceImpl.class);
 		}
 	};

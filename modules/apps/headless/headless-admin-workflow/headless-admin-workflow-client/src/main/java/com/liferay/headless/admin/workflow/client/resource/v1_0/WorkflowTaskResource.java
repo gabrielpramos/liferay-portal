@@ -149,6 +149,17 @@ public interface WorkflowTaskResource {
 				Long assigneeId, Pagination pagination)
 		throws Exception;
 
+	public void patchWorkflowTaskChangeTransition(
+			com.liferay.headless.admin.workflow.client.dto.v1_0.
+				ChangeTransition[] changeTransitions)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse
+			patchWorkflowTaskChangeTransitionHttpResponse(
+				com.liferay.headless.admin.workflow.client.dto.v1_0.
+					ChangeTransition[] changeTransitions)
+		throws Exception;
+
 	public Page<WorkflowTask> getWorkflowTasksSubmittingUserPage(
 			Long creatorId, Pagination pagination)
 		throws Exception;
@@ -1134,6 +1145,83 @@ public interface WorkflowTaskResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-user-roles");
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
+
+		public void patchWorkflowTaskChangeTransition(
+				com.liferay.headless.admin.workflow.client.dto.v1_0.
+					ChangeTransition[] changeTransitions)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				patchWorkflowTaskChangeTransitionHttpResponse(
+					changeTransitions);
+
+			String content = httpResponse.getContent();
+
+			_logger.fine("HTTP response content: " + content);
+
+			_logger.fine("HTTP response message: " + httpResponse.getMessage());
+			_logger.fine(
+				"HTTP response status code: " + httpResponse.getStatusCode());
+
+			try {
+				return;
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse
+				patchWorkflowTaskChangeTransitionHttpResponse(
+					com.liferay.headless.admin.workflow.client.dto.v1_0.
+						ChangeTransition[] changeTransitions)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(
+				Stream.of(
+					changeTransitions
+				).map(
+					value -> String.valueOf(value)
+				).collect(
+					Collectors.toList()
+				).toString(),
+				"application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PATCH);
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port +
+						"/o/headless-admin-workflow/v1.0/workflow-tasks/change-transition");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

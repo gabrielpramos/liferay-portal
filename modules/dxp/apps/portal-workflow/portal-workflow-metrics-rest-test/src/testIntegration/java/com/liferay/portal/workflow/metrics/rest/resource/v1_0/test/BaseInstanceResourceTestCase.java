@@ -503,6 +503,14 @@ public abstract class BaseInstanceResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals("transitions", additionalAssertFieldName)) {
+				if (instance.getTransitions() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			throw new IllegalArgumentException(
 				"Invalid additional assert field name " +
 					additionalAssertFieldName);
@@ -671,6 +679,17 @@ public abstract class BaseInstanceResourceTestCase {
 			if (Objects.equals("taskNames", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
 						instance1.getTaskNames(), instance2.getTaskNames())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("transitions", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						instance1.getTransitions(),
+						instance2.getTransitions())) {
 
 					return false;
 				}
@@ -905,6 +924,11 @@ public abstract class BaseInstanceResourceTestCase {
 		}
 
 		if (entityFieldName.equals("taskNames")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
+		if (entityFieldName.equals("transitions")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
 		}

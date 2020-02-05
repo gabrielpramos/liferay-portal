@@ -32,6 +32,8 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
+import javax.validation.Valid;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -39,26 +41,31 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @generated
  */
 @Generated("")
-@GraphQLName("ChangeTransition")
+@GraphQLName("WorkflowTaskTransitions")
 @JsonFilter("Liferay.Vulcan")
-@XmlRootElement(name = "ChangeTransition")
-public class ChangeTransition {
+@XmlRootElement(name = "WorkflowTaskTransitions")
+public class WorkflowTaskTransitions {
 
 	@Schema
-	public String getComment() {
-		return comment;
+	@Valid
+	public WorkflowTaskTransition[] getWorkflowTaskTransitions() {
+		return workflowTaskTransitions;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setWorkflowTaskTransitions(
+		WorkflowTaskTransition[] workflowTaskTransitions) {
+
+		this.workflowTaskTransitions = workflowTaskTransitions;
 	}
 
 	@JsonIgnore
-	public void setComment(
-		UnsafeSupplier<String, Exception> commentUnsafeSupplier) {
+	public void setWorkflowTaskTransitions(
+		UnsafeSupplier<WorkflowTaskTransition[], Exception>
+			workflowTaskTransitionsUnsafeSupplier) {
 
 		try {
-			comment = commentUnsafeSupplier.get();
+			workflowTaskTransitions =
+				workflowTaskTransitionsUnsafeSupplier.get();
 		}
 		catch (RuntimeException re) {
 			throw re;
@@ -69,64 +76,8 @@ public class ChangeTransition {
 	}
 
 	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected String comment;
-
-	@Schema
-	public String getTransitionName() {
-		return transitionName;
-	}
-
-	public void setTransitionName(String transitionName) {
-		this.transitionName = transitionName;
-	}
-
-	@JsonIgnore
-	public void setTransitionName(
-		UnsafeSupplier<String, Exception> transitionNameUnsafeSupplier) {
-
-		try {
-			transitionName = transitionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected String transitionName;
-
-	@Schema
-	public Long getWorkflowTaskId() {
-		return workflowTaskId;
-	}
-
-	public void setWorkflowTaskId(Long workflowTaskId) {
-		this.workflowTaskId = workflowTaskId;
-	}
-
-	@JsonIgnore
-	public void setWorkflowTaskId(
-		UnsafeSupplier<Long, Exception> workflowTaskIdUnsafeSupplier) {
-
-		try {
-			workflowTaskId = workflowTaskIdUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected Long workflowTaskId;
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected WorkflowTaskTransition[] workflowTaskTransitions;
 
 	@Override
 	public boolean equals(Object object) {
@@ -134,13 +85,14 @@ public class ChangeTransition {
 			return true;
 		}
 
-		if (!(object instanceof ChangeTransition)) {
+		if (!(object instanceof WorkflowTaskTransitions)) {
 			return false;
 		}
 
-		ChangeTransition changeTransition = (ChangeTransition)object;
+		WorkflowTaskTransitions workflowTaskTransitions =
+			(WorkflowTaskTransitions)object;
 
-		return Objects.equals(toString(), changeTransition.toString());
+		return Objects.equals(toString(), workflowTaskTransitions.toString());
 	}
 
 	@Override
@@ -155,42 +107,24 @@ public class ChangeTransition {
 
 		sb.append("{");
 
-		if (comment != null) {
+		if (workflowTaskTransitions != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"comment\": ");
+			sb.append("\"workflowTaskTransitions\": ");
 
-			sb.append("\"");
+			sb.append("[");
 
-			sb.append(_escape(comment));
+			for (int i = 0; i < workflowTaskTransitions.length; i++) {
+				sb.append(String.valueOf(workflowTaskTransitions[i]));
 
-			sb.append("\"");
-		}
-
-		if (transitionName != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
+				if ((i + 1) < workflowTaskTransitions.length) {
+					sb.append(", ");
+				}
 			}
 
-			sb.append("\"transitionName\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(transitionName));
-
-			sb.append("\"");
-		}
-
-		if (workflowTaskId != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"workflowTaskId\": ");
-
-			sb.append(workflowTaskId);
+			sb.append("]");
 		}
 
 		sb.append("}");
@@ -199,7 +133,7 @@ public class ChangeTransition {
 	}
 
 	@Schema(
-		defaultValue = "com.liferay.headless.admin.workflow.dto.v1_0.ChangeTransition",
+		defaultValue = "com.liferay.headless.admin.workflow.dto.v1_0.WorkflowTaskTransitions",
 		name = "x-class-name"
 	)
 	public String xClassName;

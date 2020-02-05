@@ -155,69 +155,6 @@ public class WorkflowTask {
 
 	protected Date dateDue;
 
-	public Long getDefinitionId() {
-		return definitionId;
-	}
-
-	public void setDefinitionId(Long definitionId) {
-		this.definitionId = definitionId;
-	}
-
-	public void setDefinitionId(
-		UnsafeSupplier<Long, Exception> definitionIdUnsafeSupplier) {
-
-		try {
-			definitionId = definitionIdUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected Long definitionId;
-
-	public String getDefinitionName() {
-		return definitionName;
-	}
-
-	public void setDefinitionName(String definitionName) {
-		this.definitionName = definitionName;
-	}
-
-	public void setDefinitionName(
-		UnsafeSupplier<String, Exception> definitionNameUnsafeSupplier) {
-
-		try {
-			definitionName = definitionNameUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected String definitionName;
-
-	public String getDefinitionVersion() {
-		return definitionVersion;
-	}
-
-	public void setDefinitionVersion(String definitionVersion) {
-		this.definitionVersion = definitionVersion;
-	}
-
-	public void setDefinitionVersion(
-		UnsafeSupplier<String, Exception> definitionVersionUnsafeSupplier) {
-
-		try {
-			definitionVersion = definitionVersionUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected String definitionVersion;
-
 	public String getDescription() {
 		return description;
 	}
@@ -257,6 +194,27 @@ public class WorkflowTask {
 	}
 
 	protected Long id;
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public void setLabel(
+		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
+
+		try {
+			label = labelUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String label;
 
 	public String getName() {
 		return name;
@@ -298,6 +256,72 @@ public class WorkflowTask {
 	}
 
 	protected ObjectReviewed objectReviewed;
+
+	public Long getWorkflowDefinitionId() {
+		return workflowDefinitionId;
+	}
+
+	public void setWorkflowDefinitionId(Long workflowDefinitionId) {
+		this.workflowDefinitionId = workflowDefinitionId;
+	}
+
+	public void setWorkflowDefinitionId(
+		UnsafeSupplier<Long, Exception> workflowDefinitionIdUnsafeSupplier) {
+
+		try {
+			workflowDefinitionId = workflowDefinitionIdUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long workflowDefinitionId;
+
+	public String getWorkflowDefinitionName() {
+		return workflowDefinitionName;
+	}
+
+	public void setWorkflowDefinitionName(String workflowDefinitionName) {
+		this.workflowDefinitionName = workflowDefinitionName;
+	}
+
+	public void setWorkflowDefinitionName(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionNameUnsafeSupplier) {
+
+		try {
+			workflowDefinitionName = workflowDefinitionNameUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String workflowDefinitionName;
+
+	public String getWorkflowDefinitionVersion() {
+		return workflowDefinitionVersion;
+	}
+
+	public void setWorkflowDefinitionVersion(String workflowDefinitionVersion) {
+		this.workflowDefinitionVersion = workflowDefinitionVersion;
+	}
+
+	public void setWorkflowDefinitionVersion(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionVersionUnsafeSupplier) {
+
+		try {
+			workflowDefinitionVersion =
+				workflowDefinitionVersionUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String workflowDefinitionVersion;
 
 	public Long getWorkflowInstanceId() {
 		return workflowInstanceId;

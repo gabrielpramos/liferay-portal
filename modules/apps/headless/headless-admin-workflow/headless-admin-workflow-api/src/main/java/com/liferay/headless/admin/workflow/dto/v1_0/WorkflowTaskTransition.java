@@ -32,6 +32,8 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
+import javax.validation.Valid;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -39,26 +41,27 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @generated
  */
 @Generated("")
-@GraphQLName("ChangeTransition")
+@GraphQLName("WorkflowTaskTransition")
 @JsonFilter("Liferay.Vulcan")
-@XmlRootElement(name = "ChangeTransition")
-public class ChangeTransition {
+@XmlRootElement(name = "WorkflowTaskTransition")
+public class WorkflowTaskTransition {
 
 	@Schema
-	public String getComment() {
-		return comment;
+	@Valid
+	public Transition[] getTransitions() {
+		return transitions;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setTransitions(Transition[] transitions) {
+		this.transitions = transitions;
 	}
 
 	@JsonIgnore
-	public void setComment(
-		UnsafeSupplier<String, Exception> commentUnsafeSupplier) {
+	public void setTransitions(
+		UnsafeSupplier<Transition[], Exception> transitionsUnsafeSupplier) {
 
 		try {
-			comment = commentUnsafeSupplier.get();
+			transitions = transitionsUnsafeSupplier.get();
 		}
 		catch (RuntimeException re) {
 			throw re;
@@ -69,24 +72,26 @@ public class ChangeTransition {
 	}
 
 	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected String comment;
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Transition[] transitions;
 
 	@Schema
-	public String getTransitionName() {
-		return transitionName;
+	public String getWorkflowDefinitionVersion() {
+		return workflowDefinitionVersion;
 	}
 
-	public void setTransitionName(String transitionName) {
-		this.transitionName = transitionName;
+	public void setWorkflowDefinitionVersion(String workflowDefinitionVersion) {
+		this.workflowDefinitionVersion = workflowDefinitionVersion;
 	}
 
 	@JsonIgnore
-	public void setTransitionName(
-		UnsafeSupplier<String, Exception> transitionNameUnsafeSupplier) {
+	public void setWorkflowDefinitionVersion(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionVersionUnsafeSupplier) {
 
 		try {
-			transitionName = transitionNameUnsafeSupplier.get();
+			workflowDefinitionVersion =
+				workflowDefinitionVersionUnsafeSupplier.get();
 		}
 		catch (RuntimeException re) {
 			throw re;
@@ -97,24 +102,24 @@ public class ChangeTransition {
 	}
 
 	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected String transitionName;
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected String workflowDefinitionVersion;
 
 	@Schema
-	public Long getWorkflowTaskId() {
-		return workflowTaskId;
+	public String getWorkflowTaskLabel() {
+		return workflowTaskLabel;
 	}
 
-	public void setWorkflowTaskId(Long workflowTaskId) {
-		this.workflowTaskId = workflowTaskId;
+	public void setWorkflowTaskLabel(String workflowTaskLabel) {
+		this.workflowTaskLabel = workflowTaskLabel;
 	}
 
 	@JsonIgnore
-	public void setWorkflowTaskId(
-		UnsafeSupplier<Long, Exception> workflowTaskIdUnsafeSupplier) {
+	public void setWorkflowTaskLabel(
+		UnsafeSupplier<String, Exception> workflowTaskLabelUnsafeSupplier) {
 
 		try {
-			workflowTaskId = workflowTaskIdUnsafeSupplier.get();
+			workflowTaskLabel = workflowTaskLabelUnsafeSupplier.get();
 		}
 		catch (RuntimeException re) {
 			throw re;
@@ -125,8 +130,36 @@ public class ChangeTransition {
 	}
 
 	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected Long workflowTaskId;
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected String workflowTaskLabel;
+
+	@Schema
+	public String getWorkflowTaskName() {
+		return workflowTaskName;
+	}
+
+	public void setWorkflowTaskName(String workflowTaskName) {
+		this.workflowTaskName = workflowTaskName;
+	}
+
+	@JsonIgnore
+	public void setWorkflowTaskName(
+		UnsafeSupplier<String, Exception> workflowTaskNameUnsafeSupplier) {
+
+		try {
+			workflowTaskName = workflowTaskNameUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected String workflowTaskName;
 
 	@Override
 	public boolean equals(Object object) {
@@ -134,13 +167,14 @@ public class ChangeTransition {
 			return true;
 		}
 
-		if (!(object instanceof ChangeTransition)) {
+		if (!(object instanceof WorkflowTaskTransition)) {
 			return false;
 		}
 
-		ChangeTransition changeTransition = (ChangeTransition)object;
+		WorkflowTaskTransition workflowTaskTransition =
+			(WorkflowTaskTransition)object;
 
-		return Objects.equals(toString(), changeTransition.toString());
+		return Objects.equals(toString(), workflowTaskTransition.toString());
 	}
 
 	@Override
@@ -155,42 +189,66 @@ public class ChangeTransition {
 
 		sb.append("{");
 
-		if (comment != null) {
+		if (transitions != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"comment\": ");
+			sb.append("\"transitions\": ");
+
+			sb.append("[");
+
+			for (int i = 0; i < transitions.length; i++) {
+				sb.append(String.valueOf(transitions[i]));
+
+				if ((i + 1) < transitions.length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
+		}
+
+		if (workflowDefinitionVersion != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"workflowDefinitionVersion\": ");
 
 			sb.append("\"");
 
-			sb.append(_escape(comment));
+			sb.append(_escape(workflowDefinitionVersion));
 
 			sb.append("\"");
 		}
 
-		if (transitionName != null) {
+		if (workflowTaskLabel != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"transitionName\": ");
+			sb.append("\"workflowTaskLabel\": ");
 
 			sb.append("\"");
 
-			sb.append(_escape(transitionName));
+			sb.append(_escape(workflowTaskLabel));
 
 			sb.append("\"");
 		}
 
-		if (workflowTaskId != null) {
+		if (workflowTaskName != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"workflowTaskId\": ");
+			sb.append("\"workflowTaskName\": ");
 
-			sb.append(workflowTaskId);
+			sb.append("\"");
+
+			sb.append(_escape(workflowTaskName));
+
+			sb.append("\"");
 		}
 
 		sb.append("}");
@@ -199,7 +257,7 @@ public class ChangeTransition {
 	}
 
 	@Schema(
-		defaultValue = "com.liferay.headless.admin.workflow.dto.v1_0.ChangeTransition",
+		defaultValue = "com.liferay.headless.admin.workflow.dto.v1_0.WorkflowTaskTransition",
 		name = "x-class-name"
 	)
 	public String xClassName;

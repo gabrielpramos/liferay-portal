@@ -15,7 +15,7 @@
 package com.liferay.headless.admin.workflow.client.dto.v1_0;
 
 import com.liferay.headless.admin.workflow.client.function.UnsafeSupplier;
-import com.liferay.headless.admin.workflow.client.serdes.v1_0.TransitionSerDes;
+import com.liferay.headless.admin.workflow.client.serdes.v1_0.WorkflowTaskTransitionsSerDes;
 
 import java.util.Objects;
 
@@ -26,47 +26,32 @@ import javax.annotation.Generated;
  * @generated
  */
 @Generated("")
-public class Transition {
+public class WorkflowTaskTransitions {
 
-	public String getLabel() {
-		return label;
+	public WorkflowTaskTransition[] getWorkflowTaskTransitions() {
+		return workflowTaskTransitions;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setWorkflowTaskTransitions(
+		WorkflowTaskTransition[] workflowTaskTransitions) {
+
+		this.workflowTaskTransitions = workflowTaskTransitions;
 	}
 
-	public void setLabel(
-		UnsafeSupplier<String, Exception> labelUnsafeSupplier) {
+	public void setWorkflowTaskTransitions(
+		UnsafeSupplier<WorkflowTaskTransition[], Exception>
+			workflowTaskTransitionsUnsafeSupplier) {
 
 		try {
-			label = labelUnsafeSupplier.get();
+			workflowTaskTransitions =
+				workflowTaskTransitionsUnsafeSupplier.get();
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	protected String label;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setName(UnsafeSupplier<String, Exception> nameUnsafeSupplier) {
-		try {
-			name = nameUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected String name;
+	protected WorkflowTaskTransition[] workflowTaskTransitions;
 
 	@Override
 	public boolean equals(Object object) {
@@ -74,13 +59,14 @@ public class Transition {
 			return true;
 		}
 
-		if (!(object instanceof Transition)) {
+		if (!(object instanceof WorkflowTaskTransitions)) {
 			return false;
 		}
 
-		Transition transition = (Transition)object;
+		WorkflowTaskTransitions workflowTaskTransitions =
+			(WorkflowTaskTransitions)object;
 
-		return Objects.equals(toString(), transition.toString());
+		return Objects.equals(toString(), workflowTaskTransitions.toString());
 	}
 
 	@Override
@@ -91,7 +77,7 @@ public class Transition {
 	}
 
 	public String toString() {
-		return TransitionSerDes.toJSON(this);
+		return WorkflowTaskTransitionsSerDes.toJSON(this);
 	}
 
 }

@@ -205,6 +205,22 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public boolean patchWorkflowTaskChangeTransition(
+			@GraphQLName("changeTransitions") ChangeTransition[]
+				changeTransitions)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_workflowTaskResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			workflowTaskResource ->
+				workflowTaskResource.patchWorkflowTaskChangeTransition(
+					changeTransitions));
+
+		return true;
+	}
+
+	@GraphQLField
 	public WorkflowTask createWorkflowTaskAssignToMe(
 			@GraphQLName("workflowTaskId") Long workflowTaskId,
 			@GraphQLName("workflowTaskAssignToMe") WorkflowTaskAssignToMe

@@ -138,64 +138,6 @@ public class WorkflowInstance {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date dateCreated;
 
-	@Schema(description = "The name of the instance's workflow definition.")
-	public String getDefinitionName() {
-		return definitionName;
-	}
-
-	public void setDefinitionName(String definitionName) {
-		this.definitionName = definitionName;
-	}
-
-	@JsonIgnore
-	public void setDefinitionName(
-		UnsafeSupplier<String, Exception> definitionNameUnsafeSupplier) {
-
-		try {
-			definitionName = definitionNameUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@GraphQLField(
-		description = "The name of the instance's workflow definition."
-	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected String definitionName;
-
-	@Schema
-	public String getDefinitionVersion() {
-		return definitionVersion;
-	}
-
-	public void setDefinitionVersion(String definitionVersion) {
-		this.definitionVersion = definitionVersion;
-	}
-
-	@JsonIgnore
-	public void setDefinitionVersion(
-		UnsafeSupplier<String, Exception> definitionVersionUnsafeSupplier) {
-
-		try {
-			definitionVersion = definitionVersionUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected String definitionVersion;
-
 	@Schema(description = "The instance's ID.")
 	public Long getId() {
 		return id;
@@ -255,6 +197,67 @@ public class WorkflowInstance {
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected ObjectReviewed objectReviewed;
+
+	@Schema(description = "The name of the instance's workflow definition.")
+	public String getWorkflowDefinitionName() {
+		return workflowDefinitionName;
+	}
+
+	public void setWorkflowDefinitionName(String workflowDefinitionName) {
+		this.workflowDefinitionName = workflowDefinitionName;
+	}
+
+	@JsonIgnore
+	public void setWorkflowDefinitionName(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionNameUnsafeSupplier) {
+
+		try {
+			workflowDefinitionName = workflowDefinitionNameUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(
+		description = "The name of the instance's workflow definition."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected String workflowDefinitionName;
+
+	@Schema
+	public String getWorkflowDefinitionVersion() {
+		return workflowDefinitionVersion;
+	}
+
+	public void setWorkflowDefinitionVersion(String workflowDefinitionVersion) {
+		this.workflowDefinitionVersion = workflowDefinitionVersion;
+	}
+
+	@JsonIgnore
+	public void setWorkflowDefinitionVersion(
+		UnsafeSupplier<String, Exception>
+			workflowDefinitionVersionUnsafeSupplier) {
+
+		try {
+			workflowDefinitionVersion =
+				workflowDefinitionVersionUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected String workflowDefinitionVersion;
 
 	@Override
 	public boolean equals(Object object) {
@@ -324,34 +327,6 @@ public class WorkflowInstance {
 			sb.append("\"");
 		}
 
-		if (definitionName != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"definitionName\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(definitionName));
-
-			sb.append("\"");
-		}
-
-		if (definitionVersion != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"definitionVersion\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(definitionVersion));
-
-			sb.append("\"");
-		}
-
 		if (id != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -370,6 +345,34 @@ public class WorkflowInstance {
 			sb.append("\"objectReviewed\": ");
 
 			sb.append(String.valueOf(objectReviewed));
+		}
+
+		if (workflowDefinitionName != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"workflowDefinitionName\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(workflowDefinitionName));
+
+			sb.append("\"");
+		}
+
+		if (workflowDefinitionVersion != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"workflowDefinitionVersion\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(workflowDefinitionVersion));
+
+			sb.append("\"");
 		}
 
 		sb.append("}");

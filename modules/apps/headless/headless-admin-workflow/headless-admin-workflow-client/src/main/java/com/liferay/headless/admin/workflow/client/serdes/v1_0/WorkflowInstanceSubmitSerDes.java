@@ -65,34 +65,6 @@ public class WorkflowInstanceSubmitSerDes {
 			sb.append(_toJSON(workflowInstanceSubmit.getContext()));
 		}
 
-		if (workflowInstanceSubmit.getDefinitionName() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"definitionName\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(workflowInstanceSubmit.getDefinitionName()));
-
-			sb.append("\"");
-		}
-
-		if (workflowInstanceSubmit.getDefinitionVersion() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"definitionVersion\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(workflowInstanceSubmit.getDefinitionVersion()));
-
-			sb.append("\"");
-		}
-
 		if (workflowInstanceSubmit.getSiteId() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -113,6 +85,36 @@ public class WorkflowInstanceSubmitSerDes {
 			sb.append("\"");
 
 			sb.append(_escape(workflowInstanceSubmit.getTransitionName()));
+
+			sb.append("\"");
+		}
+
+		if (workflowInstanceSubmit.getWorkflowDefinitionName() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"workflowDefinitionName\": ");
+
+			sb.append("\"");
+
+			sb.append(
+				_escape(workflowInstanceSubmit.getWorkflowDefinitionName()));
+
+			sb.append("\"");
+		}
+
+		if (workflowInstanceSubmit.getWorkflowDefinitionVersion() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"workflowDefinitionVersion\": ");
+
+			sb.append("\"");
+
+			sb.append(
+				_escape(workflowInstanceSubmit.getWorkflowDefinitionVersion()));
 
 			sb.append("\"");
 		}
@@ -146,24 +148,6 @@ public class WorkflowInstanceSubmitSerDes {
 				"context", String.valueOf(workflowInstanceSubmit.getContext()));
 		}
 
-		if (workflowInstanceSubmit.getDefinitionName() == null) {
-			map.put("definitionName", null);
-		}
-		else {
-			map.put(
-				"definitionName",
-				String.valueOf(workflowInstanceSubmit.getDefinitionName()));
-		}
-
-		if (workflowInstanceSubmit.getDefinitionVersion() == null) {
-			map.put("definitionVersion", null);
-		}
-		else {
-			map.put(
-				"definitionVersion",
-				String.valueOf(workflowInstanceSubmit.getDefinitionVersion()));
-		}
-
 		if (workflowInstanceSubmit.getSiteId() == null) {
 			map.put("siteId", null);
 		}
@@ -179,6 +163,26 @@ public class WorkflowInstanceSubmitSerDes {
 			map.put(
 				"transitionName",
 				String.valueOf(workflowInstanceSubmit.getTransitionName()));
+		}
+
+		if (workflowInstanceSubmit.getWorkflowDefinitionName() == null) {
+			map.put("workflowDefinitionName", null);
+		}
+		else {
+			map.put(
+				"workflowDefinitionName",
+				String.valueOf(
+					workflowInstanceSubmit.getWorkflowDefinitionName()));
+		}
+
+		if (workflowInstanceSubmit.getWorkflowDefinitionVersion() == null) {
+			map.put("workflowDefinitionVersion", null);
+		}
+		else {
+			map.put(
+				"workflowDefinitionVersion",
+				String.valueOf(
+					workflowInstanceSubmit.getWorkflowDefinitionVersion()));
 		}
 
 		return map;
@@ -209,18 +213,6 @@ public class WorkflowInstanceSubmitSerDes {
 							(String)jsonParserFieldValue));
 				}
 			}
-			else if (Objects.equals(jsonParserFieldName, "definitionName")) {
-				if (jsonParserFieldValue != null) {
-					workflowInstanceSubmit.setDefinitionName(
-						(String)jsonParserFieldValue);
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "definitionVersion")) {
-				if (jsonParserFieldValue != null) {
-					workflowInstanceSubmit.setDefinitionVersion(
-						(String)jsonParserFieldValue);
-				}
-			}
 			else if (Objects.equals(jsonParserFieldName, "siteId")) {
 				if (jsonParserFieldValue != null) {
 					workflowInstanceSubmit.setSiteId(
@@ -230,6 +222,22 @@ public class WorkflowInstanceSubmitSerDes {
 			else if (Objects.equals(jsonParserFieldName, "transitionName")) {
 				if (jsonParserFieldValue != null) {
 					workflowInstanceSubmit.setTransitionName(
+						(String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "workflowDefinitionName")) {
+
+				if (jsonParserFieldValue != null) {
+					workflowInstanceSubmit.setWorkflowDefinitionName(
+						(String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "workflowDefinitionVersion")) {
+
+				if (jsonParserFieldValue != null) {
+					workflowInstanceSubmit.setWorkflowDefinitionVersion(
 						(String)jsonParserFieldValue);
 				}
 			}

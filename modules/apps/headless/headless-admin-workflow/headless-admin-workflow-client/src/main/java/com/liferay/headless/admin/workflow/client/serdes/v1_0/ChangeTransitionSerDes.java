@@ -83,6 +83,16 @@ public class ChangeTransitionSerDes {
 			sb.append("\"");
 		}
 
+		if (changeTransition.getWorkflowTaskId() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"workflowTaskId\": ");
+
+			sb.append(changeTransition.getWorkflowTaskId());
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -118,6 +128,15 @@ public class ChangeTransitionSerDes {
 				String.valueOf(changeTransition.getTransitionName()));
 		}
 
+		if (changeTransition.getWorkflowTaskId() == null) {
+			map.put("workflowTaskId", null);
+		}
+		else {
+			map.put(
+				"workflowTaskId",
+				String.valueOf(changeTransition.getWorkflowTaskId()));
+		}
+
 		return map;
 	}
 
@@ -148,6 +167,12 @@ public class ChangeTransitionSerDes {
 				if (jsonParserFieldValue != null) {
 					changeTransition.setTransitionName(
 						(String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "workflowTaskId")) {
+				if (jsonParserFieldValue != null) {
+					changeTransition.setWorkflowTaskId(
+						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else {

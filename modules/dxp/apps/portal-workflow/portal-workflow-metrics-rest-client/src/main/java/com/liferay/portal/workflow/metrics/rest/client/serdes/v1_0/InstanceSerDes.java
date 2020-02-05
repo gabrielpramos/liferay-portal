@@ -17,6 +17,7 @@ package com.liferay.portal.workflow.metrics.rest.client.serdes.v1_0;
 import com.liferay.portal.workflow.metrics.rest.client.dto.v1_0.AssigneeUser;
 import com.liferay.portal.workflow.metrics.rest.client.dto.v1_0.Instance;
 import com.liferay.portal.workflow.metrics.rest.client.dto.v1_0.SLAResult;
+import com.liferay.portal.workflow.metrics.rest.client.dto.v1_0.Transition;
 import com.liferay.portal.workflow.metrics.rest.client.json.BaseJSONParser;
 
 import java.text.DateFormat;
@@ -242,6 +243,26 @@ public class InstanceSerDes {
 			sb.append("]");
 		}
 
+		if (instance.getTransitions() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"transitions\": ");
+
+			sb.append("[");
+
+			for (int i = 0; i < instance.getTransitions().length; i++) {
+				sb.append(String.valueOf(instance.getTransitions()[i]));
+
+				if ((i + 1) < instance.getTransitions().length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -340,6 +361,13 @@ public class InstanceSerDes {
 		}
 		else {
 			map.put("taskNames", String.valueOf(instance.getTaskNames()));
+		}
+
+		if (instance.getTransitions() == null) {
+			map.put("transitions", null);
+		}
+		else {
+			map.put("transitions", String.valueOf(instance.getTransitions()));
 		}
 
 		return map;
@@ -442,6 +470,18 @@ public class InstanceSerDes {
 				if (jsonParserFieldValue != null) {
 					instance.setTaskNames(
 						toStrings((Object[])jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "transitions")) {
+				if (jsonParserFieldValue != null) {
+					instance.setTransitions(
+						Stream.of(
+							toStrings((Object[])jsonParserFieldValue)
+						).map(
+							object -> TransitionSerDes.toDTO((String)object)
+						).toArray(
+							size -> new Transition[size]
+						));
 				}
 			}
 			else {

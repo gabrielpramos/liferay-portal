@@ -357,6 +357,27 @@ public class Instance {
 
 	protected String[] taskNames;
 
+	public Transition[] getTransitions() {
+		return transitions;
+	}
+
+	public void setTransitions(Transition[] transitions) {
+		this.transitions = transitions;
+	}
+
+	public void setTransitions(
+		UnsafeSupplier<Transition[], Exception> transitionsUnsafeSupplier) {
+
+		try {
+			transitions = transitionsUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Transition[] transitions;
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object) {

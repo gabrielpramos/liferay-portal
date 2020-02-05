@@ -477,6 +477,35 @@ public class Instance {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] taskNames;
 
+	@Schema
+	@Valid
+	public Transition[] getTransitions() {
+		return transitions;
+	}
+
+	public void setTransitions(Transition[] transitions) {
+		this.transitions = transitions;
+	}
+
+	@JsonIgnore
+	public void setTransitions(
+		UnsafeSupplier<Transition[], Exception> transitionsUnsafeSupplier) {
+
+		try {
+			transitions = transitionsUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Transition[] transitions;
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object) {
@@ -678,6 +707,26 @@ public class Instance {
 				sb.append("\"");
 
 				if ((i + 1) < taskNames.length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
+		}
+
+		if (transitions != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"transitions\": ");
+
+			sb.append("[");
+
+			for (int i = 0; i < transitions.length; i++) {
+				sb.append(String.valueOf(transitions[i]));
+
+				if ((i + 1) < transitions.length) {
 					sb.append(", ");
 				}
 			}
