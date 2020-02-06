@@ -12,39 +12,31 @@
 import {useContext, useEffect} from 'react';
 
 import {AppContext} from '../../../../components/AppContext.es';
-import {useRouterParams} from '../../../hooks/useRouterParams.es';
-import {buildFilterItems, mergeItemsArray} from '../util/filterUtil.es';
+import {
+	buildFilterItems,
+	mergeItemsArray,
+	getCapitalizedFilterKey
+} from '../util/filterUtil.es';
 import {useFilterState} from './useFilterState.es';
 
 const useFilterFetch = ({
-	dispatch,
 	filterKey,
-	parseItems = items => items,
 	prefixKey,
 	requestUrl,
-	staticItems
+	staticItems,
+	withoutRouteParams
 }) => {
 	const {client} = useContext(AppContext);
-	const {filters} = useRouterParams();
-
-	const prefixedFilterKey = `${prefixKey}${filterKey}`;
-	const {items, selectedItems, setItems} = useFilterState(
-		dispatch,
-		prefixedFilterKey
+	const {items, selectedItems, selectedKeys, setItems} = useFilterState(
+		getCapitalizedFilterKey(prefixKey, filterKey),
+		withoutRouteParams
 	);
 
 	useEffect(
 		() => {
 			client.get(requestUrl).then(({data = {}}) => {
 				const mergedItems = mergeItemsArray(staticItems, data.items);
-				const parsedItems = parseItems
-					? parseItems(mergedItems)
-					: mergedItems;
-
-				const mappedItems = buildFilterItems(
-					parsedItems,
-					filters[prefixedFilterKey]
-				);
+				const mappedItems = buildFilterItems(mergedItems, selectedKeys);
 
 				setItems(mappedItems);
 			});
