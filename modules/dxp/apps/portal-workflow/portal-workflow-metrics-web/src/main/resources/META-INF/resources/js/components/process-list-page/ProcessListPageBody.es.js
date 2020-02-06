@@ -21,7 +21,7 @@ import {Table} from './ProcessListPageTable.es';
 const Body = ({data, search}) => {
 	const {items, page, pageSize, totalCount} = data;
 	return (
-		<div className="container-fluid-1280">
+		<div className="container-fluid-1280 mt-4">
 			<PromisesResolver.Pending>
 				<Body.Loading />
 			</PromisesResolver.Pending>

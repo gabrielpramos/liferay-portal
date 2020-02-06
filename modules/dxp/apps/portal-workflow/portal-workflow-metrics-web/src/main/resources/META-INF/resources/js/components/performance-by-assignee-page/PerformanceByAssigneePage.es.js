@@ -33,9 +33,9 @@ const PerformanceByAssigneePage = ({query, routeParams}) => {
 	const filterKeys = ['processStep', 'roles'];
 
 	const {
-		dispatch,
 		filterState: {timeRange},
 		filterValues: {roleIds, taskKeys},
+		prefixedKeys,
 		selectedFilters
 	} = useFilter(filterKeys);
 
@@ -74,7 +74,7 @@ const PerformanceByAssigneePage = ({query, routeParams}) => {
 	return (
 		<PromisesResolver promises={promises}>
 			<PerformanceByAssigneePage.Header
-				dispatch={dispatch}
+				filterKeys={prefixedKeys}
 				routeParams={{...routeParams, search}}
 				selectedFilters={selectedFilters}
 				totalCount={data.totalCount}
