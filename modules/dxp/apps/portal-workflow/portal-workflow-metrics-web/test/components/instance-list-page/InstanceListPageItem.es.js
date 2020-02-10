@@ -146,7 +146,7 @@ describe('The InstanceListPageItem quick action menu should', () => {
 	};
 
 	test('set modal visualization by clicking the reassign task button', () => {
-		const {getByTestId} = render(
+		const {getByText} = render(
 			<InstanceListContext.Provider value={instanceContextValue}>
 				<ModalContext.Provider value={modalContextValue}>
 					<Table.Item {...instance} />
@@ -154,7 +154,7 @@ describe('The InstanceListPageItem quick action menu should', () => {
 			</InstanceListContext.Provider>
 		);
 
-		const reassignTaskButton = getByTestId('dropDownItem');
+		const reassignTaskButton = getByText('reassign-task');
 
 		fireEvent.click(reassignTaskButton);
 		expect(modalContextValue.setSingleModal).toHaveBeenCalledTimes(1);

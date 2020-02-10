@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, render} from '@testing-library/react';
+import {cleanup, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
 import {ModalContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalContext.es';
@@ -158,5 +158,97 @@ describe('The SingleReassignModalTable component should', () => {
 
 		expect(singleReassignModalTable[0].innerHTML).not.toBeUndefined();
 		expect(singleReassignModalTable[0].innerHTML).not.toBeNull();
+	});
+});
+
+describe('The AssigneeInput component should', () => {
+	const setReassignMock = jest.fn();
+	const clientMock = {
+		get: jest
+			.fn()
+			.mockResolvedValue({data: {items: [{id: 1, name: 'Test'}]}})
+	};
+
+	test('Render change assignee input text to Test', () => {
+		cleanup();
+
+		const {getByTestId} = render(
+			<MockRouter client={clientMock}>
+				<SingleReassignModal.Table.AssigneeInput
+					reassignedTasks={{
+						tasks: [{assigneeId: 20124, id: 39347}]
+					}}
+					setReassignedTasks={setReassignMock}
+					taskId={39347}
+				/>
+			</MockRouter>
+		);
+		const autocompleteInput = getByTestId('autocompleteInput');
+
+		fireEvent.change(autocompleteInput, {target: {value: 'Test'}});
+		expect(autocompleteInput.value).toBe('Test');
+	});
+
+	test('Change its text to "Test"', () => {
+		cleanup();
+
+		const clientMock = {
+			get: jest
+				.fn()
+				.mockResolvedValue({data: {items: [{id: 1, name: 'Test'}]}})
+		};
+
+		render(
+			<MockRouter client={clientMock}>
+				<SingleReassignModal.Table.AssigneeInput
+					reassignedTasks={{
+						tasks: [{assigneeId: 20124, id: 39347}]
+					}}
+					setReassignedTasks={setReassignMock}
+					taskId={39347}
+				/>
+			</MockRouter>
+		);
+		expect(clientMock.get).toHaveBeenCalled();
+	});
+
+	test('Select a new assignee', async () => {
+		cleanup();
+
+		const {getByTestId} = await render(
+			<MockRouter client={clientMock}>
+				<SingleReassignModal.Table.AssigneeInput
+					reassignedTasks={{tasks: []}}
+					setReassignedTasks={setReassignMock}
+					taskId={39347}
+				/>
+			</MockRouter>
+		);
+		const autocompleteInput = getByTestId('autocompleteInput');
+
+		fireEvent.change(autocompleteInput, {target: {value: 'Test'}});
+		fireEvent.blur(autocompleteInput);
+		const dropDownListItem = getByTestId('dropDownListItem');
+		fireEvent.click(dropDownListItem);
+	});
+
+	test('Select a new assignee with input already filled', async () => {
+		cleanup();
+
+		const {getByTestId} = await render(
+			<MockRouter client={clientMock}>
+				<SingleReassignModal.Table.AssigneeInput
+					reassignedTasks={{tasks: [{assigneeId: 20124, id: 39347}]}}
+					setReassignedTasks={setReassignMock}
+					taskId={39347}
+				/>
+			</MockRouter>
+		);
+		const autocompleteInput = getByTestId('autocompleteInput');
+
+		fireEvent.change(autocompleteInput, {target: {value: 'Test'}});
+		fireEvent.blur(autocompleteInput);
+		const dropDownListItem = getByTestId('dropDownListItem');
+		fireEvent.click(dropDownListItem);
 	});
 });

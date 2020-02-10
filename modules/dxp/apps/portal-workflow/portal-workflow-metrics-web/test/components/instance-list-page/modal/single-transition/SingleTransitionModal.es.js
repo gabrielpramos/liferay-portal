@@ -72,7 +72,7 @@ describe('The SingleTransitionModal component should', () => {
 	beforeAll(() => {
 		const renderResult = render(
 			<MockRouter client={clientMock}>
-				<SingleTransitionModal></SingleTransitionModal>
+				<SingleTransitionModal />
 			</MockRouter>,
 			{
 				wrapper: ContainerMock
