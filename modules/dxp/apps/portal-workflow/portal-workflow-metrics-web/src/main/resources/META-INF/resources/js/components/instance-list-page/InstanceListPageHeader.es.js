@@ -43,7 +43,9 @@ const Header = ({
 
 	const kebabItems = [
 		{
-			action: () => {
+			icon: 'change',
+			label: Liferay.Language.get('reassign-task'),
+			onClick: () => {
 				if (
 					selectedItems.length > 1 ||
 					selectedItems[0].taskNames.length > 1
@@ -56,9 +58,7 @@ const Header = ({
 						visible: true
 					});
 				}
-			},
-			icon: 'change',
-			title: Liferay.Language.get('reassign-task')
+			}
 		}
 	];
 
