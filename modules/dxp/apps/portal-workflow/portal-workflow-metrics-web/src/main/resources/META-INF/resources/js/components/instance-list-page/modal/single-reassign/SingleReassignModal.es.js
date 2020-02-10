@@ -82,9 +82,8 @@ const SingleReassignModal = () => {
 
 	const reassignButtonHandler = useCallback(() => {
 		if (assigneeId && taskId) {
-			setSendingPost(true);
-			setErrorToast(false);
-
+			setSendingPost(() => true);
+			setErrorToast(() => false);
 			postData()
 				.then(() => {
 					onClose();
@@ -99,9 +98,6 @@ const SingleReassignModal = () => {
 					setErrorToast(true);
 					setSendingPost(false);
 				});
-		}
-		else {
-			onClose();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postData]);
