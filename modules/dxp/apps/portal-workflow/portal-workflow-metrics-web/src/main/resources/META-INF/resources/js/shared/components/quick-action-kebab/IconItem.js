@@ -12,13 +12,13 @@
 import ClayIcon from '@clayui/icon';
 import React from 'react';
 
-const IconItem = ({action, icon}) => {
+const IconItem = ({icon, onClick}) => {
 	return (
 		<>
 			<button
 				className="component-action quick-action-item"
 				data-testid="iconItemButton"
-				onClick={action}
+				onClick={onClick}
 				role="button"
 			>
 				<ClayIcon symbol={icon} />
