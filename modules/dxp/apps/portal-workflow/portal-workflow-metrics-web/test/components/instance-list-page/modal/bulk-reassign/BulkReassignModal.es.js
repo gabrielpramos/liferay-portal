@@ -15,6 +15,7 @@ import React, {useState} from 'react';
 import InstanceListPage from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPage.es';
 import {ModalContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalContext.es';
 import {InstanceListContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/store/InstanceListPageStore.es';
+import ToasterProvider from '../../../../../src/main/resources/META-INF/resources/js/shared/components/toaster/ToasterProvider.es';
 import {MockRouter} from '../../../../mock/MockRouter.es';
 
 import '@testing-library/jest-dom/extend-expect';
@@ -132,7 +133,7 @@ const ContainerMock = ({children}) => {
 		<MockRouter client={clientMock}>
 			<InstanceListContext.Provider value={{selectedItems}}>
 				<ModalContext.Provider value={{bulkModal, setBulkModal}}>
-					{children}
+					<ToasterProvider>{children}</ToasterProvider>
 				</ModalContext.Provider>
 			</InstanceListContext.Provider>
 		</MockRouter>
@@ -402,10 +403,10 @@ describe('The BulkReassignModal component should', () => {
 
 		await fireEvent.click(nextBtn);
 
-		const alertSuccess = await getByTestId('alertSuccess');
-		const alertClose = alertSuccess.children[1];
+		const alertToast = await getByTestId('alertToast');
+		const alertClose = alertToast.children[1];
 
-		expect(alertSuccess).toHaveTextContent('x-tasks-have-been-reassigned');
+		expect(alertToast).toHaveTextContent('x-tasks-have-been-reassigned');
 
 		fireEvent.click(alertClose);
 
