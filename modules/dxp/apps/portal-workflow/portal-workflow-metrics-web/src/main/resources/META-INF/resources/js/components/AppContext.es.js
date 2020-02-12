@@ -11,6 +11,8 @@
 
 import React, {useState} from 'react';
 
+import ToasterProvider from '../shared/components/toaster/ToasterProvider.es';
+
 const AppContext = React.createContext();
 
 const AppContextProvider = ({children, ...props}) => {
@@ -25,7 +27,11 @@ const AppContextProvider = ({children, ...props}) => {
 		title
 	};
 
-	return <AppContext.Provider value={state}>{children}</AppContext.Provider>;
+	return (
+		<AppContext.Provider value={state}>
+			<ToasterProvider>{children}</ToasterProvider>
+		</AppContext.Provider>
+	);
 };
 
 const AppStatus = {
