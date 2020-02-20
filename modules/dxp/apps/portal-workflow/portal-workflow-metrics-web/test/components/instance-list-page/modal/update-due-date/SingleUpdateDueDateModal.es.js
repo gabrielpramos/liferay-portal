@@ -21,13 +21,11 @@ import {MockRouter} from '../../../../mock/MockRouter.es';
 import '@testing-library/jest-dom/extend-expect';
 
 const ContainerMock = ({children}) => {
-	const [updateDueDate, setUpdateDueDate] = useState({
-		visible: true,
-	});
+	const [visibleModal, setVisibleModal] = useState('updateDueDate');
 
 	return (
 		<InstanceListContext.Provider value={{setSelectedItems: jest.fn()}}>
-			<ModalContext.Provider value={{setUpdateDueDate, updateDueDate}}>
+			<ModalContext.Provider value={{setVisibleModal, visibleModal}}>
 				<ToasterProvider>{children}</ToasterProvider>
 			</ModalContext.Provider>
 		</InstanceListContext.Provider>
@@ -47,7 +45,7 @@ describe('The SingleUpdateDueDateModal component should', () => {
 		post: jest
 			.fn()
 			.mockRejectedValueOnce(new Error('Request failed'))
-			.mockResolvedValue({data: {items: []}}),
+			.mockResolvedValue({data: {items: []}})
 	};
 
 	beforeAll(() => {
@@ -56,7 +54,7 @@ describe('The SingleUpdateDueDateModal component should', () => {
 				<SingleUpdateDueDateModal />
 			</MockRouter>,
 			{
-				wrapper: ContainerMock,
+				wrapper: ContainerMock
 			}
 		);
 		getByTestId = renderResult.getByTestId;
