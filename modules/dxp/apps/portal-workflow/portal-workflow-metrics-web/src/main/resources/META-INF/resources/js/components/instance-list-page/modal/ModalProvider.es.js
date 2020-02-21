@@ -34,11 +34,18 @@ const ModalProvider = ({children, processId}) => {
 	});
 	const [visibleModal, setVisibleModal] = useState('');
 
+	const [bulkTransition, setBulkTransition] = useState({
+		transition: {errors: [], onGoing: false},
+		transitionTasks: []
+	});
+
 	const modalState = {
 		bulkReassign,
+		bulkTransition,
 		processId,
 		selectTasks,
 		setBulkReassign,
+		setBulkTransition,
 		setSelectTasks,
 		setSingleTransition,
 		setUpdateDueDate,
