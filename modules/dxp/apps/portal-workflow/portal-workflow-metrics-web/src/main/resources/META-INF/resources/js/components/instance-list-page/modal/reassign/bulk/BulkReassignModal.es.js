@@ -14,20 +14,27 @@ import ClayButton from '@clayui/button';
 import ClayModal, {useModal} from '@clayui/modal';
 import React, {useCallback, useContext, useMemo, useState} from 'react';
 
-import {useToaster} from '../../../../shared/components/toaster/hooks/useToaster.es';
-import {useFilter} from '../../../../shared/hooks/useFilter.es';
-import {usePatch} from '../../../../shared/hooks/usePatch.es';
-import {usePost} from '../../../../shared/hooks/usePost.es';
-import {sub} from '../../../../shared/util/lang.es';
-import {InstanceListContext} from '../../store/InstanceListPageStore.es';
-import {ModalContext} from '../ModalContext.es';
+import StepBar from '../../../../../shared/components/step-bar/StepBar.es';
+import {useToaster} from '../../../../../shared/components/toaster/hooks/useToaster.es';
+import {useFilter} from '../../../../../shared/hooks/useFilter.es';
+import {usePatch} from '../../../../../shared/hooks/usePatch.es';
+import {usePost} from '../../../../../shared/hooks/usePost.es';
+import {sub} from '../../../../../shared/util/lang.es';
+import {InstanceListContext} from '../../../InstanceListPageProvider.es';
+import {ModalContext} from '../../ModalProvider.es';
+import {SelectTasksStep} from '../../shared/select-tasks-step/SelectTasksStep.es';
 import {BulkReassignSelectAssigneesStep} from './select-assignees-step/BulkReassignSelectAssigneesStep.es';
-import {BulkReassignSelectTasksStep} from './select-tasks-step/BulkReassignSelectTasksStep.es';
 
 const BulkReassignModal = () => {
-	const {bulkModal, setBulkModal, setSingleModal, singleModal} = useContext(
-		ModalContext
-	);
+	const {
+		bulkReassign,
+		processId,
+		selectTasks,
+		setBulkReassign,
+		setSelectTasks,
+		setVisibleModal,
+		visibleModal,
+	} = useContext(ModalContext);
 	const {
 		selectAll: selectAllInstances,
 		selectedItems,
@@ -44,33 +51,26 @@ const BulkReassignModal = () => {
 		},
 	} = useFilter({withoutRouteParams: true});
 
-	const {
-		processId,
-		reassignedTasks,
-		reassigning,
-		selectAll,
-		selectedTasks,
-		visible,
-	} = bulkModal;
+	const {reassignedTasks, reassigning} = bulkReassign;
 
 	const [currentStep, setCurrentStep] = useState('selectTasks');
 	const [errorToast, setErrorToast] = useState(null);
 	const [fetching, setFetching] = useState(false);
-
+	const {selectAll, tasks} = selectTasks;
 	const toaster = useToaster();
 
 	const {observer, onClose} = useModal({
 		onClose: () => {
-			setBulkModal({
-				processId,
-				reassignedTasks: [],
+			setBulkReassign({
+				...bulkReassign,
 				reassigning: false,
-				selectAll: false,
 				selectedAssignee: null,
-				selectedTasks: [],
 				useSameAssignee: false,
-				visible: false,
 			});
+
+			setSelectTasks({selectAll: false, tasks: []});
+
+			setVisibleModal('');
 
 			dispatch({
 				...filterState,
@@ -81,8 +81,6 @@ const BulkReassignModal = () => {
 			setCurrentStep('selectTasks');
 
 			setErrorToast(false);
-
-			setSingleModal({selectedItem: undefined});
 		},
 	});
 
@@ -112,16 +110,12 @@ const BulkReassignModal = () => {
 			params.workflowDefinitionId = processId;
 		}
 		else {
-			const {selectedItem = {}} = singleModal || {};
-
-			params.workflowInstanceIds = selectedItems.length
-				? selectedItems.map(({id}) => id)
-				: [selectedItem.id];
+			params.workflowInstanceIds = selectedItems.map(({id}) => id);
 		}
 
 		return params;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [workflowTaskNames, userIds, visible]);
+	}, [selectedItems, userIds, workflowTaskNames]);
 
 	const {postData} = usePost({
 		admin: true,
@@ -134,11 +128,7 @@ const BulkReassignModal = () => {
 			setFetching(true);
 			postData()
 				.then(({items}) => {
-					setBulkModal({
-						...bulkModal,
-						selectAll: true,
-						selectedTasks: items,
-					});
+					setSelectTasks({selectAll, tasks: items});
 					setCurrentStep('selectAssignees');
 					setFetching(false);
 				})
@@ -153,11 +143,11 @@ const BulkReassignModal = () => {
 			setCurrentStep('selectAssignees');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [bulkModal, postData, selectAll]);
+	}, [bulkReassign, postData, selectAll]);
 
 	const handlePrevious = () => {
-		setBulkModal({
-			...bulkModal,
+		setBulkReassign({
+			...bulkReassign,
 			reassignedTasks: [],
 			reassigning: false,
 			selectedAssignee: null,
@@ -170,10 +160,10 @@ const BulkReassignModal = () => {
 	const handleReassign = useCallback(() => {
 		if (
 			reassignedTasks.length > 0 &&
-			reassignedTasks.length === selectedTasks.length
+			reassignedTasks.length === tasks.length
 		) {
-			setBulkModal({
-				...bulkModal,
+			setBulkReassign({
+				...bulkReassign,
 				reassigning: true,
 			});
 
@@ -204,8 +194,8 @@ const BulkReassignModal = () => {
 						'your-request-has-failed'
 					)} ${Liferay.Language.get('select-reassign-to-retry')}`;
 
-					setBulkModal({
-						...bulkModal,
+					setBulkReassign({
+						...bulkReassign,
 						reassigning: false,
 					});
 
@@ -221,8 +211,7 @@ const BulkReassignModal = () => {
 				selectAssignees: {
 					component: BulkReassignSelectAssigneesStep,
 					nextBtn: {
-						disabled:
-							reassignedTasks.length !== selectedTasks.length,
+						disabled: reassignedTasks.length !== tasks.length,
 						handle: handleReassign,
 						text: Liferay.Language.get('reassign'),
 					},
@@ -232,9 +221,9 @@ const BulkReassignModal = () => {
 					title: Liferay.Language.get('select-new-assignees'),
 				},
 				selectTasks: {
-					component: BulkReassignSelectTasksStep,
+					component: SelectTasksStep,
 					nextBtn: {
-						disabled: selectedTasks.length === 0 || fetching,
+						disabled: tasks.length === 0 || fetching,
 						handle: handleNext,
 						text: Liferay.Language.get('next'),
 					},
@@ -252,7 +241,7 @@ const BulkReassignModal = () => {
 			handleNext,
 			handleReassign,
 			reassignedTasks.length,
-			selectedTasks.length,
+			tasks.length,
 		]
 	);
 
@@ -260,7 +249,7 @@ const BulkReassignModal = () => {
 
 	return (
 		<>
-			{visible && (
+			{visibleModal === 'bulkReassign' && (
 				<ClayModal
 					data-testid="bulkReassignModal"
 					observer={observer}
@@ -279,16 +268,18 @@ const BulkReassignModal = () => {
 						</ClayAlert>
 					)}
 
-					<StepOfBar
+					<StepBar
 						current={step.order}
 						title={step.subtitle}
 						total={2}
 					/>
 
-					<step.component
-						processId={processId}
-						setErrorToast={setErrorToast}
-					/>
+					<div className="fixed-height modal-metrics-content">
+						<step.component
+							processId={processId}
+							setErrorToast={setErrorToast}
+						/>
+					</div>
 
 					<ClayModal.Footer
 						first={
@@ -333,15 +324,4 @@ const BulkReassignModal = () => {
 	);
 };
 
-const StepOfBar = ({current, title, total}) => {
-	return (
-		<div className="step-of-bar" data-testid="stepOfBar">
-			<small>{title}</small>
-			<small>
-				{sub(Liferay.Language.get('step-x-of-x'), [current, total])}
-			</small>
-		</div>
-	);
-};
-
-export {BulkReassignModal};
+export default BulkReassignModal;

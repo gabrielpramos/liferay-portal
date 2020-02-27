@@ -21,15 +21,24 @@ import React, {
 	useState,
 } from 'react';
 
-import {useToaster} from '../../../../shared/components/toaster/hooks/useToaster.es';
-import {useFetch} from '../../../../shared/hooks/useFetch.es';
-import {usePost} from '../../../../shared/hooks/usePost.es';
-import {ModalContext} from '../ModalContext.es';
+import {useToaster} from '../../../../../shared/components/toaster/hooks/useToaster.es';
+import {useFetch} from '../../../../../shared/hooks/useFetch.es';
+import {usePost} from '../../../../../shared/hooks/usePost.es';
+import {InstanceListContext} from '../../../InstanceListPageProvider.es';
+import {ModalContext} from '../../ModalProvider.es';
 
 const SingleTransitionModal = () => {
 	const [comment, setComment] = useState('');
-	const {setSingleTransition, singleTransition} = useContext(ModalContext);
-	const {selectedItemId, title, transitionName, visible} = singleTransition;
+	const {
+		setSingleTransition,
+		setVisibleModal,
+		singleTransition,
+		visibleModal,
+	} = useContext(ModalContext);
+	const {selectedInstance, setSelectedItem, setSelectedItems} = useContext(
+		InstanceListContext
+	);
+	const {title, transitionName} = singleTransition;
 	const [errorToast, setErrorToast] = useState(false);
 
 	const toaster = useToaster();
@@ -37,26 +46,27 @@ const SingleTransitionModal = () => {
 	const {data, fetchData} = useFetch({
 		admin: true,
 		params: {completed: false, page: 1, pageSize: 1},
-		url: `/workflow-instances/${selectedItemId}/workflow-tasks`,
+		url: `/workflow-instances/${selectedInstance.id}/workflow-tasks`,
 	});
 
 	const {observer, onClose} = useModal({
 		onClose: () => {
+			setSelectedItem({});
+			setSelectedItems([]);
+			setVisibleModal('');
 			setSingleTransition({
-				selectedItemId: undefined,
 				title: '',
 				transitionName: '',
-				visible: false,
 			});
 		},
 	});
 
 	useEffect(() => {
-		if (selectedItemId) {
+		if (selectedInstance.id && visibleModal === 'singleTransition') {
 			fetchData();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedItemId]);
+	}, [fetchData, visibleModal]);
 
 	const taskId = useMemo(() => (data && data.items ? data.items[0].id : {}), [
 		data,
@@ -91,7 +101,7 @@ const SingleTransitionModal = () => {
 
 	return (
 		<>
-			{visible && (
+			{visibleModal === 'singleTransition' && (
 				<ClayModal
 					data-testid="transitionModal"
 					observer={observer}

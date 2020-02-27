@@ -13,9 +13,9 @@ import React from 'react';
 
 import {sub} from '../../util/lang.es';
 
-const StepOfBar = ({current, title, total}) => {
+const StepBar = ({current, title, total}) => {
 	return (
-		<div className="step-of-bar" data-testid="stepOfBar">
+		<div className="step-of-bar" data-testid="stepBar">
 			<small>{title}</small>
 			<small>
 				{sub(Liferay.Language.get('step-x-of-x'), [current, total])}
@@ -24,4 +24,4 @@ const StepOfBar = ({current, title, total}) => {
 	);
 };
 
-export default StepOfBar;
+export default StepBar;

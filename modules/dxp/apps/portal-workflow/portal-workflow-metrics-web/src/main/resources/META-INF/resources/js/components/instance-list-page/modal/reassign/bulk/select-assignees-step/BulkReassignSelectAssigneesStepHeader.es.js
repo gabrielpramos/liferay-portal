@@ -12,20 +12,25 @@
 import {ClayCheckbox, ClayInput} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import ClayManagementToolbar from '@clayui/management-toolbar';
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 
-import {Autocomplete} from '../../../../../shared/components/autocomplete/Autocomplete.es';
-import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
-import {ModalContext} from '../../ModalContext.es';
+import {Autocomplete} from '../../../../../../shared/components/autocomplete/Autocomplete.es';
+import PromisesResolver from '../../../../../../shared/components/promises-resolver/PromisesResolver.es';
+import {ModalContext} from '../../../ModalProvider.es';
 
 const Header = ({data}) => {
-	const {bulkModal, setBulkModal} = useContext(ModalContext);
 	const {
-		reassigning,
-		selectedAssignee,
-		selectedTasks = [],
-		useSameAssignee,
-	} = bulkModal;
+		bulkReassign,
+		selectTasks: {tasks},
+		setBulkReassign,
+	} = useContext(ModalContext);
+	const {reassigning, selectedAssignee, useSameAssignee} = bulkReassign;
 
 	const [assignees, setAssignees] = useState([]);
 
@@ -51,32 +56,36 @@ const Header = ({data}) => {
 	]);
 
 	const handleCheck = ({target}) => {
-		setBulkModal({
-			...bulkModal,
+		setBulkReassign({
+			...bulkReassign,
 			reassignedTasks: [],
 			selectedAssignee: null,
 			useSameAssignee: target.checked,
 		});
 	};
 
-	const handleSelect = newAssignee => {
-		const reassignedTasks = [];
+	const handleSelect = useCallback(
+		newAssignee => {
+			const reassignedTasks = [];
 
-		if (newAssignee) {
-			selectedTasks.forEach(task => {
-				reassignedTasks.push({
-					assigneeId: newAssignee.id,
-					workflowTaskId: task.id,
+			if (newAssignee) {
+				tasks.forEach(task => {
+					reassignedTasks.push({
+						assigneeId: newAssignee.id,
+						workflowTaskId: task.id,
+					});
 				});
-			});
-		}
+			}
 
-		setBulkModal({
-			...bulkModal,
-			reassignedTasks,
-			selectedAssignee: newAssignee,
-		});
-	};
+			setBulkReassign({
+				...bulkReassign,
+				reassignedTasks,
+				selectedAssignee: newAssignee,
+			});
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[bulkReassign, tasks, setBulkReassign]
+	);
 
 	return (
 		<PromisesResolver.Resolved>

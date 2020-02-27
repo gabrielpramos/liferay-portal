@@ -12,14 +12,20 @@
 import ClayModal from '@clayui/modal';
 import React from 'react';
 
-import EmptyState from '../../../../../shared/components/empty-state/EmptyState.es';
-import RetryButton from '../../../../../shared/components/list/RetryButton.es';
-import LoadingState from '../../../../../shared/components/loading/LoadingState.es';
-import PaginationBar from '../../../../../shared/components/pagination-bar/PaginationBar.es';
-import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
-import {Table} from './BulkReassignSelectTasksStepTable.es';
+import EmptyState from '../../../../../../shared/components/empty-state/EmptyState.es';
+import RetryButton from '../../../../../../shared/components/list/RetryButton.es';
+import LoadingState from '../../../../../../shared/components/loading/LoadingState.es';
+import PaginationBar from '../../../../../../shared/components/pagination-bar/PaginationBar.es';
+import PromisesResolver from '../../../../../../shared/components/promises-resolver/PromisesResolver.es';
+import {usePaginationState} from '../../../../../../shared/hooks/usePaginationState.es';
+import {Table} from './BulkReassignSelectAssigneesStepTable.es';
 
-const Body = ({items, pagination, setRetry, totalCount}) => {
+const Body = ({data, setRetry, tasks}) => {
+	const {paginatedItems, pagination} = usePaginationState({
+		initialPageSize: 5,
+		items: tasks,
+	});
+
 	return (
 		<ClayModal.Body>
 			<PromisesResolver.Pending>
@@ -27,15 +33,13 @@ const Body = ({items, pagination, setRetry, totalCount}) => {
 			</PromisesResolver.Pending>
 
 			<PromisesResolver.Resolved>
-				{items && items.length > 0 ? (
-					<>
-						<Body.Table items={items} totalCount={totalCount} />
+				<Body.Table data={data} items={paginatedItems} />
 
-						<PaginationBar routing={false} {...pagination} />
-					</>
-				) : (
-					<Body.Empty />
-				)}
+				<PaginationBar
+					{...pagination}
+					routing={false}
+					totalCount={tasks.length}
+				/>
 			</PromisesResolver.Resolved>
 
 			<PromisesResolver.Rejected>
@@ -45,34 +49,28 @@ const Body = ({items, pagination, setRetry, totalCount}) => {
 	);
 };
 
-const EmptyView = () => {
-	return (
-		<EmptyState
-			className="border-0"
-			message={Liferay.Language.get('no-results-were-found')}
-			messageClassName="small"
-			type="not-found"
-		/>
-	);
-};
-
 const ErrorView = ({onClick}) => {
 	return (
 		<EmptyState
 			actionButton={<RetryButton onClick={onClick} />}
 			className="border-0 pb-7 pt-8"
 			hideAnimation={true}
-			message={Liferay.Language.get('unable-to-retrieve-data')}
+			message={Liferay.Language.get('failed-to-retrieve-assignees')}
 			messageClassName="small"
 		/>
 	);
 };
 
 const LoadingView = () => {
-	return <LoadingState className="border-0 mb-4 mt-6 pb-8 pt-8" />;
+	return (
+		<LoadingState
+			className="border-0 mb-4 mt-6 pb-8 pt-8"
+			message={Liferay.Language.get('retrieving-all-possible-assignees')}
+			messageClassName="small"
+		/>
+	);
 };
 
-Body.Empty = EmptyView;
 Body.Error = ErrorView;
 Body.Loading = LoadingView;
 Body.Table = Table;

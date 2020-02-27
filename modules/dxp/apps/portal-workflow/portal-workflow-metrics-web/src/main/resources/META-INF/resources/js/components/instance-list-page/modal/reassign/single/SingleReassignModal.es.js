@@ -14,15 +14,15 @@ import ClayButton from '@clayui/button';
 import ClayModal, {useModal} from '@clayui/modal';
 import React, {useCallback, useContext, useMemo, useState} from 'react';
 
-import EmptyState from '../../../../shared/components/empty-state/EmptyState.es';
-import RetryButton from '../../../../shared/components/list/RetryButton.es';
-import LoadingState from '../../../../shared/components/loading/LoadingState.es';
-import PromisesResolver from '../../../../shared/components/promises-resolver/PromisesResolver.es';
-import {useToaster} from '../../../../shared/components/toaster/hooks/useToaster.es';
-import {useFetch} from '../../../../shared/hooks/useFetch.es';
-import {usePost} from '../../../../shared/hooks/usePost.es';
-import {InstanceListContext} from '../../store/InstanceListPageStore.es';
-import {ModalContext} from '../ModalContext.es';
+import EmptyState from '../../../../../shared/components/empty-state/EmptyState.es';
+import RetryButton from '../../../../../shared/components/list/RetryButton.es';
+import LoadingState from '../../../../../shared/components/loading/LoadingState.es';
+import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
+import {useToaster} from '../../../../../shared/components/toaster/hooks/useToaster.es';
+import {useFetch} from '../../../../../shared/hooks/useFetch.es';
+import {usePost} from '../../../../../shared/hooks/usePost.es';
+import {InstanceListContext} from '../../../InstanceListPageProvider.es';
+import {ModalContext} from '../../ModalProvider.es';
 import {Table} from './SingleReassignModalTable.es';
 
 const ErrorView = ({onClick}) => {
@@ -52,21 +52,24 @@ const SingleReassignModal = () => {
 
 	const toaster = useToaster();
 
-	const {setSingleModal, singleModal} = useContext(ModalContext);
-	const {setSelectedItems} = useContext(InstanceListContext);
-	const {selectedItem = {}} = singleModal;
+	const {setVisibleModal, visibleModal} = useContext(ModalContext);
+	const {selectedInstance, setSelectedItem, setSelectedItems} = useContext(
+		InstanceListContext
+	);
 
 	const {observer, onClose} = useModal({
 		onClose: () => {
-			setSingleModal({selectedItem: undefined, visible: false});
 			setAssigneeId();
+			setSelectedItem({});
+			setSelectedItems([]);
+			setVisibleModal('');
 		},
 	});
 
 	const {data, fetchData} = useFetch({
 		admin: true,
 		params: {completed: false, page: 1, pageSize: 1},
-		url: `/workflow-instances/${selectedItem.id}/workflow-tasks`,
+		url: `/workflow-instances/${selectedInstance.id}/workflow-tasks`,
 	});
 
 	const taskId = useMemo(
@@ -92,12 +95,15 @@ const SingleReassignModal = () => {
 					);
 					setErrorToast(false);
 					setSendingPost(false);
-					setSelectedItems([]);
+					setSelectedItem({});
 				})
 				.catch(() => {
 					setErrorToast(true);
 					setSendingPost(false);
 				});
+		}
+		else {
+			onClose();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postData]);
@@ -105,7 +111,7 @@ const SingleReassignModal = () => {
 	const promises = useMemo(() => {
 		setErrorToast(false);
 
-		if (singleModal.visible) {
+		if (selectedInstance.id && visibleModal === 'singleReassign') {
 			return [
 				fetchData().catch(err => {
 					setErrorToast(true);
@@ -114,13 +120,15 @@ const SingleReassignModal = () => {
 				}),
 			];
 		}
+
+		return [];
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [fetchData, retry]);
+	}, [fetchData, retry, visibleModal]);
 
 	return (
 		<>
 			<PromisesResolver promises={promises}>
-				{singleModal.visible && (
+				{visibleModal === 'singleReassign' && (
 					<ClayModal
 						data-testid="reassignModal"
 						observer={observer}
@@ -162,9 +170,8 @@ const SingleReassignModal = () => {
 
 								<PromisesResolver.Resolved>
 									<SingleReassignModal.Table
-										data={data}
 										setAssigneeId={setAssigneeId}
-										{...selectedItem}
+										{...data}
 									/>
 								</PromisesResolver.Resolved>
 							</ClayModal.Body>
@@ -202,4 +209,4 @@ SingleReassignModal.ErrorView = ErrorView;
 SingleReassignModal.LoadingView = LoadingView;
 SingleReassignModal.Table = Table;
 
-export {SingleReassignModal};
+export default SingleReassignModal;

@@ -9,31 +9,39 @@
  * distribution rights of the Software.
  */
 
-import React, {createContext, useState} from 'react';
-
-const useInstanceListData = () => {
-	const [instanceId, setInstanceId] = useState();
-	const [selectAll, setSelectAll] = useState(false);
-	const [selectedItems, setSelectedItems] = useState([]);
-
-	return {
-		instanceId,
-		selectAll,
-		selectedItems,
-		setInstanceId,
-		setSelectAll,
-		setSelectedItems,
-	};
-};
+import React, {createContext, useMemo, useState} from 'react';
 
 const InstanceListContext = createContext(null);
 
-const InstanceListProvider = ({children}) => {
+const InstanceListPageProvider = ({children}) => {
+	const [instanceId, setInstanceId] = useState();
+	const [selectAll, setSelectAll] = useState(false);
+	const [selectedItem, setSelectedItem] = useState({});
+	const [selectedItems, setSelectedItems] = useState([]);
+
+	const selectedInstance = useMemo(
+		() => (selectedItems.length === 1 ? selectedItems[0] : selectedItem),
+		[selectedItem, selectedItems]
+	);
+
+	const value = {
+		instanceId,
+		selectAll,
+		selectedInstance,
+		selectedItem,
+		selectedItems,
+		setInstanceId,
+		setSelectAll,
+		setSelectedItem,
+		setSelectedItems,
+	};
+
 	return (
-		<InstanceListContext.Provider value={useInstanceListData()}>
+		<InstanceListContext.Provider value={value}>
 			{children}
 		</InstanceListContext.Provider>
 	);
 };
 
-export {InstanceListContext, InstanceListProvider, useInstanceListData};
+export {InstanceListContext};
+export default InstanceListPageProvider;

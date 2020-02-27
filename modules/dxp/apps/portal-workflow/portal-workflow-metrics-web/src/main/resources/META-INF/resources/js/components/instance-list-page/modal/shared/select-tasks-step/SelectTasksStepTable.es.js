@@ -13,11 +13,13 @@ import {ClayCheckbox} from '@clayui/form';
 import ClayTable from '@clayui/table';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 
-import {ModalContext} from '../../ModalContext.es';
+import {ModalContext} from '../../ModalProvider.es';
 
 const Item = ({totalCount, ...task}) => {
-	const {bulkModal, setBulkModal} = useContext(ModalContext);
-
+	const {
+		selectTasks: {tasks},
+		setSelectTasks,
+	} = useContext(ModalContext);
 	const {
 		assigneePerson,
 		id,
@@ -25,31 +27,29 @@ const Item = ({totalCount, ...task}) => {
 		objectReviewed: {assetTitle, assetType},
 		workflowInstanceId,
 	} = task;
-	const {selectedTasks} = bulkModal;
 
 	const [checked, setChecked] = useState(false);
 
 	useEffect(() => {
-		setChecked(!!selectedTasks.find(item => item.id === id));
+		setChecked(!!tasks.find(item => item.id === id));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedTasks]);
+	}, [tasks]);
 
 	const handleCheck = useCallback(
 		({target}) => {
 			setChecked(target.checked);
 
 			const updatedItems = target.checked
-				? [...selectedTasks, task]
-				: selectedTasks.filter(task => task.id !== id);
+				? [...tasks, task]
+				: tasks.filter(task => task.id !== id);
 
-			setBulkModal({
-				...bulkModal,
+			setSelectTasks({
 				selectAll: totalCount > 0 && totalCount === updatedItems.length,
-				selectedTasks: updatedItems,
+				tasks: updatedItems,
 			});
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[selectedTasks]
+		[tasks]
 	);
 
 	return (
@@ -81,7 +81,7 @@ const Item = ({totalCount, ...task}) => {
 
 const Table = ({items, totalCount}) => {
 	return (
-		<ClayTable data-testid="bulkReassignModalTable">
+		<ClayTable data-testid="selectTaskStepTable">
 			<ClayTable.Head>
 				<ClayTable.Row>
 					<ClayTable.Cell
