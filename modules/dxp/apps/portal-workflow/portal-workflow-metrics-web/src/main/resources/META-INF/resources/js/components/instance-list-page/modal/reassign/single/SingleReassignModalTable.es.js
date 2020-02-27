@@ -12,11 +12,10 @@
 import ClayIcon from '@clayui/icon';
 import ClayTable from '@clayui/table';
 import {ClayTooltipProvider} from '@clayui/tooltip';
-import React, {useCallback, useContext, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 
-import {Autocomplete} from '../../../../shared/components/autocomplete/Autocomplete.es';
-import {useFetch} from '../../../../shared/hooks/useFetch.es';
-import {ModalContext} from '../ModalContext.es';
+import {Autocomplete} from '../../../../../shared/components/autocomplete/Autocomplete.es';
+import {useFetch} from '../../../../../shared/hooks/useFetch.es';
 
 const AssigneeInput = ({setAssigneeId, taskId}) => {
 	const {data, fetchData} = useFetch({
@@ -46,57 +45,36 @@ const AssigneeInput = ({setAssigneeId, taskId}) => {
 };
 
 const Item = ({
-	assetTitle,
-	assetType,
-	completed,
-	index,
-	item,
+	assigneePerson = {name: Liferay.Language.get('unassigned')},
+	id,
+	objectReviewed: {assetTitle, assetType},
 	setAssigneeId,
-	taskNames,
+	label,
+	workflowInstanceId,
 }) => {
-	const {singleModal} = useContext(ModalContext);
-
 	return (
-		<ClayTable.Row {...item} key={index}>
+		<ClayTable.Row>
 			<ClayTable.Cell style={{fontWeight: 'bold'}}>
-				{singleModal.selectedItem && singleModal.selectedItem.id}
+				{workflowInstanceId}
 			</ClayTable.Cell>
 
 			<ClayTable.Cell>{`${assetType}: ${assetTitle}`} </ClayTable.Cell>
 
-			<ClayTable.Cell>
-				{!completed
-					? taskNames.join(', ')
-					: Liferay.Language.get('completed')}
-			</ClayTable.Cell>
+			<ClayTable.Cell>{label}</ClayTable.Cell>
 
-			<ClayTable.Cell>
-				{item.assigneePerson
-					? item.assigneePerson.name
-					: Liferay.Language.get('unassigned')}
-			</ClayTable.Cell>
+			<ClayTable.Cell>{assigneePerson.name}</ClayTable.Cell>
 
 			<ClayTable.Cell>
 				<Table.AssigneeInput
 					setAssigneeId={setAssigneeId}
-					taskId={item.id}
+					taskId={id}
 				/>
 			</ClayTable.Cell>
 		</ClayTable.Row>
 	);
 };
 
-const Table = ({
-	assetTitle,
-	assetType,
-	data,
-	setAssigneeId,
-	status,
-	taskNames = [],
-}) => {
-	const completed = status === 'Completed';
-	const {items} = data;
-
+const Table = ({items, setAssigneeId}) => {
 	return (
 		<ClayTable data-testid="singleReassignModalTable">
 			<ClayTable.Head>
@@ -172,14 +150,9 @@ const Table = ({
 					items.length > 0 &&
 					items.map((item, index) => (
 						<Table.Item
-							assetTitle={assetTitle}
-							assetType={assetType}
-							completed={completed}
-							index={index}
-							item={item}
+							{...item}
 							key={index}
 							setAssigneeId={setAssigneeId}
-							taskNames={taskNames}
 						/>
 					))}
 			</ClayTable.Body>

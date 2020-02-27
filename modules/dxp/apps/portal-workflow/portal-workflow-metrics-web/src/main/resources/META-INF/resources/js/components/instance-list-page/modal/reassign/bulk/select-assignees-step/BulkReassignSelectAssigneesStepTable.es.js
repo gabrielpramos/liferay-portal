@@ -14,8 +14,8 @@ import ClayTable from '@clayui/table';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import React, {useCallback, useContext, useMemo} from 'react';
 
-import {Autocomplete} from '../../../../../shared/components/autocomplete/Autocomplete.es';
-import {ModalContext} from '../../ModalContext.es';
+import {Autocomplete} from '../../../../../../shared/components/autocomplete/Autocomplete.es';
+import {ModalContext} from '../../../ModalProvider.es';
 
 const Item = ({
 	assigneePerson,
@@ -25,8 +25,8 @@ const Item = ({
 	objectReviewed: {assetTitle, assetType},
 	workflowInstanceId,
 }) => {
-	const {bulkModal, setBulkModal} = useContext(ModalContext);
-	const {reassignedTasks, reassigning, useSameAssignee} = bulkModal;
+	const {bulkReassign, setBulkReassign} = useContext(ModalContext);
+	const {reassignedTasks, reassigning, useSameAssignee} = bulkReassign;
 
 	const {assigneeId} = useMemo(
 		() => reassignedTasks.find(task => task.workflowTaskId === id) || {},
@@ -65,8 +65,8 @@ const Item = ({
 				});
 			}
 
-			setBulkModal({
-				...bulkModal,
+			setBulkReassign({
+				...bulkReassign,
 				reassignedTasks: filteredTasks,
 			});
 		},

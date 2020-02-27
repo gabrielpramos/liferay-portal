@@ -15,14 +15,14 @@ import PromisesResolver from '../../../../../shared/components/promises-resolver
 import {useFilter} from '../../../../../shared/hooks/useFilter.es';
 import {usePaginationState} from '../../../../../shared/hooks/usePaginationState.es';
 import {usePost} from '../../../../../shared/hooks/usePost.es';
-import {InstanceListContext} from '../../../store/InstanceListPageStore.es';
-import {ModalContext} from '../../ModalContext.es';
-import {Body} from './BulkReassignSelectTasksStepBody.es';
-import {Header} from './BulkReassignSelectTasksStepHeader.es';
+import {InstanceListContext} from '../../../InstanceListPageProvider.es';
+import {ModalContext} from '../../ModalProvider.es';
+import {Body} from './SelectTasksStepBody.es';
+import {Header} from './SelectTasksStepHeader.es';
 
-const BulkReassignSelectTasksStep = ({processId, setErrorToast}) => {
+const SelectTasksStep = ({processId, setErrorToast}) => {
 	const {selectAll, selectedItems} = useContext(InstanceListContext);
-	const {singleModal} = useContext(ModalContext);
+	const {setSelectTasks} = useContext(ModalContext);
 
 	const filterKeys = ['processStep', 'assignee'];
 	const prefixKey = 'bulk';
@@ -61,11 +61,7 @@ const BulkReassignSelectTasksStep = ({processId, setErrorToast}) => {
 			params.workflowDefinitionId = processId;
 		}
 		else {
-			const {selectedItem = {}} = singleModal || {};
-
-			params.workflowInstanceIds = selectedItems.length
-				? selectedItems.map(({id}) => id)
-				: [selectedItem.id];
+			params.workflowInstanceIds = selectedItems.map(({id}) => id);
 		}
 
 		return params;
@@ -88,6 +84,7 @@ const BulkReassignSelectTasksStep = ({processId, setErrorToast}) => {
 
 		return [
 			postData().catch(err => {
+				setSelectTasks({selectAll: false, tasks: []});
 				setErrorToast(Liferay.Language.get('your-request-has-failed'));
 
 				return Promise.reject(err);
@@ -97,26 +94,24 @@ const BulkReassignSelectTasksStep = ({processId, setErrorToast}) => {
 	}, [postData, retry]);
 
 	return (
-		<div className="fixed-height modal-metrics-content">
-			<PromisesResolver promises={promises}>
-				<BulkReassignSelectTasksStep.Header
-					filterKeys={prefixedKeys}
-					prefixKey={prefixKey}
-					selectedFilters={selectedFilters}
-					{...data}
-				/>
+		<PromisesResolver promises={promises}>
+			<SelectTasksStep.Header
+				filterKeys={prefixedKeys}
+				prefixKey={prefixKey}
+				selectedFilters={selectedFilters}
+				{...data}
+			/>
 
-				<BulkReassignSelectTasksStep.Body
-					{...data}
-					pagination={paginationState}
-					setRetry={setRetry}
-				/>
-			</PromisesResolver>
-		</div>
+			<SelectTasksStep.Body
+				{...data}
+				pagination={paginationState}
+				setRetry={setRetry}
+			/>
+		</PromisesResolver>
 	);
 };
 
-BulkReassignSelectTasksStep.Body = Body;
-BulkReassignSelectTasksStep.Header = Header;
+SelectTasksStep.Body = Body;
+SelectTasksStep.Header = Header;
 
-export {BulkReassignSelectTasksStep};
+export {SelectTasksStep};

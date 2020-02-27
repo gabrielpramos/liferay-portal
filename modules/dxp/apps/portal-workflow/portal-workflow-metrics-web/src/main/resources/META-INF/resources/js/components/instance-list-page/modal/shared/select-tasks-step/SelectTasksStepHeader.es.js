@@ -17,7 +17,7 @@ import ResultsBar from '../../../../../shared/components/results-bar/ResultsBar.
 import ToolbarWithSelection from '../../../../../shared/components/toolbar-with-selection/ToolbarWithSelection.es';
 import AssigneeFilter from '../../../../filter/AssigneeFilter.es';
 import ProcessStepFilter from '../../../../filter/ProcessStepFilter.es';
-import {ModalContext} from '../../ModalContext.es';
+import {ModalContext} from '../../ModalProvider.es';
 
 const Header = ({
 	filterKeys,
@@ -27,14 +27,13 @@ const Header = ({
 	totalCount,
 }) => {
 	const previousCount = usePrevious(totalCount);
-	const {bulkModal, setBulkModal} = useContext(ModalContext);
+	const {processId, selectTasks, setSelectTasks} = useContext(ModalContext);
 
-	const {processId, selectAll, selectedTasks} = bulkModal;
+	const {selectAll, tasks} = selectTasks;
 
 	const selectedOnPage = useMemo(
-		() =>
-			selectedTasks.filter(item => items.find(({id}) => id === item.id)),
-		[items, selectedTasks]
+		() => tasks.filter(item => items.find(({id}) => id === item.id)),
+		[items, tasks]
 	);
 
 	const allPageSelected =
@@ -47,13 +46,9 @@ const Header = ({
 	};
 
 	const remainingItems = useMemo(() => {
-		return items.filter(
-			item => !selectedTasks.find(({id}) => item.id === id)
-		);
-	}, [items, selectedTasks]);
-	const toolbarActive = useMemo(() => selectedTasks.length > 0, [
-		selectedTasks,
-	]);
+		return items.filter(item => !tasks.find(({id}) => item.id === id));
+	}, [items, tasks]);
+	const toolbarActive = useMemo(() => tasks.length > 0, [tasks]);
 
 	useEffect(() => {
 		if (
@@ -61,42 +56,37 @@ const Header = ({
 			remainingItems.length > 0 &&
 			previousCount === totalCount
 		) {
-			setBulkModal({
-				...bulkModal,
-				selectedTasks: items,
-			});
+			setSelectTasks({...selectTasks, tasks: items});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [items]);
 
 	useEffect(() => {
-		setBulkModal({
-			...bulkModal,
-			selectAll: totalCount > 0 && totalCount === selectedTasks.length,
+		setSelectTasks({
+			...selectTasks,
+			selectAll:
+				totalCount > 0 && totalCount === selectTasks.tasks.length,
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [totalCount]);
 
 	const handleClear = () => {
-		setBulkModal({...bulkModal, selectAll: false, selectedTasks: []});
+		setSelectTasks({selectAll: false, tasks: []});
 	};
 
 	const handleCheck = useCallback(
 		checked => () => {
 			const updatedItems = checked
-				? [...selectedTasks, ...remainingItems]
-				: selectedTasks.filter(
-						item => !items.find(({id}) => item.id === id)
-				  );
+				? [...tasks, ...remainingItems]
+				: tasks.filter(item => !items.find(({id}) => item.id === id));
 
-			setBulkModal({
-				...bulkModal,
+			setSelectTasks({
 				selectAll: totalCount > 0 && totalCount === updatedItems.length,
-				selectedTasks: updatedItems,
+				tasks: updatedItems,
 			});
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[items, selectAll, selectedTasks]
+		[items, selectAll, tasks]
 	);
 
 	return (
@@ -109,14 +99,13 @@ const Header = ({
 				)}
 				handleClear={handleClear}
 				handleSelectAll={() => {
-					setBulkModal({
-						...bulkModal,
+					setSelectTasks({
 						selectAll: true,
-						selectedTasks: items,
+						tasks: items,
 					});
 				}}
 				selectAll={selectAll}
-				selectedCount={selectedTasks.length}
+				selectedCount={tasks.length}
 				totalCount={totalCount}
 			>
 				{!toolbarActive && (
