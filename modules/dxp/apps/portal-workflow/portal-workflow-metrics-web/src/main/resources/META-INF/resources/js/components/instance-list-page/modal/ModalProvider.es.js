@@ -36,7 +36,7 @@ const ModalProvider = ({children, processId}) => {
 
 	const [bulkTransition, setBulkTransition] = useState({
 		transition: {errors: [], onGoing: false},
-		transitionTasks: []
+		transitionTasks: [],
 	});
 
 	const modalState = {

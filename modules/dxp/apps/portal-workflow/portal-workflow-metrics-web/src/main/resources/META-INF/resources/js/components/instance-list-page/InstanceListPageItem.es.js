@@ -183,7 +183,7 @@ const Item = ({totalCount, ...instance}) => {
 const QuickActionMenu = ({disabled, instance}) => {
 	const {setSingleTransition, setVisibleModal} = useContext(ModalContext);
 	const {setSelectedItem, setSelectedItems} = useContext(InstanceListContext);
-	const {transitions = [], taskNames} = instance;
+	const {transitions = [], taskNames = []} = instance;
 
 	const handleClickReassignTask = useCallback(
 		() => {
@@ -250,6 +250,20 @@ const QuickActionMenu = ({disabled, instance}) => {
 		];
 
 		kebabItems.push(...transitionItems);
+	}
+	else if (transitions.length === 0 && taskNames.length > 1) {
+		kebabItems.splice(
+			1,
+			1,
+			{
+				label: transitionLabel,
+				onClick: () => {
+					setSelectedItems([instance]);
+					setVisibleModal('bulkTransition');
+				},
+			},
+			updateDueDateItem
+		);
 	}
 
 	return (
