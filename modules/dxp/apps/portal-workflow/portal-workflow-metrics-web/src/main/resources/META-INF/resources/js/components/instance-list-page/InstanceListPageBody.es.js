@@ -21,6 +21,7 @@ import {ModalContext} from './modal/ModalProvider.es';
 import InstanceDetailsModal from './modal/instance-details/InstanceDetailsModal.es';
 import BulkReassignModal from './modal/reassign/bulk/BulkReassignModal.es';
 import SingleReassignModal from './modal/reassign/single/SingleReassignModal.es';
+import BulkTransitionModal from './modal/transition/bulk/BulkTransitionModal.es';
 import {SingleTransitionModal} from './modal/transition/single/SingleTransitionModal.es';
 import {SingleUpdateDueDateModal} from './modal/update-due-date/SingleUpdateDueDateModal.es';
 
@@ -93,6 +94,8 @@ const Body = ({
 
 			<Body.BulkReassignModal />
 
+			<Body.BulkTransitionModal />
+
 			<Body.InstanceDetailsModal />
 
 			<Body.SingleReassignModal />
@@ -106,6 +109,7 @@ const Body = ({
 
 Body.Table = Table;
 Body.BulkReassignModal = BulkReassignModal;
+Body.BulkTransitionModal = BulkTransitionModal;
 Body.InstanceDetailsModal = InstanceDetailsModal;
 Body.SingleReassignModal = SingleReassignModal;
 Body.SingleTransitionModal = SingleTransitionModal;

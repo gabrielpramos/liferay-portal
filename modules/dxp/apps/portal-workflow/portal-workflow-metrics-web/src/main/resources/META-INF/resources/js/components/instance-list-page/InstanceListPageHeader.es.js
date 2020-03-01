@@ -17,6 +17,7 @@ import filterConstants from '../../shared/components/filter/util/filterConstants
 import QuickActionKebab from '../../shared/components/quick-action-kebab/QuickActionKebab.es';
 import ResultsBar from '../../shared/components/results-bar/ResultsBar.es';
 import ToolbarWithSelection from '../../shared/components/toolbar-with-selection/ToolbarWithSelection.es';
+import {capitalize} from '../../shared/util/util.es';
 import {AppContext} from '../AppContext.es';
 import AssigneeFilter from '../filter/AssigneeFilter.es';
 import ProcessStatusFilter, {
@@ -48,6 +49,13 @@ const Header = ({
 	const compareId = itemId => ({id}) => id === itemId;
 
 	const kebabItems = [
+		{
+			icon: 'arrow-start',
+			label: capitalize(Liferay.Language.get('transition')),
+			onClick: () => {
+				setVisibleModal('bulkTransition');
+			},
+		},
 		{
 			icon: 'change',
 			label: Liferay.Language.get('reassign-task'),
