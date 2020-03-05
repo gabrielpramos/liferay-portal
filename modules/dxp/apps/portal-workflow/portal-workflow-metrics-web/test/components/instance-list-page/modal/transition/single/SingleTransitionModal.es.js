@@ -12,33 +12,43 @@
 import {fireEvent, render} from '@testing-library/react';
 import React, {useState} from 'react';
 
-import {ModalContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalContext.es';
-import {SingleTransitionModal} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/single-transition/SingleTransitionModal.es';
-import {InstanceListContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/store/InstanceListPageStore.es';
-import ToasterProvider from '../../../../../src/main/resources/META-INF/resources/js/shared/components/toaster/ToasterProvider.es';
-import {MockRouter} from '../../../../mock/MockRouter.es';
+import {InstanceListContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPageProvider.es';
+import {ModalContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalProvider.es';
+import {SingleTransitionModal} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/transition/single/SingleTransitionModal.es';
+import ToasterProvider from '../../../../../../src/main/resources/META-INF/resources/js/shared/components/toaster/ToasterProvider.es';
+import {MockRouter} from '../../../../../mock/MockRouter.es';
 
 import '@testing-library/jest-dom/extend-expect';
 
 const ContainerMock = ({children}) => {
+	const [visibleModal, setVisibleModal] = useState('singleTransition');
+
+	const selectedInstance = {
+		assetTitle: 'Blog1',
+		assetType: 'Blogs Entry',
+		assigneeUsers: [{id: 2, name: 'Test Test'}],
+		id: 1,
+		status: 'In Progress',
+		taskNames: ['Review'],
+	};
 	const [singleTransition, setSingleTransition] = useState({
-		selectedItem: {
-			assetTitle: 'Blog1',
-			assetType: 'Blogs Entry',
-			assigneeUsers: [{id: 2, name: 'Test Test'}],
-			id: 1,
-			status: 'In Progress',
-			taskNames: ['Review'],
-		},
 		title: 'Test',
 		transitionName: 'test',
-		visible: true,
 	});
 
 	return (
-		<InstanceListContext.Provider value={{setInstanceId: jest.fn()}}>
+		<InstanceListContext.Provider
+			value={{
+				selectedInstance,
+			}}
+		>
 			<ModalContext.Provider
-				value={{setSingleTransition, singleTransition}}
+				value={{
+					setSingleTransition,
+					setVisibleModal,
+					singleTransition,
+					visibleModal,
+				}}
 			>
 				<ToasterProvider>{children}</ToasterProvider>
 			</ModalContext.Provider>

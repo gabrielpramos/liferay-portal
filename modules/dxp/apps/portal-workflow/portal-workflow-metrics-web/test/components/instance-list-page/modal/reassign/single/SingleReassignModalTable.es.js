@@ -10,20 +10,51 @@
  */
 
 import {cleanup, fireEvent, render} from '@testing-library/react';
-import React from 'react';
+import React, {useState} from 'react';
 
-import {ModalContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalContext.es';
-import {SingleReassignModal} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/single-reassign/SingleReassignModal.es';
-import {MockRouter} from '../../../../mock/MockRouter.es';
+import {InstanceListContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPageProvider.es';
+import {ModalContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalProvider.es';
+import SingleReassignModal from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/reassign/single/SingleReassignModal.es';
+import {MockRouter} from '../../../../../mock/MockRouter.es';
 
-describe('The SingleReassignModalTable component should', () => {
-	afterEach(cleanup);
-
+const ContainerMock = ({children}) => {
 	const clientMock = {
 		get: jest
 			.fn()
 			.mockResolvedValue({data: {items: [{id: 1, name: 'Test'}]}}),
 	};
+	const [selectedItem, setSelectedItem] = useState({
+		assetTitle: 'Blog1',
+		assetType: 'Blogs Entry',
+		assigneeUsers: [{id: 2, name: 'Test Test'}],
+		id: 1,
+		status: 'In Progress',
+		taskNames: ['Review'],
+	});
+	const [selectedItems, setSelectedItems] = useState([]);
+	const [visibleModal, setVisibleModal] = useState('singleReassign');
+
+	return (
+		<MockRouter client={clientMock}>
+			<InstanceListContext.Provider
+				value={{
+					selectedItem,
+					selectedItems,
+					setSelectedItem,
+					setSelectedItems,
+				}}
+			>
+				<ModalContext.Provider value={{setVisibleModal, visibleModal}}>
+					{children}
+				</ModalContext.Provider>
+			</InstanceListContext.Provider>
+		</MockRouter>
+	);
+};
+
+describe('The SingleReassignModalTable component should', () => {
+	afterEach(cleanup);
+
 	const data = {
 		items: [
 			{
@@ -51,25 +82,18 @@ describe('The SingleReassignModalTable component should', () => {
 		taskNames: ['Update'],
 	};
 
-	const setSingleModal = jest.fn();
-	const singleModal = {
-		selectedItem: {...mockItem},
-		visible: true,
-	};
-
 	const setAssigneeId = jest.fn();
 
 	test('Render with statuses Completed and Overdue', () => {
 		const {getByTestId} = render(
-			<MockRouter client={clientMock}>
-				<ModalContext.Provider value={{setSingleModal, singleModal}}>
-					<SingleReassignModal.Table
-						data={data}
-						setAssigneeId={setAssigneeId}
-						{...mockItem}
-					></SingleReassignModal.Table>
-				</ModalContext.Provider>
-			</MockRouter>
+			<SingleReassignModal.Table
+				data={data}
+				setAssigneeId={setAssigneeId}
+				{...mockItem}
+			/>,
+			{
+				wrapper: ContainerMock,
+			}
 		);
 		const singleReassignModalTable = getByTestId(
 			'singleReassignModalTable'
@@ -81,15 +105,14 @@ describe('The SingleReassignModalTable component should', () => {
 
 	test('Render with no taskName', () => {
 		const {getAllByTestId} = render(
-			<MockRouter client={clientMock}>
-				<ModalContext.Provider value={{setSingleModal, singleModal}}>
-					<SingleReassignModal.Table
-						data={data}
-						setAssigneeId={setAssigneeId}
-						{...mockItem}
-					></SingleReassignModal.Table>
-				</ModalContext.Provider>
-			</MockRouter>
+			<SingleReassignModal.Table
+				data={data}
+				setAssigneeId={setAssigneeId}
+				{...mockItem}
+			/>,
+			{
+				wrapper: ContainerMock,
+			}
 		);
 		const singleReassignModalTable = getAllByTestId(
 			'singleReassignModalTable'
@@ -101,15 +124,14 @@ describe('The SingleReassignModalTable component should', () => {
 
 	test('Render with no data', () => {
 		const {getAllByTestId} = render(
-			<MockRouter client={clientMock}>
-				<ModalContext.Provider value={{setSingleModal, singleModal}}>
-					<SingleReassignModal.Table
-						data={{}}
-						setAssigneeId={setAssigneeId}
-						{...mockItem}
-					/>
-				</ModalContext.Provider>
-			</MockRouter>
+			<SingleReassignModal.Table
+				data={{}}
+				setAssigneeId={setAssigneeId}
+				{...mockItem}
+			/>,
+			{
+				wrapper: ContainerMock,
+			}
 		);
 		const singleReassignModalTable = getAllByTestId(
 			'singleReassignModalTable'
@@ -142,15 +164,14 @@ describe('The SingleReassignModalTable component should', () => {
 		};
 
 		const {getAllByTestId} = render(
-			<MockRouter client={clientMock}>
-				<ModalContext.Provider value={{setSingleModal, singleModal}}>
-					<SingleReassignModal.Table
-						data={data}
-						setAssigneeId={setAssigneeId}
-						{...mockItem}
-					/>
-				</ModalContext.Provider>
-			</MockRouter>
+			<SingleReassignModal.Table
+				data={data}
+				setAssigneeId={setAssigneeId}
+				{...mockItem}
+			/>,
+			{
+				wrapper: ContainerMock,
+			}
 		);
 		const singleReassignModalTable = getAllByTestId(
 			'singleReassignModalTable'
