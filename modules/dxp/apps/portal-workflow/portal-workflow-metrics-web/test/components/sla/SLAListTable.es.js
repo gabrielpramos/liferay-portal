@@ -9,47 +9,114 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
-import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
+import React, {useCallback} from 'react';
 
+import SLAListCardContext from '../../../src/main/resources/META-INF/resources/js/components/sla/SLAListCardContext.es';
 import SLAListTable from '../../../src/main/resources/META-INF/resources/js/components/sla/SLAListTable.es';
 import {MockRouter as Router} from '../../mock/MockRouter.es';
 
-test('Should render component', () => {
-	const data = [
-		{
-			dateModified: new Date(
-				Date.UTC('2019', '04', '06', '20', '32', '18')
-			),
-			description: 'Total time to complete the request.',
-			duration: 863999940000,
-			name: 'Total resolution time',
-		},
-		{
-			dateModified: new Date(
-				Date.UTC('2019', '04', '06', '20', '32', '18')
-			),
-			description: 'Total time to complete the request.',
-			duration: 60000,
-			name: 'Total resolution time',
-		},
-		{
-			dateModified: new Date(
-				Date.UTC('2019', '04', '06', '20', '32', '18')
-			),
-			description: 'Total time to complete the request.',
-			duration: 7140000,
-			name: 'Total resolution time',
-		},
-	];
+import '@testing-library/jest-dom/extend-expect';
 
-	const component = renderer.create(
+const items = [
+	{
+		calendarKey: '',
+		dateModified: '2020-03-12T11:37:20Z',
+		description: 'Test Description',
+		duration: 60000,
+		id: 37916,
+		name: 'Test',
+		processId: 37250,
+		startNodeKeys: {
+			nodeKeys: [
+				{
+					executionType: 'begin',
+					id: '37254',
+				},
+			],
+			status: 0,
+		},
+		status: 2,
+		stopNodeKeys: {
+			nodeKeys: [
+				{
+					executionType: 'end',
+					id: '37252',
+				},
+			],
+			status: 0,
+		},
+	},
+	{
+		calendarKey: '',
+		dateModified: '2020-03-12T11:37:20Z',
+		description: '',
+		duration: 60000,
+		id: 37916,
+		name: 'Test',
+		processId: 37250,
+		startNodeKeys: {
+			nodeKeys: [
+				{
+					executionType: 'begin',
+					id: '37254',
+				},
+			],
+			status: 0,
+		},
+		status: 0,
+		stopNodeKeys: {
+			nodeKeys: [
+				{
+					executionType: 'end',
+					id: '37252',
+				},
+			],
+			status: 0,
+		},
+	},
+];
+
+const ContainerMock = ({children}) => {
+	const setConfirmDialogVisibility = useCallback(jest.fn(), []);
+	const removeItem = useCallback(jest.fn(), []);
+
+	const slaContextState = {
+		hideConfirmDialog: () => setConfirmDialogVisibility(null, false),
+		removeItem,
+		showConfirmDialog: (id, callback) =>
+			setConfirmDialogVisibility(id, true, callback),
+	};
+
+	return (
 		<Router>
-			<SLAListTable items={data} />
+			<SLAListCardContext.Provider value={slaContextState}>
+				{children}
+			</SLAListCardContext.Provider>
 		</Router>
 	);
+};
 
-	const tree = component.toJSON();
+describe('', () => {
+	let getAllByTestId;
 
-	expect(tree).toMatchSnapshot();
+	beforeAll(() => {
+		const component = render(<SLAListTable items={items} />, {
+			wrapper: ContainerMock,
+		});
+
+		getAllByTestId = component.getAllByTestId;
+	});
+
+	test('Should render components Table and Item filled with data on items', () => {
+		const SLAName = getAllByTestId('SLAName');
+		const SLADescription = getAllByTestId('SLADescription');
+		const SLADuration = getAllByTestId('SLADuration');
+		const SLADateModified = getAllByTestId('SLADateModified');
+
+		expect(SLAName[0]).toHaveTextContent('Test');
+		expect(SLADescription[0]).toHaveTextContent('Test Description');
+		expect(SLADuration[0]).toHaveTextContent('1m');
+		expect(SLADateModified[0]).toHaveTextContent('Mar 12');
+	});
 });
