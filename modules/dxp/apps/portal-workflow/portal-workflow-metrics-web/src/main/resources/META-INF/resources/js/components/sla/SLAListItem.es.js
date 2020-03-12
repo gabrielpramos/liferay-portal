@@ -9,111 +9,114 @@
  * distribution rights of the Software.
  */
 
+import ClayButton from '@clayui/button';
+import ClayDropDown from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
-import React from 'react';
+import ClayTable from '@clayui/table';
+import React, {useCallback, useContext, useState} from 'react';
 
 import {ChildLink} from '../../shared/components/router/routerWrapper.es';
 import {formatDuration} from '../../shared/util/duration.es';
 import moment from '../../shared/util/moment.es';
 import SLAListCardContext from './SLAListCardContext.es';
 
-class SLAListItem extends React.Component {
-	showConfirmDialog() {
-		const {id} = this.props;
+const SLAListItem = ({
+	dateModified,
+	description,
+	duration,
+	id,
+	name,
+	processId,
+	status,
+}) => {
+	const [active, setActive] = useState(false);
+	const {showConfirmDialog} = useContext(SLAListCardContext);
+	const deleteHandler = useCallback(() => {
+		showConfirmDialog(id);
+		setActive(false);
+	}, [id, showConfirmDialog]);
 
-		this.context.showConfirmDialog(id);
-	}
+	const blocked = status === 2;
+	const durationString = formatDuration(duration);
 
-	render() {
-		const {
-			dateModified,
-			description,
-			duration,
-			id,
-			name,
-			processId,
-			status,
-		} = this.props;
+	const blockedStatusClass = blocked ? 'text-danger' : '';
 
-		const blocked = status === 2;
-		const durationString = formatDuration(duration);
+	const statusText = blocked
+		? Liferay.Language.get('blocked')
+		: Liferay.Language.get('running');
 
-		const blockedStatusClass = blocked ? 'text-danger' : '';
+	return (
+		<ClayTable.Row>
+			<ClayTable.Cell data-testid="SLAName">
+				<div className="table-list-title">
+					{blocked && (
+						<ClayIcon
+							className="text-danger"
+							symbol="exclamation-full"
+						/>
+					)}{' '}
+					<ChildLink to={`/sla/edit/${processId}/${id}`}>
+						{name}
+					</ChildLink>
+				</div>
+			</ClayTable.Cell>
 
-		const statusText = blocked
-			? Liferay.Language.get('blocked')
-			: Liferay.Language.get('running');
+			<ClayTable.Cell data-testid="SLADescription">
+				{description}
+			</ClayTable.Cell>
 
-		return (
-			<tr>
-				<td className="table-cell-expand">
-					<div className="table-list-title">
-						{blocked && (
-							<ClayIcon
-								className="text-danger"
-								symbol="exclamation-full"
-							/>
-						)}{' '}
-						<ChildLink to={`/sla/edit/${processId}/${id}`}>
-							{name}
-						</ChildLink>
-					</div>
-				</td>
+			<ClayTable.Cell className={blockedStatusClass}>
+				{statusText}
+			</ClayTable.Cell>
 
-				<td>{description}</td>
+			<ClayTable.Cell data-testid="SLADuration">
+				{durationString}
+			</ClayTable.Cell>
 
-				<td className={blockedStatusClass}>{statusText}</td>
+			<ClayTable.Cell data-testid="SLADateModified">
+				{moment
+					.utc(dateModified)
+					.format(Liferay.Language.get('mmm-dd'))}
+			</ClayTable.Cell>
 
-				<td>{durationString}</td>
-
-				<td>
-					{moment
-						.utc(dateModified)
-						.format(Liferay.Language.get('mmm-dd'))}
-				</td>
-
-				<td className="actions">
-					<div className="dropdown dropdown-action">
-						<a
-							aria-expanded="false"
-							aria-haspopup="true"
-							className="component-action dropdown-toggle"
-							data-toggle="liferay-dropdown"
-							href="#1"
-							id="dropDownAction"
-							role="button"
+			<ClayTable.Cell className="actions">
+				<ClayDropDown
+					active={active}
+					onActiveChange={setActive}
+					trigger={
+						<ClayButton
+							className="component-action"
+							data-testid="slaDropDownButton"
+							displayType="unstyled"
+							monospaced
 						>
 							<ClayIcon symbol="ellipsis-v" />
-						</a>
+						</ClayButton>
+					}
+				>
+					<ClayDropDown.ItemList>
+						<li>
+							<ChildLink
+								className="dropdown-item"
+								to={`/sla/edit/${processId}/${id}`}
+							>
+								{Liferay.Language.get('edit')}
+							</ChildLink>
+						</li>
+						<li>
+							<ClayButton
+								className="dropdown-item"
+								data-testid="deleteButton"
+								onClick={deleteHandler}
+							>
+								{Liferay.Language.get('delete')}
+							</ClayButton>
+						</li>
+					</ClayDropDown.ItemList>
+				</ClayDropDown>
+			</ClayTable.Cell>
+		</ClayTable.Row>
+	);
+};
 
-						<ul
-							aria-labelledby=""
-							className="dropdown-menu dropdown-menu-right"
-						>
-							<li>
-								<ChildLink
-									className="dropdown-item"
-									to={`/sla/edit/${processId}/${id}`}
-								>
-									{Liferay.Language.get('edit')}
-								</ChildLink>
-							</li>
-
-							<li>
-								<button
-									className="dropdown-item"
-									onClick={this.showConfirmDialog.bind(this)}
-								>
-									{Liferay.Language.get('delete')}
-								</button>
-							</li>
-						</ul>
-					</div>
-				</td>
-			</tr>
-		);
-	}
-}
-
-SLAListItem.contextType = SLAListCardContext;
 export default SLAListItem;

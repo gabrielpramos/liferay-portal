@@ -9,101 +9,80 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import ClayTable from '@clayui/table';
+import React, {useMemo} from 'react';
 
 import SLAListItem from './SLAListItem.es';
 
-export default class SLAListTable extends React.Component {
-	render() {
-		const {items} = this.props;
+const SLAListTable = ({items}) => {
+	const blockedItems = useMemo(
+		() => items.filter(({status}) => status === 2),
+		[items]
+	);
 
-		const blockedItems = items.filter(({status}) => status === 2);
+	const showBlockedDivider = blockedItems.length > 0;
+	const unblockedItems = useMemo(
+		() => items.filter(({status}) => status !== 2),
+		[items]
+	);
 
-		const showBlockedDivider = !!blockedItems.length;
-		const unblockedItems = items.filter(({status}) => status !== 2);
+	const showRunningDivider = showBlockedDivider && unblockedItems.length > 0;
 
-		const showRunningDivider =
-			showBlockedDivider && !!unblockedItems.length;
+	return (
+		<ClayTable>
+			<ClayTable.Head>
+				<ClayTable.Row>
+					<ClayTable.Cell headingCell style={{width: '27%'}}>
+						{Liferay.Language.get('sla-name')}
+					</ClayTable.Cell>
 
-		return (
-			<div className="table-responsive">
-				<table className="show-quick-actions-on-hover table table-autofit table-heading-nowrap table-hover table-list">
-					<thead>
-						<tr>
-							<th
-								className="table-cell-expand table-head-title"
-								style={{width: '40%'}}
-							>
-								{Liferay.Language.get('sla-name')}
-							</th>
+					<ClayTable.Cell headingCell style={{width: '24%'}}>
+						{Liferay.Language.get('description')}
+					</ClayTable.Cell>
 
-							<th
-								className="table-cell-expand table-head-title"
-								style={{width: '35%'}}
-							>
-								{Liferay.Language.get('description')}
-							</th>
+					<ClayTable.Cell headingCell style={{width: '17%'}}>
+						{Liferay.Language.get('status')}
+					</ClayTable.Cell>
 
-							<th
-								className="table-cell-expand table-head-title"
-								style={{width: '15%'}}
-							>
-								{Liferay.Language.get('status')}
-							</th>
+					<ClayTable.Cell headingCell style={{width: '17%'}}>
+						{Liferay.Language.get('duration')}
+					</ClayTable.Cell>
 
-							<th
-								className="table-cell-expand table-head-title"
-								style={{width: '25%'}}
-							>
-								{Liferay.Language.get('duration')}
-							</th>
+					<ClayTable.Cell headingCell style={{width: '25%'}}>
+						{Liferay.Language.get('last-modified')}
+					</ClayTable.Cell>
 
-							<th
-								className="table-cell-expand table-head-title"
-								style={{width: '25%'}}
-							>
-								{Liferay.Language.get('last-modified')}
-							</th>
+					<ClayTable.Cell />
+				</ClayTable.Row>
+			</ClayTable.Head>
 
-							<th />
-						</tr>
-					</thead>
+			<ClayTable.Body>
+				{showBlockedDivider && (
+					<tr className="table-divider">
+						<td colSpan="9">
+							{Liferay.Language.get('blocked').toUpperCase()}
+						</td>
+					</tr>
+				)}
 
-					<tbody>
-						{showBlockedDivider && (
-							<tr className="table-divider">
-								<td colSpan="9">
-									{Liferay.Language.get(
-										'blocked'
-									).toUpperCase()}
-								</td>
-							</tr>
-						)}
+				{blockedItems.map((sla, index) => (
+					<SLAListItem {...sla} key={`blocked_${index}`} status={2} />
+				))}
 
-						{blockedItems.map((sla, index) => (
-							<SLAListItem
-								{...sla}
-								key={`blocked_${index}`}
-								status={2}
-							/>
-						))}
+				{showRunningDivider && (
+					<tr className="table-divider">
+						<td colSpan="9">
+							{Liferay.Language.get('running').toUpperCase()}
+						</td>
+					</tr>
+				)}
 
-						{showRunningDivider && (
-							<tr className="table-divider">
-								<td colSpan="9">
-									{Liferay.Language.get(
-										'running'
-									).toUpperCase()}
-								</td>
-							</tr>
-						)}
+				{unblockedItems.map((sla, index) => (
+					<SLAListItem {...sla} key={`unblocked_${index}`} />
+				))}
+			</ClayTable.Body>
+		</ClayTable>
+	);
+};
 
-						{unblockedItems.map((sla, index) => (
-							<SLAListItem {...sla} key={`unblocked_${index}`} />
-						))}
-					</tbody>
-				</table>
-			</div>
-		);
-	}
-}
+export default SLAListTable;
