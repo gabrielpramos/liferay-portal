@@ -168,7 +168,7 @@ public class AssigneeUserResourceImpl
 		BooleanQuery tokensBooleanQuery = _queries.booleanQuery();
 
 		tokensBooleanQuery.addFilterQueryClauses(
-			_queries.term("_index", "workflow-metrics-tokens"));
+			_queries.term("_index", "workflow-metrics-tasks"));
 		tokensBooleanQuery.addMustQueryClauses(
 			_createTokensBooleanQuery(
 				completed, dateEnd, dateStart, processId, taskKeys, userIds));
@@ -207,7 +207,7 @@ public class AssigneeUserResourceImpl
 		BooleanQuery booleanQuery = _queries.booleanQuery();
 
 		booleanQuery.addFilterQueryClauses(
-			_queries.term("_index", "workflow-metrics-tokens"));
+			_queries.term("_index", "workflow-metrics-tasks"));
 
 		return booleanQuery.addMustNotQueryClauses(_queries.term("tokenId", 0));
 	}
@@ -339,7 +339,7 @@ public class AssigneeUserResourceImpl
 		searchSearchRequest.addAggregation(termsAggregation);
 
 		searchSearchRequest.setIndexNames(
-			"workflow-metrics-sla-task-results", "workflow-metrics-tokens");
+			"workflow-metrics-sla-task-results", "workflow-metrics-tasks");
 		searchSearchRequest.setQuery(
 			_createBooleanQuery(
 				completed, dateEnd, dateStart, processId, taskKeys, userIds));
@@ -376,7 +376,7 @@ public class AssigneeUserResourceImpl
 
 		searchSearchRequest.addAggregation(termsAggregation);
 
-		searchSearchRequest.setIndexNames("workflow-metrics-tokens");
+		searchSearchRequest.setIndexNames("workflow-metrics-tasks");
 		searchSearchRequest.setQuery(
 			_createTokensBooleanQuery(
 				completed, dateEnd, dateStart, processId, taskKeys, userIds));
@@ -413,7 +413,7 @@ public class AssigneeUserResourceImpl
 		searchSearchRequest.addAggregation(
 			_aggregations.cardinality(
 				"assigneeId", completed ? "completionUserId" : "assigneeId"));
-		searchSearchRequest.setIndexNames("workflow-metrics-tokens");
+		searchSearchRequest.setIndexNames("workflow-metrics-tasks");
 		searchSearchRequest.setQuery(
 			_createTokensBooleanQuery(
 				completed, dateEnd, dateStart, processId, taskKeys, userIds));
