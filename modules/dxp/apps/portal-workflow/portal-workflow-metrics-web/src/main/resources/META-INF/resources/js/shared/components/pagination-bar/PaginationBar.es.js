@@ -17,13 +17,13 @@ import {AppContext} from '../../../components/AppContext.es';
 import {useRouter} from '../../hooks/useRouter.es';
 
 const PaginationBar = ({
-	routing = true,
 	page,
 	pageBuffer,
 	pageSize,
 	totalCount,
 	setPage = () => {},
 	setPageSize = () => {},
+	withoutRouting,
 }) => {
 	const {deltaValues} = useContext(AppContext);
 	const {
@@ -49,7 +49,7 @@ const PaginationBar = ({
 
 	const handleChangePageSize = useCallback(
 		newPageSize => {
-			if (routing) {
+			if (!withoutRouting) {
 				const pathname = pathToRegexp.compile(path)({
 					...params,
 					page: 1,
@@ -69,7 +69,7 @@ const PaginationBar = ({
 
 	const handleChangePage = useCallback(
 		newPage => {
-			if (routing) {
+			if (!withoutRouting) {
 				const pathname = pathToRegexp.compile(path)({
 					...params,
 					page: newPage,
@@ -89,8 +89,6 @@ const PaginationBar = ({
 		return <></>;
 	}
 
-	const spritemap = `${Liferay.ThemeDisplay.getPathThemeImages()}/lexicon/icons.svg`;
-
 	return (
 		<ClayPaginationBarWithBasicItems
 			activeDelta={Number(pageSize)}
@@ -100,7 +98,6 @@ const PaginationBar = ({
 			labels={labels}
 			onDeltaChange={handleChangePageSize}
 			onPageChange={handleChangePage}
-			spritemap={spritemap}
 			totalItems={Number(totalCount)}
 		/>
 	);
