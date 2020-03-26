@@ -134,6 +134,8 @@ const SingleUpdateDueDateModal = () => {
 				}),
 			];
 		}
+
+		return [];
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchData, retry, visibleModal]);
 

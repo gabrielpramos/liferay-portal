@@ -25,7 +25,7 @@ const Column = ({align, children, className = '', weight}) => {
 	return `
 		<td>
 			<div class="${CLASSNAME}-content ${classes}">
-				${children}					
+			${children}
 			</div>
 		</td>
 		`;

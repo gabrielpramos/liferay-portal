@@ -14,7 +14,7 @@ import {useMemo} from 'react';
 import filterConstants from '../util/filterConstants.es';
 
 const useFiltersConstants = filterKeys => {
-	const constants = useMemo(() => {
+	return useMemo(() => {
 		const keys = [];
 		const pinnedValues = [];
 		const titles = [];
@@ -30,8 +30,6 @@ const useFiltersConstants = filterKeys => {
 		return {keys, pinnedValues, titles};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [filterKeys]);
-
-	return constants;
 };
 
 export {useFiltersConstants};

@@ -44,7 +44,7 @@ const Clear = ({filters = [], filterKeys = [], withoutRouteParams}) => {
 		});
 
 		filterKeys.forEach(key => {
-			filterState[key] = undefined;
+			delete filterState[key];
 		});
 
 		dispatch(filterState);
