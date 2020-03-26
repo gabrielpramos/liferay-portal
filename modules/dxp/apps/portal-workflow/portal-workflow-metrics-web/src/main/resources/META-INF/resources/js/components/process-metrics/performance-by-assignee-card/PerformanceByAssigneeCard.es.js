@@ -107,7 +107,7 @@ const PerformanceByAssigneeCard = ({routeParams}) => {
 				/>
 
 				<PerformanceByAssigneeCard.Body
-					data={data}
+					{...data}
 					filtered={!!taskKeys}
 				/>
 

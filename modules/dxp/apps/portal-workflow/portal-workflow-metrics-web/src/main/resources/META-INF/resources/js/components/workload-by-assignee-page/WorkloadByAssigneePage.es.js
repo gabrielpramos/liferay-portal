@@ -33,8 +33,6 @@ const WorkloadByAssigneePage = ({query, routeParams}) => {
 		selectedFilters,
 	} = useFilter({filterKeys});
 
-	const filtered = search || selectedFilters.length > 0;
-
 	const {data, postData} = usePost({
 		body: {
 			keywords: search,
@@ -57,8 +55,8 @@ const WorkloadByAssigneePage = ({query, routeParams}) => {
 			/>
 
 			<WorkloadByAssigneePage.Body
-				data={data}
-				filtered={filtered}
+				{...data}
+				filtered={search || selectedFilters.length > 0}
 				processId={processId}
 				taskKeys={taskKeys}
 			/>

@@ -14,9 +14,8 @@ import ClayButton from '@clayui/button';
 import ClayModal, {useModal} from '@clayui/modal';
 import React, {useCallback, useContext, useMemo, useState} from 'react';
 
-import EmptyState from '../../../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../../../shared/components/content-view/ContentView.es';
 import RetryButton from '../../../../shared/components/list/RetryButton.es';
-import LoadingState from '../../../../shared/components/loading/LoadingState.es';
 import PromisesResolver from '../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {useToaster} from '../../../../shared/components/toaster/hooks/useToaster.es';
 import {useFetch} from '../../../../shared/hooks/useFetch.es';
@@ -24,25 +23,6 @@ import {usePost} from '../../../../shared/hooks/usePost.es';
 import {InstanceListContext} from '../../InstanceListPageProvider.es';
 import {ModalContext} from '../ModalProvider.es';
 import UpdateDueDateStep from './UpdateDueDateStep.es';
-
-const ErrorView = ({onClick}) => {
-	return (
-		<EmptyState
-			actionButton={<RetryButton onClick={onClick} />}
-			className="border-0 pb-5 pt-5 sheet"
-			hideAnimation={true}
-			message={Liferay.Language.get(
-				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-			)}
-			messageClassName="small"
-			type="error"
-		/>
-	);
-};
-
-const LoadingView = () => {
-	return <LoadingState className="border-0 pb-6 pt-7" />;
-};
 
 const SingleUpdateDueDateModal = () => {
 	const [errorToast, setErrorToast] = useState(false);
@@ -137,6 +117,22 @@ const SingleUpdateDueDateModal = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchData, retry, visibleModal]);
 
+	const statesProps = useMemo(
+		() => ({
+			errorProps: {
+				actionButton: (
+					<RetryButton onClick={() => setRetry(retry => retry + 1)} />
+				),
+				className: 'mt-5 py-5',
+				hideAnimation: true,
+				message: Liferay.Language.get('unable-to-retrieve-data'),
+				messageClassName: 'small',
+			},
+			loadingProps: {className: 'mt-3 py-7'},
+		}),
+		[setRetry]
+	);
+
 	return (
 		<>
 			<PromisesResolver promises={promises}>
@@ -161,21 +157,9 @@ const SingleUpdateDueDateModal = () => {
 							</ClayAlert>
 						)}
 
-						<PromisesResolver.Pending>
-							<LoadingView />
-						</PromisesResolver.Pending>
-
-						<PromisesResolver.Rejected>
-							<ErrorView
-								onClick={() => {
-									setRetry(retry => retry + 1);
-								}}
-							/>
-						</PromisesResolver.Rejected>
-
-						<PromisesResolver.Resolved>
+						<ContentView {...statesProps}>
 							<UpdateDueDateStep dueDate={dateDue} />
-						</PromisesResolver.Resolved>
+						</ContentView>
 
 						<ClayModal.Footer
 							last={
