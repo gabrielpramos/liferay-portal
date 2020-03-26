@@ -13,26 +13,26 @@ import React from 'react';
 
 const EmptyState = ({
 	actionButton,
-	className = 'border-1',
+	className = 'pb-5 pt-6 sheet',
+	filtered,
+	filteredMessage = Liferay.Language.get('no-results-were-found'),
 	hideAnimation,
-	message,
+	message = Liferay.Language.get('there-is-no-data-at-the-moment'),
 	messageClassName,
 	title,
-	type = '',
 }) => {
-	const classNameType =
-		type === 'not-found'
-			? 'taglib-empty-search-result-message-header'
-			: 'taglib-empty-result-message-header';
+	const animationClassName = `taglib-empty-${
+		filtered ? 'search-' : ''
+	}result-message-header`;
 
 	return (
 		<div
-			className={`${className} pb-5 pt-6 sheet taglib-empty-result-message`}
+			className={`${className} taglib-empty-result-message`}
 			data-testid="emptyState"
 		>
 			{!hideAnimation && (
 				<div
-					className={classNameType}
+					className={animationClassName}
 					data-testid="emptyStateAnimation"
 				/>
 			)}
@@ -45,7 +45,7 @@ const EmptyState = ({
 
 			<div className="sheet-text text-center">
 				<p className={messageClassName} data-testid="emptyStateMsg">
-					{message}
+					{filtered ? filteredMessage : message}
 				</p>
 
 				{actionButton}
