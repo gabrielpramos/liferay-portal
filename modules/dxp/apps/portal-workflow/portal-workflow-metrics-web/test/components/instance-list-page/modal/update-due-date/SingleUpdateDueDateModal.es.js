@@ -92,9 +92,7 @@ describe('The SingleUpdateDueDateModal component should', () => {
 
 		expect(alertError).toHaveTextContent('your-request-has-failed');
 		expect(retryBtn).toHaveTextContent('retry');
-		expect(emptyState.children[0]).toHaveTextContent(
-			'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-		);
+		expect(emptyState).toHaveTextContent('unable-to-retrieve-data');
 
 		fireEvent.click(retryBtn);
 	});

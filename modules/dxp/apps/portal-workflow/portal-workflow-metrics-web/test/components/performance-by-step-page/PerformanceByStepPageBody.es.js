@@ -53,7 +53,7 @@ describe('The performance by step page body should', () => {
 	beforeEach(() => {
 		const renderResult = render(
 			<PerformanceByStepPage.Body
-				data={{items, totalCount: items.length}}
+				{...{items, totalCount: items.length}}
 				page="1"
 				pageSize="5"
 			/>,
@@ -75,7 +75,9 @@ describe('The subcomponents from workload by assignee page body should', () => {
 	afterEach(cleanup);
 
 	test('Be rendered with empty view and no content message', async () => {
-		const {getByTestId} = render(<PerformanceByStepPage.Body.Empty />);
+		const {getByTestId} = render(
+			<PerformanceByStepPage.Body items={[]} totalCount={0} />
+		);
 
 		const emptyStateDiv = getByTestId('emptyState');
 
@@ -86,7 +88,7 @@ describe('The subcomponents from workload by assignee page body should', () => {
 
 	test('Be rendered with empty view and no results message', async () => {
 		const {getByTestId} = render(
-			<PerformanceByStepPage.Body.Empty filtered={true} />
+			<PerformanceByStepPage.Body filtered items={[]} totalCount={0} />
 		);
 
 		const emptyStateDiv = getByTestId('emptyState');
@@ -94,23 +96,5 @@ describe('The subcomponents from workload by assignee page body should', () => {
 		expect(emptyStateDiv.children[1].children[0].innerHTML).toBe(
 			'no-results-were-found'
 		);
-	});
-
-	test('Be rendered with error view and the expected message', () => {
-		const {getByTestId} = render(<PerformanceByStepPage.Body.Error />);
-
-		const emptyStateDiv = getByTestId('emptyState');
-
-		expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
-			'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-		);
-	});
-
-	test('Be rendered with loading view', async () => {
-		const {getByTestId} = render(<PerformanceByStepPage.Body.Loading />);
-
-		const loadingStateDiv = getByTestId('loadingState');
-
-		expect(loadingStateDiv).not.toBeNull();
 	});
 });

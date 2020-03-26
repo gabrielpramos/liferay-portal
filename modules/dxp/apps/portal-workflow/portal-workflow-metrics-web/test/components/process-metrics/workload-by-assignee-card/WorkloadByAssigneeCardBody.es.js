@@ -9,6 +9,7 @@
  * distribution rights of the Software.
  */
 
+import '@testing-library/jest-dom/extend-expect';
 import {cleanup, render, waitForElement} from '@testing-library/react';
 import React from 'react';
 
@@ -48,7 +49,7 @@ describe('The workload by assignee body should', () => {
 			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="onTime"
-					data={data}
+					{...data}
 					processId={12345}
 				/>,
 				{wrapper}
@@ -84,7 +85,7 @@ describe('The workload by assignee body should', () => {
 			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="total"
-					data={{items: [items[0]], totalCount: 1}}
+					{...{items: [items[0]], totalCount: 1}}
 					processId={12345}
 					processStepKey="review"
 				/>,
@@ -118,7 +119,7 @@ describe('The workload by assignee body should', () => {
 			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="onTime"
-					data={{items: [items[1]], totalCount: 1}}
+					{...{items: [items[1]], totalCount: 1}}
 					processId={12345}
 					processStepKey="update"
 				/>,
@@ -154,8 +155,9 @@ describe('The workload by assignee body should', () => {
 			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="overdue"
-					data={{items: [], totalCount: 0}}
+					items={[]}
 					processId={12345}
+					totalCount={0}
 				/>,
 				{wrapper}
 			);
@@ -164,8 +166,7 @@ describe('The workload by assignee body should', () => {
 		});
 
 		test('Be rendered with a empty state', async () => {
-			const emptyStateDiv = getByTestId('emptyState');
-			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+			expect(getByTestId('emptyState')).toHaveTextContent(
 				'there-are-no-assigned-items-overdue-at-the-moment'
 			);
 		});
@@ -177,9 +178,9 @@ describe('The workload by assignee body should', () => {
 		beforeAll(() => {
 			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
-					currentTab="total"
-					data={{items: [], totalCount: 0}}
+					items={[]}
 					processId={12345}
+					totalCount={0}
 				/>,
 				{wrapper}
 			);
@@ -188,8 +189,7 @@ describe('The workload by assignee body should', () => {
 		});
 
 		test('Be rendered with a empty state', async () => {
-			const emptyStateDiv = getByTestId('emptyState');
-			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+			expect(getByTestId('emptyState')).toHaveTextContent(
 				'there-are-no-items-assigned-to-users-at-the-moment'
 			);
 		});
@@ -202,8 +202,9 @@ describe('The workload by assignee body should', () => {
 			const renderResult = render(
 				<WorkloadByAssigneeCard.Body
 					currentTab="onTime"
-					data={{items: [], totalCount: 0}}
+					items={[]}
 					processId={12345}
+					totalCount={0}
 				/>,
 				{wrapper}
 			);
@@ -211,9 +212,8 @@ describe('The workload by assignee body should', () => {
 			getByTestId = renderResult.getByTestId;
 		});
 
-		test('Be rendered with a empty state', async () => {
-			const emptyStateDiv = getByTestId('emptyState');
-			expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
+		test('Be rendered with a empty state', () => {
+			expect(getByTestId('emptyState')).toHaveTextContent(
 				'there-are-no-assigned-items-on-time-at-the-moment'
 			);
 		});

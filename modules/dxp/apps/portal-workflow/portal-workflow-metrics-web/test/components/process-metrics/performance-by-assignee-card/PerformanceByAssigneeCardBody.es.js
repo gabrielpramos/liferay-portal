@@ -50,7 +50,7 @@ describe('The performance by assignee body component with data should', () => {
 
 	beforeEach(() => {
 		const renderResult = render(
-			<PerformanceByAssigneeCard.Body data={data} />,
+			<PerformanceByAssigneeCard.Body {...data} />,
 			{wrapper}
 		);
 
@@ -104,7 +104,7 @@ describe('The performance by assignee body component without data should', () =>
 
 	beforeEach(() => {
 		const renderResult = render(
-			<PerformanceByAssigneeCard.Body data={data} />,
+			<PerformanceByAssigneeCard.Body {...data} />,
 			{wrapper}
 		);
 
