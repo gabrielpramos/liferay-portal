@@ -13,60 +13,37 @@ import ClayIcon from '@clayui/icon';
 import React, {useContext} from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import EmptyState from '../../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../../shared/components/content-view/ContentView.es';
 import ReloadButton from '../../../shared/components/list/ReloadButton.es';
-import LoadingState from '../../../shared/components/loading/LoadingState.es';
-import PromisesResolver from '../../../shared/components/promises-resolver/PromisesResolver.es';
 import {ChildLink} from '../../../shared/components/router/routerWrapper.es';
 import {AppContext} from '../../AppContext.es';
 import {Table} from './PerformanceByStepCardTable.es';
 
-const Body = ({data}) => {
-	return (
-		<>
-			<PromisesResolver.Pending>
-				<Body.Loading />
-			</PromisesResolver.Pending>
-
-			<PromisesResolver.Resolved>
-				<Panel.Body>
-					{data.totalCount ? (
-						<Body.Table items={data.items} />
-					) : (
-						<Body.Empty />
-					)}
-				</Panel.Body>
-			</PromisesResolver.Resolved>
-
-			<PromisesResolver.Rejected>
-				<Body.Error />
-			</PromisesResolver.Rejected>
-		</>
-	);
-};
-
-const EmptyView = () => {
-	return (
-		<EmptyState
-			className="border-0 mt-8"
-			hideAnimation={true}
-			message={Liferay.Language.get('there-is-no-data-at-the-moment')}
-			messageClassName="small"
-		/>
-	);
-};
-
-const ErrorView = () => {
-	return (
-		<EmptyState
-			actionButton={<ReloadButton />}
-			className="border-0 mt-7"
-			hideAnimation={true}
-			message={Liferay.Language.get(
+const Body = ({items, totalCount}) => {
+	const statesProps = {
+		emptyProps: {
+			className: 'mt-5 py-8',
+			hideAnimation: true,
+			messageClassName: 'small',
+		},
+		errorProps: {
+			actionButton: <ReloadButton />,
+			className: 'mt-4 py-8',
+			hideAnimation: true,
+			message: Liferay.Language.get(
 				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-			)}
-			messageClassName="small"
-		/>
+			),
+			messageClassName: 'small',
+		},
+		loadingProps: {className: 'mt-4 py-8'},
+	};
+
+	return (
+		<Panel.Body>
+			<ContentView {...statesProps}>
+				{totalCount > 0 && <Body.Table items={items} />}
+			</ContentView>
+		</Panel.Body>
 	);
 };
 
@@ -105,13 +82,6 @@ const Footer = ({processId, timeRange, totalCount}) => {
 	);
 };
 
-const LoadingView = () => {
-	return <LoadingState className="border-0 mt-8 pb-5 pt-5 sheet" />;
-};
-
-Body.Empty = EmptyView;
-Body.Error = ErrorView;
-Body.Loading = LoadingView;
 Body.Table = Table;
 
 export {Body, Footer};

@@ -14,10 +14,10 @@ import React, {useContext, useMemo, useState} from 'react';
 import PromisesResolver from '../../../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {usePost} from '../../../../../../shared/hooks/usePost.es';
 import {ModalContext} from '../../../ModalProvider.es';
-import {Body} from './BulkReassignSelectAssigneesStepBody.es';
-import {Header} from './BulkReassignSelectAssigneesStepHeader.es';
+import {Body} from './SelectAssigneesStepBody.es';
+import {Header} from './SelectAssigneesStepHeader.es';
 
-const BulkReassignSelectAssigneesStep = ({setErrorToast}) => {
+const SelectAssigneesStep = ({setErrorToast}) => {
 	const {
 		selectTasks: {tasks},
 	} = useContext(ModalContext);
@@ -55,10 +55,10 @@ const BulkReassignSelectAssigneesStep = ({setErrorToast}) => {
 		<div className="fixed-height modal-metrics-content">
 			<PromisesResolver promises={promises}>
 				<PromisesResolver.Resolved>
-					<BulkReassignSelectAssigneesStep.Header data={data} />
+					<SelectAssigneesStep.Header data={data} />
 				</PromisesResolver.Resolved>
 
-				<BulkReassignSelectAssigneesStep.Body
+				<SelectAssigneesStep.Body
 					data={data}
 					setRetry={setRetry}
 					tasks={tasks}
@@ -68,7 +68,7 @@ const BulkReassignSelectAssigneesStep = ({setErrorToast}) => {
 	);
 };
 
-BulkReassignSelectAssigneesStep.Body = Body;
-BulkReassignSelectAssigneesStep.Header = Header;
+SelectAssigneesStep.Body = Body;
+SelectAssigneesStep.Header = Header;
 
-export default BulkReassignSelectAssigneesStep;
+export default SelectAssigneesStep;

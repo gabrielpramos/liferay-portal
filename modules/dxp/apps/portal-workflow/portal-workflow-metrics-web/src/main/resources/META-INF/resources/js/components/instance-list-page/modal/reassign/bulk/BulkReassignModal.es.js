@@ -20,7 +20,7 @@ import {InstanceListContext} from '../../../InstanceListPageProvider.es';
 import {ModalContext} from '../../ModalProvider.es';
 import SelectTasksStep from '../../shared/select-tasks-step/SelectTasksStep.es';
 import {useFetchTasks} from '../../shared/select-tasks-step/hooks/useFetchTasks.es';
-import BulkReassignSelectAssigneesStep from './select-assignees-step/BulkReassignSelectAssigneesStep.es';
+import SelectAssigneesStep from './select-assignees-step/SelectAssigneesStep.es';
 
 const BulkReassignModal = () => {
 	const {
@@ -150,7 +150,7 @@ const BulkReassignModal = () => {
 						disabled: reassigning,
 						handle: onClose,
 					},
-					component: BulkReassignSelectAssigneesStep,
+					component: SelectAssigneesStep,
 					nextBtn: {
 						disabled:
 							reassigning ||

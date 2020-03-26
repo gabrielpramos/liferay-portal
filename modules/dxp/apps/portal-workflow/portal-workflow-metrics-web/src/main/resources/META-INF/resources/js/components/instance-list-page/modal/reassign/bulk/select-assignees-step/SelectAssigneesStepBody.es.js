@@ -12,43 +12,50 @@
 import ClayModal from '@clayui/modal';
 import React, {useMemo} from 'react';
 
-import ContentView from '../../../../../shared/components/content-view/ContentView.es';
-import RetryButton from '../../../../../shared/components/list/RetryButton.es';
-import PaginationBar from '../../../../../shared/components/pagination-bar/PaginationBar.es';
-import {Table} from './SelectTasksStepTable.es';
+import ContentView from '../../../../../../shared/components/content-view/ContentView.es';
+import RetryButton from '../../../../../../shared/components/list/RetryButton.es';
+import PaginationBar from '../../../../../../shared/components/pagination-bar/PaginationBar.es';
+import {usePaginationState} from '../../../../../../shared/hooks/usePaginationState.es';
+import {Table} from './SelectAssigneesStepTable.es';
 
-const Body = ({filtered, items, pagination, setRetry, totalCount}) => {
+const Body = ({data, setRetry, tasks}) => {
+	const {paginatedItems, pagination} = usePaginationState({
+		initialPageSize: 5,
+		items: tasks,
+	});
+
 	const statesProps = useMemo(
 		() => ({
-			emptyProps: {
-				className: 'py-4',
-				filtered,
-				messageClassName: 'small',
-			},
 			errorProps: {
 				actionButton: (
 					<RetryButton onClick={() => setRetry(retry => retry + 1)} />
 				),
 				className: 'mt-5 py-8',
 				hideAnimation: true,
-				message: Liferay.Language.get('unable-to-retrieve-data'),
+				message: Liferay.Language.get('failed-to-retrieve-assignees'),
 				messageClassName: 'small',
 			},
-			loadingProps: {className: 'mt-5 py-8'},
+			loadingProps: {
+				className: 'mt-5 py-8',
+				message: Liferay.Language.get(
+					'retrieving-all-possible-assignees'
+				),
+				messageClassName: 'small',
+			},
 		}),
-		[filtered, setRetry]
+		[setRetry]
 	);
 
 	return (
 		<ClayModal.Body>
 			<ContentView {...statesProps}>
-				{totalCount > 0 && (
-					<>
-						<Body.Table items={items} totalCount={totalCount} />
+				<Body.Table data={data} items={paginatedItems} />
 
-						<PaginationBar {...pagination} withoutRouting />
-					</>
-				)}
+				<PaginationBar
+					{...pagination}
+					totalCount={tasks.length}
+					withoutRouting
+				/>
 			</ContentView>
 		</ClayModal.Body>
 	);

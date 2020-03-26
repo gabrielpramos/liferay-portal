@@ -11,9 +11,8 @@
 
 import React, {useContext, useMemo} from 'react';
 
-import EmptyState from '../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../shared/components/content-view/ContentView.es';
 import ReloadButton from '../../shared/components/list/ReloadButton.es';
-import LoadingState from '../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../shared/components/pagination-bar/PaginationBar.es';
 import PromisesResolver from '../../shared/components/promises-resolver/PromisesResolver.es';
 import {Table} from './InstanceListPageTable.es';
@@ -32,15 +31,6 @@ const Body = ({
 	filtered,
 	routeParams,
 }) => {
-	const emptyMessageText = filtered
-		? Liferay.Language.get('no-results-were-found')
-		: Liferay.Language.get(
-				'once-there-are-active-processes-metrics-will-appear-here'
-		  );
-	const errorMessageText = Liferay.Language.get(
-		'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-	);
-
 	const {visibleModal} = useContext(ModalContext);
 
 	const promises = useMemo(() => {
@@ -52,45 +42,42 @@ const Body = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchData, visibleModal]);
 
+	const statesProps = useMemo(
+		() => ({
+			emptyProps: {
+				filtered,
+				filteredMessage: Liferay.Language.get(
+					'once-there-are-active-processes-metrics-will-appear-here'
+				),
+			},
+			errorProps: {
+				actionButton: <ReloadButton />,
+				hideAnimation: true,
+				message: Liferay.Language.get(
+					'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
+				),
+				messageClassName: 'small',
+			},
+			loadingProps: {},
+		}),
+		[filtered]
+	);
+
 	return (
 		<PromisesResolver promises={promises}>
 			<div className="container-fluid-1280 mt-4">
-				<PromisesResolver.Pending>
-					<LoadingState />
-				</PromisesResolver.Pending>
-
-				<PromisesResolver.Resolved>
-					{items && items.length ? (
+				<ContentView {...statesProps}>
+					{totalCount > 0 && (
 						<>
 							<Body.Table items={items} totalCount={totalCount} />
 
 							<PaginationBar
-								pageBuffer={3}
-								pageCount={items.length}
 								{...routeParams}
 								totalCount={totalCount}
 							/>
 						</>
-					) : (
-						<EmptyState
-							className="border-1"
-							hideAnimation={false}
-							message={emptyMessageText}
-							type="not-found"
-						/>
 					)}
-				</PromisesResolver.Resolved>
-
-				<PromisesResolver.Rejected>
-					<EmptyState
-						actionButton={<ReloadButton />}
-						className="border-1"
-						hideAnimation={true}
-						message={errorMessageText}
-						messageClassName="small"
-						type="error"
-					/>
-				</PromisesResolver.Rejected>
+				</ContentView>
 			</div>
 
 			<Body.ModalWrapper />
