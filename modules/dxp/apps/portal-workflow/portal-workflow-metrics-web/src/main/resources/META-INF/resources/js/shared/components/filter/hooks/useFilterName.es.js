@@ -11,14 +11,14 @@
 
 import {useMemo} from 'react';
 
-const useFilterName = (multiple, selectedItems, title, withSelectionTitle) => {
-	const filterName = useMemo(() => {
-		if (
-			!multiple &&
-			withSelectionTitle &&
-			selectedItems &&
-			selectedItems.length
-		) {
+const useFilterName = (
+	multiple,
+	selectedItems = [],
+	title,
+	withSelectionTitle
+) => {
+	return useMemo(() => {
+		if (!multiple && withSelectionTitle && selectedItems.length) {
 			const {name, resultName} = selectedItems[0];
 
 			return resultName || name;
@@ -26,8 +26,6 @@ const useFilterName = (multiple, selectedItems, title, withSelectionTitle) => {
 
 		return title;
 	}, [multiple, selectedItems, title, withSelectionTitle]);
-
-	return filterName;
 };
 
 export {useFilterName};

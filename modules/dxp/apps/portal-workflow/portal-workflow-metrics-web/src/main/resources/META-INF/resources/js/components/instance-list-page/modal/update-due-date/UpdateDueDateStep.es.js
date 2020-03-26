@@ -27,6 +27,35 @@ import {toUppercase} from '../../../../shared/util/util.es';
 import {AppContext} from '../../../AppContext.es';
 import {ModalContext} from '../ModalProvider.es';
 
+const getTimeOptions = isAmPm => {
+	const parse = number => (number < 10 ? `0${number}` : number);
+
+	if (isAmPm) {
+		const times = {
+			AM: ['12:00 AM', '12:30 AM'],
+			PM: ['12:00 PM', '12:30 PM'],
+		};
+
+		Object.keys(times).forEach(type => {
+			for (let i = 1; i < 12; i++) {
+				times[type].push(`${parse(i)}:00 ${type}`);
+				times[type].push(`${parse(i)}:30 ${type}`);
+			}
+		});
+
+		return [...times.AM, ...times.PM];
+	}
+
+	const times = [];
+
+	for (let i = 0; i < 24; i++) {
+		times.push(`${parse(i)}:00`);
+		times.push(`${parse(i)}:30`);
+	}
+
+	return times;
+};
+
 const UpdateDueDateStep = ({className, dueDate = new Date()}) => {
 	const {isAmPm} = useContext(AppContext);
 	const {setUpdateDueDate, updateDueDate} = useContext(ModalContext);
@@ -124,51 +153,22 @@ const TimePickerInputWithOptions = ({format, isAmPm, setValue, value}) => {
 	const [invalidTime, setInvalidTime] = useState(false);
 	const [showOptions, setShowOptions] = useState(false);
 	const inputRef = useRef();
+	const options = useMemo(() => getTimeOptions(isAmPm), [isAmPm]);
+	const popoverStyle = useMemo(() => {
+		const {current: {offsetWidth = 270} = {}} = inputRef;
 
-	const {offsetWidth} = inputRef.current || {};
+		return {left: `${(offsetWidth - 120) / 2}px`};
+	}, [inputRef]);
 
 	useEffect(() => {
 		setInvalidTime(!isValidDate(value, format));
 	}, [format, value]);
 
-	const options = useMemo(() => {
-		const parse = number => (number < 10 ? `0${number}` : number);
-
-		if (isAmPm) {
-			const times = {
-				AM: ['12:00 AM', '12:30 AM'],
-				PM: ['12:00 PM', '12:30 PM'],
-			};
-
-			Object.keys(times).forEach(type => {
-				for (let i = 1; i < 12; i++) {
-					times[type].push(`${parse(i)}:00 ${type}`);
-					times[type].push(`${parse(i)}:30 ${type}`);
-				}
-			});
-
-			return [...times.AM, ...times.PM];
-		}
-
-		const times = [];
-
-		for (let i = 0; i < 24; i++) {
-			times.push(`${parse(i)}:00`);
-			times.push(`${parse(i)}:30`);
-		}
-
-		return times;
-	}, [isAmPm]);
-	const popoverStyle = useMemo(() => {
-		const left = offsetWidth ? `${(offsetWidth - 120) / 2}px` : '75px';
-
-		return {left};
-	}, [offsetWidth]);
-
 	return (
 		<div
-			className={`form-group-item form-group-item-label-spacer ${invalidTime &&
-				'has-error'}`}
+			className={`form-group-item form-group-item-label-spacer ${
+				invalidTime ? 'has-error' : ''
+			}`}
 			data-testid="timePicker"
 		>
 			<ClayInput
@@ -186,7 +186,7 @@ const TimePickerInputWithOptions = ({format, isAmPm, setValue, value}) => {
 					className="clay-popover-bottom custom-time-select fade popover show"
 					style={popoverStyle}
 				>
-					<div className="arrow" />
+					<div className="arrow"></div>
 					<div className="inline-scroller">
 						<div className="popover-body">
 							{options.map((option, index) => (

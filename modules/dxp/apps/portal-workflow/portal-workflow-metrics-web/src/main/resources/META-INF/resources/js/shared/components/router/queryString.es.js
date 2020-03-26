@@ -13,16 +13,12 @@ import qs from 'qs';
 
 const options = {allowDots: true, arrayFormat: 'bracket'};
 
-export function parse(queryString) {
-	if (queryString && queryString.length) {
-		return qs.parse(queryString.substr(1), options);
-	}
+const parse = (query = '') => {
+	return query.length ? qs.parse(query.substr(1), options) : {};
+};
 
-	return {};
-}
+const stringify = query => {
+	return query ? `?${qs.stringify(query, options)}` : '';
+};
 
-export function stringify(query) {
-	if (query) {
-		return `?${qs.stringify(query, options)}`;
-	}
-}
+export {parse, stringify};
