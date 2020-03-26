@@ -34,7 +34,7 @@ describe('The PaginationBar component should', () => {
 
 	test('Render with initial params and change pageSize and page using state', () => {
 		const {baseElement} = render(
-			<PaginationBar routing={false} totalCount={20} />,
+			<PaginationBar totalCount={20} withoutRouting />,
 			{wrapper: ContainerProps}
 		);
 

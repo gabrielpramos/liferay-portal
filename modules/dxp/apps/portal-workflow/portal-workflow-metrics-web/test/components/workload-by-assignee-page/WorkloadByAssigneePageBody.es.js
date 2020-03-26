@@ -48,7 +48,7 @@ describe('The workload by assignee page body should', () => {
 	beforeEach(() => {
 		const renderResult = render(
 			<WorkloadByAssigneePage.Body
-				data={{items, totalCount: items.length}}
+				{...{items, totalCount: items.length}}
 				page="1"
 				pageSize="5"
 			/>,
@@ -63,49 +63,5 @@ describe('The workload by assignee page body should', () => {
 
 		expect(assigneeNames[0].innerHTML).toBe('User 1');
 		expect(assigneeNames[1].innerHTML).toBe('User 2');
-	});
-});
-
-describe('The subcomponents from workload by assignee page body should', () => {
-	afterEach(cleanup);
-
-	test('Be rendered with empty view and no content message', async () => {
-		const {getByTestId} = render(<WorkloadByAssigneePage.Body.Empty />);
-
-		const emptyStateDiv = getByTestId('emptyState');
-
-		expect(emptyStateDiv.children[1].children[0].innerHTML).toBe(
-			'there-is-no-data-at-the-moment'
-		);
-	});
-
-	test('Be rendered with empty view and no results message', async () => {
-		const {getByTestId} = render(
-			<WorkloadByAssigneePage.Body.Empty filtered={true} />
-		);
-
-		const emptyStateDiv = getByTestId('emptyState');
-
-		expect(emptyStateDiv.children[1].children[0].innerHTML).toBe(
-			'no-results-were-found'
-		);
-	});
-
-	test('Be rendered with error view and the expected message', () => {
-		const {getByTestId} = render(<WorkloadByAssigneePage.Body.Error />);
-
-		const emptyStateDiv = getByTestId('emptyState');
-
-		expect(emptyStateDiv.children[0].children[0].innerHTML).toBe(
-			'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-		);
-	});
-
-	test('Be rendered with loading view', async () => {
-		const {getByTestId} = render(<WorkloadByAssigneePage.Body.Loading />);
-
-		const loadingStateDiv = getByTestId('loadingState');
-
-		expect(loadingStateDiv).not.toBeNull();
 	});
 });
