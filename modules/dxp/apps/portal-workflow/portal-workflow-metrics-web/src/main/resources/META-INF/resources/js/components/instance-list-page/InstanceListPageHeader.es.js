@@ -87,7 +87,9 @@ const Header = ({
 
 	const isRemainingItem = useCallback(
 		clear => ({assigneeUsers = [], id, status}) => {
-			const assignedToUser = !!assigneeUsers.find(({id}) => id == userId);
+			const assignedToUser = !!assigneeUsers.find(
+				({id}) => id === Number(userId)
+			);
 			const completed = status === processStatusConstants.completed;
 			const selected = clear && selectedItems.find(compareId(id));
 			const unassigned = assigneeUsers.length === 0;

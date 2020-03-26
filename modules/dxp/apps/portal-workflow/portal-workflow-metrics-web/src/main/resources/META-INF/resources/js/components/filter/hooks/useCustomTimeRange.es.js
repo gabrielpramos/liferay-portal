@@ -103,7 +103,7 @@ const updateErrors = (errors, fieldName, message) => ({
 	[fieldName]: message,
 });
 
-const useCustomTimeRange = (prefixKey = '', withoutRouteParams) => {
+const useCustomTimeRange = (prefixKey, withoutRouteParams) => {
 	const [errors, setErrors] = useState(undefined);
 	const {filters} = useRouterParams();
 	const {filterValues} = useFilter({

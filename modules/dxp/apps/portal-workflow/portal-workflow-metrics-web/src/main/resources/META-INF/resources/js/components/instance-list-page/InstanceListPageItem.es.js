@@ -65,7 +65,7 @@ const Item = ({totalCount, ...instance}) => {
 		id,
 		status,
 		slaStatus,
-		taskNames,
+		taskNames = [Liferay.Language.get('not-available')],
 	} = instance;
 
 	useEffect(() => {
@@ -73,7 +73,9 @@ const Item = ({totalCount, ...instance}) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedItems]);
 
-	const assignedToUser = !!assigneeUsers.find(({id}) => id == userId);
+	const assignedToUser = !!assigneeUsers.find(
+		({id}) => id === Number(userId)
+	);
 	const completed = status === processStatusConstants.completed;
 	const unassigned = assigneeUsers.length === 0;
 
@@ -89,9 +91,7 @@ const Item = ({totalCount, ...instance}) => {
 		: Liferay.Language.get('not-available');
 
 	const formattedTaskNames = !completed
-		? taskNames
-			? taskNames.join(', ')
-			: Liferay.Language.get('not-available')
+		? taskNames.join(', ')
 		: Liferay.Language.get('completed');
 
 	const handleCheck = ({target}) => {
