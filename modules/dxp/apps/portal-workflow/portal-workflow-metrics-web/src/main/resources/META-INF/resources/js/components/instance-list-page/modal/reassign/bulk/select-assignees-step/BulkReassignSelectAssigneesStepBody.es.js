@@ -10,13 +10,11 @@
  */
 
 import ClayModal from '@clayui/modal';
-import React from 'react';
+import React, {useMemo} from 'react';
 
-import EmptyState from '../../../../../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../../../../../shared/components/content-view/ContentView.es';
 import RetryButton from '../../../../../../shared/components/list/RetryButton.es';
-import LoadingState from '../../../../../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../../../../../shared/components/pagination-bar/PaginationBar.es';
-import PromisesResolver from '../../../../../../shared/components/promises-resolver/PromisesResolver.es';
 import {usePaginationState} from '../../../../../../shared/hooks/usePaginationState.es';
 import {Table} from './BulkReassignSelectAssigneesStepTable.es';
 
@@ -26,53 +24,43 @@ const Body = ({data, setRetry, tasks}) => {
 		items: tasks,
 	});
 
+	const statesProps = useMemo(
+		() => ({
+			errorProps: {
+				actionButton: (
+					<RetryButton onClick={() => setRetry(retry => retry + 1)} />
+				),
+				className: 'border-0 pb-7 pt-8',
+				hideAnimation: true,
+				message: Liferay.Language.get('failed-to-retrieve-assignees'),
+				messageClassName: 'small',
+			},
+			loadingProps: {
+				className: 'mb-4 mt-6 pb-8 pt-8',
+				message: Liferay.Language.get(
+					'retrieving-all-possible-assignees'
+				),
+				messageClassName: 'small',
+			},
+		}),
+		[setRetry]
+	);
+
 	return (
 		<ClayModal.Body>
-			<PromisesResolver.Pending>
-				<Body.Loading />
-			</PromisesResolver.Pending>
-
-			<PromisesResolver.Resolved>
+			<ContentView {...statesProps}>
 				<Body.Table data={data} items={paginatedItems} />
 
 				<PaginationBar
 					{...pagination}
-					routing={false}
 					totalCount={tasks.length}
+					withoutRouting
 				/>
-			</PromisesResolver.Resolved>
-
-			<PromisesResolver.Rejected>
-				<Body.Error onClick={() => setRetry(retry => retry + 1)} />
-			</PromisesResolver.Rejected>
+			</ContentView>
 		</ClayModal.Body>
 	);
 };
 
-const ErrorView = ({onClick}) => {
-	return (
-		<EmptyState
-			actionButton={<RetryButton onClick={onClick} />}
-			className="border-0 pb-7 pt-8"
-			hideAnimation={true}
-			message={Liferay.Language.get('failed-to-retrieve-assignees')}
-			messageClassName="small"
-		/>
-	);
-};
-
-const LoadingView = () => {
-	return (
-		<LoadingState
-			className="border-0 mb-4 mt-6 pb-8 pt-8"
-			message={Liferay.Language.get('retrieving-all-possible-assignees')}
-			messageClassName="small"
-		/>
-	);
-};
-
-Body.Error = ErrorView;
-Body.Loading = LoadingView;
 Body.Table = Table;
 
 export {Body};

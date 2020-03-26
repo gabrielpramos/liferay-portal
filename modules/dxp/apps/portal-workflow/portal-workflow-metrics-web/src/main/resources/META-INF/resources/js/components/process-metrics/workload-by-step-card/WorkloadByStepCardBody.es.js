@@ -12,23 +12,35 @@
 import React from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import EmptyState from '../../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../../shared/components/content-view/ContentView.es';
 import ReloadButton from '../../../shared/components/list/ReloadButton.es';
-import LoadingState from '../../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../../shared/components/pagination-bar/PaginationBar.es';
-import PromisesResolver from '../../../shared/components/promises-resolver/PromisesResolver.es';
 import {Table} from './WorkloadByStepCardTable.es';
 
 const Body = ({items, page, pageSize, processId, totalCount}) => {
-	return (
-		<>
-			<PromisesResolver.Pending>
-				<Body.Loading />
-			</PromisesResolver.Pending>
+	const statesProps = {
+		emptyProps: {
+			className: 'border-0 mb-0',
+			message: Liferay.Language.get(
+				'there-are-no-pending-items-at-the-moment'
+			),
+			messageClassName: 'small',
+		},
+		errorProps: {
+			actionButton: <ReloadButton />,
+			className: 'border-0',
+			hideAnimation: true,
+			message: Liferay.Language.get('unable-to-retrieve-data'),
+			messageClassName: 'small',
+		},
+		loadingProps: {className: 'pb-6 pt-6 sheet'},
+	};
 
-			<PromisesResolver.Resolved>
-				{totalCount ? (
-					<Panel.Body>
+	return (
+		<Panel.Body>
+			<ContentView {...statesProps}>
+				{totalCount > 0 && (
+					<>
 						<Body.Table items={items} processId={processId} />
 
 						<PaginationBar
@@ -36,54 +48,13 @@ const Body = ({items, page, pageSize, processId, totalCount}) => {
 							pageSize={pageSize}
 							totalCount={totalCount}
 						/>
-					</Panel.Body>
-				) : (
-					<Body.Empty />
+					</>
 				)}
-			</PromisesResolver.Resolved>
-
-			<PromisesResolver.Rejected>
-				<Body.Error />
-			</PromisesResolver.Rejected>
-		</>
+			</ContentView>
+		</Panel.Body>
 	);
 };
 
-const EmptyView = () => {
-	return (
-		<EmptyState
-			className="border-0 mb-0"
-			hideAnimation={true}
-			message={Liferay.Language.get(
-				'there-are-no-pending-items-at-the-moment'
-			)}
-			messageClassName="small"
-		/>
-	);
-};
-
-const ErrorView = () => {
-	return (
-		<EmptyState
-			actionButton={<ReloadButton />}
-			className="border-0"
-			hideAnimation={true}
-			message={Liferay.Language.get(
-				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-			)}
-			messageClassName="small"
-			type="error"
-		/>
-	);
-};
-
-const LoadingView = () => {
-	return <LoadingState className="border-0 pb-6 pt-6 sheet" />;
-};
-
-Body.Empty = EmptyView;
-Body.Error = ErrorView;
-Body.Loading = LoadingView;
 Body.Table = Table;
 
 export {Body};

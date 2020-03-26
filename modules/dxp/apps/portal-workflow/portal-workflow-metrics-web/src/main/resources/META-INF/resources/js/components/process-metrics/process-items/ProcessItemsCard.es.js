@@ -15,23 +15,22 @@ import {ClayTooltipProvider} from '@clayui/tooltip';
 import React, {useContext, useEffect, useMemo} from 'react';
 
 import Panel from '../../../shared/components/Panel.es';
-import EmptyState from '../../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../../shared/components/content-view/ContentView.es';
 import ReloadButton from '../../../shared/components/list/ReloadButton.es';
-import LoadingState from '../../../shared/components/loading/LoadingState.es';
 import PromisesResolver from '../../../shared/components/promises-resolver/PromisesResolver.es';
 import {useFetch} from '../../../shared/hooks/useFetch.es';
 import {AppContext} from '../../AppContext.es';
 import PANELS from './Panels.es';
 import SummaryCard from './SummaryCard.es';
 
-function ProcessItemsCard({
+const ProcessItemsCard = ({
 	children,
 	completed,
 	description,
 	processId,
 	timeRange,
 	title,
-}) {
+}) => {
 	const {setTitle} = useContext(AppContext);
 
 	const timeRangeParams = timeRange || {};
@@ -70,14 +69,27 @@ function ProcessItemsCard({
 			</Panel>
 		</PromisesResolver>
 	);
-}
+};
 
 const Body = ({completed = false, data, processId, timeRange}) => {
+	const statesProps = {
+		errorProps: {
+			actionButton: <ReloadButton />,
+			className: 'border-0',
+			hideAnimation: true,
+			message: Liferay.Language.get(
+				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
+			),
+			messageClassName: 'small',
+		},
+		loadingProps: {className: 'pb-6 pt-5'},
+	};
+
 	return (
 		<Panel.Body>
-			<PromisesResolver.Resolved>
+			<ContentView {...statesProps}>
 				{data ? (
-					<div className={'d-flex pb-4 pt-1'}>
+					<div className="d-flex pb-4 pt-1">
 						{PANELS.map((panel, index) => (
 							<SummaryCard
 								{...panel}
@@ -93,24 +105,10 @@ const Body = ({completed = false, data, processId, timeRange}) => {
 							/>
 						))}
 					</div>
-				) : null}
-			</PromisesResolver.Resolved>
-
-			<PromisesResolver.Rejected>
-				<EmptyState
-					actionButton={<ReloadButton />}
-					className="border-0"
-					hideAnimation={true}
-					message={Liferay.Language.get(
-						'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-					)}
-					messageClassName="small"
-				/>
-			</PromisesResolver.Rejected>
-
-			<PromisesResolver.Pending>
-				<LoadingState className="pb-6 pt-5" />
-			</PromisesResolver.Pending>
+				) : (
+					<></>
+				)}
+			</ContentView>
 		</Panel.Body>
 	);
 };

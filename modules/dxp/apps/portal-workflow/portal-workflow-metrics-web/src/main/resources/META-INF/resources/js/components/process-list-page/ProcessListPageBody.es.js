@@ -9,83 +9,52 @@
  * distribution rights of the Software.
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
-import EmptyState from '../../shared/components/empty-state/EmptyState.es';
+import ContentView from '../../shared/components/content-view/ContentView.es';
 import ReloadButton from '../../shared/components/list/ReloadButton.es';
-import LoadingState from '../../shared/components/loading/LoadingState.es';
 import PaginationBar from '../../shared/components/pagination-bar/PaginationBar.es';
-import PromisesResolver from '../../shared/components/promises-resolver/PromisesResolver.es';
 import {Table} from './ProcessListPageTable.es';
 
-const Body = ({data, search}) => {
-	const {items, page, pageSize, totalCount} = data;
+const Body = ({filtered, items, page, pageSize, totalCount}) => {
+	const statesProps = useMemo(
+		() => ({
+			emptyProps: {
+				filtered,
+				message: Liferay.Language.get(
+					'once-there-are-active-processes-metrics-will-appear-here'
+				),
+				title: !filtered && Liferay.Language.get('no-current-metrics'),
+			},
+			errorProps: {
+				actionButton: <ReloadButton />,
+				hideAnimation: true,
+				message: Liferay.Language.get('unable-to-retrieve-data'),
+			},
+			loadingProps: {className: 'pb-6 pt-6 sheet'},
+		}),
+		[filtered]
+	);
 
 	return (
 		<div className="container-fluid-1280 mt-4">
-			<PromisesResolver.Pending>
-				<Body.Loading />
-			</PromisesResolver.Pending>
-
-			<PromisesResolver.Resolved>
-				{totalCount > 0 ? (
+			<ContentView {...statesProps}>
+				{totalCount > 0 && (
 					<>
 						<Body.Table items={items} />
 
 						<PaginationBar
 							page={page}
-							pageBuffer={3}
 							pageSize={pageSize}
 							totalCount={totalCount}
 						/>
 					</>
-				) : (
-					<Body.Empty search={search} />
 				)}
-			</PromisesResolver.Resolved>
-
-			<PromisesResolver.Rejected>
-				<Body.Error />
-			</PromisesResolver.Rejected>
+			</ContentView>
 		</div>
 	);
 };
 
-const EmptyView = ({search}) => {
-	const message = search
-		? Liferay.Language.get('no-results-were-found')
-		: Liferay.Language.get(
-				'once-there-are-active-processes-metrics-will-appear-here'
-		  );
-
-	return (
-		<EmptyState
-			message={message}
-			title={!search && Liferay.Language.get('no-current-metrics')}
-			type={search ? 'not-found' : 'empty'}
-		/>
-	);
-};
-
-const ErrorView = () => {
-	return (
-		<EmptyState
-			actionButton={<ReloadButton />}
-			hideAnimation={true}
-			message={Liferay.Language.get(
-				'there-was-a-problem-retrieving-data-please-try-reloading-the-page'
-			)}
-		/>
-	);
-};
-
-const LoadingView = () => {
-	return <LoadingState className="border-0 pb-6 pt-6 sheet" />;
-};
-
-Body.Empty = EmptyView;
-Body.Error = ErrorView;
-Body.Loading = LoadingView;
 Body.Table = Table;
 
 export {Body};

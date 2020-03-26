@@ -78,7 +78,7 @@ const PerformanceByStepCard = ({routeParams}) => {
 					totalCount={data.totalCount}
 				/>
 
-				<PerformanceByStepCard.Body data={data} />
+				<PerformanceByStepCard.Body {...data} />
 
 				{data.totalCount > 0 && (
 					<PerformanceByStepCard.Footer
