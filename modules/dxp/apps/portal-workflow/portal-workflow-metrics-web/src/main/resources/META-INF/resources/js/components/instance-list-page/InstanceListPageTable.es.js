@@ -9,50 +9,42 @@
  * distribution rights of the Software.
  */
 
-import ClayTable from '@clayui/table';
 import React from 'react';
 
+import TableView from '../../shared/components/table/TableView.es';
 import {Item} from './InstanceListPageItem.es';
 
 const Table = ({items, totalCount}) => {
+	const cells = [
+		{style: {width: '7%'}},
+		{content: Liferay.Language.get('id'), style: {width: '8%'}},
+		{
+			content: Liferay.Language.get('item-subject'),
+			style: {width: '17%'},
+		},
+		{
+			content: Liferay.Language.get('process-step'),
+			style: {width: '18%'},
+		},
+		{content: Liferay.Language.get('assignee'), style: {width: '14%'}},
+		{content: Liferay.Language.get('created-by'), style: {width: '17%'}},
+		{
+			content: Liferay.Language.get('creation-date'),
+			style: {width: '18%'},
+		},
+		{style: {width: '5%'}},
+	];
+
 	return (
-		<ClayTable>
-			<ClayTable.Head>
-				<ClayTable.Row>
-					<ClayTable.Cell headingCell style={{width: '7%'}} />
-					<ClayTable.Cell headingCell style={{width: '8%'}}>
-						{Liferay.Language.get('id')}
-					</ClayTable.Cell>
+		<TableView>
+			<TableView.Header cells={cells} />
 
-					<ClayTable.Cell headingCell style={{width: '17%'}}>
-						{Liferay.Language.get('item-subject')}
-					</ClayTable.Cell>
-
-					<ClayTable.Cell headingCell style={{width: '18%'}}>
-						{Liferay.Language.get('process-step')}
-					</ClayTable.Cell>
-
-					<ClayTable.Cell headingCell style={{width: '14%'}}>
-						{Liferay.Language.get('assignee')}
-					</ClayTable.Cell>
-
-					<ClayTable.Cell headingCell style={{width: '17%'}}>
-						{Liferay.Language.get('created-by')}
-					</ClayTable.Cell>
-					<ClayTable.Cell headingCell style={{width: '18%'}}>
-						{Liferay.Language.get('creation-date')}
-					</ClayTable.Cell>
-
-					<ClayTable.Cell headingCell style={{width: '5%'}} />
-				</ClayTable.Row>
-			</ClayTable.Head>
-
-			<ClayTable.Body>
-				{items.map((item, index) => (
-					<Table.Item {...item} key={index} totalCount={totalCount} />
-				))}
-			</ClayTable.Body>
-		</ClayTable>
+			<TableView.Body
+				itemComponent={Table.Item}
+				itemProps={{totalCount}}
+				items={items}
+			/>
+		</TableView>
 	);
 };
 
