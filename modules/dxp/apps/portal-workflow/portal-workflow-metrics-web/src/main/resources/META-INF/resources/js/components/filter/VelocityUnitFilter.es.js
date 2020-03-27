@@ -64,7 +64,7 @@ const VelocityUnitFilter = ({
 
 	return (
 		<Filter
-			dataTestId="velocityUnitFilter"
+			data-testid="velocityUnitFilter"
 			defaultItem={defaultItem}
 			disabled={disabled}
 			elementClasses={className}

@@ -127,7 +127,7 @@ const TimeRangeFilter = ({
 	return (
 		<Filter
 			buttonClassName={buttonClassName}
-			dataTestId="timeRangeFilter"
+			data-testid="timeRangeFilter"
 			defaultItem={defaultItem}
 			disabled={disabled}
 			elementClasses={className}

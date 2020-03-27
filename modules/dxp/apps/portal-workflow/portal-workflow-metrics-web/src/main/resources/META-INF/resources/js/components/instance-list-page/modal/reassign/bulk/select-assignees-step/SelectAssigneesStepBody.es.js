@@ -10,17 +10,22 @@
  */
 
 import ClayModal from '@clayui/modal';
-import React, {useMemo} from 'react';
+import React, {useContext, useMemo} from 'react';
 
 import ContentView from '../../../../../../shared/components/content-view/ContentView.es';
 import RetryButton from '../../../../../../shared/components/list/RetryButton.es';
 import PaginationBar from '../../../../../../shared/components/pagination-bar/PaginationBar.es';
 import {usePaginationState} from '../../../../../../shared/hooks/usePaginationState.es';
+import {AppContext} from '../../../../../AppContext.es';
 import {Table} from './SelectAssigneesStepTable.es';
 
 const Body = ({data, setRetry, tasks}) => {
+	const {
+		deltaValues: [initialPageSize],
+	} = useContext(AppContext);
+
 	const {paginatedItems, pagination} = usePaginationState({
-		initialPageSize: 5,
+		initialPageSize,
 		items: tasks,
 	});
 

@@ -169,8 +169,6 @@ describe('The filter component should', () => {
 		expect(filterItems[1].className.includes('active')).toBe(true);
 		expect(filterItems[2].className.includes('active')).toBe(true);
 
-		expect(filterBtn.getAttribute('aria-expanded')).toBe('true');
-
 		await fireEvent.click(filterInputs[2]);
 
 		expect(filterItems[0].className.includes('active')).toBe(true);

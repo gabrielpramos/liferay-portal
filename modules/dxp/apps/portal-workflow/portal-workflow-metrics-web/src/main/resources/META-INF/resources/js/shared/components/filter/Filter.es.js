@@ -10,7 +10,7 @@
  */
 
 import ClayIcon from '@clayui/icon';
-import getClassName from 'classnames';
+import getCN from 'classnames';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import {useFilter} from '../../hooks/useFilter.es';
@@ -31,7 +31,6 @@ import {
 const Filter = ({
 	buttonClassName = 'btn-secondary btn-sm',
 	children,
-	dataTestId = 'filterComponent',
 	defaultItem,
 	disabled,
 	elementClasses,
@@ -44,8 +43,8 @@ const Filter = ({
 	position = 'left',
 	prefixKey = '',
 	preventClick,
-	style,
 	withoutRouteParams,
+	...otherProps
 }) => {
 	const {dispatchFilter} = useFilter({withoutRouteParams});
 	const [expanded, setExpanded] = useState(false);
@@ -53,27 +52,19 @@ const Filter = ({
 	const [changed, setChanged] = useState(false);
 
 	const prefixedFilterKey = getCapitalizedFilterKey(prefixKey, filterKey);
-
 	const routerProps = useRouter();
-
 	const wrapperRef = useRef();
 
 	const classes = useMemo(
 		() => ({
-			children: getClassName(
-				'custom',
-				'dropdown-menu',
+			children: getCN(
+				'custom dropdown-menu',
 				children && 'show',
 				position && `dropdown-menu-${position}`
 			),
-			custom: getClassName(
-				'btn',
-				'dropdown-toggle',
-				'nav-link',
-				buttonClassName
-			),
-			dropdown: getClassName('dropdown', 'nav-item', elementClasses),
-			menu: getClassName(
+			custom: getCN('btn dropdown-toggle nav-link', buttonClassName),
+			dropdown: getCN('dropdown nav-item', elementClasses),
+			menu: getCN(
 				'dropdown-menu',
 				expanded && 'show',
 				position && `dropdown-menu-${position}`
@@ -195,19 +186,16 @@ const Filter = ({
 	return (
 		<li
 			className={classes.dropdown}
-			data-testid={dataTestId}
+			data-testid="filterComponent"
 			ref={wrapperRef}
-			style={style}
+			{...otherProps}
 		>
 			<button
-				aria-expanded={expanded}
-				aria-haspopup="true"
 				className={classes.custom}
 				disabled={disabled}
 				onClick={() => {
 					setExpanded(!expanded);
 				}}
-				type="button"
 			>
 				<span
 					className="mr-2 navbar-text-truncate"

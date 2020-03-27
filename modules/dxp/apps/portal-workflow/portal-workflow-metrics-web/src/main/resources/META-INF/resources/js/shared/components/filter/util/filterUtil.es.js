@@ -161,7 +161,7 @@ const removeItem = (filterKey, itemToRemove, queryString) => {
 	const filterValues = filtersParam[filterKey] || [];
 
 	filtersParam[filterKey] = filterValues.filter(
-		filterValue => filterValue != itemToRemove.key
+		filterValue => filterValue !== itemToRemove.key
 	);
 
 	queryParams.filters = filtersParam;

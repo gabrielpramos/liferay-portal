@@ -69,7 +69,7 @@ const ProcessStepFilter = ({
 
 	return (
 		<Filter
-			dataTestId="processStepFilter"
+			data-testid="processStepFilter"
 			defaultItem={defaultItem}
 			disabled={disabled}
 			elementClasses={className}

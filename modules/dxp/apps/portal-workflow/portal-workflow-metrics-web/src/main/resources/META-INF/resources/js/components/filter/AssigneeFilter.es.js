@@ -71,7 +71,7 @@ const AssigneeFilter = ({
 
 	return (
 		<Filter
-			dataTestId="assigneeFilter"
+			data-testid="assigneeFilter"
 			defaultItem={defaultItem}
 			elementClasses={className}
 			filterKey={filterKey}
