@@ -81,7 +81,7 @@ const ProcessListPage = ({history, query, routeParams}) => {
 				{...routeParams}
 			/>
 
-			<ProcessListPage.Body data={data} search={search} />
+			<ProcessListPage.Body {...data} filtered={search} />
 		</PromisesResolver>
 	);
 };

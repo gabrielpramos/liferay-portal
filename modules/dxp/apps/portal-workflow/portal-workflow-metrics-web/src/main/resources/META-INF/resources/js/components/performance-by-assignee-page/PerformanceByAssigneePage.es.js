@@ -65,7 +65,7 @@ const PerformanceByAssigneePage = ({query, routeParams}) => {
 			/>
 
 			<PerformanceByAssigneePage.Body
-				data={data}
+				{...data}
 				filtered={search || selectedFilters.length > 0}
 			/>
 		</PromisesResolver>

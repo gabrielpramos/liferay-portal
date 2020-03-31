@@ -59,7 +59,7 @@ const PerformanceByStepPage = ({query, routeParams}) => {
 				totalCount={data.totalCount}
 			/>
 
-			<PerformanceByStepPage.Body data={data} filtered={search} />
+			<PerformanceByStepPage.Body {...data} filtered={search} />
 		</PromisesResolver>
 	);
 };
