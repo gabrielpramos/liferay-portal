@@ -46,7 +46,7 @@ const Body = ({
 		() => ({
 			emptyProps: {
 				filtered,
-				filteredMessage: Liferay.Language.get(
+				message: Liferay.Language.get(
 					'once-there-are-active-processes-metrics-will-appear-here'
 				),
 			},
