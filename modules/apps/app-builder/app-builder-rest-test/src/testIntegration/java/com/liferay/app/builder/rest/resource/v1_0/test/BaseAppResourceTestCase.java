@@ -188,6 +188,7 @@ public abstract class BaseAppResourceTestCase {
 
 		App app = randomApp();
 
+		app.setDataDefinitionName(regex);
 		app.setStatus(regex);
 
 		String json = AppSerDes.toJSON(app);
@@ -196,7 +197,229 @@ public abstract class BaseAppResourceTestCase {
 
 		app = AppSerDes.toDTO(json);
 
+		Assert.assertEquals(regex, app.getDataDefinitionName());
 		Assert.assertEquals(regex, app.getStatus());
+	}
+
+	@Test
+	public void testGetAppsPage() throws Exception {
+		Page<App> page = appResource.getAppsPage(
+			RandomTestUtil.randomString(), Pagination.of(1, 2), null);
+
+		Assert.assertEquals(0, page.getTotalCount());
+
+		App app1 = testGetAppsPage_addApp(randomApp());
+
+		App app2 = testGetAppsPage_addApp(randomApp());
+
+		page = appResource.getAppsPage(null, Pagination.of(1, 2), null);
+
+		Assert.assertEquals(2, page.getTotalCount());
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(app1, app2), (List<App>)page.getItems());
+		assertValid(page);
+
+		appResource.deleteApp(app1.getId());
+
+		appResource.deleteApp(app2.getId());
+	}
+
+	@Test
+	public void testGetAppsPageWithPagination() throws Exception {
+		App app1 = testGetAppsPage_addApp(randomApp());
+
+		App app2 = testGetAppsPage_addApp(randomApp());
+
+		App app3 = testGetAppsPage_addApp(randomApp());
+
+		Page<App> page1 = appResource.getAppsPage(
+			null, Pagination.of(1, 2), null);
+
+		List<App> apps1 = (List<App>)page1.getItems();
+
+		Assert.assertEquals(apps1.toString(), 2, apps1.size());
+
+		Page<App> page2 = appResource.getAppsPage(
+			null, Pagination.of(2, 2), null);
+
+		Assert.assertEquals(3, page2.getTotalCount());
+
+		List<App> apps2 = (List<App>)page2.getItems();
+
+		Assert.assertEquals(apps2.toString(), 1, apps2.size());
+
+		Page<App> page3 = appResource.getAppsPage(
+			null, Pagination.of(1, 3), null);
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(app1, app2, app3), (List<App>)page3.getItems());
+	}
+
+	@Test
+	public void testGetAppsPageWithSortDateTime() throws Exception {
+		testGetAppsPageWithSort(
+			EntityField.Type.DATE_TIME,
+			(entityField, app1, app2) -> {
+				BeanUtils.setProperty(
+					app1, entityField.getName(),
+					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetAppsPageWithSortInteger() throws Exception {
+		testGetAppsPageWithSort(
+			EntityField.Type.INTEGER,
+			(entityField, app1, app2) -> {
+				BeanUtils.setProperty(app1, entityField.getName(), 0);
+				BeanUtils.setProperty(app2, entityField.getName(), 1);
+			});
+	}
+
+	@Test
+	public void testGetAppsPageWithSortString() throws Exception {
+		testGetAppsPageWithSort(
+			EntityField.Type.STRING,
+			(entityField, app1, app2) -> {
+				Class<?> clazz = app1.getClass();
+
+				String entityFieldName = entityField.getName();
+
+				Method method = clazz.getMethod(
+					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
+
+				Class<?> returnType = method.getReturnType();
+
+				if (returnType.isAssignableFrom(Map.class)) {
+					BeanUtils.setProperty(
+						app1, entityFieldName,
+						Collections.singletonMap("Aaa", "Aaa"));
+					BeanUtils.setProperty(
+						app2, entityFieldName,
+						Collections.singletonMap("Bbb", "Bbb"));
+				}
+				else if (entityFieldName.contains("email")) {
+					BeanUtils.setProperty(
+						app1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+					BeanUtils.setProperty(
+						app2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+				}
+				else {
+					BeanUtils.setProperty(
+						app1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+					BeanUtils.setProperty(
+						app2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+				}
+			});
+	}
+
+	protected void testGetAppsPageWithSort(
+			EntityField.Type type,
+			UnsafeTriConsumer<EntityField, App, App, Exception>
+				unsafeTriConsumer)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		App app1 = randomApp();
+		App app2 = randomApp();
+
+		for (EntityField entityField : entityFields) {
+			unsafeTriConsumer.accept(entityField, app1, app2);
+		}
+
+		app1 = testGetAppsPage_addApp(app1);
+
+		app2 = testGetAppsPage_addApp(app2);
+
+		for (EntityField entityField : entityFields) {
+			Page<App> ascPage = appResource.getAppsPage(
+				null, Pagination.of(1, 2), entityField.getName() + ":asc");
+
+			assertEquals(
+				Arrays.asList(app1, app2), (List<App>)ascPage.getItems());
+
+			Page<App> descPage = appResource.getAppsPage(
+				null, Pagination.of(1, 2), entityField.getName() + ":desc");
+
+			assertEquals(
+				Arrays.asList(app2, app1), (List<App>)descPage.getItems());
+		}
+	}
+
+	protected App testGetAppsPage_addApp(App app) throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetAppsPage() throws Exception {
+		List<GraphQLField> graphQLFields = new ArrayList<>();
+
+		List<GraphQLField> itemsGraphQLFields = getGraphQLFields();
+
+		graphQLFields.add(
+			new GraphQLField(
+				"items", itemsGraphQLFields.toArray(new GraphQLField[0])));
+
+		graphQLFields.add(new GraphQLField("page"));
+		graphQLFields.add(new GraphQLField("totalCount"));
+
+		GraphQLField graphQLField = new GraphQLField(
+			"query",
+			new GraphQLField(
+				"apps",
+				new HashMap<String, Object>() {
+					{
+						put("page", 1);
+						put("pageSize", 2);
+					}
+				},
+				graphQLFields.toArray(new GraphQLField[0])));
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
+			invoke(graphQLField.toString()));
+
+		JSONObject dataJSONObject = jsonObject.getJSONObject("data");
+
+		JSONObject appsJSONObject = dataJSONObject.getJSONObject("apps");
+
+		Assert.assertEquals(0, appsJSONObject.get("totalCount"));
+
+		App app1 = testGraphQLApp_addApp();
+		App app2 = testGraphQLApp_addApp();
+
+		jsonObject = JSONFactoryUtil.createJSONObject(
+			invoke(graphQLField.toString()));
+
+		dataJSONObject = jsonObject.getJSONObject("data");
+
+		appsJSONObject = dataJSONObject.getJSONObject("apps");
+
+		Assert.assertEquals(2, appsJSONObject.get("totalCount"));
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(app1, app2),
+			Arrays.asList(AppSerDes.toDTOs(appsJSONObject.getString("items"))));
 	}
 
 	@Test
@@ -775,61 +998,6 @@ public abstract class BaseAppResourceTestCase {
 		return irrelevantGroup.getGroupId();
 	}
 
-	@Test
-	public void testGraphQLGetSiteAppsPage() throws Exception {
-		Long siteId = testGetSiteAppsPage_getSiteId();
-
-		List<GraphQLField> graphQLFields = new ArrayList<>();
-
-		List<GraphQLField> itemsGraphQLFields = getGraphQLFields();
-
-		graphQLFields.add(
-			new GraphQLField(
-				"items", itemsGraphQLFields.toArray(new GraphQLField[0])));
-
-		graphQLFields.add(new GraphQLField("page"));
-		graphQLFields.add(new GraphQLField("totalCount"));
-
-		GraphQLField graphQLField = new GraphQLField(
-			"query",
-			new GraphQLField(
-				"apps",
-				new HashMap<String, Object>() {
-					{
-						put("page", 1);
-						put("pageSize", 2);
-
-						put("siteKey", "\"" + siteId + "\"");
-					}
-				},
-				graphQLFields.toArray(new GraphQLField[0])));
-
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-			invoke(graphQLField.toString()));
-
-		JSONObject dataJSONObject = jsonObject.getJSONObject("data");
-
-		JSONObject appsJSONObject = dataJSONObject.getJSONObject("apps");
-
-		Assert.assertEquals(0, appsJSONObject.get("totalCount"));
-
-		App app1 = testGraphQLApp_addApp();
-		App app2 = testGraphQLApp_addApp();
-
-		jsonObject = JSONFactoryUtil.createJSONObject(
-			invoke(graphQLField.toString()));
-
-		dataJSONObject = jsonObject.getJSONObject("data");
-
-		appsJSONObject = dataJSONObject.getJSONObject("apps");
-
-		Assert.assertEquals(2, appsJSONObject.get("totalCount"));
-
-		assertEqualsIgnoringOrder(
-			Arrays.asList(app1, app2),
-			Arrays.asList(AppSerDes.toDTOs(appsJSONObject.getString("items"))));
-	}
-
 	protected App testGraphQLApp_addApp() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
@@ -908,6 +1076,16 @@ public abstract class BaseAppResourceTestCase {
 
 			if (Objects.equals("dataDefinitionId", additionalAssertFieldName)) {
 				if (app.getDataDefinitionId() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"dataDefinitionName", additionalAssertFieldName)) {
+
+				if (app.getDataDefinitionName() == null) {
 					valid = false;
 				}
 
@@ -1065,6 +1243,19 @@ public abstract class BaseAppResourceTestCase {
 				if (!Objects.deepEquals(
 						app1.getDataDefinitionId(),
 						app2.getDataDefinitionId())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"dataDefinitionName", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						app1.getDataDefinitionName(),
+						app2.getDataDefinitionName())) {
 
 					return false;
 				}
@@ -1236,6 +1427,14 @@ public abstract class BaseAppResourceTestCase {
 				"Invalid entity field " + entityFieldName);
 		}
 
+		if (entityFieldName.equals("dataDefinitionName")) {
+			sb.append("'");
+			sb.append(String.valueOf(app.getDataDefinitionName()));
+			sb.append("'");
+
+			return sb.toString();
+		}
+
 		if (entityFieldName.equals("dataLayoutId")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -1361,6 +1560,8 @@ public abstract class BaseAppResourceTestCase {
 		return new App() {
 			{
 				dataDefinitionId = RandomTestUtil.randomLong();
+				dataDefinitionName = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
 				dataLayoutId = RandomTestUtil.randomLong();
 				dataListViewId = RandomTestUtil.randomLong();
 				dateCreated = RandomTestUtil.nextDate();

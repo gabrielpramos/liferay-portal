@@ -266,6 +266,14 @@ public interface AppBuilderAppLocalService
 		long groupId, long companyId, long ddmStructureId, int start, int end,
 		OrderByComparator<AppBuilderApp> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AppBuilderApp> getAppBuilderAppsByCompanyId(
+		long companyId, int start, int end,
+		OrderByComparator<AppBuilderApp> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getAppBuilderAppsByCompanyIdCount(long companyId);
+
 	/**
 	 * Returns all the app builder apps matching the UUID and company.
 	 *

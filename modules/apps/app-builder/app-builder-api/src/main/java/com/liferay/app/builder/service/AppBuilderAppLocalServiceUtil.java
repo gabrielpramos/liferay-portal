@@ -324,6 +324,21 @@ public class AppBuilderAppLocalServiceUtil {
 			groupId, companyId, ddmStructureId, start, end, orderByComparator);
 	}
 
+	public static java.util.List<com.liferay.app.builder.model.AppBuilderApp>
+		getAppBuilderAppsByCompanyId(
+			long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.app.builder.model.AppBuilderApp>
+					orderByComparator) {
+
+		return getService().getAppBuilderAppsByCompanyId(
+			companyId, start, end, orderByComparator);
+	}
+
+	public static int getAppBuilderAppsByCompanyIdCount(long companyId) {
+		return getService().getAppBuilderAppsByCompanyIdCount(companyId);
+	}
+
 	/**
 	 * Returns all the app builder apps matching the UUID and company.
 	 *
