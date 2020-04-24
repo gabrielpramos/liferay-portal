@@ -9,6 +9,9 @@ components:
                 dataDefinitionId:
                     format: int64
                     type: integer
+                dataDefinitionName:
+                    readOnly: true
+                    type: string
                 dataLayoutId:
                     format: int64
                     type: integer

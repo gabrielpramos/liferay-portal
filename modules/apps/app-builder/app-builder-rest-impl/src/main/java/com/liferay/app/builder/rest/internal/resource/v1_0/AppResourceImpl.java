@@ -473,6 +473,16 @@ public class AppResourceImpl
 				siteId = appBuilderApp.getGroupId();
 				status = appBuilderAppConstantsStatus.getLabel();
 				userId = appBuilderApp.getUserId();
+
+				setDataDefinitionName(
+					() -> {
+						DDMStructure ddmStructure =
+							_ddmStructureLocalService.getDDMStructure(
+								appBuilderApp.getDdmStructureId());
+
+						return ddmStructure.getName(
+							contextAcceptLanguage.getPreferredLocale());
+					});
 			}
 		};
 	}
