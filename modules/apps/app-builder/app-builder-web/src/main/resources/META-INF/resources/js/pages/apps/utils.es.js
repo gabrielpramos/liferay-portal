@@ -12,7 +12,7 @@
  * details.
  */
 
-import {DEPLOYMENT_TYPES} from '../DeploymentConstants.es';
+import {DEPLOYMENT_TYPES} from './constants.es';
 
 const concatTypes = types => {
 	return types.reduce((acc, cur, index) => {
