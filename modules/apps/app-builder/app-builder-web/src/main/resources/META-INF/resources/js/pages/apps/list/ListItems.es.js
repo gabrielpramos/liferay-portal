@@ -23,7 +23,7 @@ import {fromNow} from '../../../utils/time.es';
 import EditAppContext, {
 	UPDATE_DATA_LAYOUT_ID,
 	UPDATE_DATA_LIST_VIEW_ID,
-} from './EditAppContext.es';
+} from '../edit/EditAppContext.es';
 
 const {Body, Cell, Head, Row} = ClayTable;
 

@@ -16,41 +16,14 @@ import ClayLabel from '@clayui/label';
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 
-import {AppContext} from '../../AppContext.es';
-import Button from '../../components/button/Button.es';
+import {AppContext} from '../../../AppContext.es';
+import Button from '../../../components/button/Button.es';
 import ListView from '../../../components/list-view/ListView.es';
-import {confirmDelete} from '../../utils/client.es';
-import {fromNow} from '../../utils/time.es';
+import {confirmDelete} from '../../../utils/client.es';
+import {fromNow} from '../../../utils/time.es';
 import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from '../DeploymentConstants.es';
 import useDeploymentActions from '../hooks/useDeploymentActions.es';
 import {concatTypes, isDeployed} from '../util/appUtil.es';
-
-const COLUMNS = [
-	{
-		key: 'name',
-		sortable: true,
-		value: Liferay.Language.get('name'),
-	},
-	{
-		key: 'type',
-		value: Liferay.Language.get('deployed-as'),
-	},
-	{
-		key: 'dateCreated',
-		sortable: true,
-		value: Liferay.Language.get('create-date'),
-	},
-	{
-		asc: false,
-		key: 'dateModified',
-		sortable: true,
-		value: Liferay.Language.get('modified-date'),
-	},
-	{
-		key: 'status',
-		value: Liferay.Language.get('status'),
-	},
-];
 
 export default ({
 	match: {
@@ -90,43 +63,79 @@ export default ({
 		},
 	];
 
+	const addButton = () => (
+		<Button
+			className="nav-btn nav-btn-monospaced"
+			href={`${url}/deploy`}
+			symbol="plus"
+			tooltip={Liferay.Language.get('new-app')}
+		/>
+	);
+
+	const COLUMNS = [
+		{
+			key: 'name',
+			sortable: !!dataDefinitionId,
+			value: Liferay.Language.get('name'),
+		},
+		{
+			key: 'type',
+			value: Liferay.Language.get('deployed-as'),
+		},
+		{
+			key: 'dateCreated',
+			sortable: !!dataDefinitionId,
+			value: Liferay.Language.get('create-date'),
+		},
+		{
+			asc: false,
+			key: 'dateModified',
+			sortable: !!dataDefinitionId,
+			value: Liferay.Language.get('modified-date'),
+		},
+		{
+			key: 'status',
+			value: Liferay.Language.get('status'),
+		},
+	];
+
 	const EMPTY_STATE = {
-		button: () => (
+		title: Liferay.Language.get('there-are-no-apps-yet'),
+	};
+
+	if (dataDefinitionId) {
+		EMPTY_STATE.description = Liferay.Language.get(
+			'select-the-form-and-table-view-you-want-and-deploy-your-app-as-a-widget-standalone-or-place-it-in-the-product-menu'
+		);
+		EMPTY_STATE.button = () => (
 			<Button displayType="secondary" href={`${url}/deploy`}>
 				{Liferay.Language.get('new-app')}
 			</Button>
-		),
-		description: Liferay.Language.get(
-			'select-the-form-and-table-view-you-want-and-deploy-your-app-as-a-widget-standalone-or-place-it-in-the-product-menu'
-		),
-		title: Liferay.Language.get('there-are-no-apps-yet'),
-	};
+		);
+	}
+
+	const ENDPOINT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
 
 	return (
 		<ListView
 			actions={ACTIONS}
-			addButton={() => (
-				<Button
-					className="nav-btn nav-btn-monospaced"
-					href={`${url}/deploy`}
-					symbol="plus"
-					tooltip={Liferay.Language.get('new-app')}
-				/>
-			)}
+			addButton={dataDefinitionId && addButton}
 			columns={COLUMNS}
 			emptyState={EMPTY_STATE}
-			endpoint={`/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`}
+			endpoint={ENDPOINT}
 		>
 			{item => ({
 				...item,
 				dateCreated: fromNow(item.dateCreated),
 				dateModified: fromNow(item.dateModified),
-				name: (
+				name: dataDefinitionId ? (
 					<Link
 						to={`/custom-object/${dataDefinitionId}/apps/${item.id}`}
 					>
 						{item.name.en_US}
 					</Link>
+				) : (
+					item.name.en_US
 				),
 				nameText: item.name.en_US,
 				status: (

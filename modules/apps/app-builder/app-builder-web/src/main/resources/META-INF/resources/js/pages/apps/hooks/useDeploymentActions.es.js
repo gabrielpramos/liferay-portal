@@ -18,8 +18,8 @@ import {Context} from '@clayui/modal';
 import React, {useContext} from 'react';
 
 import {updateItem} from '../../../utils/client.es';
-import {DEPLOYMENT_ACTION} from '../../app/DeploymentConstants.es';
-import {concatTypes} from '../../app/util/appUtil.es';
+import {DEPLOYMENT_ACTION} from '../DeploymentConstants.es';
+import {concatTypes} from '../util/appUtil.es';
 
 export default () => {
 	const [{onClose}, dispatch] = useContext(Context);
