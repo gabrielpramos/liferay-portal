@@ -38,6 +38,6 @@ String appBuilderRootElementId = renderResponse.getNamespace() + "-app-builder-r
 
 	<react:component
 		data="<%= data %>"
-		module="js/pages/app/index.es"
+		module="js/pages/apps/index.es"
 	/>
 </div>
