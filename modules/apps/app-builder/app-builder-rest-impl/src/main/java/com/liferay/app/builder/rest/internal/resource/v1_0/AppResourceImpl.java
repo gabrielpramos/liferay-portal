@@ -200,8 +200,7 @@ public class AppResourceImpl
 						ddmStructure.getStructureId(),
 						pagination.getStartPosition(),
 						pagination.getEndPosition(),
-						_toOrderByComparator(
-							(Sort)ArrayUtil.getValue(sorts, 0))),
+						_toOrderByComparator(sorts[0])),
 					this::_toApp),
 				pagination,
 				_appBuilderAppLocalService.getAppBuilderAppsCount(
@@ -265,8 +264,7 @@ public class AppResourceImpl
 					_appBuilderAppLocalService.getAppBuilderApps(
 						siteId, pagination.getStartPosition(),
 						pagination.getEndPosition(),
-						_toOrderByComparator(
-							(Sort)ArrayUtil.getValue(sorts, 0))),
+						_toOrderByComparator(sorts[0])),
 					this::_toApp),
 				pagination,
 				_appBuilderAppLocalService.getAppBuilderAppsCount(siteId));
