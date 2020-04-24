@@ -21,9 +21,9 @@ import Button from '../../../components/button/Button.es';
 import ListView from '../../../components/list-view/ListView.es';
 import {confirmDelete} from '../../../utils/client.es';
 import {fromNow} from '../../../utils/time.es';
-import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from '../DeploymentConstants.es';
+import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from '../constants.es';
 import useDeploymentActions from '../hooks/useDeploymentActions.es';
-import {concatTypes, isDeployed} from '../util/appUtil.es';
+import {concatTypes, isDeployed} from '../utils.es';
 
 export default ({
 	match: {
