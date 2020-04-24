@@ -17,8 +17,8 @@ import {Route, Switch} from 'react-router-dom';
 
 import ControlMenu from '../../components/control-menu/ControlMenu.es';
 import {getItem} from '../../utils/client.es';
-import EditApp from '../app/EditApp.es';
-import ListApps from '../app/ListApps.es';
+import EditApp from '../apps/edit/EditApp.es';
+import ListApps from '../apps/list/ListApps.es';
 import EditFormView from '../form-view/EditFormView.es';
 import ListFormViews from '../form-view/ListFormViews.es';
 import EditTableView from '../table-view/EditTableView.es';

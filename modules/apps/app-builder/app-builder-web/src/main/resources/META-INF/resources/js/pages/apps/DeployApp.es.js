@@ -14,9 +14,9 @@
 
 import React from 'react';
 
-import ProductMenuSettings from './ProductMenuSettings.es';
-import Settings from './Settings.es';
-import WidgetSettings from './WidgetSettings.es';
+import ProductMenuSettings from './settings/ProductMenuSettings.es';
+import Settings from './settings/Settings.es';
+import WidgetSettings from './settings/WidgetSettings.es';
 
 const Divider = () => {
 	return (

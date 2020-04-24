@@ -17,7 +17,7 @@ import React from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {AppContextProvider} from '../../AppContext.es';
-import ListApps from '../app/ListApps.es';
+import ListApps from './list/ListApps.es';
 
 export default props => {
 	return (
