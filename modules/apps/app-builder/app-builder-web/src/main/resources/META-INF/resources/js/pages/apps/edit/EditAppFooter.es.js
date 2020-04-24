@@ -17,10 +17,10 @@ import ClayLink from '@clayui/link';
 import React, {useContext, useState} from 'react';
 import {withRouter} from 'react-router-dom';
 
-import {AppContext} from '../../AppContext.es';
-import Button from '../../components/button/Button.es';
-import {addItem, updateItem} from '../../utils/client.es';
-import {errorToast, successToast} from '../../utils/toast.es';
+import {AppContext} from '../../../AppContext.es';
+import Button from '../../../components/button/Button.es';
+import {addItem, updateItem} from '../../../utils/client.es';
+import {errorToast, successToast} from '../../../utils/toast.es';
 import EditAppContext from './EditAppContext.es';
 
 export default withRouter(
