@@ -13,7 +13,7 @@
  */
 
 import ClayLabel from '@clayui/label';
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../../AppContext.es';
@@ -114,7 +114,14 @@ export default ({
 		);
 	}
 
-	const ENDPOINT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
+	const ENDPOINT_APPS = `/o/app-builder/v1.0/apps`;
+	const ENDPOINT_CUSTOM_OBJECT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
+
+	const ENDPOINT = useMemo(
+		() => (dataDefinitionId ? ENDPOINT_CUSTOM_OBJECT : ENDPOINT_APPS),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[dataDefinitionId]
+	);
 
 	return (
 		<ListView
