@@ -17,13 +17,13 @@ import ClayTable from '@clayui/table';
 import classNames from 'classnames';
 import React, {useContext} from 'react';
 
-import {withLoading} from '../../components/loading/Loading.es';
-import {withEmpty} from '../../components/table/EmptyState.es';
-import {fromNow} from '../../utils/time.es';
+import {withLoading} from '../../../components/loading/Loading.es';
+import {withEmpty} from '../../../components/table/EmptyState.es';
+import {fromNow} from '../../../utils/time.es';
 import EditAppContext, {
 	UPDATE_DATA_LAYOUT_ID,
 	UPDATE_DATA_LIST_VIEW_ID,
-} from './EditAppContext.es';
+} from '../edit/EditAppContext.es';
 
 const {Body, Cell, Head, Row} = ClayTable;
 

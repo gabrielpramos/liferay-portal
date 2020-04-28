@@ -14,15 +14,15 @@
 
 import React, {useEffect, useReducer, useState} from 'react';
 
-import ControlMenu from '../../components/control-menu/ControlMenu.es';
-import {Loading} from '../../components/loading/Loading.es';
-import {getItem} from '../../utils/client.es';
+import ControlMenu from '../../../components/control-menu/ControlMenu.es';
+import {Loading} from '../../../components/loading/Loading.es';
+import MultiStepNav from '../../../components/multi-step-nav/MultiStepNav.es';
+import {getItem} from '../../../utils/client.es';
 import DeployApp from './DeployApp.es';
 import EditAppBody from './EditAppBody.es';
 import EditAppContext, {UPDATE_APP, reducer} from './EditAppContext.es';
 import EditAppFooter from './EditAppFooter.es';
 import EditAppHeader from './EditAppHeader.es';
-import MultiStepNav from './MultiStepNav.es';
 
 export default ({
 	match: {
@@ -92,6 +92,7 @@ export default ({
 									<div className="col-md-12">
 										<MultiStepNav
 											currentStep={currentStep}
+											steps={['1', '2', '3']}
 										/>
 									</div>
 								</div>
