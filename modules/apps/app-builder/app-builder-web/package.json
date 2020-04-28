@@ -32,7 +32,8 @@
 			"src/main/resources/META-INF/resources/js/**/*.es.js"
 		],
 		"testPathIgnorePatterns": [
-			"<rootDir>/test/js/[^/]+\\.js"
+			"<rootDir>/test/js/[^/]+\\.js",
+			"<rootDir>/test/js/mock"
 		]
 	},
 	"main": "js/index.es.js",
