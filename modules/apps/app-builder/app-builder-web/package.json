@@ -35,7 +35,8 @@
 			"<rootDir>/jest-setup.config.js"
 		],
 		"testPathIgnorePatterns": [
-			"<rootDir>/test/js/[^/]+\\.js"
+			"<rootDir>/test/js/[^/]+\\.js",
+			"<rootDir>/test/js/mock"
 		]
 	},
 	"main": "js/index.es.js",
