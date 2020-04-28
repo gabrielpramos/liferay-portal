@@ -27,6 +27,10 @@ export default ({columns, disabled}) => {
 	const [, dispatch] = useContext(SearchContext);
 	columns = columns.filter((column) => column.sortable);
 
+	if (!columns.length) {
+		return <></>;
+	}
+
 	let defaultColumn = columns.find((column) =>
 		Object.hasOwnProperty.call(column, 'asc')
 	);
