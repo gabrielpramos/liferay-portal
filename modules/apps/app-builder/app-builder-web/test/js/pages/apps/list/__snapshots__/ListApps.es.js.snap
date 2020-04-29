@@ -110,6 +110,11 @@ exports[`The ListApp component should renders 1`] = `
               <th
                 class="table-cell-expand-smaller text-left"
               >
+                object
+              </th>
+              <th
+                class="table-cell-expand-smaller text-left"
+              >
                 deployed-as
               </th>
               <th
@@ -144,6 +149,11 @@ exports[`The ListApp component should renders 1`] = `
                 >
                   Item 1
                 </p>
+              </td>
+              <td
+                class="table-cell-expand-smaller text-left"
+              >
+                Object
               </td>
               <td
                 class="table-cell-expand-smaller text-left"
