@@ -15,8 +15,7 @@
 import ClayMultiStepNav from '@clayui/multi-step-nav';
 import React from 'react';
 
-export default ({currentStep}) => {
-	const steps = ['1', '2', '3'];
+export default ({currentStep, steps = []}) => {
 	const isComplete = (index) =>
 		index !== steps.length - 1 && currentStep > index;
 

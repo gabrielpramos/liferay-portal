@@ -18,13 +18,13 @@ import classNames from 'classnames';
 import {SearchInput} from 'data-engine-taglib';
 import React, {useContext, useEffect, useState} from 'react';
 
-import {getItem} from '../../utils/client.es';
+import {getItem} from '../../../../utils/client.es';
 import EditAppContext, {
 	PRODUCT_MENU,
 	SITE_ID_ALL,
 	TOGGLE_SETTINGS_SITE_ID,
 	UPDATE_SETTINGS_SCOPE,
-} from './EditAppContext.es';
+} from '../EditAppContext.es';
 
 const {Divider, Item, ItemList} = ClayDropDown;
 

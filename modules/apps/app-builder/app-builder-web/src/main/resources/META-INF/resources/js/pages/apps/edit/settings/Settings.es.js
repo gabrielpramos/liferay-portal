@@ -14,11 +14,11 @@
 
 import React, {useContext} from 'react';
 
-import ToggleSwitch from '../../components/toggle-switch/ToggleSwitch.es';
+import ToggleSwitch from '../../../../components/toggle-switch/ToggleSwitch.es';
 import EditAppContext, {
 	ADD_DEPLOYMENT,
 	REMOVE_DEPLOYMENT,
-} from './EditAppContext.es';
+} from '../EditAppContext.es';
 
 export default ({deploymentType, settings = () => <></>, subtitle, title}) => {
 	const {
