@@ -23,6 +23,7 @@ const createItems = (size) => {
 					type: 'standalone',
 				},
 			],
+			dataDefinitionName: 'Object',
 			dateCreated: '2020-03-26T11:26:54.262Z',
 			dateModified: '2020-03-26T11:26:54.262Z',
 			id: i + 1,
