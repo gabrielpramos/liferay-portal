@@ -72,7 +72,7 @@ export default ({
 		/>
 	);
 
-	const COLUMNS = [
+	let COLUMNS = [
 		{
 			key: 'name',
 			sortable: !!dataDefinitionId,
@@ -112,6 +112,15 @@ export default ({
 				{Liferay.Language.get('new-app')}
 			</Button>
 		);
+	}
+	else {
+		const [nameColumn, ...otherColumns] = COLUMNS;
+
+		COLUMNS = [
+			nameColumn,
+			{key: 'dataDefinitionName', value: Liferay.Language.get('object')},
+			...otherColumns,
+		];
 	}
 
 	const ENDPOINT_APPS = `/o/app-builder/v1.0/apps`;
