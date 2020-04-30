@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The ListApp component should renders 1`] = `
+exports[`ListApp renders 1`] = `
 <DocumentFragment>
   <nav
     class="management-bar navbar navbar-expand-md management-bar-light"

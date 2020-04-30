@@ -67,14 +67,14 @@ export const EMPTY_STATE = {
 export const ENDPOINT = '/endpoint';
 
 export const ITEMS = {
-	N: (n) => createItems(n),
+	MANY: (size) => createItems(size),
 	ONE: createItems(1),
 	TWENTY: createItems(20),
 };
 
 export const RESPONSES = {
-	N_ITEMS: (n) => {
-		const items = ITEMS.N(n);
+	MANY_ITEMS: (size) => {
+		const items = ITEMS.MANY(size);
 
 		return {
 			items,

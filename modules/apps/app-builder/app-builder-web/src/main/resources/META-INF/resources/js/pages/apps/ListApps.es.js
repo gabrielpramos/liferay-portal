@@ -124,14 +124,17 @@ export default ({
 	return (
 		<ListView
 			actions={ACTIONS}
-			addButton={dataDefinitionId && (() => (
-				<Button
-					className="nav-btn nav-btn-monospaced"
-					href={`${url}/deploy`}
-					symbol="plus"
-					tooltip={Liferay.Language.get('new-app')}
-				/>
-			))}
+			addButton={
+				dataDefinitionId &&
+				(() => (
+					<Button
+						className="nav-btn nav-btn-monospaced"
+						href={`${url}/deploy`}
+						symbol="plus"
+						tooltip={Liferay.Language.get('new-app')}
+					/>
+				))
+			}
 			columns={COLUMNS}
 			emptyState={EMPTY_STATE}
 			endpoint={ENDPOINT}

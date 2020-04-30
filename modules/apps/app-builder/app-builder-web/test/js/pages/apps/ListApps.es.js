@@ -20,7 +20,7 @@ import ListApps from '../../../../src/main/resources/META-INF/resources/js/pages
 import AppContextProviderWrapper from '../../AppContextProviderWrapper.es';
 import {RESPONSES} from '../../constants.es';
 
-describe('The ListApp component should', () => {
+describe('ListApp', () => {
 	afterEach(cleanup);
 
 	it('renders', async () => {
@@ -38,13 +38,11 @@ describe('The ListApp component should', () => {
 		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('renders app list with dataDefinitionId and shows all apps from all 5 objects', async () => {
-		fetch.mockResponse(JSON.stringify(RESPONSES.N_ITEMS(5)));
+	it('renders with dataDefinitionId and 5 apps in the list', async () => {
+		fetch.mockResponse(JSON.stringify(RESPONSES.MANY_ITEMS(5)));
 
 		const {container} = render(
-			<ListApps
-				match={{params: {dataDefinitionId: '12345'}, url: '/'}}
-			/>,
+			<ListApps match={{params: {dataDefinitionId: '1'}, url: '/'}} />,
 			{wrapper: AppContextProviderWrapper}
 		);
 
@@ -55,8 +53,8 @@ describe('The ListApp component should', () => {
 		expect(container.querySelector('tbody').children.length).toEqual(5);
 	});
 
-	it('renders app list with no dataDefinitionId and shows all apps from all 5 objects', async () => {
-		fetch.mockResponse(JSON.stringify(RESPONSES.N_ITEMS(5)));
+	it('renders with no dataDefinitionId and 5 apps in the list', async () => {
+		fetch.mockResponse(JSON.stringify(RESPONSES.MANY_ITEMS(5)));
 
 		const {container} = render(
 			<ListApps match={{params: {dataDefinitionId: ''}, url: '/'}} />,
@@ -70,7 +68,7 @@ describe('The ListApp component should', () => {
 		expect(container.querySelector('tbody').children.length).toEqual(5);
 	});
 
-	it('renders app list with an empty state', async () => {
+	it('renders with empty state', async () => {
 		fetch.mockResponse(JSON.stringify(RESPONSES.NO_ITEMS));
 
 		const {container} = render(
