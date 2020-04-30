@@ -51,14 +51,15 @@ public class AppBuilderAppLocalServiceUtil {
 	}
 
 	public static com.liferay.app.builder.model.AppBuilderApp addAppBuilderApp(
-			long groupId, long companyId, long userId, long ddmStructureId,
-			long ddmStructureLayoutId, long deDataListViewId,
-			java.util.Map<java.util.Locale, String> nameMap, int status)
+			long groupId, long companyId, long userId, int appStatus,
+			long ddmStructureId, long ddmStructureLayoutId,
+			long deDataListViewId,
+			java.util.Map<java.util.Locale, String> nameMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addAppBuilderApp(
-			groupId, companyId, userId, ddmStructureId, ddmStructureLayoutId,
-			deDataListViewId, nameMap, status);
+			groupId, companyId, userId, appStatus, ddmStructureId,
+			ddmStructureLayoutId, deDataListViewId, nameMap);
 	}
 
 	/**
@@ -267,9 +268,9 @@ public class AppBuilderAppLocalServiceUtil {
 	}
 
 	public static java.util.List<Long> getAppBuilderAppIds(
-		int status, String type) {
+		int appStatus, String type) {
 
-		return getService().getAppBuilderAppIds(status, type);
+		return getService().getAppBuilderAppIds(appStatus, type);
 	}
 
 	/**
@@ -296,9 +297,9 @@ public class AppBuilderAppLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.app.builder.model.AppBuilderApp>
-		getAppBuilderApps(long companyId, int status) {
+		getAppBuilderApps(long companyId, int appStatus) {
 
-		return getService().getAppBuilderApps(companyId, status);
+		return getService().getAppBuilderApps(companyId, appStatus);
 	}
 
 	public static java.util.List<com.liferay.app.builder.model.AppBuilderApp>
@@ -445,12 +446,12 @@ public class AppBuilderAppLocalServiceUtil {
 			updateAppBuilderApp(
 				long userId, long appBuilderAppId, long ddmStructureId,
 				long ddmStructureLayoutId, long deDataListViewId,
-				java.util.Map<java.util.Locale, String> nameMap, int status)
+				java.util.Map<java.util.Locale, String> nameMap, int appStatus)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateAppBuilderApp(
 			userId, appBuilderAppId, ddmStructureId, ddmStructureLayoutId,
-			deDataListViewId, nameMap, status);
+			deDataListViewId, nameMap, appStatus);
 	}
 
 	public static AppBuilderAppLocalService getService() {

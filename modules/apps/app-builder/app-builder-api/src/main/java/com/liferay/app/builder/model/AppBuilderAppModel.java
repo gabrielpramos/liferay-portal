@@ -209,6 +209,20 @@ public interface AppBuilderAppModel
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the app status of this app builder app.
+	 *
+	 * @return the app status of this app builder app
+	 */
+	public int getAppStatus();
+
+	/**
+	 * Sets the app status of this app builder app.
+	 *
+	 * @param appStatus the app status of this app builder app
+	 */
+	public void setAppStatus(int appStatus);
+
+	/**
 	 * Returns the ddm structure ID of this app builder app.
 	 *
 	 * @return the ddm structure ID of this app builder app
@@ -348,20 +362,6 @@ public interface AppBuilderAppModel
 	 * @param defaultLocale the default locale
 	 */
 	public void setNameMap(Map<Locale, String> nameMap, Locale defaultLocale);
-
-	/**
-	 * Returns the status of this app builder app.
-	 *
-	 * @return the status of this app builder app
-	 */
-	public int getStatus();
-
-	/**
-	 * Sets the status of this app builder app.
-	 *
-	 * @param status the status of this app builder app
-	 */
-	public void setStatus(int status);
 
 	@Override
 	public String[] getAvailableLanguageIds();

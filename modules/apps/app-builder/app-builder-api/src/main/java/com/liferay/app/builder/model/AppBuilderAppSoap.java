@@ -39,11 +39,11 @@ public class AppBuilderAppSoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setAppStatus(model.getAppStatus());
 		soapModel.setDdmStructureId(model.getDdmStructureId());
 		soapModel.setDdmStructureLayoutId(model.getDdmStructureLayoutId());
 		soapModel.setDeDataListViewId(model.getDeDataListViewId());
 		soapModel.setName(model.getName());
-		soapModel.setStatus(model.getStatus());
 
 		return soapModel;
 	}
@@ -161,6 +161,14 @@ public class AppBuilderAppSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public int getAppStatus() {
+		return _appStatus;
+	}
+
+	public void setAppStatus(int appStatus) {
+		_appStatus = appStatus;
+	}
+
 	public long getDdmStructureId() {
 		return _ddmStructureId;
 	}
@@ -193,14 +201,6 @@ public class AppBuilderAppSoap implements Serializable {
 		_name = name;
 	}
 
-	public int getStatus() {
-		return _status;
-	}
-
-	public void setStatus(int status) {
-		_status = status;
-	}
-
 	private String _uuid;
 	private long _appBuilderAppId;
 	private long _groupId;
@@ -209,10 +209,10 @@ public class AppBuilderAppSoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private int _appStatus;
 	private long _ddmStructureId;
 	private long _ddmStructureLayoutId;
 	private long _deDataListViewId;
 	private String _name;
-	private int _status;
 
 }

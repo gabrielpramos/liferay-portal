@@ -81,6 +81,20 @@ public class AppSerDes {
 			sb.append("]");
 		}
 
+		if (app.getAppStatus() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"appStatus\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(app.getAppStatus()));
+
+			sb.append("\"");
+		}
+
 		if (app.getDataDefinitionId() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -183,20 +197,6 @@ public class AppSerDes {
 			sb.append(app.getSiteId());
 		}
 
-		if (app.getStatus() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"status\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(app.getStatus()));
-
-			sb.append("\"");
-		}
-
 		if (app.getUserId() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -233,6 +233,13 @@ public class AppSerDes {
 		}
 		else {
 			map.put("appDeployments", String.valueOf(app.getAppDeployments()));
+		}
+
+		if (app.getAppStatus() == null) {
+			map.put("appStatus", null);
+		}
+		else {
+			map.put("appStatus", String.valueOf(app.getAppStatus()));
 		}
 
 		if (app.getDataDefinitionId() == null) {
@@ -305,13 +312,6 @@ public class AppSerDes {
 			map.put("siteId", String.valueOf(app.getSiteId()));
 		}
 
-		if (app.getStatus() == null) {
-			map.put("status", null);
-		}
-		else {
-			map.put("status", String.valueOf(app.getStatus()));
-		}
-
 		if (app.getUserId() == null) {
 			map.put("userId", null);
 		}
@@ -348,6 +348,11 @@ public class AppSerDes {
 						).toArray(
 							size -> new AppDeployment[size]
 						));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "appStatus")) {
+				if (jsonParserFieldValue != null) {
+					app.setAppStatus((String)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "dataDefinitionId")) {
@@ -399,11 +404,6 @@ public class AppSerDes {
 			else if (Objects.equals(jsonParserFieldName, "siteId")) {
 				if (jsonParserFieldValue != null) {
 					app.setSiteId(Long.valueOf((String)jsonParserFieldValue));
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "status")) {
-				if (jsonParserFieldValue != null) {
-					app.setStatus((String)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "userId")) {

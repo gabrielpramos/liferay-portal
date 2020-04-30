@@ -80,6 +80,8 @@ public class AppBuilderAppCacheModel
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", appStatus=");
+		sb.append(appStatus);
 		sb.append(", ddmStructureId=");
 		sb.append(ddmStructureId);
 		sb.append(", ddmStructureLayoutId=");
@@ -88,8 +90,6 @@ public class AppBuilderAppCacheModel
 		sb.append(deDataListViewId);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", status=");
-		sb.append(status);
 		sb.append("}");
 
 		return sb.toString();
@@ -132,6 +132,7 @@ public class AppBuilderAppCacheModel
 			appBuilderAppImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		appBuilderAppImpl.setAppStatus(appStatus);
 		appBuilderAppImpl.setDdmStructureId(ddmStructureId);
 		appBuilderAppImpl.setDdmStructureLayoutId(ddmStructureLayoutId);
 		appBuilderAppImpl.setDeDataListViewId(deDataListViewId);
@@ -142,8 +143,6 @@ public class AppBuilderAppCacheModel
 		else {
 			appBuilderAppImpl.setName(name);
 		}
-
-		appBuilderAppImpl.setStatus(status);
 
 		appBuilderAppImpl.resetOriginalValues();
 
@@ -165,14 +164,14 @@ public class AppBuilderAppCacheModel
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
+		appStatus = objectInput.readInt();
+
 		ddmStructureId = objectInput.readLong();
 
 		ddmStructureLayoutId = objectInput.readLong();
 
 		deDataListViewId = objectInput.readLong();
 		name = objectInput.readUTF();
-
-		status = objectInput.readInt();
 	}
 
 	@Override
@@ -202,6 +201,8 @@ public class AppBuilderAppCacheModel
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
+		objectOutput.writeInt(appStatus);
+
 		objectOutput.writeLong(ddmStructureId);
 
 		objectOutput.writeLong(ddmStructureLayoutId);
@@ -214,8 +215,6 @@ public class AppBuilderAppCacheModel
 		else {
 			objectOutput.writeUTF(name);
 		}
-
-		objectOutput.writeInt(status);
 	}
 
 	public String uuid;
@@ -226,10 +225,10 @@ public class AppBuilderAppCacheModel
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public int appStatus;
 	public long ddmStructureId;
 	public long ddmStructureLayoutId;
 	public long deDataListViewId;
 	public String name;
-	public int status;
 
 }

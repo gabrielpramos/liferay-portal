@@ -10,11 +10,11 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="appStatus" type="int" />
 		<field name="ddmStructureId" type="long" />
 		<field name="ddmStructureLayoutId" type="long" />
 		<field name="deDataListViewId" type="long" />
 		<field localized="true" name="name" type="String" />
-		<field name="status" type="int" />
 	</model>
 	<model name="com.liferay.app.builder.model.AppBuilderAppDeployment">
 		<field name="appBuilderAppDeploymentId" type="long" />

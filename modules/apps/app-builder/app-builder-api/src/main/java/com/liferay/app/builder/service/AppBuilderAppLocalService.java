@@ -76,9 +76,9 @@ public interface AppBuilderAppLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public AppBuilderApp addAppBuilderApp(
-			long groupId, long companyId, long userId, long ddmStructureId,
-			long ddmStructureLayoutId, long deDataListViewId,
-			Map<Locale, String> nameMap, int status)
+			long groupId, long companyId, long userId, int appStatus,
+			long ddmStructureId, long ddmStructureLayoutId,
+			long deDataListViewId, Map<Locale, String> nameMap)
 		throws PortalException;
 
 	/**
@@ -234,7 +234,7 @@ public interface AppBuilderAppLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Long> getAppBuilderAppIds(int status, String type);
+	public List<Long> getAppBuilderAppIds(int appStatus, String type);
 
 	/**
 	 * Returns a range of all the app builder apps.
@@ -254,7 +254,7 @@ public interface AppBuilderAppLocalService
 	public List<AppBuilderApp> getAppBuilderApps(long ddmStructureId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<AppBuilderApp> getAppBuilderApps(long companyId, int status);
+	public List<AppBuilderApp> getAppBuilderApps(long companyId, int appStatus);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AppBuilderApp> getAppBuilderApps(
@@ -350,7 +350,7 @@ public interface AppBuilderAppLocalService
 	public AppBuilderApp updateAppBuilderApp(
 			long userId, long appBuilderAppId, long ddmStructureId,
 			long ddmStructureLayoutId, long deDataListViewId,
-			Map<Locale, String> nameMap, int status)
+			Map<Locale, String> nameMap, int appStatus)
 		throws PortalException;
 
 }

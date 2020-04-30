@@ -7,11 +7,11 @@ create table AppBuilderApp (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
+	appStatus INTEGER,
 	ddmStructureId LONG,
 	ddmStructureLayoutId LONG,
 	deDataListViewId LONG,
-	name STRING null,
-	status INTEGER
+	name STRING null
 );
 
 create table AppBuilderAppDeployment (

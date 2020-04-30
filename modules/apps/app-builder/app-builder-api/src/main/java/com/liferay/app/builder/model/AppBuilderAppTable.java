@@ -49,6 +49,8 @@ public class AppBuilderAppTable extends BaseTable<AppBuilderAppTable> {
 		"createDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<AppBuilderAppTable, Date> modifiedDate = createColumn(
 		"modifiedDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<AppBuilderAppTable, Integer> appStatus = createColumn(
+		"appStatus", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 	public final Column<AppBuilderAppTable, Long> ddmStructureId = createColumn(
 		"ddmStructureId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<AppBuilderAppTable, Long> ddmStructureLayoutId =
@@ -60,8 +62,6 @@ public class AppBuilderAppTable extends BaseTable<AppBuilderAppTable> {
 			"deDataListViewId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<AppBuilderAppTable, String> name = createColumn(
 		"name", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<AppBuilderAppTable, Integer> status = createColumn(
-		"status", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 
 	private AppBuilderAppTable() {
 		super("AppBuilderApp", AppBuilderAppTable::new);

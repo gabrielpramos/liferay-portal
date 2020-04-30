@@ -50,7 +50,8 @@ public interface AppResource {
 	}
 
 	public Page<App> getAppsPage(
-			String keywords, Pagination pagination, Sort[] sorts)
+			String[] appDeploymentTypes, String appStatus, String keywords,
+			Long[] userIds, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
 	public void deleteApp(Long appId) throws Exception;

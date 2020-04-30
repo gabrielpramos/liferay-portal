@@ -51,11 +51,11 @@ public class AppBuilderAppWrapper
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("appStatus", getAppStatus());
 		attributes.put("ddmStructureId", getDdmStructureId());
 		attributes.put("ddmStructureLayoutId", getDdmStructureLayoutId());
 		attributes.put("deDataListViewId", getDeDataListViewId());
 		attributes.put("name", getName());
-		attributes.put("status", getStatus());
 
 		return attributes;
 	}
@@ -110,6 +110,12 @@ public class AppBuilderAppWrapper
 			setModifiedDate(modifiedDate);
 		}
 
+		Integer appStatus = (Integer)attributes.get("appStatus");
+
+		if (appStatus != null) {
+			setAppStatus(appStatus);
+		}
+
 		Long ddmStructureId = (Long)attributes.get("ddmStructureId");
 
 		if (ddmStructureId != null) {
@@ -134,12 +140,6 @@ public class AppBuilderAppWrapper
 		if (name != null) {
 			setName(name);
 		}
-
-		Integer status = (Integer)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
 	}
 
 	/**
@@ -150,6 +150,16 @@ public class AppBuilderAppWrapper
 	@Override
 	public long getAppBuilderAppId() {
 		return model.getAppBuilderAppId();
+	}
+
+	/**
+	 * Returns the app status of this app builder app.
+	 *
+	 * @return the app status of this app builder app
+	 */
+	@Override
+	public int getAppStatus() {
+		return model.getAppStatus();
 	}
 
 	@Override
@@ -319,16 +329,6 @@ public class AppBuilderAppWrapper
 	}
 
 	/**
-	 * Returns the status of this app builder app.
-	 *
-	 * @return the status of this app builder app
-	 */
-	@Override
-	public int getStatus() {
-		return model.getStatus();
-	}
-
-	/**
 	 * Returns the user ID of this app builder app.
 	 *
 	 * @return the user ID of this app builder app
@@ -396,6 +396,16 @@ public class AppBuilderAppWrapper
 	@Override
 	public void setAppBuilderAppId(long appBuilderAppId) {
 		model.setAppBuilderAppId(appBuilderAppId);
+	}
+
+	/**
+	 * Sets the app status of this app builder app.
+	 *
+	 * @param appStatus the app status of this app builder app
+	 */
+	@Override
+	public void setAppStatus(int appStatus) {
+		model.setAppStatus(appStatus);
 	}
 
 	/**
@@ -539,16 +549,6 @@ public class AppBuilderAppWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	 * Sets the status of this app builder app.
-	 *
-	 * @param status the status of this app builder app
-	 */
-	@Override
-	public void setStatus(int status) {
-		model.setStatus(status);
 	}
 
 	/**

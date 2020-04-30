@@ -42,11 +42,13 @@ public interface AppResource {
 	}
 
 	public Page<App> getAppsPage(
-			String keywords, Pagination pagination, String sortString)
+			String[] appDeploymentTypes, String appStatus, String keywords,
+			Long[] userIds, Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse getAppsPageHttpResponse(
-			String keywords, Pagination pagination, String sortString)
+			String[] appDeploymentTypes, String appStatus, String keywords,
+			Long[] userIds, Pagination pagination, String sortString)
 		throws Exception;
 
 	public void deleteApp(Long appId) throws Exception;
@@ -167,11 +169,13 @@ public interface AppResource {
 	public static class AppResourceImpl implements AppResource {
 
 		public Page<App> getAppsPage(
-				String keywords, Pagination pagination, String sortString)
+				String[] appDeploymentTypes, String appStatus, String keywords,
+				Long[] userIds, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = getAppsPageHttpResponse(
-				keywords, pagination, sortString);
+				appDeploymentTypes, appStatus, keywords, userIds, pagination,
+				sortString);
 
 			String content = httpResponse.getContent();
 
@@ -194,7 +198,8 @@ public interface AppResource {
 		}
 
 		public HttpInvoker.HttpResponse getAppsPageHttpResponse(
-				String keywords, Pagination pagination, String sortString)
+				String[] appDeploymentTypes, String appStatus, String keywords,
+				Long[] userIds, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -218,8 +223,27 @@ public interface AppResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
 
+			if (appDeploymentTypes != null) {
+				for (int i = 0; i < appDeploymentTypes.length; i++) {
+					httpInvoker.parameter(
+						"appDeploymentTypes",
+						String.valueOf(appDeploymentTypes[i]));
+				}
+			}
+
+			if (appStatus != null) {
+				httpInvoker.parameter("appStatus", String.valueOf(appStatus));
+			}
+
 			if (keywords != null) {
 				httpInvoker.parameter("keywords", String.valueOf(keywords));
+			}
+
+			if (userIds != null) {
+				for (int i = 0; i < userIds.length; i++) {
+					httpInvoker.parameter(
+						"userIds", String.valueOf(userIds[i]));
+				}
 			}
 
 			if (pagination != null) {
