@@ -68,9 +68,27 @@ paths:
             operationId: getAppsPage
             parameters:
                 - in: query
+                  name: active
+                  schema:
+                      type: boolean
+                - in: query
+                  name: deploymentTypes
+                  schema:
+                      items:
+                          enum: [productMenu, standalone, widget]
+                          type: string
+                      type: array
+                - in: query
                   name: keywords
                   schema:
                       type: string
+                - in: query
+                  name: userIds
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
                 - in: query
                   name: page
                   schema:
