@@ -27,7 +27,7 @@
 		<column name="ddmStructureLayoutId" type="long" />
 		<column name="deDataListViewId" type="long" />
 		<column localized="true" name="name" type="String" />
-		<column name="status" type="int" />
+		<column name="active" type="boolean" />
 
 		<!-- Finder methods -->
 
@@ -40,9 +40,9 @@
 		<finder name="DDMStructureId" return-type="Collection">
 			<finder-column name="ddmStructureId" />
 		</finder>
-		<finder name="C_S" return-type="Collection">
+		<finder name="C_A" return-type="Collection">
 			<finder-column name="companyId" />
-			<finder-column name="status" />
+			<finder-column name="active" />
 		</finder>
 		<finder name="G_C_D" return-type="Collection">
 			<finder-column name="groupId" />
@@ -80,7 +80,4 @@
 			<finder-column name="type" />
 		</finder>
 	</entity>
-	<exceptions>
-		<exception>AppBuilderAppStatus</exception>
-	</exceptions>
 </service-builder>

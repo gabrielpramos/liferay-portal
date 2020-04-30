@@ -2,6 +2,8 @@ components:
     schemas:
         App:
             properties:
+                active:
+                    type: boolean
                 appDeployments:
                     items:
                         $ref: "#/components/schemas/AppDeployment"
@@ -34,8 +36,6 @@ components:
                 siteId:
                     format: int64
                     type: integer
-                status:
-                    type: string
                 userId:
                     format: int64
                     type: integer
