@@ -6,6 +6,8 @@ components:
                     items:
                         $ref: "#/components/schemas/AppDeployment"
                     type: array
+                appStatus:
+                    type: string
                 dataDefinitionId:
                     format: int64
                     type: integer
@@ -34,8 +36,6 @@ components:
                 siteId:
                     format: int64
                     type: integer
-                status:
-                    type: string
                 userId:
                     format: int64
                     type: integer

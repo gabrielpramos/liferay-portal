@@ -23,11 +23,11 @@
 
 		<!-- Other fields -->
 
+		<column name="appStatus" type="int" />
 		<column name="ddmStructureId" type="long" />
 		<column name="ddmStructureLayoutId" type="long" />
 		<column name="deDataListViewId" type="long" />
 		<column localized="true" name="name" type="String" />
-		<column name="status" type="int" />
 
 		<!-- Finder methods -->
 
@@ -40,9 +40,9 @@
 		<finder name="DDMStructureId" return-type="Collection">
 			<finder-column name="ddmStructureId" />
 		</finder>
-		<finder name="C_S" return-type="Collection">
+		<finder name="C_A" return-type="Collection">
 			<finder-column name="companyId" />
-			<finder-column name="status" />
+			<finder-column name="appStatus" />
 		</finder>
 		<finder name="G_C_D" return-type="Collection">
 			<finder-column name="groupId" />

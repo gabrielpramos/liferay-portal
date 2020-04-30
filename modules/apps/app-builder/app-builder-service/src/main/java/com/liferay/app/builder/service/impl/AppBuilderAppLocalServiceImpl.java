@@ -46,9 +46,9 @@ public class AppBuilderAppLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public AppBuilderApp addAppBuilderApp(
-			long groupId, long companyId, long userId, long ddmStructureId,
-			long ddmStructureLayoutId, long deDataListViewId,
-			Map<Locale, String> nameMap, int status)
+			long groupId, long companyId, long userId, int appStatus,
+			long ddmStructureId, long ddmStructureLayoutId,
+			long deDataListViewId, Map<Locale, String> nameMap)
 		throws PortalException {
 
 		User user = userLocalService.getUser(userId);
@@ -62,11 +62,11 @@ public class AppBuilderAppLocalServiceImpl
 		appBuilderApp.setUserName(user.getFullName());
 		appBuilderApp.setCreateDate(new Date());
 		appBuilderApp.setModifiedDate(new Date());
+		appBuilderApp.setAppStatus(appStatus);
 		appBuilderApp.setDdmStructureId(ddmStructureId);
 		appBuilderApp.setDdmStructureLayoutId(ddmStructureLayoutId);
 		appBuilderApp.setDeDataListViewId(deDataListViewId);
 		appBuilderApp.setNameMap(nameMap);
-		appBuilderApp.setStatus(status);
 
 		return appBuilderAppPersistence.update(appBuilderApp);
 	}
