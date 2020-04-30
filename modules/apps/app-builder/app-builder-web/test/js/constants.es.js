@@ -67,23 +67,14 @@ export const EMPTY_STATE = {
 export const ENDPOINT = '/endpoint';
 
 export const ITEMS = {
-<<<<<<< HEAD
 	MANY: (size) => createItems(size),
-=======
-	N: n => createItems(n),
->>>>>>> LPS-111262 | LPS-112272 Update tests and create ContainerMock
 	ONE: createItems(1),
 	TWENTY: createItems(20),
 };
 
 export const RESPONSES = {
-<<<<<<< HEAD
 	MANY_ITEMS: (size) => {
 		const items = ITEMS.MANY(size);
-=======
-	N_ITEMS: n => {
-		const items = ITEMS.N(n);
->>>>>>> LPS-111262 | LPS-112272 Update tests and create ContainerMock
 
 		return {
 			items,
