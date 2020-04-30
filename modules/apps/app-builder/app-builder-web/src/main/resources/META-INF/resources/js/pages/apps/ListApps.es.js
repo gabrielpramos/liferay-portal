@@ -16,14 +16,14 @@ import ClayLabel from '@clayui/label';
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 
-import {AppContext} from '../../../AppContext.es';
-import Button from '../../../components/button/Button.es';
-import ListView from '../../../components/list-view/ListView.es';
-import useDeployApp from '../../../hooks/useDeployApp.es';
-import {confirmDelete} from '../../../utils/client.es';
-import {fromNow} from '../../../utils/time.es';
-import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from '../constants.es';
-import {concatTypes, isDeployed} from '../utils.es';
+import {AppContext} from '../../AppContext.es';
+import Button from '../../components/button/Button.es';
+import ListView from '../../components/list-view/ListView.es';
+import useDeployApp from '../../hooks/useDeployApp.es';
+import {confirmDelete} from '../../utils/client.es';
+import {fromNow} from '../../utils/time.es';
+import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from './constants.es';
+import {concatTypes, isDeployed} from './utils.es';
 
 export default ({
 	match: {
@@ -62,15 +62,6 @@ export default ({
 			name: Liferay.Language.get('delete'),
 		},
 	];
-
-	const addButton = () => (
-		<Button
-			className="nav-btn nav-btn-monospaced"
-			href={`${url}/deploy`}
-			symbol="plus"
-			tooltip={Liferay.Language.get('new-app')}
-		/>
-	);
 
 	let COLUMNS = [
 		{
@@ -133,7 +124,14 @@ export default ({
 	return (
 		<ListView
 			actions={ACTIONS}
-			addButton={dataDefinitionId && addButton}
+			addButton={dataDefinitionId && (() => (
+				<Button
+					className="nav-btn nav-btn-monospaced"
+					href={`${url}/deploy`}
+					symbol="plus"
+					tooltip={Liferay.Language.get('new-app')}
+				/>
+			))}
 			columns={COLUMNS}
 			emptyState={EMPTY_STATE}
 			endpoint={ENDPOINT}

@@ -16,9 +16,9 @@ import {waitForElementToBeRemoved} from '@testing-library/dom';
 import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
-import ListApps from '../../../../../src/main/resources/META-INF/resources/js/pages/apps/list/ListApps.es';
-import {RESPONSES} from '../../../constants.es';
-import ContainerMock from '../../../mock/ContainerMock.es';
+import ListApps from '../../../../src/main/resources/META-INF/resources/js/pages/apps/ListApps.es';
+import {RESPONSES} from '../../constants.es';
+import ContainerMock from '../../mock/ContainerMock.es';
 
 describe('The ListApp component should', () => {
 	afterEach(cleanup);

@@ -16,7 +16,7 @@ import {SearchInput} from 'data-engine-taglib';
 import React, {useState} from 'react';
 
 import {useRequest} from '../../../hooks/index.es';
-import ListItems from '../list/ListItems.es';
+import ListItems from './ListItems.es';
 
 export default ({endpoint, title, ...restProps}) => {
 	const [searchText, setSearchText] = useState('');
