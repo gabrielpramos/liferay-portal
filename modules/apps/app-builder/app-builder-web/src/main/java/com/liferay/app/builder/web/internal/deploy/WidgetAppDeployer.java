@@ -63,7 +63,7 @@ public class WidgetAppDeployer implements AppDeployer {
 					_getPortletName(appId, "table_view"), false, true)
 			});
 
-		appBuilderApp.setStatus(
+		appBuilderApp.setAppStatus(
 			AppBuilderAppConstants.Status.DEPLOYED.getValue());
 
 		_appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);

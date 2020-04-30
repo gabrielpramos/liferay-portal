@@ -306,21 +306,21 @@ public class AppResourceImpl
 
 		_validate(
 			app.getDataLayoutId(), app.getDataListViewId(), app.getName(),
-			app.getStatus());
+			app.getAppStatus());
 
 		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
 			dataDefinitionId);
 		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(app.getStatus());
+			AppBuilderAppConstants.Status.parse(app.getAppStatus());
 
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.addAppBuilderApp(
 				ddmStructure.getGroupId(), contextCompany.getCompanyId(),
-				PrincipalThreadLocal.getUserId(), dataDefinitionId,
+				PrincipalThreadLocal.getUserId(),
+				appBuilderAppConstantsStatus.getValue(), dataDefinitionId,
 				GetterUtil.getLong(app.getDataLayoutId()),
 				GetterUtil.getLong(app.getDataListViewId()),
-				LocalizedValueUtil.toLocaleStringMap(app.getName()),
-				appBuilderAppConstantsStatus.getValue());
+				LocalizedValueUtil.toLocaleStringMap(app.getName()));
 
 		app.setId(appBuilderApp.getAppBuilderAppId());
 
@@ -351,12 +351,12 @@ public class AppResourceImpl
 
 		_validate(
 			app.getDataLayoutId(), app.getDataListViewId(), app.getName(),
-			app.getStatus());
+			app.getAppStatus());
 
 		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
 			app.getDataDefinitionId());
 		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(app.getStatus());
+			AppBuilderAppConstants.Status.parse(app.getAppStatus());
 
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.updateAppBuilderApp(
@@ -443,9 +443,6 @@ public class AppResourceImpl
 	}
 
 	private App _toApp(AppBuilderApp appBuilderApp) {
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(appBuilderApp.getStatus());
-
 		return new App() {
 			{
 				appDeployments = transformToArray(
@@ -469,9 +466,17 @@ public class AppResourceImpl
 				name = LocalizedValueUtil.toStringObjectMap(
 					appBuilderApp.getNameMap());
 				siteId = appBuilderApp.getGroupId();
-				status = appBuilderAppConstantsStatus.getLabel();
 				userId = appBuilderApp.getUserId();
 
+				setAppStatus(
+					() -> {
+						AppBuilderAppConstants.Status
+							appBuilderAppConstantsStatus =
+								AppBuilderAppConstants.Status.parse(
+									appBuilderApp.getAppStatus());
+
+						return appBuilderAppConstantsStatus.getLabel();
+					});
 				setDataDefinitionName(
 					() -> {
 						DDMStructure ddmStructure =

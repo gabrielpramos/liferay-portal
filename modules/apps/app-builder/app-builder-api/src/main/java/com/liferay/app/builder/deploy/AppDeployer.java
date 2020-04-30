@@ -51,7 +51,7 @@ public interface AppDeployer {
 		AppBuilderApp appBuilderApp =
 			appBuilderAppLocalService.getAppBuilderApp(appId);
 
-		appBuilderApp.setStatus(
+		appBuilderApp.setAppStatus(
 			AppBuilderAppConstants.Status.UNDEPLOYED.getValue());
 
 		appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);

@@ -101,8 +101,8 @@ public class AppBuilderAppLocalServiceImpl
 	}
 
 	@Override
-	public List<Long> getAppBuilderAppIds(int status, String type) {
-		return appBuilderAppFinder.findByS_T(status, type);
+	public List<Long> getAppBuilderAppIds(int appStatus, String type) {
+		return appBuilderAppFinder.findByA_T(appStatus, type);
 	}
 
 	@Override
@@ -111,8 +111,10 @@ public class AppBuilderAppLocalServiceImpl
 	}
 
 	@Override
-	public List<AppBuilderApp> getAppBuilderApps(long companyId, int status) {
-		return appBuilderAppPersistence.findByC_S(companyId, status);
+	public List<AppBuilderApp> getAppBuilderApps(
+		long companyId, int appStatus) {
+
+		return appBuilderAppPersistence.findByC_A(companyId, appStatus);
 	}
 
 	@Override
@@ -165,7 +167,7 @@ public class AppBuilderAppLocalServiceImpl
 	public AppBuilderApp updateAppBuilderApp(
 			long userId, long appBuilderAppId, long ddmStructureId,
 			long ddmStructureLayoutId, long deDataListViewId,
-			Map<Locale, String> nameMap, int status)
+			Map<Locale, String> nameMap, int appStatus)
 		throws PortalException {
 
 		User user = userLocalService.getUser(userId);
@@ -180,7 +182,7 @@ public class AppBuilderAppLocalServiceImpl
 		appBuilderApp.setDdmStructureLayoutId(ddmStructureLayoutId);
 		appBuilderApp.setDeDataListViewId(deDataListViewId);
 		appBuilderApp.setNameMap(nameMap);
-		appBuilderApp.setStatus(status);
+		appBuilderApp.setAppStatus(appStatus);
 
 		return appBuilderAppPersistence.update(appBuilderApp);
 	}
