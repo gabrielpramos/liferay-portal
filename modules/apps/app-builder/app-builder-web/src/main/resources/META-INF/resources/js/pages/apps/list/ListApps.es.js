@@ -13,7 +13,7 @@
  */
 
 import ClayLabel from '@clayui/label';
-import React, {useContext, useMemo} from 'react';
+import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../../AppContext.es';
@@ -99,38 +99,36 @@ export default ({
 		},
 	];
 
-	const EMPTY_STATE = {
+	let EMPTY_STATE = {
 		title: Liferay.Language.get('there-are-no-apps-yet'),
 	};
 
+	let ENDPOINT = `/o/app-builder/v1.0/apps`;
+
 	if (dataDefinitionId) {
-		EMPTY_STATE.description = Liferay.Language.get(
-			'select-the-form-and-table-view-you-want-and-deploy-your-app-as-a-widget-standalone-or-place-it-in-the-product-menu'
-		);
-		EMPTY_STATE.button = () => (
-			<Button displayType="secondary" href={`${url}/deploy`}>
-				{Liferay.Language.get('new-app')}
-			</Button>
-		);
+		EMPTY_STATE = {
+			...EMPTY_STATE,
+			button: () => (
+				<Button displayType="secondary" href={`${url}/deploy`}>
+					{Liferay.Language.get('new-app')}
+				</Button>
+			),
+			description: Liferay.Language.get(
+				'select-the-form-and-table-view-you-want-and-deploy-your-app-as-a-widget-standalone-or-place-it-in-the-product-menu'
+			),
+		};
+
+		ENDPOINT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
 	}
 	else {
-		const [nameColumn, ...otherColumns] = COLUMNS;
+		const [firstColumn, ...otherColumns] = COLUMNS;
 
 		COLUMNS = [
-			nameColumn,
+			firstColumn,
 			{key: 'dataDefinitionName', value: Liferay.Language.get('object')},
 			...otherColumns,
 		];
 	}
-
-	const ENDPOINT_APPS = `/o/app-builder/v1.0/apps`;
-	const ENDPOINT_CUSTOM_OBJECT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
-
-	const ENDPOINT = useMemo(
-		() => (dataDefinitionId ? ENDPOINT_CUSTOM_OBJECT : ENDPOINT_APPS),
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[dataDefinitionId]
-	);
 
 	return (
 		<ListView
