@@ -19,10 +19,10 @@ import {Link} from 'react-router-dom';
 import {AppContext} from '../../../AppContext.es';
 import Button from '../../../components/button/Button.es';
 import ListView from '../../../components/list-view/ListView.es';
+import useDeployApp from '../../../hooks/useDeployApp.es';
 import {confirmDelete} from '../../../utils/client.es';
 import {fromNow} from '../../../utils/time.es';
 import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from '../constants.es';
-import useDeploymentActions from '../hooks/useDeploymentActions.es';
 import {concatTypes, isDeployed} from '../utils.es';
 
 export default ({
@@ -32,13 +32,13 @@ export default ({
 	},
 }) => {
 	const {getStandaloneURL} = useContext(AppContext);
-	const {deployApp, openUndeployAppModal} = useDeploymentActions();
+	const {deployApp, undeployApp} = useDeployApp();
 
 	const ACTIONS = [
 		{
 			action: (item) => {
 				return isDeployed(item.statusText)
-					? openUndeployAppModal(item)
+					? undeployApp(item)
 					: deployApp(item);
 			},
 			name: (item) =>

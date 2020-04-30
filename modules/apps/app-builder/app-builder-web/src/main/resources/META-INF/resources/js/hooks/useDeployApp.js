@@ -17,9 +17,9 @@ import ClayList from '@clayui/list';
 import {Context} from '@clayui/modal';
 import React, {useContext} from 'react';
 
-import {updateItem} from '../../../utils/client.es';
-import {DEPLOYMENT_ACTION} from '../constants.es';
-import {concatTypes} from '../utils.es';
+import {DEPLOYMENT_ACTION} from '../pages/apps/constants.es';
+import {concatTypes} from '../pages/apps/utils.es';
+import {updateItem} from '../utils/client.es';
 
 export default () => {
 	const [{onClose}, dispatch] = useContext(Context);
@@ -34,7 +34,7 @@ export default () => {
 			.catch((error) => error);
 	};
 
-	const openUndeployAppModal = (app) => {
+	const undeployApp = (app) => {
 		return new Promise((resolve, reject) => {
 			dispatch({
 				payload: {
@@ -116,5 +116,5 @@ export default () => {
 		});
 	};
 
-	return {deployApp, openUndeployAppModal};
+	return {deployApp, undeployApp};
 };
