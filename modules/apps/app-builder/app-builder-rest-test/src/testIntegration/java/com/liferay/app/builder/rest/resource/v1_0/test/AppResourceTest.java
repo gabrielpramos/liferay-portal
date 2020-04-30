@@ -15,9 +15,13 @@
 package com.liferay.app.builder.rest.resource.v1_0.test;
 
 import com.liferay.app.builder.constants.AppBuilderAppConstants;
+import com.liferay.app.builder.model.AppBuilderApp;
 import com.liferay.app.builder.rest.client.constant.v1_0.DeploymentAction;
 import com.liferay.app.builder.rest.client.dto.v1_0.App;
 import com.liferay.app.builder.rest.client.dto.v1_0.AppDeployment;
+import com.liferay.app.builder.rest.client.pagination.Page;
+import com.liferay.app.builder.rest.client.pagination.Pagination;
+import com.liferay.app.builder.service.AppBuilderAppLocalService;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.data.engine.model.DEDataListView;
 import com.liferay.data.engine.service.DEDataListViewLocalService;
@@ -31,15 +35,19 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.Inject;
 
 import java.io.InputStream;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -69,6 +77,120 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 	}
 
 	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+
+		for (App app : _apps) {
+			AppBuilderApp appBuilderApp =
+				_appBuilderAppLocalService.fetchAppBuilderApp(app.getId());
+
+			if (appBuilderApp != null) {
+				_appBuilderAppLocalService.deleteAppBuilderApp(
+					appBuilderApp.getAppBuilderAppId());
+			}
+		}
+	}
+
+	@Override
+	public void testGetAppsPage() throws Exception {
+		super.testGetAppsPage();
+
+		App app1 = randomApp();
+
+		app1.setAppDeployments(
+			new AppDeployment[] {
+				new AppDeployment() {
+					{
+						settings = HashMapBuilder.<String, Object>put(
+							"scope", new String[] {"control_panel"}
+						).build();
+						type = "productMenu";
+					}
+				}
+			});
+		app1.setAppStatus(AppBuilderAppConstants.Status.DEPLOYED.getLabel());
+
+		app1 = testGetAppsPage_addApp(app1);
+
+		App app2 = randomApp();
+
+		app2.setAppDeployments(
+			new AppDeployment[] {
+				new AppDeployment() {
+					{
+						type = "standalone";
+					}
+				}
+			});
+		app2.setAppStatus(AppBuilderAppConstants.Status.DEPLOYED.getLabel());
+
+		app2 = testGetAppsPage_addApp(app2);
+
+		App app3 = randomApp();
+
+		app3.setAppDeployments(
+			new AppDeployment[] {
+				new AppDeployment() {
+					{
+						type = "standalone";
+					}
+				},
+				new AppDeployment() {
+					{
+						type = "widget";
+					}
+				}
+			});
+		app3.setAppStatus(AppBuilderAppConstants.Status.UNDEPLOYED.getLabel());
+
+		app3 = testGetAppsPage_addApp(app3);
+
+		Page<App> page = appResource.getAppsPage(
+			new String[] {"productMenu"},
+			AppBuilderAppConstants.Status.DEPLOYED.getLabel(), StringPool.BLANK,
+			new Long[] {testGroup.getCreatorUserId()}, Pagination.of(1, 10),
+			null);
+
+		Assert.assertEquals(1, page.getTotalCount());
+
+		assertEquals(Arrays.asList(app1), (List<App>)page.getItems());
+		assertValid(page);
+
+		page = appResource.getAppsPage(
+			new String[] {"productMenu"},
+			AppBuilderAppConstants.Status.UNDEPLOYED.getLabel(),
+			StringPool.BLANK, new Long[] {testGroup.getCreatorUserId()},
+			Pagination.of(1, 10), null);
+
+		Assert.assertEquals(0, page.getTotalCount());
+
+		page = appResource.getAppsPage(
+			new String[] {"productMenu", "standalone"}, StringPool.BLANK,
+			StringPool.BLANK, null, Pagination.of(1, 10), null);
+
+		Assert.assertEquals(3, page.getTotalCount());
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(app1, app2, app3), (List<App>)page.getItems());
+
+		page = appResource.getAppsPage(
+			null, StringPool.BLANK, StringPool.BLANK,
+			new Long[] {TestPropsValues.getUserId()}, Pagination.of(1, 10),
+			null);
+
+		Assert.assertEquals(3, page.getTotalCount());
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(app1, app2, app3), (List<App>)page.getItems());
+
+		page = appResource.getAppsPage(
+			null, StringPool.BLANK, StringPool.BLANK, new Long[] {1L},
+			Pagination.of(1, 10), null);
+
+		Assert.assertEquals(0, page.getTotalCount());
+	}
+
+	@Override
 	public void testPutAppDeployment() throws Exception {
 		App postApp = testPutApp_addApp();
 
@@ -77,14 +199,15 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 		App getApp = appResource.getApp(postApp.getId());
 
 		Assert.assertEquals(
-			getApp.getStatus(),
+			getApp.getAppStatus(),
 			AppBuilderAppConstants.Status.DEPLOYED.getLabel());
 	}
 
 	@Override
 	protected String[] getAdditionalAssertFieldNames() {
 		return new String[] {
-			"dataDefinitionId", "dataLayoutId", "dataListViewId"
+			"dataDefinitionId", "dataDefinitionName", "dataLayoutId",
+			"dataListViewId", "userId"
 		};
 	}
 
@@ -114,11 +237,12 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 						}
 					}
 				};
+				appStatus = AppBuilderAppConstants.Status.UNDEPLOYED.getLabel();
 				dataDefinitionId = _ddmStructure.getStructureId();
+				dataDefinitionName = _ddmStructure.getName(LocaleUtil.US);
 				dataLayoutId = _ddmStructureLayout.getStructureLayoutId();
 				dataListViewId = _deDataListView.getDeDataListViewId();
 				siteId = _ddmStructure.getGroupId();
-				status = AppBuilderAppConstants.Status.UNDEPLOYED.getLabel();
 				userId = testGroup.getCreatorUserId();
 			}
 		};
@@ -136,8 +260,7 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 
 	@Override
 	protected App testDeleteApp_addApp() throws Exception {
-		return appResource.postDataDefinitionApp(
-			_ddmStructure.getStructureId(), randomApp());
+		return testGetApp_addApp();
 	}
 
 	@Override
@@ -147,8 +270,20 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 
 	@Override
 	protected App testGetAppsPage_addApp(App app) throws Exception {
-		return appResource.postDataDefinitionApp(
+		return testGetDataDefinitionAppsPage_addApp(
 			_ddmStructure.getStructureId(), app);
+	}
+
+	@Override
+	protected App testGetDataDefinitionAppsPage_addApp(
+			Long dataDefinitionId, App app)
+		throws Exception {
+
+		app = appResource.postDataDefinitionApp(dataDefinitionId, app);
+
+		_apps.add(app);
+
+		return app;
 	}
 
 	@Override
@@ -160,20 +295,23 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 	protected App testGetSiteAppsPage_addApp(Long siteId, App app)
 		throws Exception {
 
-		return appResource.postDataDefinitionApp(
+		return testGetDataDefinitionAppsPage_addApp(
 			app.getDataDefinitionId(), app);
 	}
 
 	@Override
 	protected App testGraphQLApp_addApp() throws Exception {
-		return appResource.postDataDefinitionApp(
-			_ddmStructure.getStructureId(), randomApp());
+		return testGetApp_addApp();
+	}
+
+	@Override
+	protected App testPostDataDefinitionApp_addApp(App app) throws Exception {
+		return testGetAppsPage_addApp(app);
 	}
 
 	@Override
 	protected App testPutApp_addApp() throws Exception {
-		return appResource.postDataDefinitionApp(
-			_ddmStructure.getStructureId(), randomApp());
+		return testGetApp_addApp();
 	}
 
 	private DDMStructure _addDDMStructure(Group group) throws Exception {
@@ -196,7 +334,7 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 
 		DDMFormLayout ddmFormLayout = new DDMFormLayout();
 
-		ddmFormLayout.setDefaultLocale(new Locale("en_US"));
+		ddmFormLayout.setDefaultLocale(LocaleUtil.US);
 
 		DDMStructureLayoutTestHelper ddmStructureLayoutTestHelper =
 			new DDMStructureLayoutTestHelper(testGroup);
@@ -213,6 +351,11 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 
 		return StringUtil.read(inputStream);
 	}
+
+	@Inject
+	private AppBuilderAppLocalService _appBuilderAppLocalService;
+
+	private final List<App> _apps = new ArrayList<>();
 
 	@DeleteAfterTestRun
 	private DDMStructure _ddmStructure;
