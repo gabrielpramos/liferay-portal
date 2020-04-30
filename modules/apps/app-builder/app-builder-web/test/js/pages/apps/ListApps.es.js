@@ -17,8 +17,8 @@ import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import ListApps from '../../../../src/main/resources/META-INF/resources/js/pages/apps/ListApps.es';
+import AppContextProviderWrapper from '../../AppContextProviderWrapper.es';
 import {RESPONSES} from '../../constants.es';
-import ContainerMock from '../../mock/ContainerMock.es';
 
 describe('The ListApp component should', () => {
 	afterEach(cleanup);
@@ -28,7 +28,7 @@ describe('The ListApp component should', () => {
 
 		const {asFragment} = render(
 			<ListApps match={{params: {dataDefinitionId: ''}, url: '/'}} />,
-			{wrapper: ContainerMock}
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() =>
@@ -45,7 +45,7 @@ describe('The ListApp component should', () => {
 			<ListApps
 				match={{params: {dataDefinitionId: '12345'}, url: '/'}}
 			/>,
-			{wrapper: ContainerMock}
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() =>
@@ -60,7 +60,7 @@ describe('The ListApp component should', () => {
 
 		const {container} = render(
 			<ListApps match={{params: {dataDefinitionId: ''}, url: '/'}} />,
-			{wrapper: ContainerMock}
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() =>
@@ -75,7 +75,7 @@ describe('The ListApp component should', () => {
 
 		const {container} = render(
 			<ListApps match={{params: {dataDefinitionId: ''}, url: '/'}} />,
-			{wrapper: ContainerMock}
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() =>
