@@ -16,34 +16,13 @@ import {waitForElementToBeRemoved} from '@testing-library/dom';
 import {cleanup, fireEvent, render} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import React from 'react';
-import {HashRouter} from 'react-router-dom';
 
-import {AppContextProvider} from '../../../../src/main/resources/META-INF/resources/js/AppContext.es';
 import ListTableViews from '../../../../src/main/resources/META-INF/resources/js/pages/table-view/ListTableViews.es';
 import * as time from '../../../../src/main/resources/META-INF/resources/js/utils/time.es';
+import AppContextProviderWrapper from '../../AppContextProviderWrapper.es';
 import {RESPONSES} from '../../constants.es';
 
 describe('ListTableViews', () => {
-	const ListTableViewsWithRouter = ({history = createMemoryHistory()}) => (
-		<AppContextProvider value={{}}>
-			<div className="tools-control-group">
-				<div className="control-menu-level-1-heading" />
-			</div>
-
-			<HashRouter>
-				<ListTableViews
-					history={history}
-					match={{
-						params: {
-							dataDefinitionId: 1,
-						},
-						url: 'table-views',
-					}}
-				/>
-			</HashRouter>
-		</AppContextProvider>
-	);
-
 	let spyFromNow;
 
 	beforeEach(() => {
@@ -60,7 +39,17 @@ describe('ListTableViews', () => {
 	it('renders', async () => {
 		fetch.mockResponseOnce(JSON.stringify(RESPONSES.ONE_ITEM));
 
-		const {asFragment} = render(<ListTableViewsWithRouter />);
+		const {asFragment} = render(
+			<ListTableViews
+				match={{
+					params: {
+						dataDefinitionId: 1,
+					},
+					url: 'table-views',
+				}}
+			/>,
+			{wrapper: AppContextProviderWrapper}
+		);
 
 		await waitForElementToBeRemoved(() =>
 			document.querySelector('span.loading-animation')
@@ -74,7 +63,17 @@ describe('ListTableViews', () => {
 			.mockResponseOnce(JSON.stringify(RESPONSES.NO_ITEMS))
 			.mockResponseOnce(JSON.stringify({}));
 
-		const {queryByText} = render(<ListTableViewsWithRouter />);
+		const {queryByText} = render(
+			<ListTableViews
+				match={{
+					params: {
+						dataDefinitionId: 1,
+					},
+					url: 'table-views',
+				}}
+			/>,
+			{wrapper: AppContextProviderWrapper}
+		);
 
 		await waitForElementToBeRemoved(() =>
 			document.querySelector('span.loading-animation')
@@ -98,8 +97,21 @@ describe('ListTableViews', () => {
 		fetch.mockResponseOnce(JSON.stringify(RESPONSES.ONE_ITEM));
 
 		const history = createMemoryHistory();
+
 		const {baseElement} = render(
-			<ListTableViewsWithRouter history={history} />
+			<ListTableViews
+				match={{
+					params: {
+						dataDefinitionId: 1,
+					},
+					url: 'table-views',
+				}}
+			/>,
+			{
+				wrapper: (props) => (
+					<AppContextProviderWrapper history={history} {...props} />
+				),
+			}
 		);
 
 		expect(history.length).toBe(1);

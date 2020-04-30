@@ -14,16 +14,22 @@
 
 import {createMemoryHistory} from 'history';
 import React from 'react';
-import {Router} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 
 import {AppContextProvider} from '../../src/main/resources/META-INF/resources/js/AppContext.es';
 
-export default ({children, mockContext = {}}) => {
-	const history = createMemoryHistory({});
-
+export default ({
+	children,
+	appContext = {},
+	history = createMemoryHistory(),
+}) => {
 	return (
-		<AppContextProvider value={mockContext}>
-			<Router history={history}>{children}</Router>
+		<AppContextProvider value={appContext}>
+			<div className="tools-control-group">
+				<div className="control-menu-level-1-heading" />
+			</div>
+
+			<HashRouter>{React.cloneElement(children, {history})}</HashRouter>
 		</AppContextProvider>
 	);
 };

@@ -2,6 +2,13 @@
 
 exports[`ListApp renders 1`] = `
 <DocumentFragment>
+  <div
+    class="tools-control-group"
+  >
+    <div
+      class="control-menu-level-1-heading"
+    />
+  </div>
   <nav
     class="management-bar navbar navbar-expand-md management-bar-light"
   >
