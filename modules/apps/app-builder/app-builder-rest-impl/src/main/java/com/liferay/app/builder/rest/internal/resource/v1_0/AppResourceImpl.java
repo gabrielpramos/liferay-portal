@@ -14,14 +14,11 @@
 
 package com.liferay.app.builder.rest.internal.resource.v1_0;
 
-import com.liferay.app.builder.constants.AppBuilderAppConstants;
 import com.liferay.app.builder.constants.AppBuilderConstants;
 import com.liferay.app.builder.deploy.AppDeployer;
 import com.liferay.app.builder.deploy.AppDeployerTracker;
-import com.liferay.app.builder.exception.AppBuilderAppStatusException;
 import com.liferay.app.builder.model.AppBuilderApp;
 import com.liferay.app.builder.model.AppBuilderAppDeployment;
-import com.liferay.app.builder.rest.constant.v1_0.DeploymentAction;
 import com.liferay.app.builder.rest.dto.v1_0.App;
 import com.liferay.app.builder.rest.dto.v1_0.AppDeployment;
 import com.liferay.app.builder.rest.internal.constants.AppBuilderActionKeys;
@@ -46,8 +43,11 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
@@ -115,7 +115,8 @@ public class AppResourceImpl
 
 	@Override
 	public Page<App> getAppsPage(
-			String keywords, Pagination pagination, Sort[] sorts)
+			Boolean active, String keywords, Pagination pagination,
+			Sort[] sorts)
 		throws Exception {
 
 		if (pagination.getPageSize() > 250) {
@@ -133,7 +134,7 @@ public class AppResourceImpl
 			};
 		}
 
-		if (Validator.isNull(keywords)) {
+		if (Objects.isNull(active)) {
 			return Page.of(
 				transform(
 					_appBuilderAppLocalService.getCompanyAppBuilderApps(
@@ -150,6 +151,14 @@ public class AppResourceImpl
 		return SearchUtil.search(
 			Collections.emptyMap(),
 			booleanQuery -> {
+				BooleanFilter booleanFilter =
+					booleanQuery.getPreBooleanFilter();
+
+				if (Objects.nonNull(active)) {
+					booleanFilter.add(
+						new TermFilter("active", String.valueOf(active)),
+						BooleanClauseOccur.MUST);
+				}
 			},
 			null, AppBuilderApp.class, keywords, pagination,
 			queryConfig -> queryConfig.setSelectedFieldNames(
@@ -305,13 +314,11 @@ public class AppResourceImpl
 		}
 
 		_validate(
-			app.getDataLayoutId(), app.getDataListViewId(), app.getName(),
-			app.getStatus());
+			app.getActive(), app.getDataLayoutId(), app.getDataListViewId(),
+			app.getName());
 
 		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
 			dataDefinitionId);
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(app.getStatus());
 
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.addAppBuilderApp(
@@ -320,7 +327,7 @@ public class AppResourceImpl
 				GetterUtil.getLong(app.getDataLayoutId()),
 				GetterUtil.getLong(app.getDataListViewId()),
 				LocalizedValueUtil.toLocaleStringMap(app.getName()),
-				appBuilderAppConstantsStatus.getValue());
+				app.getActive());
 
 		app.setId(appBuilderApp.getAppBuilderAppId());
 
@@ -350,13 +357,11 @@ public class AppResourceImpl
 			ActionKeys.UPDATE);
 
 		_validate(
-			app.getDataLayoutId(), app.getDataListViewId(), app.getName(),
-			app.getStatus());
+			app.getActive(), app.getDataLayoutId(), app.getDataListViewId(),
+			app.getName());
 
 		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
 			app.getDataDefinitionId());
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(app.getStatus());
 
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.updateAppBuilderApp(
@@ -365,7 +370,7 @@ public class AppResourceImpl
 				GetterUtil.getLong(app.getDataLayoutId()),
 				GetterUtil.getLong(app.getDataListViewId()),
 				LocalizedValueUtil.toLocaleStringMap(app.getName()),
-				appBuilderAppConstantsStatus.getValue());
+				app.getActive());
 
 		List<AppBuilderAppDeployment> appBuilderAppDeployments =
 			_appBuilderAppDeploymentLocalService.getAppBuilderAppDeployments(
@@ -386,11 +391,7 @@ public class AppResourceImpl
 			AppDeployer appDeployer = _appDeployerTracker.getAppDeployer(
 				appDeployment.getType());
 
-			if ((appDeployer != null) &&
-				Objects.equals(
-					appBuilderAppConstantsStatus,
-					AppBuilderAppConstants.Status.DEPLOYED)) {
-
+			if ((appDeployer != null) && app.getActive()) {
 				appDeployer.deploy(appId);
 			}
 		}
@@ -443,11 +444,9 @@ public class AppResourceImpl
 	}
 
 	private App _toApp(AppBuilderApp appBuilderApp) {
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(appBuilderApp.getStatus());
-
 		return new App() {
 			{
+				active = appBuilderApp.isActive();
 				appDeployments = transformToArray(
 					_appBuilderAppDeploymentLocalService.
 						getAppBuilderAppDeployments(
@@ -469,7 +468,6 @@ public class AppResourceImpl
 				name = LocalizedValueUtil.toStringObjectMap(
 					appBuilderApp.getNameMap());
 				siteId = appBuilderApp.getGroupId();
-				status = appBuilderAppConstantsStatus.getLabel();
 				userId = appBuilderApp.getUserId();
 
 				setDataDefinitionName(
@@ -534,9 +532,13 @@ public class AppResourceImpl
 	}
 
 	private void _validate(
-			Long dataLayoutId, Long dataListViewId, Map<String, Object> name,
-			String status)
+			Boolean active, Long dataLayoutId, Long dataListViewId,
+			Map<String, Object> name)
 		throws Exception {
+
+		if (Objects.isNull(active)) {
+			throw new InvalidAppException("The app active is null");
+		}
 
 		if ((dataLayoutId == null) && (dataListViewId == null)) {
 			throw new InvalidAppException(
@@ -586,10 +588,6 @@ public class AppResourceImpl
 						"The app name must not contain special characters");
 				}
 			}
-		}
-
-		if (Validator.isNull(AppBuilderAppConstants.Status.parse(status))) {
-			throw new AppBuilderAppStatusException("Invalid status " + status);
 		}
 	}
 

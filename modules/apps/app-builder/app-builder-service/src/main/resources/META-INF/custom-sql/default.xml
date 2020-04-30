@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <custom-sql>
-	<sql id="com.liferay.app.builder.service.persistence.AppBuilderAppFinder.findByS_T">
+	<sql id="com.liferay.app.builder.service.persistence.AppBuilderAppFinder.findByA_T">
 		<![CDATA[
 			SELECT
 				AppBuilderApp.appBuilderAppId
@@ -12,7 +12,7 @@
 			ON
 				AppBuilderApp.appBuilderAppId = AppBuilderAppDeployment.appBuilderAppId
 			WHERE
-				(AppBuilderApp.status = ?) AND
+				(AppBuilderApp.active_ = ?) AND
 				(AppBuilderAppDeployment.type_ = ?)
 		]]>
 	</sql>

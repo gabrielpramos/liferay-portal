@@ -35,17 +35,17 @@ import org.osgi.service.component.annotations.Reference;
 public class AppBuilderAppFinderImpl
 	extends AppBuilderAppFinderBaseImpl implements AppBuilderAppFinder {
 
-	public static final String FIND_BY_S_T =
-		AppBuilderAppFinder.class.getName() + ".findByS_T";
+	public static final String FIND_BY_A_T =
+		AppBuilderAppFinder.class.getName() + ".findByA_T";
 
 	@Override
-	public List<Long> findByS_T(int status, String type) {
+	public List<Long> findByA_T(boolean active, String type) {
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			String sql = _customSQL.get(getClass(), FIND_BY_S_T);
+			String sql = _customSQL.get(getClass(), FIND_BY_A_T);
 
 			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
 
@@ -53,7 +53,7 @@ public class AppBuilderAppFinderImpl
 
 			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
 
-			queryPos.add(status);
+			queryPos.add(active);
 			queryPos.add(type);
 
 			return (List<Long>)QueryUtil.list(

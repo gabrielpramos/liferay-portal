@@ -14,7 +14,6 @@
 
 package com.liferay.app.builder.web.internal.deploy;
 
-import com.liferay.app.builder.constants.AppBuilderAppConstants;
 import com.liferay.app.builder.constants.AppBuilderPortletKeys;
 import com.liferay.app.builder.deploy.AppDeployer;
 import com.liferay.app.builder.model.AppBuilderApp;
@@ -67,6 +66,8 @@ public class ProductMenuAppDeployer implements AppDeployer {
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.getAppBuilderApp(appId);
 
+		appBuilderApp.setActive(true);
+
 		String appName = appBuilderApp.getName(
 			LocaleThreadLocal.getDefaultLocale());
 
@@ -116,9 +117,6 @@ public class ProductMenuAppDeployer implements AppDeployer {
 							jsonObject.getJSONArray("siteIds")))
 				});
 		}
-
-		appBuilderApp.setStatus(
-			AppBuilderAppConstants.Status.DEPLOYED.getValue());
 
 		_appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);
 	}

@@ -14,7 +14,6 @@
 
 package com.liferay.app.builder.web.internal.activator;
 
-import com.liferay.app.builder.constants.AppBuilderAppConstants;
 import com.liferay.app.builder.deploy.AppDeployer;
 import com.liferay.app.builder.service.AppBuilderAppLocalServiceUtil;
 import com.liferay.osgi.util.ServiceTrackerFactory;
@@ -57,7 +56,7 @@ public class AppBuilderWebBundleActivator implements BundleActivator {
 
 			List<Long> appBuilderAppIds =
 				AppBuilderAppLocalServiceUtil.getAppBuilderAppIds(
-					AppBuilderAppConstants.STATUS_DEPLOYED,
+					true,
 					(String)serviceReference.getProperty(
 						"app.builder.deploy.type"));
 

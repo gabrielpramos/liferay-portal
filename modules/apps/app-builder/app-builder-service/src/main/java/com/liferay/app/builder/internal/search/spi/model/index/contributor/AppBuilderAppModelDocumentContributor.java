@@ -35,6 +35,8 @@ public class AppBuilderAppModelDocumentContributor
 
 	@Override
 	public void contribute(Document document, AppBuilderApp appBuilderApp) {
+		document.addKeyword("active", appBuilderApp.isActive());
+
 		document.addKeyword(
 			"ddmStructureId", appBuilderApp.getDdmStructureId());
 

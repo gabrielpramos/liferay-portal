@@ -14,7 +14,6 @@
 
 package com.liferay.app.builder.web.internal.deploy;
 
-import com.liferay.app.builder.constants.AppBuilderAppConstants;
 import com.liferay.app.builder.constants.AppBuilderPortletKeys;
 import com.liferay.app.builder.deploy.AppDeployer;
 import com.liferay.app.builder.model.AppBuilderApp;
@@ -70,6 +69,8 @@ public class StandaloneAppDeployer implements AppDeployer {
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.getAppBuilderApp(appId);
 
+		appBuilderApp.setActive(true);
+
 		_serviceRegistrationsMap.computeIfAbsent(
 			appId,
 			key -> {
@@ -90,9 +91,6 @@ public class StandaloneAppDeployer implements AppDeployer {
 					throw new IllegalStateException(portalException);
 				}
 			});
-
-		appBuilderApp.setStatus(
-			AppBuilderAppConstants.Status.DEPLOYED.getValue());
 
 		_appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);
 	}
