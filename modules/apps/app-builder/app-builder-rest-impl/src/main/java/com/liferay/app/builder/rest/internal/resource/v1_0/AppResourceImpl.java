@@ -44,10 +44,14 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.search.filter.QueryFilter;
 import com.liferay.portal.kernel.search.filter.TermFilter;
+import com.liferay.portal.kernel.search.filter.TermsFilter;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
@@ -76,6 +80,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MultivaluedMap;
@@ -115,8 +120,8 @@ public class AppResourceImpl
 
 	@Override
 	public Page<App> getAppsPage(
-			Boolean active, String keywords, Pagination pagination,
-			Sort[] sorts)
+			Boolean active, String[] deploymentTypes, String keywords,
+			Long[] userIds, Pagination pagination, Sort[] sorts)
 		throws Exception {
 
 		if (pagination.getPageSize() > 250) {
@@ -134,7 +139,9 @@ public class AppResourceImpl
 			};
 		}
 
-		if (Objects.isNull(active)) {
+		if (Objects.isNull(active) && ArrayUtil.isEmpty(deploymentTypes) &&
+			Validator.isNull(keywords) && ArrayUtil.isEmpty(userIds)) {
+
 			return Page.of(
 				transform(
 					_appBuilderAppLocalService.getCompanyAppBuilderApps(
@@ -158,6 +165,36 @@ public class AppResourceImpl
 					booleanFilter.add(
 						new TermFilter("active", String.valueOf(active)),
 						BooleanClauseOccur.MUST);
+				}
+
+				if (ArrayUtil.isNotEmpty(deploymentTypes)) {
+					BooleanQuery deploymentTypesBooleanQuery =
+						new BooleanQueryImpl();
+
+					for (String deploymentType : deploymentTypes) {
+						deploymentTypesBooleanQuery.addTerm(
+							"deploymentTypes", deploymentType);
+					}
+
+					booleanFilter.add(
+						new QueryFilter(deploymentTypesBooleanQuery),
+						BooleanClauseOccur.MUST);
+				}
+
+				if (ArrayUtil.isNotEmpty(userIds)) {
+					TermsFilter userIdTermsFilter = new TermsFilter("userId");
+
+					userIdTermsFilter.addValues(
+						Stream.of(
+							userIds
+						).map(
+							String::valueOf
+						).toArray(
+							String[]::new
+						));
+
+					booleanFilter.add(
+						userIdTermsFilter, BooleanClauseOccur.MUST);
 				}
 			},
 			null, AppBuilderApp.class, keywords, pagination,
