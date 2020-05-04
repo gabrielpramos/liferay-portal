@@ -13,7 +13,7 @@
  */
 
 import ClayLabel from '@clayui/label';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
@@ -33,6 +33,7 @@ export default ({
 }) => {
 	const {getStandaloneURL} = useContext(AppContext);
 	const {deployApp, undeployApp} = useDeployApp();
+	const [isPopoverVisible, setPopoverVisible] = useState(false);
 
 	const ACTIONS = [
 		{
@@ -90,28 +91,25 @@ export default ({
 		},
 	];
 
-	let EMPTY_STATE = {
+	const EMPTY_STATE = {
+		button: () => (
+			<Button displayType="secondary" href={`${url}/deploy`}>
+				{Liferay.Language.get('new-app')}
+			</Button>
+		),
+		description: Liferay.Language.get(
+			'select-the-form-and-table-view-you-want-and-deploy-your-app-as-a-widget-standalone-or-place-it-in-the-product-menu'
+		),
 		title: Liferay.Language.get('there-are-no-apps-yet'),
 	};
 
 	let ENDPOINT = `/o/app-builder/v1.0/apps`;
+	let buttonProps;
 
 	if (dataDefinitionId) {
-		EMPTY_STATE = {
-			...EMPTY_STATE,
-			button: () => (
-				<Button displayType="secondary" href={`${url}/deploy`}>
-					{Liferay.Language.get('new-app')}
-				</Button>
-			),
-			description: Liferay.Language.get(
-				'select-the-form-and-table-view-you-want-and-deploy-your-app-as-a-widget-standalone-or-place-it-in-the-product-menu'
-			),
-		};
-
 		ENDPOINT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
-	}
-	else {
+		buttonProps = {href: `${url}/deploy`};
+	} else {
 		const [firstColumn, ...otherColumns] = COLUMNS;
 
 		COLUMNS = [
@@ -119,22 +117,22 @@ export default ({
 			{key: 'dataDefinitionName', value: Liferay.Language.get('object')},
 			...otherColumns,
 		];
+		buttonProps = {
+			onClick: () => {},
+		};
 	}
 
 	return (
 		<ListView
 			actions={ACTIONS}
-			addButton={
-				dataDefinitionId &&
-				(() => (
-					<Button
-						className="nav-btn nav-btn-monospaced"
-						href={`${url}/deploy`}
-						symbol="plus"
-						tooltip={Liferay.Language.get('new-app')}
-					/>
-				))
-			}
+			addButton={() => (
+				<Button
+					className="nav-btn nav-btn-monospaced"
+					symbol="plus"
+					tooltip={Liferay.Language.get('new-app')}
+					{...buttonProps}
+				/>
+			)}
 			columns={COLUMNS}
 			emptyState={EMPTY_STATE}
 			endpoint={ENDPOINT}
