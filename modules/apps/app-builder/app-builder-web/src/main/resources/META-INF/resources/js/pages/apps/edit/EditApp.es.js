@@ -35,12 +35,12 @@ export default ({
 	const [state, dispatch] = useReducer(reducer, {
 		app: {
 			appDeployments: [],
+			appStatus: 'deployed',
 			dataLayoutId: null,
 			dataListViewId: null,
 			name: {
 				en_US: '',
 			},
-			status: 'deployed',
 		},
 	});
 

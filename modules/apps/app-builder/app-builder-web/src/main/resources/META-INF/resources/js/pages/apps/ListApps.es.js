@@ -37,12 +37,12 @@ export default ({
 	const ACTIONS = [
 		{
 			action: (item) => {
-				return isDeployed(item.statusText)
+				return isDeployed(item.appStatusText)
 					? undeployApp(item)
 					: deployApp(item);
 			},
 			name: (item) =>
-				isDeployed(item.statusText)
+				isDeployed(item.appStatusText)
 					? DEPLOYMENT_ACTION.undeploy
 					: DEPLOYMENT_ACTION.deploy,
 		},
@@ -85,7 +85,7 @@ export default ({
 			value: Liferay.Language.get('modified-date'),
 		},
 		{
-			key: 'status',
+			key: 'appStatus',
 			value: Liferay.Language.get('status'),
 		},
 	];
@@ -141,6 +141,18 @@ export default ({
 		>
 			{(item) => ({
 				...item,
+				appStatus: (
+					<ClayLabel
+						displayType={
+							isDeployed(item.appStatus.toLowerCase())
+								? 'success'
+								: 'secondary'
+						}
+					>
+						{DEPLOYMENT_STATUS[item.appStatus.toLowerCase()]}
+					</ClayLabel>
+				),
+				appStatusText: item.appStatus.toLowerCase(),
 				dateCreated: fromNow(item.dateCreated),
 				dateModified: fromNow(item.dateModified),
 				name: dataDefinitionId ? (
@@ -153,18 +165,6 @@ export default ({
 					item.name.en_US
 				),
 				nameText: item.name.en_US,
-				status: (
-					<ClayLabel
-						displayType={
-							isDeployed(item.status.toLowerCase())
-								? 'success'
-								: 'secondary'
-						}
-					>
-						{DEPLOYMENT_STATUS[item.status.toLowerCase()]}
-					</ClayLabel>
-				),
-				statusText: item.status.toLowerCase(),
 				type: concatTypes(
 					item.appDeployments.map((deployment) => deployment.type)
 				),
