@@ -27,8 +27,24 @@
 	}
 }
 
+.app-type-card {
+	border-color: #ffffff;
+	padding: 0.5rem;
+	width: 13rem;
+}
+
+.apps-popover {
+	padding-top: 1rem;
+}
+
 body.open .app-builder-upper-toolbar {
 	width: calc(100% - #{$productMenuWidth});
+}
+
+.custom-object-dropdown {
+	margin-bottom: 2rem;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
 }
 
 .custom-object-dropdown-list {
@@ -62,6 +78,42 @@ body.open .app-builder-upper-toolbar {
 
 .dropdown-footer {
 	box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.3);
+}
+
+.empty-state-dropdown-menu {
+	padding-bottom: 1.3rem;
+	padding-top: 1.3rem;
+	text-align: center;
+
+	.emptyButton {
+		margin-top: 1rem;
+	}
+}
+
+.error-state-dropdown-menu {
+	padding-bottom: 1.3rem;
+	padding-top: 1.3rem;
+	text-align: center;
+
+	.errorButton {
+		margin-top: 1rem;
+	}
+}
+
+.icon {
+	margin-top: 0.325rem;
+}
+
+.icon-new-app-card {
+	background: #f7f8f9;
+	padding-bottom: 2rem;
+	padding-top: 2rem;
+}
+
+.loading-state-dropdown-menu {
+	padding-bottom: 1.3rem;
+	padding-top: 1.3rem;
+	text-align: center;
 }
 
 .multiple-select-filter-dropdown {
@@ -122,6 +174,19 @@ body.open .app-builder-upper-toolbar {
 	}
 }
 
+.new-app-content {
+	display: flex;
+}
+
+.popover {
+	z-index: 999;
+}
+
+.popover-body {
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
 .remove-object-field-message {
 	color: #6b6c7e;
 	font-size: 14px;
@@ -141,6 +206,11 @@ body.open .app-builder-upper-toolbar {
 .shadowless-card {
 	border: 1px solid #e7e7ed;
 	box-shadow: none;
+}
+
+.select-dropdown-menu {
+	max-width: 418px;
+	width: 100%;
 }
 
 .taglib-empty-result-message-description {

@@ -13,6 +13,7 @@
  */
 
 import ClayButton from '@clayui/button';
+import ClayCard from '@clayui/card';
 import {useResource} from '@clayui/data-provider';
 import ClayIcon from '@clayui/icon';
 import React, {useContext, useEffect, useRef, useState} from 'react';
@@ -58,6 +59,8 @@ const ListAppsPopover = ({
 	const popoverRef = useRef();
 	const [fetchStatuses, setFetchStatuses] = useState([]);
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
+	const [isStandardAppSelected, setStandardAppSelected] = useState(false);
+	const [isWorkflowAppSelected, setWorkflowAppSelected] = useState(false);
 	const [items, setItems] = useState([]);
 
 	const [selectedValue, setSelectedValue] = useState({
@@ -188,67 +191,134 @@ const ListAppsPopover = ({
 				className="apps-popover mw-100"
 				content={() => (
 					<>
-						<label>{Liferay.Language.get('object')}</label>
+						<div className="new-app-content">
+							<div
+								className="app-type-card card card-interactive card-interactive-primary card-type-template mr-2 template-card"
+								onClick={() => {
+									setStandardAppSelected(true);
+									setWorkflowAppSelected(false);
+								}}
+								tabIndex="0"
+							>
+								<ClayCard className="icon-new-app-card">
+									<ClayCard.AspectRatio className="card-item-first">
+										<div className="aspect-ratio-item aspect-ratio-item-center-middle aspect-ratio-item-flush">
+											<ClayIcon symbol="forms" />
+										</div>
+									</ClayCard.AspectRatio>
+								</ClayCard>
 
-						<DropDown
-							dropDownStateProps={{
-								empty: {
-									emptyState: () => (
-										<EmptyState
-											customObjectButtonRef={
-												customObjectButtonRef
-											}
-											handleOnClick={emptyStateOnClick}
-										/>
-									),
-								},
-								error: {
-									errorLabel: Liferay.Language.get(
-										'failed-to-retrieve-objects'
-									),
-									retryHandler: refetch,
-								},
-								loading: {
-									loadingLabel: Liferay.Language.get(
-										'retrieving-all-objects'
-									),
-								},
-							}}
-							fetchStatuses={fetchStatuses}
-							items={items}
-							label={Liferay.Language.get('select-object')}
-							onSelect={handleOnSelect}
-							trigger={
-								<ClayButton
-									className="clearfix w-100"
-									displayType="secondary"
+								<h5 className="title">
+									{Liferay.Language.get('standard-app')}
+								</h5>
+
+								<span className="text-secondary">
+									{Liferay.Language.get(
+										'create-an-app-to-manage-the-data-of-an-object'
+									)}
+								</span>
+							</div>
+
+							<div
+								className="app-type-card card card-interactive card-interactive-primary card-type-template template-card"
+								onClick={() => {
+									setWorkflowAppSelected(true);
+									setStandardAppSelected(false);
+								}}
+								tabIndex="0"
+							>
+								<ClayCard className="icon-new-app-card">
+									<ClayCard.AspectRatio className="card-item-first">
+										<div className="aspect-ratio-item aspect-ratio-item-center-middle">
+											<ClayIcon symbol="workflow" />
+										</div>
+									</ClayCard.AspectRatio>
+								</ClayCard>
+
+								<h5 className="title">
+									{Liferay.Language.get(
+										'workflow-powered-app'
+									)}
+								</h5>
+
+								<span className="text-secondary">
+									{Liferay.Language.get(
+										'create-an-app-driven-by-a-workflow-process'
+									)}
+								</span>
+							</div>
+						</div>
+
+						{isStandardAppSelected && (
+							<div className="custom-object-dropdown">
+								<label>{Liferay.Language.get('object')}</label>
+								<DropDown
+									dropDownStateProps={{
+										empty: {
+											emptyState: () => (
+												<EmptyState
+													customObjectButtonRef={
+														customObjectButtonRef
+													}
+													handleOnClick={
+														emptyStateOnClick
+													}
+												/>
+											),
+										},
+										error: {
+											errorLabel: Liferay.Language.get(
+												'failed-to-retrieve-objects'
+											),
+											retryHandler: refetch,
+										},
+										loading: {
+											loadingLabel: Liferay.Language.get(
+												'retrieving-all-objects'
+											),
+										},
+									}}
+									fetchStatuses={fetchStatuses}
+									items={items}
+									label={Liferay.Language.get(
+										'select-object'
+									)}
+									onSelect={handleOnSelect}
+									trigger={
+										<ClayButton
+											className="clearfix w-100"
+											displayType="secondary"
+										>
+											<span className="float-left">
+												{customObjectName ||
+													Liferay.Language.get(
+														'select-object'
+													)}
+											</span>
+
+											<ClayIcon
+												className="float-right icon"
+												symbol="caret-bottom"
+											/>
+										</ClayButton>
+									}
 								>
-									<span className="float-left">
-										{customObjectName ||
-											Liferay.Language.get(
-												'select-object'
-											)}
-									</span>
-
-									<ClayIcon
-										className="float-right icon"
-										symbol="caret-bottom"
-									/>
-								</ClayButton>
-							}
-						>
-							<DropDown.Search />
-						</DropDown>
+									<DropDown.Search />
+								</DropDown>
+							</div>
+						)}
 					</>
 				)}
 				footer={() => (
-					<div className="border-top mt-3 p-3" style={{width: 450}}>
+					<div className="border-top p-3" style={{width: 450}}>
 						<div className="d-flex justify-content-end">
 							<ClayButton
 								className="mr-3"
 								displayType="secondary"
 								onClick={() => {
 									setSelectedValue({});
+									setStandardAppSelected(false);
+									setWorkflowAppSelected(false);
 
 									onCancel();
 								}}
@@ -258,7 +328,9 @@ const ListAppsPopover = ({
 							</ClayButton>
 
 							<ClayButton
-								disabled={!customObjectId}
+								disabled={
+									!customObjectId || !isWorkflowAppSelected
+								}
 								onClick={() => {
 									onContinue(customObjectId);
 								}}
@@ -272,17 +344,9 @@ const ListAppsPopover = ({
 				ref={forwardRef}
 				showArrow={false}
 				title={() => (
-					<>
-						<h4 className="mb-3">
-							{Liferay.Language.get('new-app')}
-						</h4>
-
-						<span className="font-weight-light text-secondary">
-							{Liferay.Language.get(
-								'create-an-app-to-manage-the-data-of-an-object'
-							)}
-						</span>
-					</>
+					<h4 className="mb-0 ml-2">
+						{Liferay.Language.get('new-app')}
+					</h4>
 				)}
 				visible={visible}
 			/>

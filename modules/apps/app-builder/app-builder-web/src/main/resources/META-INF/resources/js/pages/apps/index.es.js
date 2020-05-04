@@ -17,13 +17,11 @@ import React from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {AppContextProvider} from '../../AppContext.es';
-import EditFormViewApp from '../form-view/EditFormViewApp.es';
 import ListApps from './ListApps.es';
 import EditApp from './edit/EditApp.es';
+import EditWorkflowApp from './edit/workflow-app/EditWorkflowApp.es';
 
 export default (props) => {
-	// const {basePortletURL} = props;
-
 	return (
 		<AppContextProvider {...props}>
 			<ClayModalProvider>
@@ -37,8 +35,8 @@ export default (props) => {
 						/>
 
 						<Route
-							component={EditFormViewApp}
-							path="/edit_form_view"
+							component={EditWorkflowApp}
+							path="/workflow/deploy/:dataDefinitionId"
 						/>
 					</Switch>
 				</Router>
