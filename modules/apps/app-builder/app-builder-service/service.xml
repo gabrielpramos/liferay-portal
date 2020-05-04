@@ -81,6 +81,6 @@
 		</finder>
 	</entity>
 	<exceptions>
-		<exception>AppBuilderAppStatus</exception>
+		<exception>AppBuilderAppAppStatus</exception>
 	</exceptions>
 </service-builder>

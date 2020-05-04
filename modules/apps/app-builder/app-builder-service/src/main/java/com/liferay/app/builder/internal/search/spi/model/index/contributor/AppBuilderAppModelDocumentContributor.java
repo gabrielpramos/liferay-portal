@@ -56,8 +56,9 @@ public class AppBuilderAppModelDocumentContributor
 				String[]::new
 			));
 
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(appBuilderApp.getAppStatus());
+		AppBuilderAppConstants.AppStatus appBuilderAppConstantsStatus =
+			AppBuilderAppConstants.AppStatus.parse(
+				appBuilderApp.getAppStatus());
 
 		document.addKeyword(
 			"appStatus", appBuilderAppConstantsStatus.getLabel());

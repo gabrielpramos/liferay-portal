@@ -67,6 +67,9 @@ public class ProductMenuAppDeployer implements AppDeployer {
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.getAppBuilderApp(appId);
 
+		appBuilderApp.setAppStatus(
+			AppBuilderAppConstants.AppStatus.DEPLOYED.getValue());
+
 		String appName = appBuilderApp.getName(
 			LocaleThreadLocal.getDefaultLocale());
 
@@ -116,9 +119,6 @@ public class ProductMenuAppDeployer implements AppDeployer {
 							jsonObject.getJSONArray("siteIds")))
 				});
 		}
-
-		appBuilderApp.setAppStatus(
-			AppBuilderAppConstants.Status.DEPLOYED.getValue());
 
 		_appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);
 	}

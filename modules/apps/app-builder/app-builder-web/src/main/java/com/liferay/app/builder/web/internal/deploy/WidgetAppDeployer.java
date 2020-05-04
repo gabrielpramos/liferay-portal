@@ -49,6 +49,9 @@ public class WidgetAppDeployer implements AppDeployer {
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.getAppBuilderApp(appId);
 
+		appBuilderApp.setAppStatus(
+			AppBuilderAppConstants.AppStatus.DEPLOYED.getValue());
+
 		_serviceRegistrationsMap.computeIfAbsent(
 			appId,
 			key -> new ServiceRegistration[] {
@@ -62,9 +65,6 @@ public class WidgetAppDeployer implements AppDeployer {
 					appBuilderApp, _getAppName(appBuilderApp, "Table View"),
 					_getPortletName(appId, "table_view"), false, true)
 			});
-
-		appBuilderApp.setAppStatus(
-			AppBuilderAppConstants.Status.DEPLOYED.getValue());
 
 		_appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);
 	}

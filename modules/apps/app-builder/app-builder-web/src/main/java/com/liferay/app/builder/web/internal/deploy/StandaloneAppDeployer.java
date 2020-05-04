@@ -70,6 +70,9 @@ public class StandaloneAppDeployer implements AppDeployer {
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.getAppBuilderApp(appId);
 
+		appBuilderApp.setAppStatus(
+			AppBuilderAppConstants.AppStatus.DEPLOYED.getValue());
+
 		_serviceRegistrationsMap.computeIfAbsent(
 			appId,
 			key -> {
@@ -90,9 +93,6 @@ public class StandaloneAppDeployer implements AppDeployer {
 					throw new IllegalStateException(portalException);
 				}
 			});
-
-		appBuilderApp.setAppStatus(
-			AppBuilderAppConstants.Status.DEPLOYED.getValue());
 
 		_appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);
 	}

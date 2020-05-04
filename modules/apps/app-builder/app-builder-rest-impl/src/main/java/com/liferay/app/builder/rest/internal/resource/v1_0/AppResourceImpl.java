@@ -18,7 +18,7 @@ import com.liferay.app.builder.constants.AppBuilderAppConstants;
 import com.liferay.app.builder.constants.AppBuilderConstants;
 import com.liferay.app.builder.deploy.AppDeployer;
 import com.liferay.app.builder.deploy.AppDeployerTracker;
-import com.liferay.app.builder.exception.AppBuilderAppStatusException;
+import com.liferay.app.builder.exception.AppBuilderAppAppStatusException;
 import com.liferay.app.builder.model.AppBuilderApp;
 import com.liferay.app.builder.model.AppBuilderAppDeployment;
 import com.liferay.app.builder.rest.constant.v1_0.DeploymentAction;
@@ -142,9 +142,9 @@ public class AppResourceImpl
 			};
 		}
 
-		if (Validator.isNull(appStatus) &&
-			ArrayUtil.isEmpty(appDeploymentTypes) &&
-			Validator.isNull(keywords) && ArrayUtil.isEmpty(userIds)) {
+		if (ArrayUtil.isEmpty(appDeploymentTypes) &&
+			Validator.isNull(appStatus) && Validator.isNull(keywords) &&
+			ArrayUtil.isEmpty(userIds)) {
 
 			return Page.of(
 				transform(
@@ -165,12 +165,6 @@ public class AppResourceImpl
 				BooleanFilter booleanFilter =
 					booleanQuery.getPreBooleanFilter();
 
-				if (Validator.isNotNull(appStatus)) {
-					booleanFilter.add(
-						new TermFilter("appStatus", appStatus),
-						BooleanClauseOccur.MUST);
-				}
-
 				if (ArrayUtil.isNotEmpty(appDeploymentTypes)) {
 					BooleanQuery appDeploymentTypesBooleanQuery =
 						new BooleanQueryImpl();
@@ -182,6 +176,12 @@ public class AppResourceImpl
 
 					booleanFilter.add(
 						new QueryFilter(appDeploymentTypesBooleanQuery),
+						BooleanClauseOccur.MUST);
+				}
+
+				if (Validator.isNotNull(appStatus)) {
+					booleanFilter.add(
+						new TermFilter("appStatus", appStatus),
 						BooleanClauseOccur.MUST);
 				}
 
@@ -355,13 +355,13 @@ public class AppResourceImpl
 		}
 
 		_validate(
-			app.getDataLayoutId(), app.getDataListViewId(), app.getName(),
-			app.getAppStatus());
+			app.getAppStatus(), app.getDataLayoutId(), app.getDataListViewId(),
+			app.getName());
 
 		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
 			dataDefinitionId);
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(app.getAppStatus());
+		AppBuilderAppConstants.AppStatus appBuilderAppConstantsStatus =
+			AppBuilderAppConstants.AppStatus.parse(app.getAppStatus());
 
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.addAppBuilderApp(
@@ -400,22 +400,22 @@ public class AppResourceImpl
 			ActionKeys.UPDATE);
 
 		_validate(
-			app.getDataLayoutId(), app.getDataListViewId(), app.getName(),
-			app.getAppStatus());
+			app.getAppStatus(), app.getDataLayoutId(), app.getDataListViewId(),
+			app.getName());
 
 		DDMStructure ddmStructure = _ddmStructureLocalService.getStructure(
 			app.getDataDefinitionId());
-		AppBuilderAppConstants.Status appBuilderAppConstantsStatus =
-			AppBuilderAppConstants.Status.parse(app.getAppStatus());
+		AppBuilderAppConstants.AppStatus appBuilderAppConstantsStatus =
+			AppBuilderAppConstants.AppStatus.parse(app.getAppStatus());
 
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.updateAppBuilderApp(
 				PrincipalThreadLocal.getUserId(), appId,
+				appBuilderAppConstantsStatus.getValue(),
 				ddmStructure.getStructureId(),
 				GetterUtil.getLong(app.getDataLayoutId()),
 				GetterUtil.getLong(app.getDataListViewId()),
-				LocalizedValueUtil.toLocaleStringMap(app.getName()),
-				appBuilderAppConstantsStatus.getValue());
+				LocalizedValueUtil.toLocaleStringMap(app.getName()));
 
 		List<AppBuilderAppDeployment> appBuilderAppDeployments =
 			_appBuilderAppDeploymentLocalService.getAppBuilderAppDeployments(
@@ -439,7 +439,7 @@ public class AppResourceImpl
 			if ((appDeployer != null) &&
 				Objects.equals(
 					appBuilderAppConstantsStatus,
-					AppBuilderAppConstants.Status.DEPLOYED)) {
+					AppBuilderAppConstants.AppStatus.DEPLOYED)) {
 
 				appDeployer.deploy(appId);
 			}
@@ -520,9 +520,9 @@ public class AppResourceImpl
 
 				setAppStatus(
 					() -> {
-						AppBuilderAppConstants.Status
+						AppBuilderAppConstants.AppStatus
 							appBuilderAppConstantsStatus =
-								AppBuilderAppConstants.Status.parse(
+								AppBuilderAppConstants.AppStatus.parse(
 									appBuilderApp.getAppStatus());
 
 						return appBuilderAppConstantsStatus.getLabel();
@@ -589,9 +589,16 @@ public class AppResourceImpl
 	}
 
 	private void _validate(
-			Long dataLayoutId, Long dataListViewId, Map<String, Object> name,
-			String status)
+			String appStatus, Long dataLayoutId, Long dataListViewId,
+			Map<String, Object> name)
 		throws Exception {
+
+		if (Validator.isNull(
+				AppBuilderAppConstants.AppStatus.parse(appStatus))) {
+
+			throw new AppBuilderAppAppStatusException(
+				"Invalid app status " + appStatus);
+		}
 
 		if ((dataLayoutId == null) && (dataListViewId == null)) {
 			throw new InvalidAppException(
@@ -641,10 +648,6 @@ public class AppResourceImpl
 						"The app name must not contain special characters");
 				}
 			}
-		}
-
-		if (Validator.isNull(AppBuilderAppConstants.Status.parse(status))) {
-			throw new AppBuilderAppStatusException("Invalid status " + status);
 		}
 	}
 

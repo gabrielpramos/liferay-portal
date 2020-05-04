@@ -28,25 +28,25 @@ public class AppBuilderAppConstants {
 
 	public static final int STATUS_UNDEPLOYED = 1;
 
-	public enum Status {
+	public enum AppStatus {
 
 		DEPLOYED(STATUS_DEPLOYED, "deployed"),
 		UNDEPLOYED(STATUS_UNDEPLOYED, "undeployed");
 
-		public static Status parse(int value) {
-			for (Status status : values()) {
-				if (status.getValue() == value) {
-					return status;
+		public static AppStatus parse(int value) {
+			for (AppStatus appStatus : values()) {
+				if (appStatus.getValue() == value) {
+					return appStatus;
 				}
 			}
 
 			return null;
 		}
 
-		public static Status parse(String label) {
-			for (Status status : values()) {
-				if (StringUtil.equalsIgnoreCase(label, status.getLabel())) {
-					return status;
+		public static AppStatus parse(String label) {
+			for (AppStatus appStatus : values()) {
+				if (StringUtil.equalsIgnoreCase(label, appStatus.getLabel())) {
+					return appStatus;
 				}
 			}
 
@@ -61,7 +61,7 @@ public class AppBuilderAppConstants {
 			return _value;
 		}
 
-		private Status(int value, String label) {
+		private AppStatus(int value, String label) {
 			_value = value;
 			_label = label;
 		}

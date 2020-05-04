@@ -108,7 +108,7 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 					}
 				}
 			});
-		app1.setAppStatus(AppBuilderAppConstants.Status.DEPLOYED.getLabel());
+		app1.setAppStatus(AppBuilderAppConstants.AppStatus.DEPLOYED.getLabel());
 
 		app1 = testGetAppsPage_addApp(app1);
 
@@ -122,7 +122,7 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 					}
 				}
 			});
-		app2.setAppStatus(AppBuilderAppConstants.Status.DEPLOYED.getLabel());
+		app2.setAppStatus(AppBuilderAppConstants.AppStatus.DEPLOYED.getLabel());
 
 		app2 = testGetAppsPage_addApp(app2);
 
@@ -141,15 +141,16 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 					}
 				}
 			});
-		app3.setAppStatus(AppBuilderAppConstants.Status.UNDEPLOYED.getLabel());
+		app3.setAppStatus(
+			AppBuilderAppConstants.AppStatus.UNDEPLOYED.getLabel());
 
 		app3 = testGetAppsPage_addApp(app3);
 
 		Page<App> page = appResource.getAppsPage(
 			new String[] {"productMenu"},
-			AppBuilderAppConstants.Status.DEPLOYED.getLabel(), StringPool.BLANK,
-			new Long[] {testGroup.getCreatorUserId()}, Pagination.of(1, 10),
-			null);
+			AppBuilderAppConstants.AppStatus.DEPLOYED.getLabel(),
+			StringPool.BLANK, new Long[] {testGroup.getCreatorUserId()},
+			Pagination.of(1, 10), null);
 
 		Assert.assertEquals(1, page.getTotalCount());
 
@@ -158,7 +159,7 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 
 		page = appResource.getAppsPage(
 			new String[] {"productMenu"},
-			AppBuilderAppConstants.Status.UNDEPLOYED.getLabel(),
+			AppBuilderAppConstants.AppStatus.UNDEPLOYED.getLabel(),
 			StringPool.BLANK, new Long[] {testGroup.getCreatorUserId()},
 			Pagination.of(1, 10), null);
 
@@ -200,7 +201,7 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 
 		Assert.assertEquals(
 			getApp.getAppStatus(),
-			AppBuilderAppConstants.Status.DEPLOYED.getLabel());
+			AppBuilderAppConstants.AppStatus.DEPLOYED.getLabel());
 	}
 
 	@Override
@@ -237,7 +238,8 @@ public class AppResourceTest extends BaseAppResourceTestCase {
 						}
 					}
 				};
-				appStatus = AppBuilderAppConstants.Status.UNDEPLOYED.getLabel();
+				appStatus =
+					AppBuilderAppConstants.AppStatus.UNDEPLOYED.getLabel();
 				dataDefinitionId = _ddmStructure.getStructureId();
 				dataDefinitionName = _ddmStructure.getName(LocaleUtil.US);
 				dataLayoutId = _ddmStructureLayout.getStructureLayoutId();

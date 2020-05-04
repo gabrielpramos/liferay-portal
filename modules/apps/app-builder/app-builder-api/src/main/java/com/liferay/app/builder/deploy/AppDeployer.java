@@ -52,7 +52,7 @@ public interface AppDeployer {
 			appBuilderAppLocalService.getAppBuilderApp(appId);
 
 		appBuilderApp.setAppStatus(
-			AppBuilderAppConstants.Status.UNDEPLOYED.getValue());
+			AppBuilderAppConstants.AppStatus.UNDEPLOYED.getValue());
 
 		appBuilderAppLocalService.updateAppBuilderApp(appBuilderApp);
 
