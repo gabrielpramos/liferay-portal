@@ -444,14 +444,15 @@ public class AppBuilderAppLocalServiceUtil {
 
 	public static com.liferay.app.builder.model.AppBuilderApp
 			updateAppBuilderApp(
-				long userId, long appBuilderAppId, long ddmStructureId,
-				long ddmStructureLayoutId, long deDataListViewId,
-				java.util.Map<java.util.Locale, String> nameMap, int appStatus)
+				long userId, long appBuilderAppId, int appStatus,
+				long ddmStructureId, long ddmStructureLayoutId,
+				long deDataListViewId,
+				java.util.Map<java.util.Locale, String> nameMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateAppBuilderApp(
-			userId, appBuilderAppId, ddmStructureId, ddmStructureLayoutId,
-			deDataListViewId, nameMap, appStatus);
+			userId, appBuilderAppId, appStatus, ddmStructureId,
+			ddmStructureLayoutId, deDataListViewId, nameMap);
 	}
 
 	public static AppBuilderAppLocalService getService() {

@@ -477,14 +477,15 @@ public class AppBuilderAppLocalServiceWrapper
 
 	@Override
 	public com.liferay.app.builder.model.AppBuilderApp updateAppBuilderApp(
-			long userId, long appBuilderAppId, long ddmStructureId,
-			long ddmStructureLayoutId, long deDataListViewId,
-			java.util.Map<java.util.Locale, String> nameMap, int appStatus)
+			long userId, long appBuilderAppId, int appStatus,
+			long ddmStructureId, long ddmStructureLayoutId,
+			long deDataListViewId,
+			java.util.Map<java.util.Locale, String> nameMap)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _appBuilderAppLocalService.updateAppBuilderApp(
-			userId, appBuilderAppId, ddmStructureId, ddmStructureLayoutId,
-			deDataListViewId, nameMap, appStatus);
+			userId, appBuilderAppId, appStatus, ddmStructureId,
+			ddmStructureLayoutId, deDataListViewId, nameMap);
 	}
 
 	@Override

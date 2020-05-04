@@ -19,20 +19,20 @@ import com.liferay.portal.kernel.exception.PortalException;
 /**
  * @author Brian Wing Shun Chan
  */
-public class AppBuilderAppStatusException extends PortalException {
+public class AppBuilderAppAppStatusException extends PortalException {
 
-	public AppBuilderAppStatusException() {
+	public AppBuilderAppAppStatusException() {
 	}
 
-	public AppBuilderAppStatusException(String msg) {
+	public AppBuilderAppAppStatusException(String msg) {
 		super(msg);
 	}
 
-	public AppBuilderAppStatusException(String msg, Throwable cause) {
+	public AppBuilderAppAppStatusException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public AppBuilderAppStatusException(Throwable cause) {
+	public AppBuilderAppAppStatusException(Throwable cause) {
 		super(cause);
 	}
 

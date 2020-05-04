@@ -348,9 +348,9 @@ public interface AppBuilderAppLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public AppBuilderApp updateAppBuilderApp(
-			long userId, long appBuilderAppId, long ddmStructureId,
-			long ddmStructureLayoutId, long deDataListViewId,
-			Map<Locale, String> nameMap, int appStatus)
+			long userId, long appBuilderAppId, int appStatus,
+			long ddmStructureId, long ddmStructureLayoutId,
+			long deDataListViewId, Map<Locale, String> nameMap)
 		throws PortalException;
 
 }
