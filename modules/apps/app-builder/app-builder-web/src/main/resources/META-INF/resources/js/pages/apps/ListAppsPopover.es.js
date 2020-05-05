@@ -12,20 +12,63 @@
  * details.
  */
 
-import React from 'react';
+import Button from '@clayui/button';
+import React, {useRef} from 'react';
 
+import DropDown from '../../components/drop-down/DropDown.es';
 import Popover from '../../components/popover/Popover.es';
 
 const ListAppsPopover = ({forwardRef, onCancel, onSubmit, visible}) => {
+	const objectInputRef = useRef();
+
+	const resetForm = () => {
+		objectInputRef.current.value = '';
+	};
+
 	return (
 		<Popover
+			content={() => (
+				<>
+				<label>{Liferay.Language.get('object')}</label>
+					<DropDown items={[{label: 'nome'}]} label={Liferay.Language.get('select-object')}>
+						<DropDown.Search />
+					</DropDown>
+				</>
+			)}
+			footer={() => (
+				<div className="border-top p-3" style={{width: 450}}>
+					<div className="d-flex justify-content-end">
+						<Button
+							className="mr-3"
+							displayType="secondary"
+							onClick={() => {
+								resetForm();
+
+								onCancel();
+							}}
+							small
+						>
+							{Liferay.Language.get('cancel')}
+						</Button>
+
+						<Button
+							onClick={() => {
+								onSubmit(objectInputRef.current.value);
+							}}
+							small
+						>
+							{Liferay.Language.get('continue')}
+						</Button>
+					</div>
+				</div>
+			)}
 			ref={forwardRef}
 			showArrow={false}
 			title={() => (
 				<>
 					<h4 className="m-0">{Liferay.Language.get('new-app')}</h4>
 
-					<span>
+					<span className="text-secondary">
 						{Liferay.Language.get(
 							'create-an-app-to-manage-the-data-of-an-object'
 						)}

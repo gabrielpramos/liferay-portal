@@ -12,25 +12,21 @@
  * details.
  */
 
-import {ClayModalProvider} from '@clayui/modal';
-import React from 'react';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import ClayDropDown from '@clayui/drop-down';
+import React, { useContext } from 'react';
 
-import {AppContextProvider} from '../../AppContext.es';
-import ListApps from './ListApps.es';
-import EditApp from './edit/EditApp.es';
+import {DropDownContext} from './DropDown.es';
 
-export default (props) => {
+const Search = () => {
+	const {query, setQuery} = useContext(DropDownContext);
+
 	return (
-		<AppContextProvider {...props}>
-			<ClayModalProvider>
-				<Router>
-					<Switch>
-						<Route component={ListApps} path="/" />
-						<Route component={EditApp} path="/apps/edit" />
-					</Switch>
-				</Router>
-			</ClayModalProvider>
-		</AppContextProvider>
+		<ClayDropDown.Search
+			formProps={{onSubmit: (e) => e.preventDefault()}}
+			onChange={(event) => setQuery(event.target.value)}
+			value={query}
+		/>
 	);
 };
+
+export {Search};
