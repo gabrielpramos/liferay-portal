@@ -13,7 +13,7 @@
  */
 
 import ClayLabel from '@clayui/label';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
@@ -22,8 +22,9 @@ import ListView from '../../components/list-view/ListView.es';
 import useDeployApp from '../../hooks/useDeployApp.es';
 import {confirmDelete} from '../../utils/client.es';
 import {fromNow} from '../../utils/time.es';
-import {concatValues} from '../../utils/utils.es';
+import ListAppsPopover from './ListAppsPopover.es';
 import {DEPLOYMENT_ACTION, DEPLOYMENT_TYPES, STATUSES} from './constants.es';
+import {concatTypes} from './utils.es';
 
 export default ({
 	match: {
@@ -32,8 +33,51 @@ export default ({
 	},
 }) => {
 	const {getStandaloneURL, userId} = useContext(AppContext);
+	const addButtonRef = useRef();
+	const popoverRef = useRef();
+
 	const {deployApp, undeployApp} = useDeployApp();
+
+	const [alignElement, setAlignElement] = useState(addButtonRef.current);
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
+
+	const onClickAddButton = ({currentTarget}) => {
+		setAlignElement(currentTarget);
+
+		if (isPopoverVisible && alignElement !== currentTarget) {
+			return;
+		}
+
+		setPopoverVisible(!isPopoverVisible);
+	};
+
+	const onCancel = () => setPopoverVisible(false);
+
+	const onSubmit = () => {
+
+		// const addURL = `/o/data-engine/v2.0/data-definitions/by-content-type/app-builder`;
+		// addItem(addURL, {
+		// 	availableLanguageIds: ['en_US'],
+		// 	dataDefinitionFields: [],
+		// 	name: {
+		// 		value: name,
+		// 	},
+		// }).then(({id}) => {
+		// 	if (isAddFormView) {
+		// 		Liferay.Util.navigate(
+		// 			Liferay.Util.PortletURL.createRenderURL(basePortletURL, {
+		// 				dataDefinitionId: id,
+		// 				mvcRenderCommandName: '/edit_form_view',
+		// 				newCustomObject: true,
+		// 			})
+		// 		);
+		// 	}
+		// 	else {
+		// 		history.push(`/custom-object/${id}/form-views/`);
+		// 	}
+		// });
+
+	};
 
 	const ACTIONS = [
 		{
@@ -133,61 +177,77 @@ export default ({
 	if (dataDefinitionId) {
 		ENDPOINT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
 		buttonProps = {href: `${url}/deploy`};
-	} else {
+	}
+	else {
 		const [firstColumn, ...otherColumns] = COLUMNS;
 
 		COLUMNS = [
 			firstColumn,
-			{key: 'dataDefinitionName', value: Liferay.Language.get('object')},
+			{
+				key: 'dataDefinitionName',
+				value: Liferay.Language.get('object'),
+			},
 			...otherColumns,
 		];
 		buttonProps = {
-			onClick: () => {},
+			onClick: (currentTarget) => onClickAddButton(currentTarget),
 		};
 	}
 
 	return (
-		<ListView
-			actions={ACTIONS}
-			addButton={() => (
-				<Button
-					className="nav-btn nav-btn-monospaced"
-					symbol="plus"
-					tooltip={Liferay.Language.get('new-app')}
-					{...buttonProps}
-				/>
-			)}
-			columns={COLUMNS}
-			emptyState={EMPTY_STATE}
-			endpoint={ENDPOINT}
-			filters={!dataDefinitionId ? FILTERS : []}
-		>
-			{(item) => ({
-				...item,
-				active: item.active,
-				dateCreated: fromNow(item.dateCreated),
-				dateModified: fromNow(item.dateModified),
-				name: dataDefinitionId ? (
-					<Link
-						to={`/custom-object/${dataDefinitionId}/apps/${item.id}`}
-					>
-						{item.name.en_US}
-					</Link>
-				) : (
-					item.name.en_US
-				),
-				nameText: item.name.en_US,
-				status: (
-					<ClayLabel
-						displayType={item.active ? 'success' : 'secondary'}
-					>
-						{STATUSES[item.active ? 'active' : 'inactive']}
-					</ClayLabel>
-				),
-				type: concatValues(
-					item.appDeployments.map(({type}) => DEPLOYMENT_TYPES[type])
-				),
-			})}
-		</ListView>
+		<>
+			<ListView
+				actions={ACTIONS}
+				addButton={() => (
+					<Button
+						className="nav-btn nav-btn-monospaced"
+						symbol="plus"
+						tooltip={Liferay.Language.get('new-app')}
+						{...buttonProps}
+					/>
+				)}
+				columns={COLUMNS}
+				emptyState={EMPTY_STATE}
+				endpoint={ENDPOINT}
+				filters={!dataDefinitionId ? FILTERS : []}
+			>
+				{(item) => ({
+					...item,
+					dateCreated: fromNow(item.dateCreated),
+					dateModified: fromNow(item.dateModified),
+					name: dataDefinitionId ? (
+						<Link
+							to={`/custom-object/${dataDefinitionId}/apps/${item.id}`}
+						>
+							{item.name.en_US}
+						</Link>
+					) : (
+						item.name.en_US
+					),
+					nameText: item.name.en_US,
+					status: (
+						<ClayLabel
+							displayType={item.active ? 'success' : 'secondary'}
+						>
+							{STATUSES[item.active ? 'active' : 'inactive']}
+						</ClayLabel>
+					),
+					statusText: item.status.toLowerCase(),
+					type: concatTypes(
+						item.appDeployments.map(
+							({type}) => DEPLOYMENT_TYPES[type]
+						)
+					),
+				})}
+			</ListView>
+
+			<ListAppsPopover
+				alignElement={alignElement}
+				onCancel={onCancel}
+				onSubmit={onSubmit}
+				ref={popoverRef}
+				visible={isPopoverVisible}
+			/>
+		</>
 	);
 };
