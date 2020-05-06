@@ -13,7 +13,7 @@
  */
 
 import ClayDropDown from '@clayui/drop-down';
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 
 import {DropDownContext} from './DropDown.es';
 
@@ -22,8 +22,10 @@ const Search = () => {
 
 	return (
 		<ClayDropDown.Search
+			className="drop-down-search"
 			formProps={{onSubmit: (e) => e.preventDefault()}}
 			onChange={(event) => setQuery(event.target.value)}
+			placeholder={Liferay.Language.get('search')}
 			value={query}
 		/>
 	);
