@@ -12,15 +12,16 @@
  * details.
  */
 
-import {ClayButtonWithIcon} from '@clayui/button';
+import ClayButton from '@clayui/button';
 import ClayDropDown, {Align} from '@clayui/drop-down';
+import ClayIcon from '@clayui/icon';
 import React, {createContext, useState} from 'react';
 
 import {Search} from './Search.es';
 
 const DropDownContext = createContext();
 
-const DropDown = ({children, items, label, ...restProps}) => {
+const DropDown = ({children, displayType, items, label, ...restProps}) => {
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
 
@@ -29,12 +30,20 @@ const DropDown = ({children, items, label, ...restProps}) => {
 			<ClayDropDown
 				{...restProps}
 				active={active}
-				alignmentPosition={Align.LeftTop}
+				alignmentPosition={Align.BottomCenter}
 				onActiveChange={setActive}
 				trigger={
-					<ClayButtonWithIcon symbol="caret-bottom">
-						{label}
-					</ClayButtonWithIcon>
+					<ClayButton
+						className="clearfix w-100"
+						displayType={displayType}
+					>
+						<span className="float-left">{label}</span>
+
+						<ClayIcon
+							className="float-right icon"
+							symbol="caret-bottom"
+						/>
+					</ClayButton>
 				}
 			>
 				{children}
@@ -46,7 +55,7 @@ const DropDown = ({children, items, label, ...restProps}) => {
 
 const Items = ({items, query}) => {
 	return (
-		<ClayDropDown.ItemList>
+		<ClayDropDown.ItemList className="min-vh-100">
 			{items
 				.filter(({label}) => label.match(query))
 				.map(({label, ...otherProps}, index) => (
