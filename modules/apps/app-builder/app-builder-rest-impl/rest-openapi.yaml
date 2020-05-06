@@ -49,9 +49,6 @@ components:
                 type:
                     type: string
             type: object
-        DeploymentAction:
-            enum: [deploy, undeploy]
-            type: string
 info:
     description:
         "A Java client JAR is available for use with the group ID 'com.liferay', artifact ID
@@ -186,9 +183,9 @@ paths:
                     description:
                         ""
             tags: ["App"]
-    "/apps/{appId}/deployment":
+    "/apps/{appId}/deploy":
         put:
-            operationId: putAppDeployment
+            operationId: putAppDeploy
             parameters:
                 - in: path
                   name: appId
@@ -196,11 +193,21 @@ paths:
                   schema:
                       format: int64
                       type: integer
-                - in: query
-                  name: deploymentAction
+            responses:
+                200:
+                    description:
+                        "OK"
+            tags: ["App"]
+    "/apps/{appId}/undeploy":
+        put:
+            operationId: putAppUndeploy
+            parameters:
+                - in: path
+                  name: appId
                   required: true
                   schema:
-                      $ref: "#/components/schemas/DeploymentAction"
+                      format: int64
+                      type: integer
             responses:
                 200:
                     description:

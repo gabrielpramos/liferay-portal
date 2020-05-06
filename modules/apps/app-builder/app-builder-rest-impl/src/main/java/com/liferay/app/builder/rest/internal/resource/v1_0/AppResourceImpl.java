@@ -437,31 +437,43 @@ public class AppResourceImpl
 	}
 
 	@Override
-	public Response putAppDeployment(
-			Long appId, DeploymentAction deploymentAction)
-		throws Exception {
-
+	public Response putAppDeploy(Long appId) throws Exception {
 		_modelResourcePermission.check(
 			PermissionThreadLocal.getPermissionChecker(), appId,
 			ActionKeys.UPDATE);
 
-		List<AppBuilderAppDeployment> appBuilderAppDeployments =
-			_appBuilderAppDeploymentLocalService.getAppBuilderAppDeployments(
-				appId);
-
 		for (AppBuilderAppDeployment appBuilderAppDeployment :
-				appBuilderAppDeployments) {
+				_appBuilderAppDeploymentLocalService.
+					getAppBuilderAppDeployments(appId)) {
 
 			AppDeployer appDeployer = _appDeployerTracker.getAppDeployer(
 				appBuilderAppDeployment.getType());
 
 			if (appDeployer != null) {
-				if (deploymentAction.equals(DeploymentAction.DEPLOY)) {
-					appDeployer.deploy(appId);
-				}
-				else {
-					appDeployer.undeploy(appId);
-				}
+				appDeployer.deploy(appId);
+			}
+		}
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.build();
+	}
+
+	@Override
+	public Response putAppUndeploy(Long appId) throws Exception {
+		_modelResourcePermission.check(
+			PermissionThreadLocal.getPermissionChecker(), appId,
+			ActionKeys.UPDATE);
+
+		for (AppBuilderAppDeployment appBuilderAppDeployment :
+				_appBuilderAppDeploymentLocalService.
+					getAppBuilderAppDeployments(appId)) {
+
+			AppDeployer appDeployer = _appDeployerTracker.getAppDeployer(
+				appBuilderAppDeployment.getType());
+
+			if (appDeployer != null) {
+				appDeployer.undeploy(appId);
 			}
 		}
 
