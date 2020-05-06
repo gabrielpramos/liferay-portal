@@ -17,6 +17,7 @@ const createItems = (size) => {
 
 	for (let i = 0; i < size; i++) {
 		items.push({
+			active: true,
 			appDeployments: [
 				{
 					settings: {},
@@ -30,7 +31,6 @@ const createItems = (size) => {
 			name: {
 				en_US: `Item ${i + 1}`,
 			},
-			status: 'success',
 		});
 	}
 

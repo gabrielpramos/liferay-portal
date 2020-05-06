@@ -30,6 +30,4 @@ const concatTypes = (types) => {
 	}, '');
 };
 
-const isDeployed = (status) => status === 'deployed';
-
-export {concatTypes, isDeployed};
+export {concatTypes};

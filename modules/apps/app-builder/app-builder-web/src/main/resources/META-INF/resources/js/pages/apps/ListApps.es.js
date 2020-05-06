@@ -23,7 +23,7 @@ import useDeployApp from '../../hooks/useDeployApp.es';
 import {confirmDelete} from '../../utils/client.es';
 import {fromNow} from '../../utils/time.es';
 import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from './constants.es';
-import {concatTypes, isDeployed} from './utils.es';
+import {concatTypes} from './utils.es';
 
 export default ({
 	match: {
@@ -36,13 +36,10 @@ export default ({
 
 	const ACTIONS = [
 		{
-			action: (item) => {
-				return isDeployed(item.statusText)
-					? undeployApp(item)
-					: deployApp(item);
-			},
+			action: (item) =>
+				item.active ? undeployApp(item) : deployApp(item),
 			name: (item) =>
-				isDeployed(item.statusText)
+				item.active
 					? DEPLOYMENT_ACTION.undeploy
 					: DEPLOYMENT_ACTION.deploy,
 		},
@@ -141,6 +138,7 @@ export default ({
 		>
 			{(item) => ({
 				...item,
+				active: item.active,
 				dateCreated: fromNow(item.dateCreated),
 				dateModified: fromNow(item.dateModified),
 				name: dataDefinitionId ? (
@@ -155,16 +153,11 @@ export default ({
 				nameText: item.name.en_US,
 				status: (
 					<ClayLabel
-						displayType={
-							isDeployed(item.status.toLowerCase())
-								? 'success'
-								: 'secondary'
-						}
+						displayType={item.active ? 'success' : 'secondary'}
 					>
-						{DEPLOYMENT_STATUS[item.status.toLowerCase()]}
+						{DEPLOYMENT_STATUS[item.active]}
 					</ClayLabel>
 				),
-				statusText: item.status.toLowerCase(),
 				type: concatTypes(
 					item.appDeployments.map((deployment) => deployment.type)
 				),

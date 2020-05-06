@@ -18,8 +18,8 @@ const DEPLOYMENT_ACTION = {
 };
 
 const DEPLOYMENT_STATUS = {
-	deployed: Liferay.Language.get('deployed'),
-	undeployed: Liferay.Language.get('undeployed'),
+	false: Liferay.Language.get('undeployed'),
+	true: Liferay.Language.get('deployed'),
 };
 
 const DEPLOYMENT_TYPES = {

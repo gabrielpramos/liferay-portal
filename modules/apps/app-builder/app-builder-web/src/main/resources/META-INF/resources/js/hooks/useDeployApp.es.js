@@ -26,9 +26,9 @@ export default () => {
 
 	const deployApp = (item, undeploy) => {
 		return updateItem(
-			`/o/app-builder/v1.0/apps/${item.id}/deployment`,
-			{},
-			{deploymentAction: undeploy ? 'undeploy' : 'deploy'}
+			`/o/app-builder/v1.0/apps/${item.id}/${
+				undeploy ? 'undeploy' : 'deploy'
+			}`
 		)
 			.then(() => true)
 			.catch((error) => error);

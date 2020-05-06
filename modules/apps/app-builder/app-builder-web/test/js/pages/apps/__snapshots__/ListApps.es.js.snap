@@ -181,11 +181,13 @@ exports[`ListApp renders 1`] = `
                 class="table-cell-expand-smaller text-left"
               >
                 <span
-                  class="label label-secondary"
+                  class="label label-success"
                 >
                   <span
                     class="label-item label-item-expand"
-                  />
+                  >
+                    deployed
+                  </span>
                 </span>
               </td>
               <td
