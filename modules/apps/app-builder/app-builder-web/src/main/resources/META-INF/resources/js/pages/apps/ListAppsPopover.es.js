@@ -18,7 +18,13 @@ import React, {useRef} from 'react';
 import DropDown from '../../components/drop-down/DropDown.es';
 import Popover from '../../components/popover/Popover.es';
 
-const ListAppsPopover = ({forwardRef, onCancel, onSubmit, visible}) => {
+const ListAppsPopover = ({
+	alignElement,
+	forwardRef,
+	onCancel,
+	onSubmit,
+	visible,
+}) => {
 	const objectInputRef = useRef();
 
 	const resetForm = () => {
@@ -27,16 +33,22 @@ const ListAppsPopover = ({forwardRef, onCancel, onSubmit, visible}) => {
 
 	return (
 		<Popover
+			alignElement={alignElement}
+			className="apps-popover mw-100"
 			content={() => (
 				<>
-				<label>{Liferay.Language.get('object')}</label>
-					<DropDown items={[{label: 'nome'}]} label={Liferay.Language.get('select-object')}>
+					<label>{Liferay.Language.get('object')}</label>
+					<DropDown
+						displayType="secondary"
+						items={[{label: 'nome'}]}
+						label={Liferay.Language.get('select-object')}
+					>
 						<DropDown.Search />
 					</DropDown>
 				</>
 			)}
 			footer={() => (
-				<div className="border-top p-3" style={{width: 450}}>
+				<div className="border-top mt-3 p-3" style={{width: 450}}>
 					<div className="d-flex justify-content-end">
 						<Button
 							className="mr-3"
@@ -66,9 +78,9 @@ const ListAppsPopover = ({forwardRef, onCancel, onSubmit, visible}) => {
 			showArrow={false}
 			title={() => (
 				<>
-					<h4 className="m-0">{Liferay.Language.get('new-app')}</h4>
+					<h4 className="mb-3">{Liferay.Language.get('new-app')}</h4>
 
-					<span className="text-secondary">
+					<span className="font-weight-light text-secondary">
 						{Liferay.Language.get(
 							'create-an-app-to-manage-the-data-of-an-object'
 						)}
