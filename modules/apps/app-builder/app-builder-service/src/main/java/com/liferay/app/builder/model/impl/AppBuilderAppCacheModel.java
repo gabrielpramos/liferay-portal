@@ -88,8 +88,8 @@ public class AppBuilderAppCacheModel
 		sb.append(deDataListViewId);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", status=");
-		sb.append(status);
+		sb.append(", active=");
+		sb.append(active);
 		sb.append("}");
 
 		return sb.toString();
@@ -143,7 +143,7 @@ public class AppBuilderAppCacheModel
 			appBuilderAppImpl.setName(name);
 		}
 
-		appBuilderAppImpl.setStatus(status);
+		appBuilderAppImpl.setActive(active);
 
 		appBuilderAppImpl.resetOriginalValues();
 
@@ -172,7 +172,7 @@ public class AppBuilderAppCacheModel
 		deDataListViewId = objectInput.readLong();
 		name = objectInput.readUTF();
 
-		status = objectInput.readInt();
+		active = objectInput.readBoolean();
 	}
 
 	@Override
@@ -215,7 +215,7 @@ public class AppBuilderAppCacheModel
 			objectOutput.writeUTF(name);
 		}
 
-		objectOutput.writeInt(status);
+		objectOutput.writeBoolean(active);
 	}
 
 	public String uuid;
@@ -230,6 +230,6 @@ public class AppBuilderAppCacheModel
 	public long ddmStructureLayoutId;
 	public long deDataListViewId;
 	public String name;
-	public int status;
+	public boolean active;
 
 }

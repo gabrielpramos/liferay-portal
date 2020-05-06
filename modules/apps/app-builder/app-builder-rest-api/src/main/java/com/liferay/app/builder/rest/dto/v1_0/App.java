@@ -51,6 +51,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class App {
 
 	@Schema
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	@JsonIgnore
+	public void setActive(
+		UnsafeSupplier<Boolean, Exception> activeUnsafeSupplier) {
+
+		try {
+			active = activeUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean active;
+
+	@Schema
 	@Valid
 	public AppDeployment[] getAppDeployments() {
 		return appDeployments;
@@ -332,34 +360,6 @@ public class App {
 	protected Long siteId;
 
 	@Schema
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	@JsonIgnore
-	public void setStatus(
-		UnsafeSupplier<String, Exception> statusUnsafeSupplier) {
-
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected String status;
-
-	@Schema
 	public Long getUserId() {
 		return userId;
 	}
@@ -416,6 +416,16 @@ public class App {
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+		if (active != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"active\": ");
+
+			sb.append(active);
+		}
 
 		if (appDeployments != null) {
 			if (sb.length() > 1) {
@@ -537,20 +547,6 @@ public class App {
 			sb.append("\"siteId\": ");
 
 			sb.append(siteId);
-		}
-
-		if (status != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"status\": ");
-
-			sb.append("\"");
-
-			sb.append(_escape(status));
-
-			sb.append("\"");
 		}
 
 		if (userId != null) {

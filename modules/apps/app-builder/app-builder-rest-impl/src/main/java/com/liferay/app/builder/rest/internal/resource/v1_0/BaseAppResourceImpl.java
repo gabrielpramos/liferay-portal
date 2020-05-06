@@ -89,7 +89,10 @@ public abstract class BaseAppResourceImpl
 	@GET
 	@Parameters(
 		value = {
+			@Parameter(in = ParameterIn.QUERY, name = "active"),
+			@Parameter(in = ParameterIn.QUERY, name = "deploymentTypes"),
 			@Parameter(in = ParameterIn.QUERY, name = "keywords"),
+			@Parameter(in = ParameterIn.QUERY, name = "userIds"),
 			@Parameter(in = ParameterIn.QUERY, name = "page"),
 			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
 			@Parameter(in = ParameterIn.QUERY, name = "sort")
@@ -99,7 +102,11 @@ public abstract class BaseAppResourceImpl
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "App")})
 	public Page<App> getAppsPage(
+			@Parameter(hidden = true) @QueryParam("active") Boolean active,
+			@Parameter(hidden = true) @QueryParam("deploymentTypes") String[]
+				deploymentTypes,
 			@Parameter(hidden = true) @QueryParam("keywords") String keywords,
+			@Parameter(hidden = true) @QueryParam("userIds") Long[] userIds,
 			@Context Pagination pagination, @Context Sort[] sorts)
 		throws Exception {
 
@@ -179,7 +186,7 @@ public abstract class BaseAppResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/app-builder/v1.0/apps/{appId}' -d $'{"appDeployments": ___, "dataDefinitionId": ___, "dataLayoutId": ___, "dataListViewId": ___, "dateCreated": ___, "dateModified": ___, "id": ___, "name": ___, "siteId": ___, "status": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/app-builder/v1.0/apps/{appId}' -d $'{"active": ___, "appDeployments": ___, "dataDefinitionId": ___, "dataLayoutId": ___, "dataListViewId": ___, "dateCreated": ___, "dateModified": ___, "id": ___, "name": ___, "siteId": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Override
 	@Consumes({"application/json", "application/xml"})
@@ -235,23 +242,34 @@ public abstract class BaseAppResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/app-builder/v1.0/apps/{appId}/deployment'  -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/app-builder/v1.0/apps/{appId}/deploy'  -u 'test@liferay.com:test'
 	 */
 	@Override
 	@PUT
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "appId"),
-			@Parameter(in = ParameterIn.QUERY, name = "deploymentAction")
-		}
-	)
-	@Path("/apps/{appId}/deployment")
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "appId")})
+	@Path("/apps/{appId}/deploy")
 	@Tags(value = {@Tag(name = "App")})
-	public Response putAppDeployment(
-			@NotNull @Parameter(hidden = true) @PathParam("appId") Long appId,
-			@NotNull @Parameter(hidden = true) @QueryParam("deploymentAction")
-				com.liferay.app.builder.rest.constant.v1_0.DeploymentAction
-					deploymentAction)
+	public Response putAppDeploy(
+			@NotNull @Parameter(hidden = true) @PathParam("appId") Long appId)
+		throws Exception {
+
+		Response.ResponseBuilder responseBuilder = Response.ok();
+
+		return responseBuilder.build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/app-builder/v1.0/apps/{appId}/undeploy'  -u 'test@liferay.com:test'
+	 */
+	@Override
+	@PUT
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "appId")})
+	@Path("/apps/{appId}/undeploy")
+	@Tags(value = {@Tag(name = "App")})
+	public Response putAppUndeploy(
+			@NotNull @Parameter(hidden = true) @PathParam("appId") Long appId)
 		throws Exception {
 
 		Response.ResponseBuilder responseBuilder = Response.ok();
@@ -291,7 +309,7 @@ public abstract class BaseAppResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/app-builder/v1.0/data-definitions/{dataDefinitionId}/apps' -d $'{"appDeployments": ___, "dataDefinitionId": ___, "dataLayoutId": ___, "dataListViewId": ___, "dateCreated": ___, "dateModified": ___, "id": ___, "name": ___, "siteId": ___, "status": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/app-builder/v1.0/data-definitions/{dataDefinitionId}/apps' -d $'{"active": ___, "appDeployments": ___, "dataDefinitionId": ___, "dataLayoutId": ___, "dataListViewId": ___, "dateCreated": ___, "dateModified": ___, "id": ___, "name": ___, "siteId": ___, "userId": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Override
 	@Consumes({"application/json", "application/xml"})

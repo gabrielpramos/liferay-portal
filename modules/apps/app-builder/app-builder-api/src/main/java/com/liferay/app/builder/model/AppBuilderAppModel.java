@@ -350,18 +350,25 @@ public interface AppBuilderAppModel
 	public void setNameMap(Map<Locale, String> nameMap, Locale defaultLocale);
 
 	/**
-	 * Returns the status of this app builder app.
+	 * Returns the active of this app builder app.
 	 *
-	 * @return the status of this app builder app
+	 * @return the active of this app builder app
 	 */
-	public int getStatus();
+	public boolean getActive();
 
 	/**
-	 * Sets the status of this app builder app.
+	 * Returns <code>true</code> if this app builder app is active.
 	 *
-	 * @param status the status of this app builder app
+	 * @return <code>true</code> if this app builder app is active; <code>false</code> otherwise
 	 */
-	public void setStatus(int status);
+	public boolean isActive();
+
+	/**
+	 * Sets whether this app builder app is active.
+	 *
+	 * @param active the active of this app builder app
+	 */
+	public void setActive(boolean active);
 
 	@Override
 	public String[] getAvailableLanguageIds();

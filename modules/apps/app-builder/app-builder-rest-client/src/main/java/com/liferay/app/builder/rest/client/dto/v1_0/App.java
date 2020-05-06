@@ -30,6 +30,27 @@ import javax.annotation.Generated;
 @Generated("")
 public class App implements Cloneable {
 
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public void setActive(
+		UnsafeSupplier<Boolean, Exception> activeUnsafeSupplier) {
+
+		try {
+			active = activeUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean active;
+
 	public AppDeployment[] getAppDeployments() {
 		return appDeployments;
 	}
@@ -238,27 +259,6 @@ public class App implements Cloneable {
 	}
 
 	protected Long siteId;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public void setStatus(
-		UnsafeSupplier<String, Exception> statusUnsafeSupplier) {
-
-		try {
-			status = statusUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected String status;
 
 	public Long getUserId() {
 		return userId;

@@ -50,12 +50,12 @@ public class AppBuilderAppLocalServiceWrapper
 	public com.liferay.app.builder.model.AppBuilderApp addAppBuilderApp(
 			long groupId, long companyId, long userId, long ddmStructureId,
 			long ddmStructureLayoutId, long deDataListViewId,
-			java.util.Map<java.util.Locale, String> nameMap, int status)
+			java.util.Map<java.util.Locale, String> nameMap, boolean active)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _appBuilderAppLocalService.addAppBuilderApp(
 			groupId, companyId, userId, ddmStructureId, ddmStructureLayoutId,
-			deDataListViewId, nameMap, status);
+			deDataListViewId, nameMap, active);
 	}
 
 	/**
@@ -286,8 +286,10 @@ public class AppBuilderAppLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<Long> getAppBuilderAppIds(int status, String type) {
-		return _appBuilderAppLocalService.getAppBuilderAppIds(status, type);
+	public java.util.List<Long> getAppBuilderAppIds(
+		boolean active, String type) {
+
+		return _appBuilderAppLocalService.getAppBuilderAppIds(active, type);
 	}
 
 	/**
@@ -317,9 +319,9 @@ public class AppBuilderAppLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.app.builder.model.AppBuilderApp>
-		getAppBuilderApps(long companyId, int status) {
+		getAppBuilderApps(long companyId, boolean active) {
 
-		return _appBuilderAppLocalService.getAppBuilderApps(companyId, status);
+		return _appBuilderAppLocalService.getAppBuilderApps(companyId, active);
 	}
 
 	@Override
@@ -480,12 +482,12 @@ public class AppBuilderAppLocalServiceWrapper
 	public com.liferay.app.builder.model.AppBuilderApp updateAppBuilderApp(
 			long userId, long appBuilderAppId, long ddmStructureId,
 			long ddmStructureLayoutId, long deDataListViewId,
-			java.util.Map<java.util.Locale, String> nameMap, int status)
+			java.util.Map<java.util.Locale, String> nameMap, boolean active)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _appBuilderAppLocalService.updateAppBuilderApp(
 			userId, appBuilderAppId, ddmStructureId, ddmStructureLayoutId,
-			deDataListViewId, nameMap, status);
+			deDataListViewId, nameMap, active);
 	}
 
 	@Override

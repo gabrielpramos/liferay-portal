@@ -43,7 +43,7 @@ public class AppBuilderAppSoap implements Serializable {
 		soapModel.setDdmStructureLayoutId(model.getDdmStructureLayoutId());
 		soapModel.setDeDataListViewId(model.getDeDataListViewId());
 		soapModel.setName(model.getName());
-		soapModel.setStatus(model.getStatus());
+		soapModel.setActive(model.isActive());
 
 		return soapModel;
 	}
@@ -193,12 +193,16 @@ public class AppBuilderAppSoap implements Serializable {
 		_name = name;
 	}
 
-	public int getStatus() {
-		return _status;
+	public boolean getActive() {
+		return _active;
 	}
 
-	public void setStatus(int status) {
-		_status = status;
+	public boolean isActive() {
+		return _active;
+	}
+
+	public void setActive(boolean active) {
+		_active = active;
 	}
 
 	private String _uuid;
@@ -213,6 +217,6 @@ public class AppBuilderAppSoap implements Serializable {
 	private long _ddmStructureLayoutId;
 	private long _deDataListViewId;
 	private String _name;
-	private int _status;
+	private boolean _active;
 
 }

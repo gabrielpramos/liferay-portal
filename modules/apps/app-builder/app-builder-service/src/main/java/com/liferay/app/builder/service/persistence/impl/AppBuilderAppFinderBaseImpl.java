@@ -44,6 +44,7 @@ public abstract class AppBuilderAppFinderBaseImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("active", "active_");
 
 		setDBColumnNames(dbColumnNames);
 	}

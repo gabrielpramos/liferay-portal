@@ -11,7 +11,7 @@ create table AppBuilderApp (
 	ddmStructureLayoutId LONG,
 	deDataListViewId LONG,
 	name STRING null,
-	status INTEGER
+	active_ BOOLEAN
 );
 
 create table AppBuilderAppDeployment (

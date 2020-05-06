@@ -94,17 +94,21 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	public Response updateAppDeployment(
-			@GraphQLName("appId") Long appId,
-			@GraphQLName("deploymentAction")
-				com.liferay.app.builder.rest.constant.v1_0.DeploymentAction
-					deploymentAction)
+	public Response updateAppDeploy(@GraphQLName("appId") Long appId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_appResourceComponentServiceObjects, this::_populateResourceContext,
-			appResource -> appResource.putAppDeployment(
-				appId, deploymentAction));
+			appResource -> appResource.putAppDeploy(appId));
+	}
+
+	@GraphQLField
+	public Response updateAppUndeploy(@GraphQLName("appId") Long appId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_appResourceComponentServiceObjects, this::_populateResourceContext,
+			appResource -> appResource.putAppUndeploy(appId));
 	}
 
 	@GraphQLField

@@ -14,7 +14,6 @@
 
 package com.liferay.app.builder.rest.resource.v1_0;
 
-import com.liferay.app.builder.rest.constant.v1_0.DeploymentAction;
 import com.liferay.app.builder.rest.dto.v1_0.App;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
@@ -50,7 +49,8 @@ public interface AppResource {
 	}
 
 	public Page<App> getAppsPage(
-			String keywords, Pagination pagination, Sort[] sorts)
+			Boolean active, String[] deploymentTypes, String keywords,
+			Long[] userIds, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
 	public void deleteApp(Long appId) throws Exception;
@@ -65,9 +65,9 @@ public interface AppResource {
 	public Response putAppBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public Response putAppDeployment(
-			Long appId, DeploymentAction deploymentAction)
-		throws Exception;
+	public Response putAppDeploy(Long appId) throws Exception;
+
+	public Response putAppUndeploy(Long appId) throws Exception;
 
 	public Page<App> getDataDefinitionAppsPage(
 			Long dataDefinitionId, String keywords, Pagination pagination,

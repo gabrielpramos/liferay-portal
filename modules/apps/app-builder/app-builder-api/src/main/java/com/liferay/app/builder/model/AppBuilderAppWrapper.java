@@ -55,7 +55,7 @@ public class AppBuilderAppWrapper
 		attributes.put("ddmStructureLayoutId", getDdmStructureLayoutId());
 		attributes.put("deDataListViewId", getDeDataListViewId());
 		attributes.put("name", getName());
-		attributes.put("status", getStatus());
+		attributes.put("active", isActive());
 
 		return attributes;
 	}
@@ -135,11 +135,21 @@ public class AppBuilderAppWrapper
 			setName(name);
 		}
 
-		Integer status = (Integer)attributes.get("status");
+		Boolean active = (Boolean)attributes.get("active");
 
-		if (status != null) {
-			setStatus(status);
+		if (active != null) {
+			setActive(active);
 		}
+	}
+
+	/**
+	 * Returns the active of this app builder app.
+	 *
+	 * @return the active of this app builder app
+	 */
+	@Override
+	public boolean getActive() {
+		return model.getActive();
 	}
 
 	/**
@@ -319,16 +329,6 @@ public class AppBuilderAppWrapper
 	}
 
 	/**
-	 * Returns the status of this app builder app.
-	 *
-	 * @return the status of this app builder app
-	 */
-	@Override
-	public int getStatus() {
-		return model.getStatus();
-	}
-
-	/**
 	 * Returns the user ID of this app builder app.
 	 *
 	 * @return the user ID of this app builder app
@@ -368,6 +368,16 @@ public class AppBuilderAppWrapper
 		return model.getUuid();
 	}
 
+	/**
+	 * Returns <code>true</code> if this app builder app is active.
+	 *
+	 * @return <code>true</code> if this app builder app is active; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isActive() {
+		return model.isActive();
+	}
+
 	@Override
 	public void persist() {
 		model.persist();
@@ -386,6 +396,16 @@ public class AppBuilderAppWrapper
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
 		model.prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	/**
+	 * Sets whether this app builder app is active.
+	 *
+	 * @param active the active of this app builder app
+	 */
+	@Override
+	public void setActive(boolean active) {
+		model.setActive(active);
 	}
 
 	/**
@@ -539,16 +559,6 @@ public class AppBuilderAppWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	 * Sets the status of this app builder app.
-	 *
-	 * @param status the status of this app builder app
-	 */
-	@Override
-	public void setStatus(int status) {
-		model.setStatus(status);
 	}
 
 	/**

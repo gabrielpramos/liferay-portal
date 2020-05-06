@@ -3368,75 +3368,75 @@ public class AppBuilderAppPersistenceImpl
 	private static final String _FINDER_COLUMN_DDMSTRUCTUREID_DDMSTRUCTUREID_2 =
 		"appBuilderApp.ddmStructureId = ?";
 
-	private FinderPath _finderPathWithPaginationFindByC_S;
-	private FinderPath _finderPathWithoutPaginationFindByC_S;
-	private FinderPath _finderPathCountByC_S;
+	private FinderPath _finderPathWithPaginationFindByC_A;
+	private FinderPath _finderPathWithoutPaginationFindByC_A;
+	private FinderPath _finderPathCountByC_A;
 
 	/**
-	 * Returns all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @return the matching app builder apps
 	 */
 	@Override
-	public List<AppBuilderApp> findByC_S(long companyId, int status) {
-		return findByC_S(
-			companyId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<AppBuilderApp> findByC_A(long companyId, boolean active) {
+		return findByC_A(
+			companyId, active, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns a range of all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AppBuilderAppModelImpl</code>.
 	 * </p>
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param start the lower bound of the range of app builder apps
 	 * @param end the upper bound of the range of app builder apps (not inclusive)
 	 * @return the range of matching app builder apps
 	 */
 	@Override
-	public List<AppBuilderApp> findByC_S(
-		long companyId, int status, int start, int end) {
+	public List<AppBuilderApp> findByC_A(
+		long companyId, boolean active, int start, int end) {
 
-		return findByC_S(companyId, status, start, end, null);
+		return findByC_A(companyId, active, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns an ordered range of all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AppBuilderAppModelImpl</code>.
 	 * </p>
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param start the lower bound of the range of app builder apps
 	 * @param end the upper bound of the range of app builder apps (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching app builder apps
 	 */
 	@Override
-	public List<AppBuilderApp> findByC_S(
-		long companyId, int status, int start, int end,
+	public List<AppBuilderApp> findByC_A(
+		long companyId, boolean active, int start, int end,
 		OrderByComparator<AppBuilderApp> orderByComparator) {
 
-		return findByC_S(
-			companyId, status, start, end, orderByComparator, true);
+		return findByC_A(
+			companyId, active, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns an ordered range of all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AppBuilderAppModelImpl</code>.
 	 * </p>
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param start the lower bound of the range of app builder apps
 	 * @param end the upper bound of the range of app builder apps (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -3444,8 +3444,8 @@ public class AppBuilderAppPersistenceImpl
 	 * @return the ordered range of matching app builder apps
 	 */
 	@Override
-	public List<AppBuilderApp> findByC_S(
-		long companyId, int status, int start, int end,
+	public List<AppBuilderApp> findByC_A(
+		long companyId, boolean active, int start, int end,
 		OrderByComparator<AppBuilderApp> orderByComparator,
 		boolean useFinderCache) {
 
@@ -3456,14 +3456,14 @@ public class AppBuilderAppPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByC_S;
-				finderArgs = new Object[] {companyId, status};
+				finderPath = _finderPathWithoutPaginationFindByC_A;
+				finderArgs = new Object[] {companyId, active};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByC_S;
+			finderPath = _finderPathWithPaginationFindByC_A;
 			finderArgs = new Object[] {
-				companyId, status, start, end, orderByComparator
+				companyId, active, start, end, orderByComparator
 			};
 		}
 
@@ -3476,7 +3476,7 @@ public class AppBuilderAppPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (AppBuilderApp appBuilderApp : list) {
 					if ((companyId != appBuilderApp.getCompanyId()) ||
-						(status != appBuilderApp.getStatus())) {
+						(active != appBuilderApp.isActive())) {
 
 						list = null;
 
@@ -3499,9 +3499,9 @@ public class AppBuilderAppPersistenceImpl
 
 			sb.append(_SQL_SELECT_APPBUILDERAPP_WHERE);
 
-			sb.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			sb.append(_FINDER_COLUMN_C_A_COMPANYID_2);
 
-			sb.append(_FINDER_COLUMN_C_S_STATUS_2);
+			sb.append(_FINDER_COLUMN_C_A_ACTIVE_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -3524,7 +3524,7 @@ public class AppBuilderAppPersistenceImpl
 
 				queryPos.add(companyId);
 
-				queryPos.add(status);
+				queryPos.add(active);
 
 				list = (List<AppBuilderApp>)QueryUtil.list(
 					query, getDialect(), start, end);
@@ -3551,22 +3551,22 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Returns the first app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the first app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching app builder app
 	 * @throws NoSuchAppException if a matching app builder app could not be found
 	 */
 	@Override
-	public AppBuilderApp findByC_S_First(
-			long companyId, int status,
+	public AppBuilderApp findByC_A_First(
+			long companyId, boolean active,
 			OrderByComparator<AppBuilderApp> orderByComparator)
 		throws NoSuchAppException {
 
-		AppBuilderApp appBuilderApp = fetchByC_S_First(
-			companyId, status, orderByComparator);
+		AppBuilderApp appBuilderApp = fetchByC_A_First(
+			companyId, active, orderByComparator);
 
 		if (appBuilderApp != null) {
 			return appBuilderApp;
@@ -3579,8 +3579,8 @@ public class AppBuilderAppPersistenceImpl
 		sb.append("companyId=");
 		sb.append(companyId);
 
-		sb.append(", status=");
-		sb.append(status);
+		sb.append(", active=");
+		sb.append(active);
 
 		sb.append("}");
 
@@ -3588,20 +3588,20 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Returns the first app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the first app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching app builder app, or <code>null</code> if a matching app builder app could not be found
 	 */
 	@Override
-	public AppBuilderApp fetchByC_S_First(
-		long companyId, int status,
+	public AppBuilderApp fetchByC_A_First(
+		long companyId, boolean active,
 		OrderByComparator<AppBuilderApp> orderByComparator) {
 
-		List<AppBuilderApp> list = findByC_S(
-			companyId, status, 0, 1, orderByComparator);
+		List<AppBuilderApp> list = findByC_A(
+			companyId, active, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3611,22 +3611,22 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Returns the last app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the last app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching app builder app
 	 * @throws NoSuchAppException if a matching app builder app could not be found
 	 */
 	@Override
-	public AppBuilderApp findByC_S_Last(
-			long companyId, int status,
+	public AppBuilderApp findByC_A_Last(
+			long companyId, boolean active,
 			OrderByComparator<AppBuilderApp> orderByComparator)
 		throws NoSuchAppException {
 
-		AppBuilderApp appBuilderApp = fetchByC_S_Last(
-			companyId, status, orderByComparator);
+		AppBuilderApp appBuilderApp = fetchByC_A_Last(
+			companyId, active, orderByComparator);
 
 		if (appBuilderApp != null) {
 			return appBuilderApp;
@@ -3639,8 +3639,8 @@ public class AppBuilderAppPersistenceImpl
 		sb.append("companyId=");
 		sb.append(companyId);
 
-		sb.append(", status=");
-		sb.append(status);
+		sb.append(", active=");
+		sb.append(active);
 
 		sb.append("}");
 
@@ -3648,26 +3648,26 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Returns the last app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the last app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching app builder app, or <code>null</code> if a matching app builder app could not be found
 	 */
 	@Override
-	public AppBuilderApp fetchByC_S_Last(
-		long companyId, int status,
+	public AppBuilderApp fetchByC_A_Last(
+		long companyId, boolean active,
 		OrderByComparator<AppBuilderApp> orderByComparator) {
 
-		int count = countByC_S(companyId, status);
+		int count = countByC_A(companyId, active);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<AppBuilderApp> list = findByC_S(
-			companyId, status, count - 1, count, orderByComparator);
+		List<AppBuilderApp> list = findByC_A(
+			companyId, active, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3677,18 +3677,18 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Returns the app builder apps before and after the current app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the app builder apps before and after the current app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param appBuilderAppId the primary key of the current app builder app
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next app builder app
 	 * @throws NoSuchAppException if a app builder app with the primary key could not be found
 	 */
 	@Override
-	public AppBuilderApp[] findByC_S_PrevAndNext(
-			long appBuilderAppId, long companyId, int status,
+	public AppBuilderApp[] findByC_A_PrevAndNext(
+			long appBuilderAppId, long companyId, boolean active,
 			OrderByComparator<AppBuilderApp> orderByComparator)
 		throws NoSuchAppException {
 
@@ -3701,14 +3701,14 @@ public class AppBuilderAppPersistenceImpl
 
 			AppBuilderApp[] array = new AppBuilderAppImpl[3];
 
-			array[0] = getByC_S_PrevAndNext(
-				session, appBuilderApp, companyId, status, orderByComparator,
+			array[0] = getByC_A_PrevAndNext(
+				session, appBuilderApp, companyId, active, orderByComparator,
 				true);
 
 			array[1] = appBuilderApp;
 
-			array[2] = getByC_S_PrevAndNext(
-				session, appBuilderApp, companyId, status, orderByComparator,
+			array[2] = getByC_A_PrevAndNext(
+				session, appBuilderApp, companyId, active, orderByComparator,
 				false);
 
 			return array;
@@ -3721,9 +3721,9 @@ public class AppBuilderAppPersistenceImpl
 		}
 	}
 
-	protected AppBuilderApp getByC_S_PrevAndNext(
+	protected AppBuilderApp getByC_A_PrevAndNext(
 		Session session, AppBuilderApp appBuilderApp, long companyId,
-		int status, OrderByComparator<AppBuilderApp> orderByComparator,
+		boolean active, OrderByComparator<AppBuilderApp> orderByComparator,
 		boolean previous) {
 
 		StringBundler sb = null;
@@ -3739,9 +3739,9 @@ public class AppBuilderAppPersistenceImpl
 
 		sb.append(_SQL_SELECT_APPBUILDERAPP_WHERE);
 
-		sb.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+		sb.append(_FINDER_COLUMN_C_A_COMPANYID_2);
 
-		sb.append(_FINDER_COLUMN_C_S_STATUS_2);
+		sb.append(_FINDER_COLUMN_C_A_ACTIVE_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -3814,7 +3814,7 @@ public class AppBuilderAppPersistenceImpl
 
 		queryPos.add(companyId);
 
-		queryPos.add(status);
+		queryPos.add(active);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
@@ -3836,16 +3836,16 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Removes all the app builder apps where companyId = &#63; and status = &#63; from the database.
+	 * Removes all the app builder apps where companyId = &#63; and active = &#63; from the database.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 */
 	@Override
-	public void removeByC_S(long companyId, int status) {
+	public void removeByC_A(long companyId, boolean active) {
 		for (AppBuilderApp appBuilderApp :
-				findByC_S(
-					companyId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				findByC_A(
+					companyId, active, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 					null)) {
 
 			remove(appBuilderApp);
@@ -3853,17 +3853,17 @@ public class AppBuilderAppPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns the number of app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @return the number of matching app builder apps
 	 */
 	@Override
-	public int countByC_S(long companyId, int status) {
-		FinderPath finderPath = _finderPathCountByC_S;
+	public int countByC_A(long companyId, boolean active) {
+		FinderPath finderPath = _finderPathCountByC_A;
 
-		Object[] finderArgs = new Object[] {companyId, status};
+		Object[] finderArgs = new Object[] {companyId, active};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3872,9 +3872,9 @@ public class AppBuilderAppPersistenceImpl
 
 			sb.append(_SQL_COUNT_APPBUILDERAPP_WHERE);
 
-			sb.append(_FINDER_COLUMN_C_S_COMPANYID_2);
+			sb.append(_FINDER_COLUMN_C_A_COMPANYID_2);
 
-			sb.append(_FINDER_COLUMN_C_S_STATUS_2);
+			sb.append(_FINDER_COLUMN_C_A_ACTIVE_2);
 
 			String sql = sb.toString();
 
@@ -3889,7 +3889,7 @@ public class AppBuilderAppPersistenceImpl
 
 				queryPos.add(companyId);
 
-				queryPos.add(status);
+				queryPos.add(active);
 
 				count = (Long)query.uniqueResult();
 
@@ -3908,11 +3908,11 @@ public class AppBuilderAppPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_S_COMPANYID_2 =
+	private static final String _FINDER_COLUMN_C_A_COMPANYID_2 =
 		"appBuilderApp.companyId = ? AND ";
 
-	private static final String _FINDER_COLUMN_C_S_STATUS_2 =
-		"appBuilderApp.status = ?";
+	private static final String _FINDER_COLUMN_C_A_ACTIVE_2 =
+		"appBuilderApp.active = ?";
 
 	private FinderPath _finderPathWithPaginationFindByG_C_D;
 	private FinderPath _finderPathWithoutPaginationFindByG_C_D;
@@ -4933,6 +4933,7 @@ public class AppBuilderAppPersistenceImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("active", "active_");
 
 		setDBColumnNames(dbColumnNames);
 
@@ -5308,12 +5309,12 @@ public class AppBuilderAppPersistenceImpl
 
 			args = new Object[] {
 				appBuilderAppModelImpl.getCompanyId(),
-				appBuilderAppModelImpl.getStatus()
+				appBuilderAppModelImpl.isActive()
 			};
 
-			finderCache.removeResult(_finderPathCountByC_S, args);
+			finderCache.removeResult(_finderPathCountByC_A, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByC_S, args);
+				_finderPathWithoutPaginationFindByC_A, args);
 
 			args = new Object[] {
 				appBuilderAppModelImpl.getGroupId(),
@@ -5434,26 +5435,26 @@ public class AppBuilderAppPersistenceImpl
 			}
 
 			if ((appBuilderAppModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByC_S.getColumnBitmask()) !=
+				 _finderPathWithoutPaginationFindByC_A.getColumnBitmask()) !=
 					 0) {
 
 				Object[] args = new Object[] {
 					appBuilderAppModelImpl.getOriginalCompanyId(),
-					appBuilderAppModelImpl.getOriginalStatus()
+					appBuilderAppModelImpl.getOriginalActive()
 				};
 
-				finderCache.removeResult(_finderPathCountByC_S, args);
+				finderCache.removeResult(_finderPathCountByC_A, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_S, args);
+					_finderPathWithoutPaginationFindByC_A, args);
 
 				args = new Object[] {
 					appBuilderAppModelImpl.getCompanyId(),
-					appBuilderAppModelImpl.getStatus()
+					appBuilderAppModelImpl.isActive()
 				};
 
-				finderCache.removeResult(_finderPathCountByC_S, args);
+				finderCache.removeResult(_finderPathCountByC_A, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByC_S, args);
+					_finderPathWithoutPaginationFindByC_A, args);
 			}
 
 			if ((appBuilderAppModelImpl.getColumnBitmask() &
@@ -5887,26 +5888,26 @@ public class AppBuilderAppPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDDMStructureId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByC_S = new FinderPath(
+		_finderPathWithPaginationFindByC_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AppBuilderAppImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_S",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_A",
 			new String[] {
-				Long.class.getName(), Integer.class.getName(),
+				Long.class.getName(), Boolean.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
 
-		_finderPathWithoutPaginationFindByC_S = new FinderPath(
+		_finderPathWithoutPaginationFindByC_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AppBuilderAppImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_S",
-			new String[] {Long.class.getName(), Integer.class.getName()},
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_A",
+			new String[] {Long.class.getName(), Boolean.class.getName()},
 			AppBuilderAppModelImpl.COMPANYID_COLUMN_BITMASK |
-			AppBuilderAppModelImpl.STATUS_COLUMN_BITMASK);
+			AppBuilderAppModelImpl.ACTIVE_COLUMN_BITMASK);
 
-		_finderPathCountByC_S = new FinderPath(
+		_finderPathCountByC_A = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
+			new String[] {Long.class.getName(), Boolean.class.getName()});
 
 		_finderPathWithPaginationFindByG_C_D = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, AppBuilderAppImpl.class,
@@ -6030,7 +6031,7 @@ public class AppBuilderAppPersistenceImpl
 		AppBuilderAppPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid"});
+		new String[] {"uuid", "active"});
 
 	static {
 		try {

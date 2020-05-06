@@ -884,158 +884,159 @@ public interface AppBuilderAppPersistence
 	public int countByDDMStructureId(long ddmStructureId);
 
 	/**
-	 * Returns all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @return the matching app builder apps
 	 */
-	public java.util.List<AppBuilderApp> findByC_S(long companyId, int status);
+	public java.util.List<AppBuilderApp> findByC_A(
+		long companyId, boolean active);
 
 	/**
-	 * Returns a range of all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns a range of all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AppBuilderAppModelImpl</code>.
 	 * </p>
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param start the lower bound of the range of app builder apps
 	 * @param end the upper bound of the range of app builder apps (not inclusive)
 	 * @return the range of matching app builder apps
 	 */
-	public java.util.List<AppBuilderApp> findByC_S(
-		long companyId, int status, int start, int end);
+	public java.util.List<AppBuilderApp> findByC_A(
+		long companyId, boolean active, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns an ordered range of all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AppBuilderAppModelImpl</code>.
 	 * </p>
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param start the lower bound of the range of app builder apps
 	 * @param end the upper bound of the range of app builder apps (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching app builder apps
 	 */
-	public java.util.List<AppBuilderApp> findByC_S(
-		long companyId, int status, int start, int end,
+	public java.util.List<AppBuilderApp> findByC_A(
+		long companyId, boolean active, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns an ordered range of all the app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>AppBuilderAppModelImpl</code>.
 	 * </p>
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param start the lower bound of the range of app builder apps
 	 * @param end the upper bound of the range of app builder apps (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching app builder apps
 	 */
-	public java.util.List<AppBuilderApp> findByC_S(
-		long companyId, int status, int start, int end,
+	public java.util.List<AppBuilderApp> findByC_A(
+		long companyId, boolean active, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 			orderByComparator,
 		boolean useFinderCache);
 
 	/**
-	 * Returns the first app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the first app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching app builder app
 	 * @throws NoSuchAppException if a matching app builder app could not be found
 	 */
-	public AppBuilderApp findByC_S_First(
-			long companyId, int status,
+	public AppBuilderApp findByC_A_First(
+			long companyId, boolean active,
 			com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 				orderByComparator)
 		throws NoSuchAppException;
 
 	/**
-	 * Returns the first app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the first app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching app builder app, or <code>null</code> if a matching app builder app could not be found
 	 */
-	public AppBuilderApp fetchByC_S_First(
-		long companyId, int status,
+	public AppBuilderApp fetchByC_A_First(
+		long companyId, boolean active,
 		com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 			orderByComparator);
 
 	/**
-	 * Returns the last app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the last app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching app builder app
 	 * @throws NoSuchAppException if a matching app builder app could not be found
 	 */
-	public AppBuilderApp findByC_S_Last(
-			long companyId, int status,
+	public AppBuilderApp findByC_A_Last(
+			long companyId, boolean active,
 			com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 				orderByComparator)
 		throws NoSuchAppException;
 
 	/**
-	 * Returns the last app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the last app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching app builder app, or <code>null</code> if a matching app builder app could not be found
 	 */
-	public AppBuilderApp fetchByC_S_Last(
-		long companyId, int status,
+	public AppBuilderApp fetchByC_A_Last(
+		long companyId, boolean active,
 		com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 			orderByComparator);
 
 	/**
-	 * Returns the app builder apps before and after the current app builder app in the ordered set where companyId = &#63; and status = &#63;.
+	 * Returns the app builder apps before and after the current app builder app in the ordered set where companyId = &#63; and active = &#63;.
 	 *
 	 * @param appBuilderAppId the primary key of the current app builder app
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next app builder app
 	 * @throws NoSuchAppException if a app builder app with the primary key could not be found
 	 */
-	public AppBuilderApp[] findByC_S_PrevAndNext(
-			long appBuilderAppId, long companyId, int status,
+	public AppBuilderApp[] findByC_A_PrevAndNext(
+			long appBuilderAppId, long companyId, boolean active,
 			com.liferay.portal.kernel.util.OrderByComparator<AppBuilderApp>
 				orderByComparator)
 		throws NoSuchAppException;
 
 	/**
-	 * Removes all the app builder apps where companyId = &#63; and status = &#63; from the database.
+	 * Removes all the app builder apps where companyId = &#63; and active = &#63; from the database.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 */
-	public void removeByC_S(long companyId, int status);
+	public void removeByC_A(long companyId, boolean active);
 
 	/**
-	 * Returns the number of app builder apps where companyId = &#63; and status = &#63;.
+	 * Returns the number of app builder apps where companyId = &#63; and active = &#63;.
 	 *
 	 * @param companyId the company ID
-	 * @param status the status
+	 * @param active the active
 	 * @return the number of matching app builder apps
 	 */
-	public int countByC_S(long companyId, int status);
+	public int countByC_A(long companyId, boolean active);
 
 	/**
 	 * Returns all the app builder apps where groupId = &#63; and companyId = &#63; and ddmStructureId = &#63;.

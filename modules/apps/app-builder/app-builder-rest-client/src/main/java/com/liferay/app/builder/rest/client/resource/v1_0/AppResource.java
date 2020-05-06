@@ -14,7 +14,6 @@
 
 package com.liferay.app.builder.rest.client.resource.v1_0;
 
-import com.liferay.app.builder.rest.client.constant.v1_0.DeploymentAction;
 import com.liferay.app.builder.rest.client.dto.v1_0.App;
 import com.liferay.app.builder.rest.client.http.HttpInvoker;
 import com.liferay.app.builder.rest.client.pagination.Page;
@@ -42,11 +41,13 @@ public interface AppResource {
 	}
 
 	public Page<App> getAppsPage(
-			String keywords, Pagination pagination, String sortString)
+			Boolean active, String[] deploymentTypes, String keywords,
+			Long[] userIds, Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse getAppsPageHttpResponse(
-			String keywords, Pagination pagination, String sortString)
+			Boolean active, String[] deploymentTypes, String keywords,
+			Long[] userIds, Pagination pagination, String sortString)
 		throws Exception;
 
 	public void deleteApp(Long appId) throws Exception;
@@ -77,11 +78,14 @@ public interface AppResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public void putAppDeployment(Long appId, DeploymentAction deploymentAction)
+	public void putAppDeploy(Long appId) throws Exception;
+
+	public HttpInvoker.HttpResponse putAppDeployHttpResponse(Long appId)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse putAppDeploymentHttpResponse(
-			Long appId, DeploymentAction deploymentAction)
+	public void putAppUndeploy(Long appId) throws Exception;
+
+	public HttpInvoker.HttpResponse putAppUndeployHttpResponse(Long appId)
 		throws Exception;
 
 	public Page<App> getDataDefinitionAppsPage(
@@ -167,11 +171,13 @@ public interface AppResource {
 	public static class AppResourceImpl implements AppResource {
 
 		public Page<App> getAppsPage(
-				String keywords, Pagination pagination, String sortString)
+				Boolean active, String[] deploymentTypes, String keywords,
+				Long[] userIds, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = getAppsPageHttpResponse(
-				keywords, pagination, sortString);
+				active, deploymentTypes, keywords, userIds, pagination,
+				sortString);
 
 			String content = httpResponse.getContent();
 
@@ -194,7 +200,8 @@ public interface AppResource {
 		}
 
 		public HttpInvoker.HttpResponse getAppsPageHttpResponse(
-				String keywords, Pagination pagination, String sortString)
+				Boolean active, String[] deploymentTypes, String keywords,
+				Long[] userIds, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -218,8 +225,26 @@ public interface AppResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
 
+			if (active != null) {
+				httpInvoker.parameter("active", String.valueOf(active));
+			}
+
+			if (deploymentTypes != null) {
+				for (int i = 0; i < deploymentTypes.length; i++) {
+					httpInvoker.parameter(
+						"deploymentTypes", String.valueOf(deploymentTypes[i]));
+				}
+			}
+
 			if (keywords != null) {
 				httpInvoker.parameter("keywords", String.valueOf(keywords));
+			}
+
+			if (userIds != null) {
+				for (int i = 0; i < userIds.length; i++) {
+					httpInvoker.parameter(
+						"userIds", String.valueOf(userIds[i]));
+				}
 			}
 
 			if (pagination != null) {
@@ -533,12 +558,9 @@ public interface AppResource {
 			return httpInvoker.invoke();
 		}
 
-		public void putAppDeployment(
-				Long appId, DeploymentAction deploymentAction)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse =
-				putAppDeploymentHttpResponse(appId, deploymentAction);
+		public void putAppDeploy(Long appId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = putAppDeployHttpResponse(
+				appId);
 
 			String content = httpResponse.getContent();
 
@@ -549,13 +571,12 @@ public interface AppResource {
 				"HTTP response status code: " + httpResponse.getStatusCode());
 		}
 
-		public HttpInvoker.HttpResponse putAppDeploymentHttpResponse(
-				Long appId, DeploymentAction deploymentAction)
+		public HttpInvoker.HttpResponse putAppDeployHttpResponse(Long appId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
 
-			httpInvoker.body(deploymentAction.toString(), "application/json");
+			httpInvoker.body(appId.toString(), "application/json");
 
 			if (_builder._locale != null) {
 				httpInvoker.header(
@@ -576,15 +597,60 @@ public interface AppResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
 
-			if (deploymentAction != null) {
-				httpInvoker.parameter(
-					"deploymentAction", String.valueOf(deploymentAction));
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + "/o/app-builder/v1.0/apps/{appId}/deploy",
+				appId);
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
+
+		public void putAppUndeploy(Long appId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = putAppUndeployHttpResponse(
+				appId);
+
+			String content = httpResponse.getContent();
+
+			_logger.fine("HTTP response content: " + content);
+
+			_logger.fine("HTTP response message: " + httpResponse.getMessage());
+			_logger.fine(
+				"HTTP response status code: " + httpResponse.getStatusCode());
+		}
+
+		public HttpInvoker.HttpResponse putAppUndeployHttpResponse(Long appId)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(appId.toString(), "application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
 			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/app-builder/v1.0/apps/{appId}/deployment",
+						"/o/app-builder/v1.0/apps/{appId}/undeploy",
 				appId);
 
 			httpInvoker.userNameAndPassword(

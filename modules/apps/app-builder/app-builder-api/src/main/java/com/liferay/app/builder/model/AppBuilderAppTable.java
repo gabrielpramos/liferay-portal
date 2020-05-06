@@ -60,8 +60,8 @@ public class AppBuilderAppTable extends BaseTable<AppBuilderAppTable> {
 			"deDataListViewId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<AppBuilderAppTable, String> name = createColumn(
 		"name", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<AppBuilderAppTable, Integer> status = createColumn(
-		"status", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
+	public final Column<AppBuilderAppTable, Boolean> active = createColumn(
+		"active_", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 
 	private AppBuilderAppTable() {
 		super("AppBuilderApp", AppBuilderAppTable::new);
