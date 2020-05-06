@@ -15,19 +15,22 @@
 import ClayManagementToolbar from '@clayui/management-toolbar';
 import React, {useContext, useState} from 'react';
 
-import ManagementToolbarLeft from './ManagementToolbarLeft.es';
+import ManagementToolbarFilterAndOrder from './ManagementToolbarFilterAndOrder.es';
 import ManagementToolbarRight from './ManagementToolbarRight.es';
 import ManagementToolbarSearch from './ManagementToolbarSearch';
 import SearchContext from './SearchContext.es';
 
-export default ({addButton, columns, totalCount}) => {
+export default ({addButton, columns, disabled, filterConfig}) => {
 	const [{keywords}, dispatch] = useContext(SearchContext);
 	const [showMobile, setShowMobile] = useState(false);
-	const disabled = keywords === '' && totalCount === 0;
 
 	return (
 		<ClayManagementToolbar>
-			<ManagementToolbarLeft columns={columns} disabled={disabled} />
+			<ManagementToolbarFilterAndOrder
+				columns={columns}
+				disabled={disabled}
+				filterConfig={filterConfig}
+			/>
 
 			<ManagementToolbarSearch
 				disabled={disabled}

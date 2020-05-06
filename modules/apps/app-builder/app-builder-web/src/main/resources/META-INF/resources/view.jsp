@@ -16,28 +16,22 @@
 
 <%@ include file="/init.jsp" %>
 
-<%
-String appBuilderRootElementId = renderResponse.getNamespace() + "-app-builder-root";
-%>
-
 <liferay-util:html-top>
 	<link href="<%= PortalUtil.getStaticResourceURL(request, PortalUtil.getPathModule() + "/data-engine-taglib/data_layout_builder/css/main.css") %>" rel="stylesheet" />
 </liferay-util:html-top>
 
-<portlet:renderURL var="basePortletURL" />
-
-<div id="<%= appBuilderRootElementId %>">
-
-	<%
-	Map<String, Object> data = HashMapBuilder.<String, Object>put(
-		"basePortletURL", basePortletURL
-	).put(
-		"pathFriendlyURLPublic", PortalUtil.getPathFriendlyURLPublic()
-	).build();
-	%>
-
+<div id="<portlet:namespace />-app-builder-root">
 	<react:component
-		data="<%= data %>"
+		data='<%=
+			HashMapBuilder.<String, Object>put(
+				"basePortletURL", String.valueOf(renderResponse.createRenderURL())
+			).put(
+				"defaultDelta", PropsValues.SEARCH_CONTAINER_PAGE_DEFAULT_DELTA
+			).put(
+				"deltaValues", PropsValues.SEARCH_CONTAINER_PAGE_DELTA_VALUES
+			).put(
+				"pathFriendlyURLPublic", PortalUtil.getPathFriendlyURLPublic()
+			).build() %>'
 		module="js/index.es"
 	/>
 </div>

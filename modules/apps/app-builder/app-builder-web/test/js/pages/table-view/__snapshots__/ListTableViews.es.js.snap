@@ -26,6 +26,7 @@ exports[`ListTableViews renders 1`] = `
           >
             <button
               class="dropdown-toggle nav-link btn btn-unstyled"
+              id="filter"
               style=""
               type="button"
             >
@@ -50,7 +51,7 @@ exports[`ListTableViews renders 1`] = `
                   role="presentation"
                 >
                   <use
-                    xlink:href="#filter"
+                    xlink:href="#filter-and-order"
                   />
                 </svg>
               </span>
@@ -63,6 +64,7 @@ exports[`ListTableViews renders 1`] = `
           <button
             class="nav-link nav-link-monospaced order-arrow-down-active btn btn-monospaced btn-unstyled"
             data-title="reverse-sort-direction"
+            id="sort"
             type="button"
           >
             <svg

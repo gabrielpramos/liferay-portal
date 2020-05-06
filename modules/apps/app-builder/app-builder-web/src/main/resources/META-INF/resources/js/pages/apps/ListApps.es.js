@@ -22,7 +22,11 @@ import ListView from '../../components/list-view/ListView.es';
 import useDeployApp from '../../hooks/useDeployApp.es';
 import {confirmDelete} from '../../utils/client.es';
 import {fromNow} from '../../utils/time.es';
-import {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS} from './constants.es';
+import {
+	DEPLOYMENT_ACTION,
+	DEPLOYMENT_STATUS,
+	DEPLOYMENT_TYPES,
+} from './constants.es';
 import {concatTypes, isDeployed} from './utils.es';
 
 export default ({
@@ -31,7 +35,7 @@ export default ({
 		url,
 	},
 }) => {
-	const {getStandaloneURL} = useContext(AppContext);
+	const {getStandaloneURL, userId} = useContext(AppContext);
 	const {deployApp, undeployApp} = useDeployApp();
 
 	const ACTIONS = [
@@ -66,7 +70,7 @@ export default ({
 	let COLUMNS = [
 		{
 			key: 'name',
-			sortable: !!dataDefinitionId,
+			sortable: true,
 			value: Liferay.Language.get('name'),
 		},
 		{
@@ -75,13 +79,13 @@ export default ({
 		},
 		{
 			key: 'dateCreated',
-			sortable: !!dataDefinitionId,
+			sortable: true,
 			value: Liferay.Language.get('create-date'),
 		},
 		{
 			asc: false,
 			key: 'dateModified',
-			sortable: !!dataDefinitionId,
+			sortable: true,
 			value: Liferay.Language.get('modified-date'),
 		},
 		{
@@ -95,6 +99,33 @@ export default ({
 	};
 
 	let ENDPOINT = `/o/app-builder/v1.0/apps`;
+
+	const FILTER_CONFIG = [
+		{
+			filterItems: [
+				{label: DEPLOYMENT_TYPES.productMenu, value: 'productMenu'},
+				{label: DEPLOYMENT_TYPES.standalone, value: 'standalone'},
+				{label: DEPLOYMENT_TYPES.widget, value: 'widget'},
+			],
+			filterKey: 'appDeploymentTypes',
+			filterName: Liferay.Language.get('deployment-type'),
+			multiple: true,
+		},
+		{
+			filterItems: [
+				{label: DEPLOYMENT_STATUS.deployed, value: 'true'},
+				{label: DEPLOYMENT_STATUS.undeployed, value: 'false'},
+			],
+			filterKey: 'active',
+			filterName: Liferay.Language.get('status'),
+		},
+		{
+			filterItems: [{label: Liferay.Language.get('me'), value: userId}],
+			filterKey: 'userIds',
+			filterName: Liferay.Language.get('creator'),
+			multiple: true,
+		},
+	];
 
 	if (dataDefinitionId) {
 		EMPTY_STATE = {
@@ -138,6 +169,7 @@ export default ({
 			columns={COLUMNS}
 			emptyState={EMPTY_STATE}
 			endpoint={ENDPOINT}
+			filterConfig={!dataDefinitionId ? FILTER_CONFIG : []}
 		>
 			{(item) => ({
 				...item,

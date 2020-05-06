@@ -16,57 +16,180 @@ import {cleanup, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
 import ManagementToolbar from '../../../../src/main/resources/META-INF/resources/js/components/management-toolbar/ManagementToolbar.es';
-import SearchContext from '../../../../src/main/resources/META-INF/resources/js/components/management-toolbar/SearchContext.es';
+import SearchContextProviderWrapper from '../../SearchContextProviderWrapper.es';
 
 const addButton = (onClick) => <button onClick={onClick}>add</button>;
 
 describe('ManagementToolbar', () => {
-	afterEach(() => {
-		cleanup();
-		jest.restoreAllMocks();
+	afterEach(cleanup);
+
+	it('renders disabled', () => {
+		const onClickButtonCallback = jest.fn();
+
+		const {queryByPlaceholderText, queryByText} = render(
+			<SearchContextProviderWrapper defaultQuery={{sort: 'field1:asc'}}>
+				<ManagementToolbar
+					addButton={() => addButton(onClickButtonCallback)}
+					columns={[
+						{key: 'field', sortable: true},
+						{asc: true, key: 'field1', sortable: true},
+					]}
+					disabled
+				/>
+			</SearchContextProviderWrapper>
+		);
+
+		const addBtn = queryByText('add');
+		const filterAndOrder = queryByText('filter-and-order');
+		const searchField = queryByPlaceholderText('search...');
+
+		expect(addBtn.disabled).toBeFalsy();
+		expect(filterAndOrder.parentElement.disabled).toBeTruthy();
+		expect(searchField.disabled).toBeTruthy();
+
+		fireEvent.click(addBtn);
+
+		expect(onClickButtonCallback).toHaveBeenCalled();
 	});
 
-	it('renders ManagementToolbar', () => {
+	it('renders without filter and order', () => {
+		const {queryByPlaceholderText, queryByText} = render(
+			<ManagementToolbar addButton={addButton} columns={[]} />,
+			{wrapper: SearchContextProviderWrapper}
+		);
+
+		const addBtn = queryByText('add');
+		const filterAndOrder = queryByText('filter-and-order');
+		const searchField = queryByPlaceholderText('search...');
+
+		expect(addBtn).toBeTruthy();
+		expect(filterAndOrder).toBeFalsy();
+		expect(searchField).toBeTruthy();
+	});
+
+	it('renders with filter config and without addButton', () => {
 		const dispatch = jest.fn();
-		const onClickButtonCallback = jest.fn();
-		const query = {
-			keywords: '',
-		};
 
 		const columns = [
 			{
 				key: 'field1',
 			},
 			{
-				asc: true,
 				key: 'field2',
 				sortable: true,
 				value: 'field2',
 			},
+			{
+				asc: true,
+				key: 'field3',
+				sortable: true,
+				value: 'field3',
+			},
 		];
 
-		const {container, queryByText} = render(
-			<SearchContext.Provider value={[query, dispatch]}>
+		const filterConfig = [
+			{
+				filterItems: [
+					{label: 'multiple1', value: '1'},
+					{label: 'multiple2', value: '2'},
+					{label: 'multiple3', value: '3'},
+				],
+				filterKey: 'multiple',
+				filterName: 'multiple',
+				multiple: true,
+			},
+			{
+				filterItems: [
+					{label: 'single1', value: '1'},
+					{label: 'single2', value: '2'},
+				],
+				filterKey: 'single',
+				filterName: 'single',
+			},
+		];
+
+		const query = {
+			filters: {
+				multiple: ['2'],
+			},
+			keywords: '',
+		};
+
+		const {
+			container,
+			queryAllByLabelText,
+			queryByLabelText,
+			queryByText,
+		} = render(
+			<SearchContextProviderWrapper
+				defaultQuery={query}
+				dispatch={dispatch}
+			>
 				<ManagementToolbar
-					addButton={() => addButton(onClickButtonCallback)}
 					columns={columns}
+					filterConfig={filterConfig}
 				/>
-			</SearchContext.Provider>
+			</SearchContextProviderWrapper>
 		);
 
-		const dropDown = queryByText('filter-and-order');
-		const field1 = queryByText('field1');
-		const field2 = queryByText('field2');
-		const add = queryByText('add');
+		const anyOption = queryByLabelText('any');
+		const doneBtn = queryByText('done');
+		const field1 = queryByLabelText('field1');
+		const field2 = queryByLabelText('field2');
+		const field3 = queryByLabelText('field3');
+		const filterAndOrder = queryByText('filter-and-order');
+		const multipleFilters = queryAllByLabelText(/multiple/i);
+		const singleFilters = queryAllByLabelText(/single/i);
 
+		expect(doneBtn).toBeTruthy();
 		expect(field1).toBeFalsy();
 		expect(field2).toBeTruthy();
-		expect(dropDown).toBeTruthy();
+		expect(field3).toBeTruthy();
+		expect(field2.checked).toBeFalsy();
+		expect(field3.checked).toBeTruthy();
 
-		fireEvent.click(dropDown);
+		expect(filterAndOrder).toBeTruthy();
+		expect(multipleFilters.length).toBe(3);
+		expect(multipleFilters[0].checked).toBeFalsy();
+		expect(multipleFilters[1].checked).toBeTruthy();
+		expect(multipleFilters[2].checked).toBeFalsy();
+
+		expect(singleFilters.length).toBe(2);
+		expect(anyOption).toBeTruthy();
+		expect(anyOption.checked).toBeTruthy();
+		expect(singleFilters[0].checked).toBeFalsy();
+		expect(singleFilters[1].checked).toBeFalsy();
+
+		fireEvent.click(multipleFilters[0]);
+		fireEvent.click(multipleFilters[1]);
+		fireEvent.click(multipleFilters[2]);
+
+		expect(multipleFilters[0].checked).toBeTruthy();
+		expect(multipleFilters[1].checked).toBeFalsy();
+		expect(multipleFilters[2].checked).toBeTruthy();
+
+		fireEvent.click(singleFilters[0]);
+
+		expect(anyOption.checked).toBeFalsy();
+		expect(singleFilters[0].checked).toBeTruthy();
+		expect(singleFilters[1].checked).toBeFalsy();
+
 		fireEvent.click(field2);
 
-		expect(dispatch.mock.calls.length).toBe(1);
+		expect(field2.checked).toBeTruthy();
+		expect(field3.checked).toBeFalsy();
+
+		fireEvent.click(doneBtn);
+
+		expect(dispatch.mock.calls.length).toBe(2);
+		expect(dispatch.mock.calls[0][0]).toEqual({
+			filters: {multiple: ['1', '3'], single: '1'},
+			type: 'FILTER',
+		});
+		expect(dispatch.mock.calls[1][0]).toEqual({
+			sort: 'field2:asc',
+			type: 'SORT',
+		});
 
 		const sort = container.querySelector(
 			'ul .nav-item:nth-child(2) button'
@@ -74,15 +197,16 @@ describe('ManagementToolbar', () => {
 
 		fireEvent.click(sort);
 
-		expect(dispatch.mock.calls.length).toBe(2);
+		expect(dispatch.mock.calls.length).toBe(3);
+		expect(dispatch.mock.calls[2][0]).toEqual({
+			sort: 'field2:desc',
+			type: 'SORT',
+		});
 
 		const setMobile = container.querySelector(
 			'.nav-item.navbar-breakpoint-d-none > button'
 		);
 
 		fireEvent.click(setMobile);
-		fireEvent.click(add);
-
-		expect(onClickButtonCallback.mock.calls.length).toBe(1);
 	});
 });

@@ -15,20 +15,23 @@
 import {ClayPaginationBarWithBasicItems} from '@clayui/pagination-bar';
 import React, {useContext} from 'react';
 
+import {AppContext} from '../../AppContext.es';
 import {withLoading} from '../loading/Loading.es';
 import SearchContext from '../management-toolbar/SearchContext.es';
 import {withEmpty} from './EmptyState.es';
 import Table from './Table.es';
 
 const TableWithPagination = ({actions, columns, items, totalCount}) => {
+	const {deltaValues = [4, 8, 20, 40, 60]} = useContext(AppContext);
 	const [{page, pageSize}, dispatch] = useContext(SearchContext);
-	const deltas = [5, 10, 20, 30, 50, 75].map((size) => ({label: size}));
+
+	const deltas = deltaValues.map((label) => ({label}));
 
 	return (
 		<div className="container-fluid container-fluid-max-xl">
 			<Table actions={actions} columns={columns} items={items} />
 
-			{totalCount > 5 && (
+			{totalCount > deltaValues[0] && (
 				<div className="taglib-search-iterator-page-iterator-bottom">
 					<ClayPaginationBarWithBasicItems
 						activeDelta={pageSize}

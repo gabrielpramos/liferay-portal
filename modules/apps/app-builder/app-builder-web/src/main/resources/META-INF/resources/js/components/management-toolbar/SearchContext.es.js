@@ -27,6 +27,18 @@ const reducer = (state, action) => {
 				page: 1,
 				pageSize: action.pageSize,
 			};
+		case 'CLEAR':
+			return {
+				...state,
+				filters: {},
+				keywords: '',
+			};
+		case 'FILTER':
+			return {
+				...state,
+				filters: action.filters,
+				page: 1,
+			};
 		case 'SEARCH':
 			return {
 				...state,
