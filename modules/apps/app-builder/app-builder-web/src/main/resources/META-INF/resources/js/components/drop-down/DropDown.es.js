@@ -21,7 +21,16 @@ import {Search} from './Search.es';
 
 const DropDownContext = createContext();
 
-const DropDown = ({children, displayType, items, label, ...restProps}) => {
+const DropDown = ({
+	children,
+	displayType,
+	emptyProps: {emptyButtonOnClick, emptyStateButton, emptyStateLabel},
+	errorProps: {errorButtonOnClick, errorStateButton, errorStateLabel},
+	items,
+	label,
+	loadingProps: {loadingStateIcon, loadingStateLabel},
+	...restProps
+}) => {
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
 
@@ -48,7 +57,23 @@ const DropDown = ({children, displayType, items, label, ...restProps}) => {
 				}
 			>
 				{children}
-				<Items items={items} query={query} />
+				{items.length > 0 ? (
+					<Items items={items} query={query} />
+				) : (
+					<div className="empty-state-dropdown-menu">
+						<label className="font-weight-light text-secondary">
+							{emptyStateLabel}
+						</label>
+
+						<ClayButton
+							className="button"
+							displayType="secondary"
+							onClick={emptyButtonOnClick}
+						>
+							{emptyStateButton}
+						</ClayButton>
+					</div>
+				)}
 			</ClayDropDown>
 		</DropDownContext.Provider>
 	);
