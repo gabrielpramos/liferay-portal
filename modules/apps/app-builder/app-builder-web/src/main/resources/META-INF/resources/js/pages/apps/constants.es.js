@@ -17,15 +17,15 @@ const DEPLOYMENT_ACTION = {
 	undeploy: Liferay.Language.get('undeploy'),
 };
 
-const DEPLOYMENT_STATUS = {
-	false: Liferay.Language.get('undeployed'),
-	true: Liferay.Language.get('deployed'),
-};
-
 const DEPLOYMENT_TYPES = {
 	productMenu: Liferay.Language.get('product-menu'),
 	standalone: Liferay.Language.get('standalone'),
 	widget: Liferay.Language.get('widget'),
 };
 
-export {DEPLOYMENT_ACTION, DEPLOYMENT_STATUS, DEPLOYMENT_TYPES};
+const STATUSES = {
+	active: Liferay.Language.get('deployed'),
+	inactive: Liferay.Language.get('undeployed'),
+};
+
+export {DEPLOYMENT_ACTION, DEPLOYMENT_TYPES, STATUSES};
