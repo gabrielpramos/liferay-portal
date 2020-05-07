@@ -13,14 +13,18 @@
  */
 
 import {useResource} from '@clayui/data-provider';
+import {usePrevious} from 'frontend-js-react-web';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {withRouter} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
 import useQuery from '../../hooks/useQuery.es';
 import {getURL} from '../../utils/client.es';
+import {isEqualObjects} from '../../utils/utils.es';
 import ManagementToolbar from '../management-toolbar/ManagementToolbar.es';
-import ManagementToolbarResultsBar from '../management-toolbar/ManagementToolbarResultsBar.es';
+import ManagementToolbarResultsBar, {
+	getSelectedFilters,
+} from '../management-toolbar/ManagementToolbarResultsBar.es';
 import SearchContext, {reducer} from '../management-toolbar/SearchContext.es';
 import TableWithPagination from '../table/TableWithPagination.es';
 
@@ -32,11 +36,13 @@ export default withRouter(
 		columns,
 		emptyState,
 		endpoint,
+		filterConfig = [],
 		history,
 		queryParams,
 	}) => {
 		const {defaultDelta = 20} = useContext(AppContext);
 		const [query, setQuery] = useQuery(history, {
+			filters: {},
 			keywords: '',
 			page: 1,
 			pageSize: defaultDelta,
@@ -49,15 +55,17 @@ export default withRouter(
 			[query, setQuery]
 		);
 
+		const {filters = {}, ...params} = {...query, ...query.filters};
+		const prevParams = usePrevious(params);
+
 		const {refetch, resource} = useResource({
 			fetchDelay: 0,
 			fetchOptions: {
 				credentials: 'same-origin',
 				method: 'GET',
 			},
-			link: getURL(endpoint),
+			link: getURL(endpoint, params),
 			onNetworkStatusChange: (status) => setLoading(status < 4),
-			variables: {...query},
 		});
 
 		let items = [];
@@ -73,6 +81,13 @@ export default withRouter(
 				dispatch({page: totalPages, type: 'CHANGE_PAGE'});
 			}
 		}, [dispatch, query.page, totalPages]);
+
+		useEffect(() => {
+			if (prevParams && !isEqualObjects(params, prevParams)) {
+				refetch();
+			}
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		}, [params, prevParams]);
 
 		let refetchOnActions;
 
@@ -99,15 +114,22 @@ export default withRouter(
 
 		const [isLoading, setLoading] = useState(true);
 
+		const selectedFilters = getSelectedFilters(filterConfig, filters);
+		const isEmpty = totalCount === 0;
+		const isFiltered = selectedFilters.length > 0;
+
 		return (
 			<SearchContext.Provider value={[query, dispatch]}>
 				<ManagementToolbar
 					addButton={addButton}
 					columns={columns}
+					disabled={!isFiltered && !query.keywords && isEmpty}
+					filterConfig={filterConfig}
 					totalCount={totalCount}
 				/>
 
 				<ManagementToolbarResultsBar
+					filterConfig={filterConfig}
 					isLoading={isLoading}
 					totalCount={totalCount}
 				/>
@@ -116,7 +138,8 @@ export default withRouter(
 					actions={refetchOnActions}
 					columns={columns}
 					emptyState={emptyState}
-					isEmpty={totalCount === 0}
+					isEmpty={isEmpty}
+					isFiltered={isFiltered}
 					isLoading={isLoading}
 					items={items.map((item, index) => children(item, index))}
 					keywords={query.keywords}
