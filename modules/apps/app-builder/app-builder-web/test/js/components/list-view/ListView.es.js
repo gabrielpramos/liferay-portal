@@ -16,9 +16,9 @@ import {waitForElementToBeRemoved} from '@testing-library/dom';
 import {act, cleanup, fireEvent, render} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import React from 'react';
-import {HashRouter, Router} from 'react-router-dom';
 
 import ListView from '../../../../src/main/resources/META-INF/resources/js/components/list-view/ListView.es';
+import AppContextProviderWrapper from '../../AppContextProviderWrapper.es';
 import {
 	ACTIONS,
 	COLUMNS,
@@ -42,15 +42,14 @@ describe('ListView', () => {
 		fetch.mockResponse(JSON.stringify(RESPONSES.NO_ITEMS));
 
 		const {queryAllByText, queryByText} = render(
-			<HashRouter>
-				<ListView
-					columns={COLUMNS}
-					emptyState={EMPTY_STATE}
-					endpoint={ENDPOINT}
-				>
-					{BODY}
-				</ListView>
-			</HashRouter>
+			<ListView
+				columns={COLUMNS}
+				emptyState={EMPTY_STATE}
+				endpoint={ENDPOINT}
+			>
+				{BODY}
+			</ListView>,
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() =>
@@ -67,16 +66,15 @@ describe('ListView', () => {
 		fetch.mockResponse(JSON.stringify(RESPONSES.ONE_ITEM));
 
 		const {container, queryAllByText} = render(
-			<HashRouter>
-				<ListView
-					actions={ACTIONS}
-					columns={COLUMNS}
-					emptyState={EMPTY_STATE}
-					endpoint={ENDPOINT}
-				>
-					{BODY}
-				</ListView>
-			</HashRouter>
+			<ListView
+				actions={ACTIONS}
+				columns={COLUMNS}
+				emptyState={EMPTY_STATE}
+				endpoint={ENDPOINT}
+			>
+				{BODY}
+			</ListView>,
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() =>
@@ -91,16 +89,15 @@ describe('ListView', () => {
 		fetch.mockResponse(JSON.stringify(RESPONSES.TWENTY_ONE_ITEMS));
 
 		const {container, queryAllByText} = render(
-			<HashRouter>
-				<ListView
-					actions={ACTIONS}
-					columns={COLUMNS}
-					emptyState={EMPTY_STATE}
-					endpoint={ENDPOINT}
-				>
-					{BODY}
-				</ListView>
-			</HashRouter>
+			<ListView
+				actions={ACTIONS}
+				columns={COLUMNS}
+				emptyState={EMPTY_STATE}
+				endpoint={ENDPOINT}
+			>
+				{BODY}
+			</ListView>,
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() => {
@@ -121,7 +118,7 @@ describe('ListView', () => {
 		history.push('/test?page=2');
 		fetch.mockResponse(JSON.stringify(RESPONSES.ONE_ITEM));
 		const {container, queryAllByText} = render(
-			<Router history={history}>
+			<AppContextProviderWrapper history={history}>
 				<ListView
 					actions={ACTIONS}
 					columns={COLUMNS}
@@ -131,7 +128,7 @@ describe('ListView', () => {
 				>
 					{BODY}
 				</ListView>
-			</Router>
+			</AppContextProviderWrapper>
 		);
 
 		await waitForElementToBeRemoved(() => {
@@ -161,23 +158,17 @@ describe('ListView', () => {
 			},
 		];
 
-		const {
-			container,
-			getAllByRole,
-			queryAllByText,
-			queryByPlaceholderText,
-		} = render(
-			<HashRouter>
-				<ListView
-					actions={actions}
-					columns={COLUMNS}
-					emptyState={EMPTY_STATE}
-					endpoint={ENDPOINT}
-					history={history}
-				>
-					{BODY}
-				</ListView>
-			</HashRouter>
+		const {container, getAllByRole, queryByPlaceholderText} = render(
+			<ListView
+				actions={actions}
+				columns={COLUMNS}
+				emptyState={EMPTY_STATE}
+				endpoint={ENDPOINT}
+				history={history}
+			>
+				{BODY}
+			</ListView>,
+			{wrapper: AppContextProviderWrapper}
 		);
 
 		await waitForElementToBeRemoved(() => {
@@ -207,13 +198,13 @@ describe('ListView', () => {
 		expect(container.querySelector('.subnav-tbar')).toBeFalsy();
 
 		const submit = container.querySelector('span > button:nth-child(2)');
+
 		fireEvent.click(submit);
 
+		await waitForElementToBeRemoved(() => {
+			return document.querySelector('span.loading-animation');
+		});
+
 		expect(container.querySelector('.subnav-tbar')).toBeTruthy();
-
-		const [clear] = queryAllByText('Clear');
-		fireEvent.click(clear);
-
-		expect(input.value).toBe('');
 	});
 });
