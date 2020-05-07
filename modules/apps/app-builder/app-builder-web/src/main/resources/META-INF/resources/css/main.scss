@@ -150,3 +150,12 @@ body.open .app-builder-upper-toolbar {
 .icon {
 	margin-top: 0.325rem;
 }
+
+.popover {
+	z-index: 999;
+}
+
+.select-dropdown-menu {
+	width: 100%;
+	max-width: 418px;
+}
