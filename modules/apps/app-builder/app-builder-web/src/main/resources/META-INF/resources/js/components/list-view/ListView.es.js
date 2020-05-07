@@ -13,9 +13,10 @@
  */
 
 import {useResource} from '@clayui/data-provider';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {withRouter} from 'react-router-dom';
 
+import {AppContext} from '../../AppContext.es';
 import useQuery from '../../hooks/useQuery.es';
 import {getURL} from '../../utils/client.es';
 import ManagementToolbar from '../management-toolbar/ManagementToolbar.es';
@@ -34,10 +35,11 @@ export default withRouter(
 		history,
 		queryParams,
 	}) => {
+		const {defaultDelta = 20} = useContext(AppContext);
 		const [query, setQuery] = useQuery(history, {
 			keywords: '',
 			page: 1,
-			pageSize: 20,
+			pageSize: defaultDelta,
 			sort: '',
 			...queryParams,
 		});
