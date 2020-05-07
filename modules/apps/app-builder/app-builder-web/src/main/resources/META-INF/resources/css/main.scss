@@ -159,3 +159,13 @@ body.open .app-builder-upper-toolbar {
 	width: 100%;
 	max-width: 418px;
 }
+
+.empty-state-dropdown-menu {
+	padding-bottom: 1.3rem;
+	padding-top: 1.3rem;
+	text-align: center;
+
+	.button {
+		margin-top: 1rem;
+	}
+}

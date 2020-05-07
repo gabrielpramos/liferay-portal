@@ -31,6 +31,29 @@ const ListAppsPopover = ({
 		objectInputRef.current.value = '';
 	};
 
+	const emptyProps = {
+		emptyButtonOnClick: {
+			//manage customObjectPopover visibility
+		},
+		emptyStateButton: Liferay.Language.get('new-custom-object'),
+		emptyStateLabel: Liferay.Language.get(
+			'no-objects-yet-create-your-first-object'
+		),
+	};
+
+	const errorProps = {
+		errorButtonOnClick: {
+			//retry
+		},
+		errorStateButton: Liferay.Language.get('retry'),
+		errorStateLabel: Liferay.Language.get('failed-to-retrieve-objects'),
+	};
+
+	const loadingProps = {
+		loadingStateIcon: '',
+		loadingStateLabel: Liferay.Language.get('retrieving-all-objects'),
+	};
+
 	return (
 		<Popover
 			alignElement={alignElement}
@@ -40,8 +63,11 @@ const ListAppsPopover = ({
 					<label>{Liferay.Language.get('object')}</label>
 					<DropDown
 						displayType="secondary"
-						items={[{label: 'nome'}]}
+						emptyProps={emptyProps}
+						errorProps={errorProps}
+						items={[]}
 						label={Liferay.Language.get('select-object')}
+						loadingProps={loadingProps}
 					>
 						<DropDown.Search />
 					</DropDown>

@@ -13,13 +13,14 @@
  */
 
 import ClayLabel from '@clayui/label';
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {AppContext} from '../../AppContext.es';
 import Button from '../../components/button/Button.es';
 import ListView from '../../components/list-view/ListView.es';
 import useDeployApp from '../../hooks/useDeployApp.es';
+import isClickOutside from '../../utils/clickOutside.es';
 import {confirmDelete} from '../../utils/client.es';
 import {fromNow} from '../../utils/time.es';
 import ListAppsPopover from './ListAppsPopover.es';
@@ -34,6 +35,7 @@ export default ({
 }) => {
 	const {getStandaloneURL} = useContext(AppContext);
 	const addButtonRef = useRef();
+	const emptyStateButtonRef = useRef();
 	const popoverRef = useRef();
 
 	const {deployApp, undeployApp} = useDeployApp();
@@ -55,7 +57,6 @@ export default ({
 
 	const onSubmit = () => {
 		// const addURL = `/o/data-engine/v2.0/data-definitions/by-content-type/app-builder`;
-
 		// addItem(addURL, {
 		// 	availableLanguageIds: ['en_US'],
 		// 	dataDefinitionFields: [],
@@ -77,6 +78,25 @@ export default ({
 		// 	}
 		// });
 	};
+
+	useEffect(() => {
+		const handler = ({target}) => {
+			const isOutside = isClickOutside(
+				target,
+				addButtonRef.current,
+				emptyStateButtonRef.current,
+				popoverRef.current
+			);
+
+			if (isOutside) {
+				setPopoverVisible(false);
+			}
+		};
+
+		window.addEventListener('click', handler);
+
+		return () => window.removeEventListener('click', handler);
+	}, [addButtonRef, emptyStateButtonRef, popoverRef]);
 
 	const ACTIONS = [
 		{
@@ -136,7 +156,12 @@ export default ({
 
 	const EMPTY_STATE = {
 		button: () => (
-			<Button displayType="secondary" href={`${url}/deploy`}>
+			<Button
+				displayType="secondary"
+				href={`${url}/deploy`}
+				onClick={(currentTarget) => onClickAddButton(currentTarget)}
+				ref={emptyStateButtonRef}
+			>
 				{Liferay.Language.get('new-app')}
 			</Button>
 		),
@@ -175,6 +200,7 @@ export default ({
 				addButton={() => (
 					<Button
 						className="nav-btn nav-btn-monospaced"
+						ref={addButtonRef}
 						symbol="plus"
 						tooltip={Liferay.Language.get('new-app')}
 						{...buttonProps}
