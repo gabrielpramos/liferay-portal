@@ -13,6 +13,7 @@
  */
 
 import {fetch} from 'frontend-js-web';
+import qs from 'qs';
 
 import {errorToast, successToast} from '../utils/toast.es';
 
@@ -86,18 +87,12 @@ export const getItem = (endpoint, params) =>
 	}).then((response) => parseResponse(response));
 
 export const getURL = (path, params) => {
-	params = {
-		['p_auth']: Liferay.authToken,
-		t: Date.now(),
-		...params,
-	};
+	const stringParams = qs.stringify(
+		{['p_auth']: Liferay.authToken, t: Date.now(), ...params},
+		{arrayFormat: 'repeat'}
+	);
 
-	const uri = new URL(`${window.location.origin}${path}`);
-	const keys = Object.keys(params);
-
-	keys.forEach((key) => uri.searchParams.set(key, params[key]));
-
-	return uri.toString();
+	return `${window.location.origin}${path}?${stringParams}`;
 };
 
 export const request = (endpoint, method = 'GET') =>

@@ -25,36 +25,21 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
+import qs from 'qs';
 import {useEffect, useRef, useState} from 'react';
 
-export const toQuery = (string, defaultQuery = {}) => {
-	const query = {...defaultQuery};
-	const params = new URLSearchParams(string);
+const qsOptions = {allowDots: true, arrayFormat: 'bracket'};
 
-	params.forEach((value, key) => {
-		if (!isNaN(value)) {
-			value = parseInt(value, 10);
-		}
+export const toQuery = (queryString = '', defaultQuery = {}) => {
+	const query = queryString.length
+		? qs.parse(queryString.substr(1), qsOptions)
+		: {};
 
-		query[key] = value;
-	});
-
-	return query;
+	return {...defaultQuery, ...query};
 };
 
-export const toQueryString = (object, queryString = '') => {
-	const params = new URLSearchParams(queryString);
-
-	Object.keys(object).forEach((key) => {
-		if (object[key]) {
-			params.set(key, object[key]);
-		}
-		else {
-			params.delete(key);
-		}
-	});
-
-	return params.toString();
+export const toQueryString = (query) => {
+	return query ? `${qs.stringify(query, qsOptions)}` : '';
 };
 
 export default (history, defaultQuery = {}) => {
@@ -71,6 +56,6 @@ export default (history, defaultQuery = {}) => {
 
 	return [
 		query,
-		(query) => history.push(`${pathname}?${toQueryString(query, search)}`),
+		(query) => history.push(`${pathname}?${toQueryString(query)}`),
 	];
 };
