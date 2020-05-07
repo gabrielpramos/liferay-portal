@@ -22,7 +22,6 @@ const Search = () => {
 
 	return (
 		<ClayDropDown.Search
-			className="drop-down-search"
 			formProps={{onSubmit: (e) => e.preventDefault()}}
 			onChange={(event) => setQuery(event.target.value)}
 			placeholder={Liferay.Language.get('search')}

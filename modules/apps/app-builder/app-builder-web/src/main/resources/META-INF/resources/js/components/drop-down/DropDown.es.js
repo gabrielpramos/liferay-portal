@@ -30,7 +30,8 @@ const DropDown = ({children, displayType, items, label, ...restProps}) => {
 			<ClayDropDown
 				{...restProps}
 				active={active}
-				alignmentPosition={Align.BottomCenter}
+				alignmentPosition={Align.BottomLeft}
+				menuElementAttrs={{className: 'select-dropdown-menu'}}
 				onActiveChange={setActive}
 				trigger={
 					<ClayButton
@@ -55,7 +56,7 @@ const DropDown = ({children, displayType, items, label, ...restProps}) => {
 
 const Items = ({items, query}) => {
 	return (
-		<ClayDropDown.ItemList className="min-vh-100">
+		<ClayDropDown.ItemList>
 			{items
 				.filter(({label}) => label.match(query))
 				.map(({label, ...otherProps}, index) => (
