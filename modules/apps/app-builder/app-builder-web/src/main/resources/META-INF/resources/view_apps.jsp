@@ -26,7 +26,13 @@
 			HashMapBuilder.<String, Object>put(
 				"basePortletURL", String.valueOf(renderResponse.createRenderURL())
 			).put(
+				"defaultDelta", PropsValues.SEARCH_CONTAINER_PAGE_DEFAULT_DELTA
+			).put(
+				"deltaValues", PropsValues.SEARCH_CONTAINER_PAGE_DELTA_VALUES
+			).put(
 				"pathFriendlyURLPublic", PortalUtil.getPathFriendlyURLPublic()
+			).put(
+				"userId", themeDisplay.getUserId()
 			).build() %>'
 		module="js/pages/apps/index.es"
 	/>
