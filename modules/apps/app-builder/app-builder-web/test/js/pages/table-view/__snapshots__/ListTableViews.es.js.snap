@@ -26,6 +26,7 @@ exports[`ListTableViews renders 1`] = `
           >
             <button
               class="dropdown-toggle nav-link btn btn-unstyled"
+              id="filter-and-order"
               style=""
               type="button"
             >
