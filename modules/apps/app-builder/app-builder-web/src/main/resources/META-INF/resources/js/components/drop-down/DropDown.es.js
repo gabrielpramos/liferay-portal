@@ -24,15 +24,17 @@ const DropDownContext = createContext();
 const DropDown = ({
 	children,
 	displayType,
-	emptyProps: {emptyButtonOnClick, emptyStateButton, emptyStateLabel},
+	emptyProps: {customObjectButtonRef, emptyButtonOnClick, emptyStateButton, emptyStateLabel},
 	errorProps: {errorButtonOnClick, errorStateButton, errorStateLabel},
 	items,
 	label,
-	loadingProps: {loadingStateIcon, loadingStateLabel},
+	loadingProps: {loadingStateLabel},
 	...restProps
 }) => {
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
+	const loading = false;
+	const error = false;
 
 	return (
 		<DropDownContext.Provider value={{query, setQuery}}>
@@ -57,23 +59,49 @@ const DropDown = ({
 				}
 			>
 				{children}
-				{items.length > 0 ? (
-					<Items items={items} query={query} />
-				) : (
+				{loading && (
+					<div className="loading-state-dropdown-menu">
+						<span
+							aria-hidden="true"
+							className="loading-animation"
+						/>
+
+						<label className="font-weight-light text-secondary">
+							{loadingStateLabel}
+						</label>
+					</div>
+				)}
+				{error && (
+					<div className="error-state-dropdown-menu">
+						<label className="font-weight-light text-secondary">
+							{errorStateLabel}
+						</label>
+
+						<ClayButton
+							displayType="link"
+							onClick={errorButtonOnClick}
+						>
+							{errorStateButton}
+						</ClayButton>
+					</div>
+				)}
+				{!loading && !error && items.length === 0 && (
 					<div className="empty-state-dropdown-menu">
 						<label className="font-weight-light text-secondary">
 							{emptyStateLabel}
 						</label>
 
 						<ClayButton
-							className="button"
+							className="emptyButton"
 							displayType="secondary"
 							onClick={emptyButtonOnClick}
+							ref={customObjectButtonRef}
 						>
 							{emptyStateButton}
 						</ClayButton>
 					</div>
 				)}
+				<Items items={items} query={query} />
 			</ClayDropDown>
 		</DropDownContext.Provider>
 	);
