@@ -173,7 +173,23 @@ body.open .app-builder-upper-toolbar {
 	padding-top: 1.3rem;
 	text-align: center;
 
-	.button {
+	.emptyButton {
 		margin-top: 1rem;
 	}
+}
+
+.error-state-dropdown-menu {
+	padding-bottom: 1.3rem;
+	padding-top: 1.3rem;
+	text-align: center;
+
+	.errorButton {
+		margin-top: 1rem;
+	}
+}
+
+.loading-state-dropdown-menu {
+	padding-bottom: 1.3rem;
+	padding-top: 1.3rem;
+	text-align: center;
 }
