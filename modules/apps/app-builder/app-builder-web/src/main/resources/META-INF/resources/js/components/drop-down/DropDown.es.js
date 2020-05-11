@@ -30,7 +30,7 @@ const DropDown = ({
 	...restProps
 }) => {
 	const [active, setActive] = useState(false);
-	const [hasError, setError] = useState(false);
+	const [hasError] = useState(false);
 	const isLoading = fetchStatus < 4;
 	const [query, setQuery] = useState('');
 	const [retry, setRetry] = useState(0);
@@ -51,7 +51,7 @@ const DropDown = ({
 				trigger={trigger}
 			>
 				{children}
-				{isLoading && <LoadingView />}
+				{isLoading && <LoadingState />}
 
 				{hasError && <ErrorState handleOnCLick={setRetry(retry + 1)} />}
 
@@ -95,7 +95,7 @@ const Items = ({items, onSelect, query}) => {
 	);
 };
 
-const LoadingView = () => (
+const LoadingState = () => (
 	<div className="loading-state-dropdown-menu">
 		<span aria-hidden="true" className="loading-animation" />
 

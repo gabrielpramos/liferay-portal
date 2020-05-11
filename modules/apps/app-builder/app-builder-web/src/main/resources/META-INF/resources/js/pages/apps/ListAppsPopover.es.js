@@ -13,14 +13,13 @@
  */
 
 import ClayButton from '@clayui/button';
-import {useResource} from '@clayui/data-provider';
 import ClayIcon from '@clayui/icon';
 import React, {useContext, useRef, useState} from 'react';
 
 import {AppContext} from '../../AppContext.es';
 import DropDown from '../../components/drop-down/DropDown.es';
 import Popover from '../../components/popover/Popover.es';
-import {addItem, getURL} from '../../utils/client.es';
+import {addItem} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
 
 const EmptyState = ({customObjectButtonRef, handleOnClick}) => {
@@ -58,22 +57,36 @@ const ListAppsPopover = ({
 	const [emptyAlignElement, setEmptyAlignElement] = useState(
 		customObjectButtonRef.current
 	);
-	const [fetchStatus, setFetchStatus] = useState();
+	const [fetchStatus] = useState();
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
 	const [dropDownValue, setDropDownValue] = useState('');
 
-	// let ENDPOINT =
+	// const ENDPOINT_APP_BUILDER =
 	// 	'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder';
+	// const ENDPOINT_NATIVE_OBJECTS =
+	// 	'/o/data-engine/v2.0/data-definitions/by-content-type/native-object';
 
-	// const {refetch, resource} = useResource({
+	// const {refetch, resource: resourceAppBuilder} = useResource({
 	// 	fetchDelay: 0,
 	// 	fetchOptions: {
 	// 		credentials: 'same-origin',
 	// 		method: 'GET',
 	// 	},
-	// 	link: getURL(ENDPOINT),
+	// 	link: getURL(ENDPOINT_APP_BUILDER),
 	// 	onNetworkStatusChange: (status) => setFetchStatus(status),
 	// });
+
+	// const {refetch, resource: resourceNativeObjects} = useResource({
+	// 	fetchDelay: 0,
+	// 	fetchOptions: {
+	// 		credentials: 'same-origin',
+	// 		method: 'GET',
+	// 	},
+	// 	link: getURL(ENDPOINT_NATIVE_OBJECTS),
+	// 	onNetworkStatusChange: (status) => setFetchStatus(status),
+	// });
+
+	// useEffect(() => {}, [resourceAppBuilder]);
 
 	const handleOnSelect = (event) => {
 		event.stopPropagation();
