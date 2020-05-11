@@ -46,6 +46,7 @@ export default ({
 	const newAppUrl = Liferay.Util.PortletURL.createRenderURL(basePortletURL, {
 		// eslint-disable-next-line lines-around-comment
 		// idDoCustomObject,
+
 		mvcRenderCommandName: '/apps/edit',
 	});
 
@@ -187,7 +188,8 @@ export default ({
 	if (dataDefinitionId) {
 		ENDPOINT = `/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`;
 		buttonProps = {href: `${url}/deploy`};
-	} else {
+	}
+	else {
 		const [firstColumn, ...otherColumns] = COLUMNS;
 
 		COLUMNS = [

@@ -22,23 +22,18 @@ const DropDownContext = createContext();
 
 const DropDown = ({
 	children,
-	emptyProps: {
-		customObjectButtonRef,
-		emptyButtonOnClick,
-		emptyStateButton,
-		emptyStateLabel,
-	},
-	errorProps: {errorButtonOnClick, errorStateButton, errorStateLabel},
+	emptyState,
+	fetchStatus,
 	items,
-	loadingProps: {loadingStateLabel},
 	onSelect,
 	trigger,
 	...restProps
 }) => {
 	const [active, setActive] = useState(false);
+	const [hasError, setError] = useState(false);
+	const isLoading = fetchStatus < 4;
 	const [query, setQuery] = useState('');
-	const loading = false;
-	const error = true;
+	const [retry, setRetry] = useState(0);
 
 	const handleOnselect = (event) => {
 		setActive(false);
@@ -56,54 +51,29 @@ const DropDown = ({
 				trigger={trigger}
 			>
 				{children}
-				{loading && (
-					<div className="loading-state-dropdown-menu">
-						<span
-							aria-hidden="true"
-							className="loading-animation"
-						/>
+				{isLoading && <LoadingView />}
 
-						<label className="font-weight-light text-secondary">
-							{loadingStateLabel}
-						</label>
-					</div>
-				)}
+				{hasError && <ErrorState handleOnCLick={setRetry(retry + 1)} />}
 
-				{error && (
-					<div className="error-state-dropdown-menu">
-						<label className="font-weight-light text-secondary">
-							{errorStateLabel}
-						</label>
-
-						<ClayButton
-							displayType="link"
-							onClick={errorButtonOnClick}
-						>
-							{errorStateButton}
-						</ClayButton>
-					</div>
-				)}
-
-				{!loading && !error && items.length === 0 && (
-					<div className="empty-state-dropdown-menu">
-						<label className="font-weight-light text-secondary">
-							{emptyStateLabel}
-						</label>
-
-						<ClayButton
-							className="emptyButton"
-							displayType="secondary"
-							onClick={emptyButtonOnClick}
-							ref={customObjectButtonRef}
-						>
-							{emptyStateButton}
-						</ClayButton>
-					</div>
-				)}
+				{!isLoading && !hasError && items.length === 0 && emptyState()}
 
 				<Items items={items} onSelect={handleOnselect} query={query} />
 			</ClayDropDown>
 		</DropDownContext.Provider>
+	);
+};
+
+const ErrorState = ({handleOnCLick}) => {
+	return (
+		<div className="error-state-dropdown-menu">
+			<label className="font-weight-light text-secondary">
+				{Liferay.Language.get('failed-to-retrieve-objects')}
+			</label>
+
+			<ClayButton displayType="link" onClick={handleOnCLick}>
+				{Liferay.Language.get('retry')}
+			</ClayButton>
+		</div>
 	);
 };
 
@@ -124,6 +94,16 @@ const Items = ({items, onSelect, query}) => {
 		</ClayDropDown.ItemList>
 	);
 };
+
+const LoadingView = () => (
+	<div className="loading-state-dropdown-menu">
+		<span aria-hidden="true" className="loading-animation" />
+
+		<label className="font-weight-light text-secondary">
+			{Liferay.Language.get('retrieving-all-objects')}
+		</label>
+	</div>
+);
 
 DropDown.Search = Search;
 

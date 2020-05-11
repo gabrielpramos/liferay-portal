@@ -13,14 +13,36 @@
  */
 
 import ClayButton from '@clayui/button';
+import {useResource} from '@clayui/data-provider';
 import ClayIcon from '@clayui/icon';
 import React, {useContext, useRef, useState} from 'react';
 
 import {AppContext} from '../../AppContext.es';
 import DropDown from '../../components/drop-down/DropDown.es';
 import Popover from '../../components/popover/Popover.es';
-import {addItem} from '../../utils/client.es';
+import {addItem, getURL} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
+
+const EmptyState = ({customObjectButtonRef, handleOnClick}) => {
+	return (
+		<div className="empty-state-dropdown-menu">
+			<label className="font-weight-light text-secondary">
+				{Liferay.Language.get(
+					'no-objects-yet-create-your-first-object'
+				)}
+			</label>
+
+			<ClayButton
+				className="emptyButton"
+				displayType="secondary"
+				onClick={handleOnClick}
+				ref={customObjectButtonRef}
+			>
+				{Liferay.Language.get('new-custom-object')}
+			</ClayButton>
+		</div>
+	);
+};
 
 const ListAppsPopover = ({
 	alignElement,
@@ -36,49 +58,28 @@ const ListAppsPopover = ({
 	const [emptyAlignElement, setEmptyAlignElement] = useState(
 		customObjectButtonRef.current
 	);
+	const [fetchStatus, setFetchStatus] = useState();
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
 	const [dropDownValue, setDropDownValue] = useState('');
+
+	// let ENDPOINT =
+	// 	'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder';
+
+	// const {refetch, resource} = useResource({
+	// 	fetchDelay: 0,
+	// 	fetchOptions: {
+	// 		credentials: 'same-origin',
+	// 		method: 'GET',
+	// 	},
+	// 	link: getURL(ENDPOINT),
+	// 	onNetworkStatusChange: (status) => setFetchStatus(status),
+	// });
 
 	const handleOnSelect = (event) => {
 		event.stopPropagation();
 
 		setDropDownValue(event.currentTarget.textContent);
 	};
-
-	const clearSelectObject = () => {
-		setDropDownValue('');
-	};
-
-	const EMPTY_PROPS = {
-		customObjectButtonRef,
-		emptyButtonOnClick: ({currentTarget}) => {
-			setEmptyAlignElement(currentTarget);
-
-			if (isPopoverVisible && emptyAlignElement !== currentTarget) {
-				return;
-			}
-
-			setPopoverVisible(!isPopoverVisible);
-		},
-		emptyStateButton: Liferay.Language.get('new-custom-object'),
-		emptyStateLabel: Liferay.Language.get(
-			'no-objects-yet-create-your-first-object'
-		),
-	};
-
-	const ERROR_PROPS = {
-		errorButtonOnClick: {
-			//retry
-		},
-		errorStateButton: Liferay.Language.get('retry'),
-		errorStateLabel: Liferay.Language.get('failed-to-retrieve-objects'),
-	};
-
-	const LOADING_PROPS = {
-		loadingStateLabel: Liferay.Language.get('retrieving-all-objects'),
-	};
-
-	const handleOnCancel = () => setPopoverVisible(false);
 
 	const handleOnSubmit = ({isAddFormView, name}) => {
 		const addURL = `/o/data-engine/v2.0/data-definitions/by-content-type/app-builder`;
@@ -104,6 +105,16 @@ const ListAppsPopover = ({
 		});
 	};
 
+	const emptyStateOnClick = (event) => {
+		event.stopPropagation();
+
+		setEmptyAlignElement(event.currentTarget);
+
+		if (emptyAlignElement === event.currentTarget) {
+			setPopoverVisible(!isPopoverVisible);
+		}
+	};
+
 	return (
 		<>
 			<Popover
@@ -113,11 +124,16 @@ const ListAppsPopover = ({
 					<>
 						<label>{Liferay.Language.get('object')}</label>
 						<DropDown
-							emptyProps={EMPTY_PROPS}
-							errorProps={ERROR_PROPS}
-							items={[]}
+							emptyState={
+								<EmptyState
+									customObjectButtonRef={
+										customObjectButtonRef
+									}
+									handleOnClick={emptyStateOnClick}
+								/>
+							}
+							fetchStatus={fetchStatus}
 							label={Liferay.Language.get('select-object')}
-							loadingProps={LOADING_PROPS}
 							onSelect={handleOnSelect}
 							trigger={
 								<ClayButton
@@ -149,7 +165,7 @@ const ListAppsPopover = ({
 								className="mr-3"
 								displayType="secondary"
 								onClick={() => {
-									clearSelectObject();
+									setDropDownValue('');
 
 									onCancel();
 								}}
@@ -160,9 +176,7 @@ const ListAppsPopover = ({
 
 							<ClayButton
 								disabled={!dropDownValue}
-								onClick={() => {
-									onContinue(dropDownValue);
-								}}
+								onClick={onContinue(dropDownValue)}
 								small
 							>
 								{Liferay.Language.get('continue')}
@@ -190,7 +204,7 @@ const ListAppsPopover = ({
 
 			<CustomObjectPopover
 				alignElement={alignElement}
-				onCancel={handleOnCancel}
+				onCancel={setPopoverVisible(false)}
 				onSubmit={handleOnSubmit}
 				ref={popoverRef}
 				visible={isPopoverVisible}
