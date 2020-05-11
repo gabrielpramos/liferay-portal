@@ -12,7 +12,8 @@
  * details.
  */
 
-import Button from '@clayui/button';
+import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 import React, {useContext, useRef, useState} from 'react';
 
 import {AppContext} from '../../AppContext.es';
@@ -25,11 +26,10 @@ const ListAppsPopover = ({
 	alignElement,
 	forwardRef,
 	onCancel,
-	onSubmit,
+	onContinue,
 	visible,
 }) => {
 	const {basePortletURL} = useContext(AppContext);
-	const objectInputRef = useRef();
 	const customObjectButtonRef = useRef();
 	const popoverRef = useRef();
 
@@ -37,9 +37,16 @@ const ListAppsPopover = ({
 		customObjectButtonRef.current
 	);
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
+	const [dropDownValue, setDropDownValue] = useState('');
 
-	const resetForm = () => {
-		objectInputRef.current.value = '';
+	const handleOnSelect = (event) => {
+		event.stopPropagation();
+
+		setDropDownValue(event.currentTarget.textContent);
+	};
+
+	const clearSelectObject = () => {
+		setDropDownValue('');
 	};
 
 	const EMPTY_PROPS = {
@@ -106,12 +113,30 @@ const ListAppsPopover = ({
 					<>
 						<label>{Liferay.Language.get('object')}</label>
 						<DropDown
-							displayType="secondary"
 							emptyProps={EMPTY_PROPS}
 							errorProps={ERROR_PROPS}
 							items={[]}
 							label={Liferay.Language.get('select-object')}
 							loadingProps={LOADING_PROPS}
+							onSelect={handleOnSelect}
+							trigger={
+								<ClayButton
+									className="clearfix w-100"
+									displayType="secondary"
+								>
+									<span className="float-left">
+										{dropDownValue ||
+											Liferay.Language.get(
+												'select-object'
+											)}
+									</span>
+
+									<ClayIcon
+										className="float-right icon"
+										symbol="caret-bottom"
+									/>
+								</ClayButton>
+							}
 						>
 							<DropDown.Search />
 						</DropDown>
@@ -120,27 +145,28 @@ const ListAppsPopover = ({
 				footer={() => (
 					<div className="border-top mt-3 p-3" style={{width: 450}}>
 						<div className="d-flex justify-content-end">
-							<Button
+							<ClayButton
 								className="mr-3"
 								displayType="secondary"
 								onClick={() => {
-									resetForm();
+									clearSelectObject();
 
 									onCancel();
 								}}
 								small
 							>
 								{Liferay.Language.get('cancel')}
-							</Button>
+							</ClayButton>
 
-							<Button
+							<ClayButton
+								disabled={!dropDownValue}
 								onClick={() => {
-									onSubmit(objectInputRef.current.value);
+									onContinue(dropDownValue);
 								}}
 								small
 							>
 								{Liferay.Language.get('continue')}
-							</Button>
+							</ClayButton>
 						</div>
 					</div>
 				)}

@@ -14,7 +14,6 @@
 
 import ClayButton from '@clayui/button';
 import ClayDropDown, {Align} from '@clayui/drop-down';
-import ClayIcon from '@clayui/icon';
 import React, {createContext, useState} from 'react';
 
 import {Search} from './Search.es';
@@ -23,18 +22,28 @@ const DropDownContext = createContext();
 
 const DropDown = ({
 	children,
-	displayType,
-	emptyProps: {customObjectButtonRef, emptyButtonOnClick, emptyStateButton, emptyStateLabel},
+	emptyProps: {
+		customObjectButtonRef,
+		emptyButtonOnClick,
+		emptyStateButton,
+		emptyStateLabel,
+	},
 	errorProps: {errorButtonOnClick, errorStateButton, errorStateLabel},
 	items,
-	label,
 	loadingProps: {loadingStateLabel},
+	onSelect,
+	trigger,
 	...restProps
 }) => {
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
 	const loading = false;
-	const error = false;
+	const error = true;
+
+	const handleOnselect = (event) => {
+		setActive(false);
+		onSelect(event);
+	};
 
 	return (
 		<DropDownContext.Provider value={{query, setQuery}}>
@@ -44,19 +53,7 @@ const DropDown = ({
 				alignmentPosition={Align.BottomLeft}
 				menuElementAttrs={{className: 'select-dropdown-menu'}}
 				onActiveChange={setActive}
-				trigger={
-					<ClayButton
-						className="clearfix w-100"
-						displayType={displayType}
-					>
-						<span className="float-left">{label}</span>
-
-						<ClayIcon
-							className="float-right icon"
-							symbol="caret-bottom"
-						/>
-					</ClayButton>
-				}
+				trigger={trigger}
 			>
 				{children}
 				{loading && (
@@ -71,6 +68,7 @@ const DropDown = ({
 						</label>
 					</div>
 				)}
+
 				{error && (
 					<div className="error-state-dropdown-menu">
 						<label className="font-weight-light text-secondary">
@@ -85,6 +83,7 @@ const DropDown = ({
 						</ClayButton>
 					</div>
 				)}
+
 				{!loading && !error && items.length === 0 && (
 					<div className="empty-state-dropdown-menu">
 						<label className="font-weight-light text-secondary">
@@ -101,19 +100,24 @@ const DropDown = ({
 						</ClayButton>
 					</div>
 				)}
-				<Items items={items} query={query} />
+
+				<Items items={items} onSelect={handleOnselect} query={query} />
 			</ClayDropDown>
 		</DropDownContext.Provider>
 	);
 };
 
-const Items = ({items, query}) => {
+const Items = ({items, onSelect, query}) => {
 	return (
 		<ClayDropDown.ItemList>
 			{items
 				.filter(({label}) => label.match(query))
 				.map(({label, ...otherProps}, index) => (
-					<ClayDropDown.Item key={index} {...otherProps}>
+					<ClayDropDown.Item
+						key={index}
+						onClick={onSelect}
+						{...otherProps}
+					>
 						{label}
 					</ClayDropDown.Item>
 				))}
