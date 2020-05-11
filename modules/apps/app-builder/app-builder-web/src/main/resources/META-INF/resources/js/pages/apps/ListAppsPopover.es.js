@@ -13,6 +13,7 @@
  */
 
 import ClayButton from '@clayui/button';
+import {useResource} from '@clayui/data-provider';
 import ClayIcon from '@clayui/icon';
 import React, {useContext, useRef, useState} from 'react';
 
@@ -61,32 +62,32 @@ const ListAppsPopover = ({
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
 	const [dropDownValue, setDropDownValue] = useState('');
 
-	// const ENDPOINT_APP_BUILDER =
-	// 	'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder';
-	// const ENDPOINT_NATIVE_OBJECTS =
-	// 	'/o/data-engine/v2.0/data-definitions/by-content-type/native-object';
+	const ENDPOINT_APP_BUILDER =
+		'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder';
+	const ENDPOINT_NATIVE_OBJECTS =
+		'/o/data-engine/v2.0/data-definitions/by-content-type/native-object';
 
-	// const {refetch, resource: resourceAppBuilder} = useResource({
-	// 	fetchDelay: 0,
-	// 	fetchOptions: {
-	// 		credentials: 'same-origin',
-	// 		method: 'GET',
-	// 	},
-	// 	link: getURL(ENDPOINT_APP_BUILDER),
-	// 	onNetworkStatusChange: (status) => setFetchStatus(status),
-	// });
+	const {refetch, resource: resourceAppBuilder} = useResource({
+		fetchDelay: 0,
+		fetchOptions: {
+			credentials: 'same-origin',
+			method: 'GET',
+		},
+		link: getURL(ENDPOINT_APP_BUILDER),
+		onNetworkStatusChange: (status) => setFetchStatus(status),
+	});
 
-	// const {refetch, resource: resourceNativeObjects} = useResource({
-	// 	fetchDelay: 0,
-	// 	fetchOptions: {
-	// 		credentials: 'same-origin',
-	// 		method: 'GET',
-	// 	},
-	// 	link: getURL(ENDPOINT_NATIVE_OBJECTS),
-	// 	onNetworkStatusChange: (status) => setFetchStatus(status),
-	// });
+	const {refetch, resource: resourceNativeObjects} = useResource({
+		fetchDelay: 0,
+		fetchOptions: {
+			credentials: 'same-origin',
+			method: 'GET',
+		},
+		link: getURL(ENDPOINT_NATIVE_OBJECTS),
+		onNetworkStatusChange: (status) => setFetchStatus(status),
+	});
 
-	// useEffect(() => {}, [resourceAppBuilder]);
+	useEffect(() => {}, [resourceAppBuilder]);
 
 	const handleOnSelect = (event) => {
 		event.stopPropagation();
@@ -137,13 +138,13 @@ const ListAppsPopover = ({
 					<>
 						<label>{Liferay.Language.get('object')}</label>
 						<DropDown
-							emptyState={
+							emptyState={() => 
 								<EmptyState
 									customObjectButtonRef={
 										customObjectButtonRef
 									}
 									handleOnClick={emptyStateOnClick}
-								/>
+								/>;
 							}
 							fetchStatus={fetchStatus}
 							label={Liferay.Language.get('select-object')}

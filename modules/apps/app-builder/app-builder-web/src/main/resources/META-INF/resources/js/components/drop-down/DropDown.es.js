@@ -24,7 +24,7 @@ const DropDown = ({
 	children,
 	emptyState,
 	fetchStatus,
-	items,
+	items = [],
 	onSelect,
 	trigger,
 	...restProps
@@ -55,7 +55,7 @@ const DropDown = ({
 
 				{hasError && <ErrorState handleOnCLick={setRetry(retry + 1)} />}
 
-				{!isLoading && !hasError && items.length === 0 && emptyState()}
+				{!isLoading && !hasError && items.length === 0 && emptyState}
 
 				<Items items={items} onSelect={handleOnselect} query={query} />
 			</ClayDropDown>
