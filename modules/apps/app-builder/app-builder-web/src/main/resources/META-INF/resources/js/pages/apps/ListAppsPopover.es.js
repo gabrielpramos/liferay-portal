@@ -189,7 +189,9 @@ const ListAppsPopover = ({
 
 							<ClayButton
 								disabled={!dropDownValue}
-								onClick={onContinue(dropDownValue)}
+								onClick={() => {
+									onContinue(dropDownValue);
+								}}
 								small
 							>
 								{Liferay.Language.get('continue')}
@@ -217,7 +219,9 @@ const ListAppsPopover = ({
 
 			<CustomObjectPopover
 				alignElement={alignElement}
-				onCancel={setPopoverVisible(false)}
+				onCancel={() => {
+					setPopoverVisible(false);
+				}}
 				onSubmit={handleOnSubmit}
 				ref={popoverRef}
 				visible={isPopoverVisible}
