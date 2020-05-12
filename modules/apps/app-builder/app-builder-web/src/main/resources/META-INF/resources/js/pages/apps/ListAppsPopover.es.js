@@ -120,8 +120,6 @@ const ListAppsPopover = ({
 	};
 
 	const emptyStateOnClick = (event) => {
-		event.stopPropagation();
-
 		setEmptyAlignElement(event.currentTarget);
 
 		if (emptyAlignElement === event.currentTarget) {
@@ -138,14 +136,14 @@ const ListAppsPopover = ({
 					<>
 						<label>{Liferay.Language.get('object')}</label>
 						<DropDown
-							emptyState={() => 
+							emptyState={() => (
 								<EmptyState
 									customObjectButtonRef={
 										customObjectButtonRef
 									}
 									handleOnClick={emptyStateOnClick}
-								/>;
-							}
+								/>
+							)}
 							fetchStatus={fetchStatus}
 							label={Liferay.Language.get('select-object')}
 							onSelect={handleOnSelect}
