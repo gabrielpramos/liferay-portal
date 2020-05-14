@@ -17,17 +17,29 @@ import React from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {AppContextProvider} from '../../AppContext.es';
+import EditFormViewApp from '../form-view/EditFormViewApp.es';
 import ListApps from './ListApps.es';
 import EditApp from './edit/EditApp.es';
 
 export default (props) => {
+	// const {basePortletURL} = props;
+
 	return (
 		<AppContextProvider {...props}>
 			<ClayModalProvider>
 				<Router>
 					<Switch>
-						<Route component={ListApps} path="/" />
-						<Route component={EditApp} path="/apps/edit" />
+						<Route component={ListApps} exact path="/" />
+
+						<Route
+							component={EditApp}
+							path="/standard/deploy/:dataDefinitionId"
+						/>
+
+						<Route
+							component={EditFormViewApp}
+							path="/edit_form_view"
+						/>
 					</Switch>
 				</Router>
 			</ClayModalProvider>

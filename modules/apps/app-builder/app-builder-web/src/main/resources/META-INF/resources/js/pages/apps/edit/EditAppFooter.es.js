@@ -85,7 +85,7 @@ export default withRouter(
 		};
 
 		const onCancel = () => {
-			history.push(`/custom-object/${dataDefinitionId}/apps`);
+			history.goBack();
 		};
 
 		const onDeploy = () => {
@@ -96,8 +96,7 @@ export default withRouter(
 					.then(() => onSuccess(appId))
 					.then(onCancel)
 					.catch(onError);
-			}
-			else {
+			} else {
 				addItem(
 					`/o/app-builder/v1.0/data-definitions/${dataDefinitionId}/apps`,
 					app

@@ -15,12 +15,13 @@
 import ClayButton from '@clayui/button';
 import {useResource} from '@clayui/data-provider';
 import ClayIcon from '@clayui/icon';
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 
 import {AppContext} from '../../AppContext.es';
 import DropDown from '../../components/drop-down/DropDown.es';
 import Popover from '../../components/popover/Popover.es';
-import {addItem} from '../../utils/client.es';
+import isClickOutside from '../../utils/clickOutside.es';
+import {addItem, getURL} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
 
 const EmptyState = ({customObjectButtonRef, handleOnClick}) => {
@@ -47,52 +48,91 @@ const EmptyState = ({customObjectButtonRef, handleOnClick}) => {
 const ListAppsPopover = ({
 	alignElement,
 	forwardRef,
+	history,
 	onCancel,
-	onContinue,
+	setVisible,
 	visible,
 }) => {
 	const {basePortletURL} = useContext(AppContext);
 	const customObjectButtonRef = useRef();
 	const popoverRef = useRef();
-
-	const [emptyAlignElement, setEmptyAlignElement] = useState(
-		customObjectButtonRef.current
-	);
-	const [fetchStatus] = useState();
+	const [fetchStatuses, setFetchStatuses] = useState([]);
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
-	const [dropDownValue, setDropDownValue] = useState('');
+	const [items, setItems] = useState([]);
+
+	const [selectedValue, setSelectedValue] = useState({
+		id: undefined,
+		name: undefined,
+	});
+	const {id: customObjectId, name: customObjectName} = selectedValue;
+
+	const onContinue = () => {
+		history.push(`/standard/deploy/${customObjectId}`);
+	};
 
 	const ENDPOINT_APP_BUILDER =
 		'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder';
 	const ENDPOINT_NATIVE_OBJECTS =
 		'/o/data-engine/v2.0/data-definitions/by-content-type/native-object';
 
-	const {refetch, resource: resourceAppBuilder} = useResource({
+	const variables = {keywords: '', page: -1, pageSize: -1, sort: ''};
+
+	const {
+		refetch: refetchAppBuilder,
+		resource: appBuilderResource = {items: []},
+	} = useResource({
 		fetchDelay: 0,
 		fetchOptions: {
 			credentials: 'same-origin',
 			method: 'GET',
 		},
 		link: getURL(ENDPOINT_APP_BUILDER),
-		onNetworkStatusChange: (status) => setFetchStatus(status),
+		onNetworkStatusChange: (status) =>
+			setFetchStatuses(
+				fetchStatuses[0] ? fetchStatuses.splice(0, 1, status) : [status]
+			),
+		variables,
 	});
 
-	const {refetch, resource: resourceNativeObjects} = useResource({
+	const {
+		refetch: refetchNative,
+		resource: nativeObjectsResource = {items: []},
+	} = useResource({
 		fetchDelay: 0,
 		fetchOptions: {
 			credentials: 'same-origin',
 			method: 'GET',
 		},
 		link: getURL(ENDPOINT_NATIVE_OBJECTS),
-		onNetworkStatusChange: (status) => setFetchStatus(status),
+		onNetworkStatusChange: (status) =>
+			setFetchStatuses(
+				fetchStatuses[1]
+					? fetchStatuses.splice(1, 1, status)
+					: [...fetchStatuses, status]
+			),
+		variables,
 	});
 
-	useEffect(() => {}, [resourceAppBuilder]);
+	const refetch = () => {
+		refetchAppBuilder();
+		refetchNative();
+	};
 
-	const handleOnSelect = (event) => {
+	useEffect(() => {
+		if (appBuilderResource && nativeObjectsResource) {
+			setItems(
+				[
+					...appBuilderResource.items,
+					...nativeObjectsResource.items,
+				].sort((a, b) => a - b)
+			);
+		}
+	}, [appBuilderResource, nativeObjectsResource]);
+
+	const handleOnSelect = (event, selectedValue) => {
 		event.stopPropagation();
 
-		setDropDownValue(event.currentTarget.textContent);
+		setSelectedValue(selectedValue);
 	};
 
 	const handleOnSubmit = ({isAddFormView, name}) => {
@@ -109,23 +149,37 @@ const ListAppsPopover = ({
 				Liferay.Util.navigate(
 					Liferay.Util.PortletURL.createRenderURL(basePortletURL, {
 						dataDefinitionId: id,
+						isAppsPortlet: true,
 						mvcRenderCommandName: '/edit_form_view',
 						newCustomObject: true,
 					})
 				);
-			} else {
-				history.push(`/custom-object/${id}/form-views/`);
 			}
 		});
 	};
 
-	const emptyStateOnClick = (event) => {
-		setEmptyAlignElement(event.currentTarget);
-
-		if (emptyAlignElement === event.currentTarget) {
-			setPopoverVisible(!isPopoverVisible);
-		}
+	const emptyStateOnClick = () => {
+		setVisible(false);
+		setPopoverVisible(!isPopoverVisible);
 	};
+
+	useEffect(() => {
+		const handler = ({target}) => {
+			const isOutside = isClickOutside(
+				target,
+				customObjectButtonRef.current,
+				popoverRef.current
+			);
+
+			if (isOutside) {
+				setPopoverVisible(false);
+			}
+		};
+
+		window.addEventListener('click', handler);
+
+		return () => window.removeEventListener('click', handler);
+	}, [popoverRef]);
 
 	return (
 		<>
@@ -135,16 +189,33 @@ const ListAppsPopover = ({
 				content={() => (
 					<>
 						<label>{Liferay.Language.get('object')}</label>
+
 						<DropDown
-							emptyState={() => (
-								<EmptyState
-									customObjectButtonRef={
-										customObjectButtonRef
-									}
-									handleOnClick={emptyStateOnClick}
-								/>
-							)}
-							fetchStatus={fetchStatus}
+							dropDownStateProps={{
+								empty: {
+									emptyState: () => (
+										<EmptyState
+											customObjectButtonRef={
+												customObjectButtonRef
+											}
+											handleOnClick={emptyStateOnClick}
+										/>
+									),
+								},
+								error: {
+									errorLabel: Liferay.Language.get(
+										'failed-to-retrieve-objects'
+									),
+									retryHandler: refetch,
+								},
+								loading: {
+									loadingLabel: Liferay.Language.get(
+										'retrieving-all-objects'
+									),
+								},
+							}}
+							fetchStatuses={fetchStatuses}
+							items={items}
 							label={Liferay.Language.get('select-object')}
 							onSelect={handleOnSelect}
 							trigger={
@@ -153,7 +224,7 @@ const ListAppsPopover = ({
 									displayType="secondary"
 								>
 									<span className="float-left">
-										{dropDownValue ||
+										{customObjectName ||
 											Liferay.Language.get(
 												'select-object'
 											)}
@@ -177,7 +248,7 @@ const ListAppsPopover = ({
 								className="mr-3"
 								displayType="secondary"
 								onClick={() => {
-									setDropDownValue('');
+									setSelectedValue({});
 
 									onCancel();
 								}}
@@ -187,9 +258,9 @@ const ListAppsPopover = ({
 							</ClayButton>
 
 							<ClayButton
-								disabled={!dropDownValue}
+								disabled={!customObjectId}
 								onClick={() => {
-									onContinue(dropDownValue);
+									onContinue(customObjectId);
 								}}
 								small
 							>

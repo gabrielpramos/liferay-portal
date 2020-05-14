@@ -22,7 +22,7 @@ import {errorToast, successToast} from '../../utils/toast.es';
 import FormViewContext from './FormViewContext.es';
 import saveFormView from './saveFormView.es';
 
-export default ({newCustomObject}) => {
+export default ({isAppsPortlet, newCustomObject}) => {
 	const [state, dispatch] = useContext(FormViewContext);
 	const {dataDefinitionId, dataLayout} = state;
 
@@ -31,13 +31,16 @@ export default ({newCustomObject}) => {
 	);
 
 	const {basePortletURL} = useContext(AppContext);
-	const listUrl = `${basePortletURL}/#/custom-object/${dataDefinitionId}/form-views`;
+	let listUrl = basePortletURL;
+
+	if (!isAppsPortlet) {
+		listUrl = `${basePortletURL}/#/custom-object/${dataDefinitionId}/form-views`;
+	}
 
 	const onCancel = () => {
 		if (newCustomObject) {
 			Liferay.Util.navigate(basePortletURL);
-		}
-		else {
+		} else {
 			Liferay.Util.navigate(listUrl);
 		}
 	};
