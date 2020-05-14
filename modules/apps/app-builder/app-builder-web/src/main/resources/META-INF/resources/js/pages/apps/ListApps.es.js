@@ -23,9 +23,9 @@ import useDeployApp from '../../hooks/useDeployApp.es';
 import isClickOutside from '../../utils/clickOutside.es';
 import {confirmDelete} from '../../utils/client.es';
 import {fromNow} from '../../utils/time.es';
+import {concatValues} from '../../utils/utils.es';
 import ListAppsPopover from './ListAppsPopover.es';
 import {DEPLOYMENT_ACTION, DEPLOYMENT_TYPES, STATUSES} from './constants.es';
-import {concatTypes} from './utils.es';
 
 export default ({
 	history,
@@ -232,7 +232,7 @@ export default ({
 							{STATUSES[item.active ? 'active' : 'inactive']}
 						</ClayLabel>
 					),
-					type: concatTypes(
+					type: concatValues(
 						item.appDeployments.map(
 							({type}) => DEPLOYMENT_TYPES[type]
 						)
