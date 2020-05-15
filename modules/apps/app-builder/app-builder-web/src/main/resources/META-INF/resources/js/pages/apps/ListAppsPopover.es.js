@@ -57,6 +57,8 @@ const ListAppsPopover = ({
 	const {basePortletURL} = useContext(AppContext);
 	const customObjectButtonRef = useRef();
 	const popoverRef = useRef();
+	const standardCardRef = useRef();
+	const workflowCardRef = useRef();
 	const [fetchStatuses, setFetchStatuses] = useState([]);
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
 	const [isStandardAppSelected, setStandardAppSelected] = useState(false);
@@ -69,8 +71,12 @@ const ListAppsPopover = ({
 	});
 	const {id: customObjectId, name: customObjectName} = selectedValue;
 
-	const onContinue = () => {
-		history.push(`/standard/deploy/${customObjectId}`);
+	const onContinue = (customObjectId) => {
+		const deployUrl = customObjectId
+			? `/standard/deploy/${customObjectId}`
+			: `/workflow/deploy`;
+
+		history.push(deployUrl);
 	};
 
 	const ENDPOINT_APP_BUILDER =
@@ -171,7 +177,9 @@ const ListAppsPopover = ({
 			const isOutside = isClickOutside(
 				target,
 				customObjectButtonRef.current,
-				popoverRef.current
+				popoverRef.current,
+				standardCardRef.current,
+				workflowCardRef.current
 			);
 
 			if (isOutside) {
@@ -198,6 +206,7 @@ const ListAppsPopover = ({
 									setStandardAppSelected(true);
 									setWorkflowAppSelected(false);
 								}}
+								ref={standardCardRef}
 								tabIndex="0"
 							>
 								<ClayCard className="icon-new-app-card">
@@ -225,6 +234,7 @@ const ListAppsPopover = ({
 									setWorkflowAppSelected(true);
 									setStandardAppSelected(false);
 								}}
+								ref={workflowCardRef}
 								tabIndex="0"
 							>
 								<ClayCard className="icon-new-app-card">
@@ -329,7 +339,10 @@ const ListAppsPopover = ({
 
 							<ClayButton
 								disabled={
-									!customObjectId || !isWorkflowAppSelected
+									(isStandardAppSelected &&
+										!customObjectId) ||
+									(!isWorkflowAppSelected &&
+										!isStandardAppSelected)
 								}
 								onClick={() => {
 									onContinue(customObjectId);

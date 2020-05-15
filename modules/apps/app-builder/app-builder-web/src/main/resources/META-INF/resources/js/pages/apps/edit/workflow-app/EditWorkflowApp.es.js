@@ -13,55 +13,96 @@
  */
 
 import Sidebar from 'data-engine-taglib';
-import React, {useContext, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 
-import {AppContext} from '../../../../AppContext.es';
-import {ControlMenuBase} from '../../../../components/control-menu/ControlMenu.es';
-import WorkflowAppUpperToolbar from './WorkflowAppUpperToolbar.es';
+import ControlMenu from '../../../../components/control-menu/ControlMenu.es';
+import {Loading} from '../../../../components/loading/Loading.es';
+import UpperToolbar from '../../../../components/upper-toolbar/UpperToolbar.es';
+import {getItem} from '../../../../utils/client.es';
+import DeployApp from '../DeployApp.es';
+import EditAppContext, {UPDATE_APP, reducer} from '../EditAppContext.es';
 
-const WorkflowAppControlMenu = ({backURL, dataLayoutId}) => {
+export default ({
+	match: {
+		params: {appId},
+	},
+}) => {
+	const [isDeployAppVisible, setDeployAppVisible] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+
+	const [state, dispatch] = useReducer(reducer, {
+		app: {
+			active: true,
+			appDeployments: [],
+			dataLayoutId: null,
+			dataListViewId: null,
+			name: {
+				en_US: '',
+			},
+		},
+	});
+
+	useEffect(() => {
+		if (appId) {
+			setLoading(true);
+
+			getItem(`/o/app-builder/v1.0/apps/${appId}`)
+				.then((app) => {
+					dispatch({
+						app,
+						type: UPDATE_APP,
+					});
+					setLoading(false);
+				})
+				.catch((_) => setLoading(false));
+		}
+	}, [appId]);
+
 	let title = Liferay.Language.get('new-workflow-powered-app');
 
-	if (dataLayoutId > 0) {
+	if (appId) {
 		title = Liferay.Language.get('edit-workflow-powered-app');
 	}
 
 	return (
-		<ControlMenuBase backURL={backURL} title={title} url={location.href} />
+		<div>
+			<ControlMenu backURL="../" title={title} />
+
+			<Loading isLoading={isLoading}>
+				<EditAppContext.Provider value={{dispatch, state}}>
+					<UpperToolbar>
+						<UpperToolbar.Input
+							placeholder={Liferay.Language.get(
+								'untitled-workflow-powered-app'
+							)}
+						/>
+						<UpperToolbar.Group>
+							<UpperToolbar.Button
+								displayType="secondary"
+								onClick={() => history.goBack()}
+							>
+								{Liferay.Language.get('cancel')}
+							</UpperToolbar.Button>
+
+							<UpperToolbar.Button
+								onClick={() => setDeployAppVisible(true)}
+							>
+								{Liferay.Language.get('deploy')}
+							</UpperToolbar.Button>
+						</UpperToolbar.Group>
+					</UpperToolbar>
+
+					<Sidebar>
+						<Sidebar.Header>
+							{Liferay.Language.get('configuration')}
+						</Sidebar.Header>
+
+						<Sidebar.Body></Sidebar.Body>
+					</Sidebar>
+
+					{isDeployAppVisible && <DeployApp />}
+				</EditAppContext.Provider>
+			</Loading>
+		</div>
 	);
-};
-
-const EditWorkflowApp = ({dataLayoutId}) => {
-	const {basePortletURL} = useContext(AppContext);
-
-	const backURL = `${basePortletURL}/#/apps`;
-
-	return (
-		<>
-			<WorkflowAppControlMenu
-				backURL={backURL}
-				dataLayoutId={dataLayoutId}
-			/>
-
-			<WorkflowAppUpperToolbar />
-
-			<Sidebar className="app-builder-sidebar main">
-				<Sidebar.Header></Sidebar.Header>
-
-				<Sidebar.Body></Sidebar.Body>
-			</Sidebar>
-		</>
-	);
-};
-
-export default ({dataLayoutBuilderId, ...props}) => {
-	const [dataLayoutBuilder, setDataLayoutBuilder] = useState();
-
-	if (!dataLayoutBuilder) {
-		Liferay.componentReady(dataLayoutBuilderId).then(setDataLayoutBuilder);
-	}
-
-	return dataLayoutBuilder ? (
-		<EditWorkflowApp dataLayoutBuilder={dataLayoutBuilder} {...props} />
-	) : null;
 };

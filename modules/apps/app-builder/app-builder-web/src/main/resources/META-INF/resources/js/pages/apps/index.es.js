@@ -36,7 +36,7 @@ export default (props) => {
 
 						<Route
 							component={EditWorkflowApp}
-							path="/workflow/deploy/:dataDefinitionId"
+							path="/workflow/deploy"
 						/>
 					</Switch>
 				</Router>
