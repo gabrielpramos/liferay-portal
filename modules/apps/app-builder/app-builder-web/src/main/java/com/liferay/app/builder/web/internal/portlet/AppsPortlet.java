@@ -15,11 +15,33 @@
 package com.liferay.app.builder.web.internal.portlet;
 
 import com.liferay.app.builder.constants.AppBuilderPortletKeys;
+import com.liferay.app.builder.portlet.tab.AppBuilderAppsPortletTab;
+import com.liferay.app.builder.web.internal.constants.AppBuilderWebKeys;
+import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+
+import java.io.IOException;
+
+import java.util.Map;
 
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Rafael Praxedes
@@ -41,4 +63,69 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class AppsPortlet extends MVCPortlet {
+
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		Map<String, Object> appsTabs = LinkedHashMapBuilder.<String, Object>put(
+			"standard",
+			HashMapBuilder.<String, Object>put(
+				"label",
+				LanguageUtil.get(
+					ResourceBundleUtil.getModuleAndPortalResourceBundle(
+						themeDisplay.getLocale(), getClass()),
+					"standard")
+			).put(
+				"pluginEntryPoint",
+				_npmResolver.resolveModuleName("app-builder-web/js/index.es")
+			).build()
+		).build();
+
+		for (String appBuilderAppsPortletTabName :
+				_appBuilderAppsPortletTabTrackerMap.keySet()) {
+
+			AppBuilderAppsPortletTab appBuilderAppsPortletTab =
+				_appBuilderAppsPortletTabTrackerMap.getService(
+					appBuilderAppsPortletTabName);
+
+			appsTabs.put(
+				appBuilderAppsPortletTabName,
+				HashMapBuilder.<String, Object>put(
+					"label",
+					appBuilderAppsPortletTab.getLabel(themeDisplay.getLocale())
+				).put(
+					"pluginEntryPoint",
+					appBuilderAppsPortletTab.getPluginEntryPoint()
+				).build());
+		}
+
+		renderRequest.setAttribute(AppBuilderWebKeys.APPS_TABS, appsTabs);
+
+		super.render(renderRequest, renderResponse);
+	}
+
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_appBuilderAppsPortletTabTrackerMap =
+			ServiceTrackerMapFactory.openSingleValueMap(
+				bundleContext, AppBuilderAppsPortletTab.class,
+				"app.builder.apps.tabs.name");
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_appBuilderAppsPortletTabTrackerMap.close();
+	}
+
+	private ServiceTrackerMap<String, AppBuilderAppsPortletTab>
+		_appBuilderAppsPortletTabTrackerMap;
+
+	@Reference
+	private NPMResolver _npmResolver;
+
 }
