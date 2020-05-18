@@ -1,0 +1,4 @@
+Bundle-Name: Liferay App Builder Workflow Web
+Bundle-SymbolicName: com.liferay.app.builder.workflow.web
+Bundle-Version: 1.0.0
+Web-ContextPath: /app-builder-workflow-web
