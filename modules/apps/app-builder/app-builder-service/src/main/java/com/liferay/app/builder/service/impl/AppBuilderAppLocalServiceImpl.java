@@ -54,7 +54,7 @@ public class AppBuilderAppLocalServiceImpl
 	public AppBuilderApp addAppBuilderApp(
 			long groupId, long companyId, long userId, boolean active,
 			long ddmStructureId, long ddmStructureLayoutId,
-			long deDataListViewId, Map<Locale, String> nameMap)
+			long deDataListViewId, Map<Locale, String> nameMap, String scope)
 		throws PortalException {
 
 		return addAppBuilderApp(
