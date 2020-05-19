@@ -57,12 +57,12 @@ public class AppBuilderAppLocalServiceWrapper
 			long groupId, long companyId, long userId, boolean active,
 			long ddmStructureId, long ddmStructureLayoutId,
 			long deDataListViewId,
-			java.util.Map<java.util.Locale, String> nameMap)
+			java.util.Map<java.util.Locale, String> nameMap, String scope)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _appBuilderAppLocalService.addAppBuilderApp(
 			groupId, companyId, userId, active, ddmStructureId,
-			ddmStructureLayoutId, deDataListViewId, nameMap);
+			ddmStructureLayoutId, deDataListViewId, nameMap, scope);
 	}
 
 	@Override
