@@ -30,11 +30,22 @@
 .apps-popover {
 	padding-left: 1rem;
 	padding-right: 1rem;
-	padding-top: 1rem;
+}
+
+.app-type-card {
+	border-color: #ffffff;
+	padding: 0.5rem;
+	width: 13rem;
 }
 
 body.open .app-builder-upper-toolbar {
 	width: calc(100% - #{$productMenuWidth});
+}
+
+.custom-object-dropdown {
+	margin-bottom: 2rem;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
 }
 
 .custom-object-dropdown-list {
@@ -94,6 +105,12 @@ body.open .app-builder-upper-toolbar {
 
 .icon {
 	margin-top: 0.325rem;
+}
+
+.icon-new-app-card {
+	background: #f7f8f9;
+	padding-bottom: 2rem;
+	padding-top: 2rem;
 }
 
 .loading-state-dropdown-menu {
@@ -160,8 +177,17 @@ body.open .app-builder-upper-toolbar {
 	}
 }
 
+.new-app-content {
+	display: flex;
+}
+
 .popover {
 	z-index: 999;
+}
+
+.popover-body {
+	padding-bottom: 0px;
+	padding-top: 0px;
 }
 
 .remove-object-field-message {
@@ -195,8 +221,33 @@ body.open .app-builder-upper-toolbar {
 	box-shadow: none;
 }
 
+.select-dropdown-menu {
+	max-width: 418px;
+	width: 100%;
+}
+
 .taglib-empty-result-message-description {
 	&.empty-message-color {
 		color: #6b6c7e;
+	}
+}
+
+.workflow-app-upper-toolbar {
+	width: 100% !important;
+}
+
+.workflow-app-sidebar {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	margin-top: 0;
+	position: fixed;
+	right: 0;
+	width: 20rem;
+
+	.sidebar-header {
+		align-items: center;
+		display: flex;
+		width: 20rem;
 	}
 }

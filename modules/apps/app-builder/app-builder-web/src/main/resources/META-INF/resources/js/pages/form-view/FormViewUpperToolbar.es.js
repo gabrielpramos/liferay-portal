@@ -24,7 +24,6 @@ import saveFormView from './saveFormView.es';
 
 export default ({isAppsPortlet, newCustomObject}) => {
 	const defaultLanguageId = Liferay.ThemeDisplay.getDefaultLanguageId();
-
 	const [state, dispatch] = useContext(FormViewContext);
 	const {dataDefinitionId, dataLayout} = state;
 
@@ -71,8 +70,7 @@ export default ({isAppsPortlet, newCustomObject}) => {
 	const onCancel = () => {
 		if (newCustomObject) {
 			Liferay.Util.navigate(basePortletURL);
-		}
-		else {
+		} else {
 			Liferay.Util.navigate(listUrl);
 		}
 	};
