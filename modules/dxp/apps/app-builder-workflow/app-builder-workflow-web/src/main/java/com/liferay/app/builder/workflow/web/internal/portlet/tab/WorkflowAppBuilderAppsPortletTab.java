@@ -48,6 +48,13 @@ public class WorkflowAppBuilderAppsPortletTab
 			"app-builder-workflow-web/js/index.es");
 	}
 
+	@Override
+	public String getScope() {
+		return _WORKFLOW_APP_SCOPE;
+	}
+
+	private static final String _WORKFLOW_APP_SCOPE = "workflowAppScope";
+
 	@Reference
 	private Language _language;
 

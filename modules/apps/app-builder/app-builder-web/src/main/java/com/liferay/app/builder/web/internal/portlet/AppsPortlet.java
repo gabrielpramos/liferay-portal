@@ -14,6 +14,7 @@
 
 package com.liferay.app.builder.web.internal.portlet;
 
+import com.liferay.app.builder.constants.AppBuilderAppConstants;
 import com.liferay.app.builder.constants.AppBuilderPortletKeys;
 import com.liferay.app.builder.portlet.tab.AppBuilderAppsPortletTab;
 import com.liferay.app.builder.web.internal.constants.AppBuilderWebKeys;
@@ -83,6 +84,8 @@ public class AppsPortlet extends MVCPortlet {
 			).put(
 				"pluginEntryPoint",
 				_npmResolver.resolveModuleName("app-builder-web/js/index.es")
+			).put(
+				"scope", AppBuilderAppConstants.STANDARD_APP_SCOPE
 			).build()
 		).build();
 
@@ -101,6 +104,8 @@ public class AppsPortlet extends MVCPortlet {
 				).put(
 					"pluginEntryPoint",
 					appBuilderAppsPortletTab.getPluginEntryPoint()
+				).put(
+					"scope", appBuilderAppsPortletTab.getScope()
 				).build());
 		}
 
