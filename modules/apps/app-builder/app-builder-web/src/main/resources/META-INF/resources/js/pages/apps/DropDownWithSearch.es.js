@@ -13,7 +13,13 @@
  */
 
 import ClayDropDown, {Align} from '@clayui/drop-down';
-import React, {createContext, useContext, useState} from 'react';
+import React, {
+	cloneElement,
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 
 export const DropDownContext = createContext();
 
@@ -29,26 +35,46 @@ const DropDownWithSearch = ({
 }) => {
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
+	const [triggerElement, setTriggerElement] = useState(trigger);
+	const [dropDownWidth, setDropDownWidth] = useState('200px');
 
 	const handleOnselect = (event, selectedValue) => {
 		setActive(false);
 		onSelect(event, selectedValue);
 	};
 
+	useEffect(() => {
+		setTriggerElement(
+			cloneElement(trigger, {
+				ref: (element) => {
+					if (element) {
+						setDropDownWidth(`${element.offsetWidth}px`);
+
+						if (typeof trigger.ref === 'function') {
+							trigger.ref(element);
+						}
+					}
+
+					return trigger.ref;
+				},
+			})
+		);
+	}, [trigger]);
+
 	return (
 		<DropDownContext.Provider value={{query, setQuery}}>
 			<ClayDropDown
 				{...restProps}
 				active={active}
-				alignmentPosition={Align.BottomLeft}
+				alignmentPosition={Align.BottomCenter}
 				menuElementAttrs={{
-					className: 'select-dropdown-menu',
 					onClick: (event) => {
 						event.stopPropagation();
 					},
+					style: {maxWidth: dropDownWidth, width: '100%'},
 				}}
 				onActiveChange={setActive}
-				trigger={trigger}
+				trigger={triggerElement}
 			>
 				{<Search />}
 

@@ -22,9 +22,11 @@ import ControlMenu from '../../../../components/control-menu/ControlMenu.es';
 import {Loading} from '../../../../components/loading/Loading.es';
 import UpperToolbar from '../../../../components/upper-toolbar/UpperToolbar.es';
 import {getItem} from '../../../../utils/client.es';
+import SelectObjects from '../../SelectObjectsDropDown.es';
 import DeployApp from '../DeployApp.es';
 import EditAppContext, {UPDATE_APP, reducer} from '../EditAppContext.es';
-import DataObjectDropdown from './DataObjectDropdown.es';
+import SelectFormView from './SelectFormViewDropdown.es';
+import SelectTableView from './SelectTableViewDropdown.es';
 
 export default withRouter(
 	({
@@ -36,6 +38,11 @@ export default withRouter(
 		const [isDataViewsOpen, setDataViewsOpen] = useState(false);
 		const [isDeployAppVisible, setDeployAppVisible] = useState(false);
 		const [isLoading, setLoading] = useState(false);
+		const [selectedValue, setSelectedValue] = useState({
+			id: undefined,
+			name: undefined,
+		});
+		const {id: customObjectId, name: customObjectName} = selectedValue;
 
 		const [state, dispatch] = useReducer(reducer, {
 			app: {
@@ -121,11 +128,11 @@ export default withRouter(
 											/>
 										</ClayButton>
 
-										<h4 className="mt-1">
+										<h3 className="mt-1">
 											{Liferay.Language.get(
 												'data-and-views'
 											)}
-										</h4>
+										</h3>
 									</div>
 								)}
 							</Sidebar.Header>
@@ -149,7 +156,77 @@ export default withRouter(
 										/>
 									</ClayButton>
 								) : (
-									<DataObjectDropdown />
+									<>
+										<div className="border-bottom pb-3">
+											<label>
+												{Liferay.Language.get(
+													'main-data-object'
+												)}
+											</label>
+
+											<SelectObjects
+												label={Liferay.Language.get(
+													'select-data-object'
+												)}
+												onSelect={setSelectedValue}
+												selectedValue={customObjectName}
+											/>
+										</div>
+
+										{customObjectName && (
+											<div>
+												<h5 className="mt-3 text-secondary text-uppercase">
+													{Liferay.Language.get(
+														'gather-data'
+													)}
+												</h5>
+
+												<label>
+													{Liferay.Language.get(
+														'form-view'
+													)}
+												</label>
+
+												<SelectFormView
+													customObjectId={
+														customObjectId
+													}
+													label={Liferay.Language.get(
+														'select-form-view'
+													)}
+													onSelect={setSelectedValue}
+													selectedValue={
+														customObjectName
+													}
+												/>
+
+												<h5 className="mt-5 text-secondary text-uppercase">
+													{Liferay.Language.get(
+														'display-data'
+													)}
+												</h5>
+
+												<label>
+													{Liferay.Language.get(
+														'table-view'
+													)}
+												</label>
+
+												<SelectTableView
+													customObjectId={
+														customObjectId
+													}
+													label={Liferay.Language.get(
+														'select-table-view'
+													)}
+													onSelect={setSelectedValue}
+													selectedValue={
+														customObjectName
+													}
+												/>
+											</div>
+										)}
+									</>
 								)}
 							</Sidebar.Body>
 						</Sidebar>

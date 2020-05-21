@@ -22,7 +22,7 @@ import {addItem, request} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
 import DropDownWithSearch from './DropDownWithSearch.es';
 
-export default ({onSelect, selectedvalue}) => {
+export default ({label, onSelect, selectedvalue}) => {
 	const {basePortletURL} = useContext(AppContext);
 	const [fetchState, setFetchState] = useState({isLoading: true});
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
@@ -159,7 +159,7 @@ export default ({onSelect, selectedvalue}) => {
 			<DropDownWithSearch
 				{...fetchState}
 				items={items}
-				label={Liferay.Language.get('select-object')}
+				label={label}
 				onSelect={handleOnSelect}
 				stateProps={stateProps}
 				trigger={
@@ -171,8 +171,7 @@ export default ({onSelect, selectedvalue}) => {
 						}}
 					>
 						<span className="float-left">
-							{selectedvalue ||
-								Liferay.Language.get('select-object')}
+							{selectedvalue || label}
 						</span>
 
 						<ClayIcon

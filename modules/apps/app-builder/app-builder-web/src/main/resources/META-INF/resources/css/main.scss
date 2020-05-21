@@ -30,6 +30,7 @@
 .apps-popover {
 	padding-left: 1rem;
 	padding-right: 1rem;
+	padding-top: 1rem;
 }
 
 .app-type-card {
@@ -206,30 +207,20 @@ body.open .app-builder-upper-toolbar {
 	}
 }
 
-.select-dropdown-menu {
-	max-height: 200px;
-	max-width: 418px;
-	width: 100%;
-
-	ul > li > button {
-		height: 40px;
-	}
-}
-
 .shadowless-card {
 	border: 1px solid #e7e7ed;
 	box-shadow: none;
-}
-
-.select-dropdown-menu {
-	max-width: 418px;
-	width: 100%;
 }
 
 .taglib-empty-result-message-description {
 	&.empty-message-color {
 		color: #6b6c7e;
 	}
+}
+
+.uppercase-title {
+	color: #6b6c7e;
+	text-transform: uppercase;
 }
 
 .workflow-app-upper-toolbar {
