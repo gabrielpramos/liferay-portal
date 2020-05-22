@@ -56,10 +56,8 @@ public class WorkflowAppBuilderAppsPortletTab
 
 	@Override
 	public String getScope() {
-		return _WORKFLOW_APP_SCOPE;
+		return "workflowAppScope";
 	}
-
-	private static final String _WORKFLOW_APP_SCOPE = "workflowAppScope";
 
 	@Reference
 	private Language _language;
