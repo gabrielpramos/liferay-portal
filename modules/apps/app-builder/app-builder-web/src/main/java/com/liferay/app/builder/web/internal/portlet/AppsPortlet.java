@@ -105,8 +105,8 @@ public class AppsPortlet extends MVCPortlet {
 					"label",
 					appBuilderAppsPortletTab.getLabel(themeDisplay.getLocale())
 				).put(
-					"pluginEntryPoint",
-					appBuilderAppsPortletTab.getPluginEntryPoint()
+					"listEntryPoint",
+					appBuilderAppsPortletTab.getListEntryPoint()
 				).put(
 					"scope", appBuilderAppsPortletTab.getScope()
 				).build());

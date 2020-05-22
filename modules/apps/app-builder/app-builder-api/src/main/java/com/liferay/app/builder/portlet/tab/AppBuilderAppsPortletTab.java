@@ -25,7 +25,7 @@ public interface AppBuilderAppsPortletTab {
 
 	public String getLabel(Locale locale);
 
-	public String getPluginEntryPoint();
+	public String getListEntryPoint();
 
 	public String getScope();
 
