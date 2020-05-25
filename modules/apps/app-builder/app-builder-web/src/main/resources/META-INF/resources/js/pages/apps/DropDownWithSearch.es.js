@@ -13,6 +13,7 @@
  */
 
 import ClayDropDown, {Align} from '@clayui/drop-down';
+import ClayLabel from '@clayui/label';
 import React, {
 	cloneElement,
 	createContext,
@@ -25,10 +26,12 @@ export const DropDownContext = createContext();
 
 const DropDownWithSearch = ({
 	hasError,
+	dropDownWidth,
 	items = [],
 	isLoading,
 	namePropertyKey = 'name',
 	onSelect,
+	setDropDownWidth,
 	stateProps: {emptyProps, errorProps, loadingProps},
 	trigger,
 	...restProps
@@ -36,29 +39,32 @@ const DropDownWithSearch = ({
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
 	const [triggerElement, setTriggerElement] = useState(trigger);
-	const [dropDownWidth, setDropDownWidth] = useState('200px');
 
-	const handleOnselect = (event, selectedValue) => {
+	const handleOnSelect = (event, selectedValue) => {
 		setActive(false);
 		onSelect(event, selectedValue);
 	};
 
 	useEffect(() => {
-		setTriggerElement(
-			cloneElement(trigger, {
-				ref: (element) => {
-					if (element) {
-						setDropDownWidth(`${element.offsetWidth}px`);
+		if (dropDownWidth) {
+			setTriggerElement(
+				cloneElement(trigger, {
+					ref: (element) => {
+						if (element) {
+							setDropDownWidth(`${element.offsetWidth}px`);
 
-						if (typeof trigger.ref === 'function') {
-							trigger.ref(element);
+							if (typeof trigger.ref === 'function') {
+								trigger.ref(element);
+							}
 						}
-					}
 
-					return trigger.ref;
-				},
-			})
-		);
+						return trigger.ref;
+					},
+				})
+			);
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [trigger]);
 
 	return (
@@ -97,7 +103,7 @@ const DropDownWithSearch = ({
 				<Items
 					items={items}
 					namePropertyKey={namePropertyKey}
-					onSelect={handleOnselect}
+					onSelect={handleOnSelect}
 					query={query}
 				/>
 			</ClayDropDown>
@@ -144,6 +150,8 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 						{...otherProps}
 					>
 						{name}
+
+						<ClayLabel className="float-right" displayType="success">Custom</ClayLabel>
 					</ClayDropDown.Item>
 				))}
 		</ClayDropDown.ItemList>
@@ -163,6 +171,7 @@ const Search = () => {
 
 	return (
 		<ClayDropDown.Search
+			className="mb-2"
 			formProps={{onSubmit: (e) => e.preventDefault()}}
 			onChange={(event) => setQuery(event.target.value)}
 			placeholder={Liferay.Language.get('search')}

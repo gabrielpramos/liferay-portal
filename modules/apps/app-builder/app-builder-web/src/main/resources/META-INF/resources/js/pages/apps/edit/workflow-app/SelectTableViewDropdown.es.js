@@ -19,7 +19,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {request} from '../../../../utils/client.es';
 import DropDownWithSearch from '../../DropDownWithSearch.es';
 
-export default ({customObjectId, label, onSelect, selectedvalue}) => {
+export default ({customObjectId, label, onSelect, selectedValue}) => {
+	const [dropDownWidth, setDropDownWidth] = useState('200px');
 	const [fetchState, setFetchState] = useState({isLoading: true});
 	const [items, setItems] = useState([]);
 
@@ -84,10 +85,12 @@ export default ({customObjectId, label, onSelect, selectedvalue}) => {
 	return (
 		<>
 			<DropDownWithSearch
+				dropDownWidth={dropDownWidth}
 				{...fetchState}
 				items={items}
 				label={label}
 				onSelect={handleOnSelect}
+				setDropDownWidth={setDropDownWidth}
 				stateProps={stateProps}
 				trigger={
 					<ClayButton
@@ -98,7 +101,7 @@ export default ({customObjectId, label, onSelect, selectedvalue}) => {
 						}}
 					>
 						<span className="float-left">
-							{selectedvalue || label}
+							{selectedValue || label}
 						</span>
 
 						<ClayIcon

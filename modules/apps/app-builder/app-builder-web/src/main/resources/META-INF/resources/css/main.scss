@@ -82,6 +82,10 @@ body.open .app-builder-upper-toolbar {
 	box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.3);
 }
 
+.dropdown-section {
+	padding: 0 0.5rem;
+}
+
 .empty-state-dropdown-menu {
 	padding-bottom: 1.3rem;
 	padding-top: 1.3rem;
@@ -183,6 +187,7 @@ body.open .app-builder-upper-toolbar {
 }
 
 .popover {
+	max-width: 27rem;
 	z-index: 999;
 }
 
@@ -218,9 +223,8 @@ body.open .app-builder-upper-toolbar {
 	}
 }
 
-.uppercase-title {
-	color: #6b6c7e;
-	text-transform: uppercase;
+.tooltip-icon:hover {
+	fill: #6b6c7e;
 }
 
 .workflow-app-upper-toolbar {

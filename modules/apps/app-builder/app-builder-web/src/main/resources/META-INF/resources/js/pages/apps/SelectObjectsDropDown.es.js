@@ -22,8 +22,9 @@ import {addItem, request} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
 import DropDownWithSearch from './DropDownWithSearch.es';
 
-export default ({label, onSelect, selectedvalue}) => {
+export default ({label, onSelect, selectedValue}) => {
 	const {basePortletURL} = useContext(AppContext);
+	const [dropDownWidth, setDropDownWidth] = useState('200px');
 	const [fetchState, setFetchState] = useState({isLoading: true});
 	const [isPopoverVisible, setPopoverVisible] = useState(false);
 	const [items, setItems] = useState([]);
@@ -115,6 +116,7 @@ export default ({label, onSelect, selectedvalue}) => {
 					className="emptyButton"
 					displayType="secondary"
 					onClick={emptyStateOnClick}
+					small
 				>
 					{Liferay.Language.get('new-custom-object')}
 				</ClayButton>
@@ -157,10 +159,12 @@ export default ({label, onSelect, selectedvalue}) => {
 	return (
 		<>
 			<DropDownWithSearch
+				dropDownWidth={dropDownWidth}
 				{...fetchState}
 				items={items}
 				label={label}
 				onSelect={handleOnSelect}
+				setDropDownWidth={setDropDownWidth}
 				stateProps={stateProps}
 				trigger={
 					<ClayButton
@@ -171,7 +175,7 @@ export default ({label, onSelect, selectedvalue}) => {
 						}}
 					>
 						<span className="float-left">
-							{selectedvalue || label}
+							{selectedValue || label}
 						</span>
 
 						<ClayIcon
@@ -184,6 +188,7 @@ export default ({label, onSelect, selectedvalue}) => {
 
 			<CustomObjectPopover
 				alignElement={selectRef.current}
+				dropDownWidth={dropDownWidth}
 				onCancel={() => {
 					setPopoverVisible(false);
 				}}

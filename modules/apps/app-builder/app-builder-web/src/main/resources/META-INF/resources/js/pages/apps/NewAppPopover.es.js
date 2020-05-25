@@ -45,7 +45,7 @@ const NewAppPopover = (
 							alignElement={alignElement}
 							label={Liferay.Language.get('select-object')}
 							onSelect={setSelectedValue}
-							selectedvalue={customObjectName}
+							selectedValue={customObjectName}
 						/>
 					</>
 				)}

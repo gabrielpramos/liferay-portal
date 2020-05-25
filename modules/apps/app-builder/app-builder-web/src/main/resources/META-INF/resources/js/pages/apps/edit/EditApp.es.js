@@ -79,7 +79,7 @@ export default ({
 
 	return (
 		<>
-			<ControlMenu backURL="../" title={title} />
+			<ControlMenu backURL="../../" title={title} />
 
 			<Loading isLoading={isLoading}>
 				<EditAppContext.Provider value={{dispatch, state}}>
