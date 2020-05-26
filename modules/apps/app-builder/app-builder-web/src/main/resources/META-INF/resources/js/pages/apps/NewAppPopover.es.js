@@ -13,23 +13,22 @@
  */
 
 import ClayButton from '@clayui/button';
+import {compile} from 'path-to-regexp';
 import React, {useState} from 'react';
 
 import Popover from '../../components/popover/Popover.es';
 import SelectObjects from './SelectObjectsDropDown.es';
 
 const NewAppPopover = (
-	{alignElement, history, onCancel, visible},
+	{alignElement, editPath, history, onCancel, visible},
 	forwardRef
 ) => {
-	const [selectedValue, setSelectedValue] = useState({
-		id: undefined,
-		name: undefined,
-	});
-	const {id: customObjectId, name: customObjectName} = selectedValue;
+	const [selectedObject, setSelectedObject] = useState({});
 
-	const onClick = (customObjectId) => {
-		history.push(`/standard/deploy/${customObjectId}`);
+	const onContinue = () => {
+		history.push(
+			compile(editPath[0])({dataDefinitionId: selectedObject.id})
+		);
 	};
 
 	return (
@@ -43,8 +42,8 @@ const NewAppPopover = (
 
 						<SelectObjects
 							alignElement={alignElement}
-							onSelect={setSelectedValue}
-							selectedvalue={customObjectName}
+							onSelect={setSelectedObject}
+							selectedValue={selectedObject.name}
 						/>
 					</>
 				)}
@@ -55,8 +54,7 @@ const NewAppPopover = (
 								className="mr-3"
 								displayType="secondary"
 								onClick={() => {
-									setSelectedValue({});
-
+									setSelectedObject({});
 									onCancel();
 								}}
 								small
@@ -65,10 +63,8 @@ const NewAppPopover = (
 							</ClayButton>
 
 							<ClayButton
-								disabled={!customObjectId}
-								onClick={() => {
-									onClick(customObjectId);
-								}}
+								disabled={!selectedObject.id}
+								onClick={onContinue}
 								small
 							>
 								{Liferay.Language.get('continue')}
