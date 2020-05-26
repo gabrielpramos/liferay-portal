@@ -1,7 +1,9 @@
 {
 	"dependencies": {
+		"@clayui/popover": "3.4.0",
 		"frontend-js-react-web": "*",
-		"frontend-js-web": "*"
+		"frontend-js-web": "*",
+		"path-to-regexp": "3.0.0"
 	},
 	"description": "",
 	"jest": {
@@ -20,6 +22,7 @@
 	"private": true,
 	"scripts": {
 		"build": "liferay-npm-scripts build",
+		"test": "liferay-npm-scripts test",
 		"checkFormat": "liferay-npm-scripts check",
 		"format": "liferay-npm-scripts fix"
 	},

@@ -17,7 +17,7 @@ import {cleanup, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
 import EmptyState from '../../../../src/main/resources/META-INF/resources/js/components/table/EmptyState.es';
-import DropDownWithSearch from '../../../../src/main/resources/META-INF/resources/js/pages/apps/DropDownWithSearch.es';
+import DropDownWithSearch from '../../../../src/main/resources/META-INF/resources/js/pages/standard-apps/DropDownWithSearch.es';
 
 const ITEMS = (size) => {
 	const items = [];

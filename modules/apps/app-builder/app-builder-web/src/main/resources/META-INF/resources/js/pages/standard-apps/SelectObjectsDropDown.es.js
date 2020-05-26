@@ -185,6 +185,7 @@ export default ({onSelect, selectedValue}) => {
 
 			<CustomObjectPopover
 				alignElement={selectRef.current}
+				className="custom-object-popover"
 				onCancel={() => {
 					setPopoverVisible(false);
 				}}

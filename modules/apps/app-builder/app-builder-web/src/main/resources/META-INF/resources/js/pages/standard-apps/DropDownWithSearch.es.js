@@ -108,7 +108,7 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 	return (
 		<ClayDropDown.ItemList>
 			{itemList.length > 0 ? (
-				itemList.map(({id, name, ...otherProps}, index) => (
+				itemList.map(({id, name}, index) => (
 					<ClayDropDown.Item
 						key={index}
 						onClick={(event) =>
@@ -117,7 +117,6 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 								name,
 							})
 						}
-						{...otherProps}
 					>
 						{name}
 					</ClayDropDown.Item>

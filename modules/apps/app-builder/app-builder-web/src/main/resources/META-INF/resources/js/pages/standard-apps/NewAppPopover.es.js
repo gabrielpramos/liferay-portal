@@ -13,13 +13,14 @@
  */
 
 import ClayButton from '@clayui/button';
+import {compile} from 'path-to-regexp';
 import React, {useState} from 'react';
 
 import Popover from '../../components/popover/Popover.es';
 import SelectObjects from './SelectObjectsDropDown.es';
 
 const NewAppPopover = (
-	{alignElement, history, onCancel, visible},
+	{alignElement, editPath, history, onCancel, visible},
 	forwardRef
 ) => {
 	const [selectedValue, setSelectedValue] = useState({
@@ -28,8 +29,8 @@ const NewAppPopover = (
 	});
 	const {id: customObjectId, name: customObjectName} = selectedValue;
 
-	const onClick = (customObjectId) => {
-		history.push(`/standard/deploy/${customObjectId}`);
+	const onClick = (dataDefinitionId) => {
+		history.push(compile(editPath)({dataDefinitionId}));
 	};
 
 	return (
@@ -44,7 +45,7 @@ const NewAppPopover = (
 						<SelectObjects
 							alignElement={alignElement}
 							onSelect={setSelectedValue}
-							selectedvalue={customObjectName}
+							selectedValue={customObjectName}
 						/>
 					</>
 				)}
