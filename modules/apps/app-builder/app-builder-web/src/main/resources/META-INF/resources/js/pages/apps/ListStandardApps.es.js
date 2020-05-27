@@ -83,9 +83,9 @@ export default ({scope, ...restProps}) => {
 			</Button>
 		),
 		description: Liferay.Language.get(
-			'standard-are-apps-to-managed-the-data-of-an-object'
+			'create-a-standard-app-to-collect-and-manage-an-objects-data'
 		),
-		title: Liferay.Language.get('no-standard-apps-yet'),
+		title: Liferay.Language.get('there-are-no-objects-yet'),
 	};
 
 	const filters = [
