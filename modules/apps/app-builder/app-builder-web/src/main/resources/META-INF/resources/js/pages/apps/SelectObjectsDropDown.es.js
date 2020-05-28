@@ -160,7 +160,6 @@ export default ({onSelect, selectedValue}) => {
 				{...state}
 				items={items}
 				label={Liferay.Language.get('select-object')}
-				onSelect={handleOnSelect}
 				stateProps={stateProps}
 				trigger={
 					<ClayButton
@@ -181,7 +180,14 @@ export default ({onSelect, selectedValue}) => {
 						/>
 					</ClayButton>
 				}
-			/>
+			>
+				<DropDownWithSearch.Items
+					emptyResultMessage={Liferay.Language.get(
+						'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
+					)}
+					onSelect={handleOnSelect}
+				/>
+			</DropDownWithSearch>
 
 			<CustomObjectPopover
 				alignElement={selectRef.current}

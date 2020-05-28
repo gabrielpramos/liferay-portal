@@ -18,11 +18,10 @@ import React, {createContext, useContext, useState} from 'react';
 export const DropDownContext = createContext();
 
 const DropDownWithSearch = ({
+	children,
 	error,
 	items = [],
 	isLoading,
-	namePropertyKey = 'name',
-	onSelect,
 	stateProps: {emptyProps, errorProps, loadingProps},
 	trigger,
 	...restProps
@@ -30,13 +29,8 @@ const DropDownWithSearch = ({
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
 
-	const handleOnselect = (event, selectedValue) => {
-		setActive(false);
-		onSelect(event, selectedValue);
-	};
-
 	return (
-		<DropDownContext.Provider value={{query, setQuery}}>
+		<DropDownContext.Provider value={{items, query, setActive, setQuery}}>
 			<ClayDropDown
 				{...restProps}
 				active={active}
@@ -68,12 +62,7 @@ const DropDownWithSearch = ({
 					/>
 				)}
 
-				<Items
-					items={items}
-					namePropertyKey={namePropertyKey}
-					onSelect={handleOnselect}
-					query={query}
-				/>
+				{children}
 			</ClayDropDown>
 		</DropDownContext.Provider>
 	);
@@ -89,7 +78,8 @@ const EmptyState = ({children, className, label}) => {
 	);
 };
 
-const Items = ({items, namePropertyKey, onSelect, query}) => {
+const Items = ({emptyResultMessage, namePropertyKey = 'name', onSelect}) => {
+	const {items, query, setActive} = useContext(DropDownContext);
 	const treatedQuery = query.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 
 	const getTranslatedName = ({
@@ -102,8 +92,15 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 	};
 
 	const itemList = items
-		.filter((item) => getTranslatedName(item).match(treatedQuery))
+		.filter((item) =>
+			getTranslatedName(item).toLowerCase().match(treatedQuery)
+		)
 		.map((item) => ({...item, name: getTranslatedName(item)}));
+
+	const handleOnselect = (event, selectedValue) => {
+		setActive(false);
+		onSelect(event, selectedValue);
+	};
 
 	return (
 		<ClayDropDown.ItemList>
@@ -112,7 +109,7 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 					<ClayDropDown.Item
 						key={index}
 						onClick={(event) =>
-							onSelect(event, {
+							handleOnselect(event, {
 								id,
 								name,
 							})
@@ -125,9 +122,7 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 			) : (
 				<ClayDropDown.Item>
 					<span className="font-weight-light text-secondary">
-						{Liferay.Language.get(
-							'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
-						)}
+						{emptyResultMessage}
 					</span>
 				</ClayDropDown.Item>
 			)}
@@ -144,10 +139,11 @@ const LoadingState = ({label}) => (
 );
 
 const Search = () => {
-	const {query, setQuery} = useContext(DropDownContext);
+	const {items, query, setQuery} = useContext(DropDownContext);
 
 	return (
 		<ClayDropDown.Search
+			disabled={items.length === 0}
 			formProps={{onSubmit: (e) => e.preventDefault()}}
 			onChange={(event) => setQuery(event.target.value)}
 			placeholder={Liferay.Language.get('search')}
@@ -156,6 +152,6 @@ const Search = () => {
 	);
 };
 
-export default (props) => {
-	return <DropDownWithSearch {...props} />;
-};
+DropDownWithSearch.Items = Items;
+
+export default DropDownWithSearch;
