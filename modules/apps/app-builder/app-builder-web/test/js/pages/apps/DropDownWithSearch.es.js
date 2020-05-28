@@ -14,10 +14,12 @@
 
 import ClayButton from '@clayui/button';
 import {cleanup, fireEvent, render} from '@testing-library/react';
-import React from 'react';
+import React, {useState} from 'react';
 
 import EmptyState from '../../../../src/main/resources/META-INF/resources/js/components/table/EmptyState.es';
 import DropDownWithSearch from '../../../../src/main/resources/META-INF/resources/js/pages/apps/DropDownWithSearch.es';
+
+import '@testing-library/jest-dom/extend-expect';
 
 const ITEMS = (size) => {
 	const items = [];
@@ -28,40 +30,52 @@ const ITEMS = (size) => {
 
 	return items;
 };
-const onSelect = jest.fn();
 const doFetch = jest.fn();
 
+let onSelect = jest.fn();
+
+const DropDownContainer = () => {
+	const [buttonName, setButtonName] = useState('Button');
+
+	onSelect = jest.fn((event, newName) => {
+		setButtonName(newName.name);
+	});
+
+	return (
+		<DropDownWithSearch
+			items={ITEMS(10)}
+			onSelect={onSelect}
+			stateProps={{
+				emptyProps: {
+					emptyState: () => <EmptyState />,
+				},
+				errorProps: {
+					children: (
+						<ClayButton displayType="link" onClick={doFetch}>
+							{Liferay.Language.get('retry')}
+						</ClayButton>
+					),
+					label: Liferay.Language.get(
+						'unable-to-retrieve-the-objects'
+					),
+				},
+				loading: {
+					label: Liferay.Language.get('retrieving-all-objects'),
+				},
+			}}
+			trigger={<ClayButton>{buttonName}</ClayButton>}
+		/>
+	);
+};
+
 describe('DropDownWithSearch', () => {
-	let asFragment, getByPlaceholderText, getByText;
+	let asFragment, container, getByPlaceholderText, getByText;
 
 	beforeAll(() => {
-		const component = render(
-			<DropDownWithSearch
-				items={ITEMS(10)}
-				onSelect={onSelect}
-				stateProps={{
-					emptyProps: {
-						emptyState: () => <EmptyState />,
-					},
-					errorProps: {
-						children: (
-							<ClayButton displayType="link" onClick={doFetch}>
-								{Liferay.Language.get('retry')}
-							</ClayButton>
-						),
-						label: Liferay.Language.get(
-							'unable-to-retrieve-the-objects'
-						),
-					},
-					loading: {
-						label: Liferay.Language.get('retrieving-all-objects'),
-					},
-				}}
-				trigger={<ClayButton>Button</ClayButton>}
-			/>
-		);
+		const component = render(<DropDownContainer />);
 
 		asFragment = component.asFragment;
+		container = component.container;
 		getByPlaceholderText = component.getByPlaceholderText;
 		getByText = component.getByText;
 	});
@@ -80,15 +94,17 @@ describe('DropDownWithSearch', () => {
 		expect(dropDownMenu.children[1].children.length).toEqual(10);
 	});
 
-	it('selects a option and triggers onSelect after clicking in it', () => {
+	it('selects an option and triggers onSelect after clicking in it', () => {
 		const search = getByPlaceholderText('search');
 		const dropDownMenu = document.querySelector('.select-dropdown-menu');
+
+		expect(container.children[0].children[0]).toHaveTextContent('Button');
 
 		fireEvent.change(search, {target: {value: 'object 9'}});
 
 		fireEvent.click(dropDownMenu.children[1].children[0].children[0]);
 
-		expect(onSelect).toHaveBeenCalled();
+		expect(container.children[0].children[0]).toHaveTextContent('object 9');
 	});
 
 	it('shows loading state while fetching data', () => {
