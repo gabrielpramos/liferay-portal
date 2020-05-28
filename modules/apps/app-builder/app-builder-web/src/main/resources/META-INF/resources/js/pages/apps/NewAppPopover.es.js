@@ -44,7 +44,7 @@ const NewAppPopover = (
 						<SelectObjects
 							alignElement={alignElement}
 							onSelect={setSelectedValue}
-							selectedvalue={customObjectName}
+							selectedValue={customObjectName}
 						/>
 					</>
 				)}
