@@ -107,30 +107,30 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 
 	return (
 		<ClayDropDown.ItemList>
-			{itemList.length > 0 ? (
-				itemList.map(({id, name, ...otherProps}, index) => (
-					<ClayDropDown.Item
-						key={index}
-						onClick={(event) =>
-							onSelect(event, {
-								id,
-								name,
-							})
-						}
-						{...otherProps}
-					>
-						{name}
-					</ClayDropDown.Item>
-				))
-			) : (
-				<ClayDropDown.Item>
-					<span className="font-weight-light text-secondary">
-						{Liferay.Language.get(
-							'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
-						)}
-					</span>
-				</ClayDropDown.Item>
-			)}
+			{itemList.length > 0
+				? itemList.map(({id, name, ...otherProps}, index) => (
+						<ClayDropDown.Item
+							key={index}
+							onClick={(event) =>
+								onSelect(event, {
+									id,
+									name,
+								})
+							}
+							{...otherProps}
+						>
+							{name}
+						</ClayDropDown.Item>
+				  ))
+				: items.length > 0 && (
+						<ClayDropDown.Item>
+							<span className="font-weight-light text-secondary">
+								{Liferay.Language.get(
+									'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
+								)}
+							</span>
+						</ClayDropDown.Item>
+				  )}
 		</ClayDropDown.ItemList>
 	);
 };
