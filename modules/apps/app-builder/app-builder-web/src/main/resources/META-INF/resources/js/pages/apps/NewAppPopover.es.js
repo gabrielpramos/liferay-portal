@@ -26,9 +26,13 @@ const NewAppPopover = (
 		id: undefined,
 		name: undefined,
 	});
-	const {id: customObjectId, name: customObjectName} = selectedValue;
+	const {
+		id: customObjectId,
+		name: customObjectName,
+		type: customObjectType,
+	} = selectedValue;
 
-	const onClick = (customObjectId) => {
+	const onContinue = () => {
 		history.push(`/standard/deploy/${customObjectId}`);
 	};
 
@@ -43,8 +47,12 @@ const NewAppPopover = (
 
 						<SelectObjects
 							alignElement={alignElement}
+							label={Liferay.Language.get('select-object')}
 							onSelect={setSelectedValue}
-							selectedvalue={customObjectName}
+							selectedValue={{
+								name: customObjectName,
+								type: customObjectType,
+							}}
 						/>
 					</>
 				)}
@@ -67,7 +75,7 @@ const NewAppPopover = (
 							<ClayButton
 								disabled={!customObjectId}
 								onClick={() => {
-									onClick(customObjectId);
+									onContinue(customObjectId);
 								}}
 								small
 							>

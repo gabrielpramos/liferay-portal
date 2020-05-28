@@ -13,30 +13,58 @@
  */
 
 import ClayDropDown, {Align} from '@clayui/drop-down';
-import React, {createContext, useContext, useState} from 'react';
+import ClayLabel from '@clayui/label';
+import React, {
+	cloneElement,
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
+
+import {DROPDOWN_ITEM_LABEL} from './constants.es';
 
 export const DropDownContext = createContext();
 
 const DropDownWithSearch = ({
+	children,
+	dropDownWidth,
 	error,
 	items = [],
 	isLoading,
-	namePropertyKey = 'name',
-	onSelect,
+	setDropDownWidth,
 	stateProps: {emptyProps, errorProps, loadingProps},
 	trigger,
 	...restProps
 }) => {
 	const [active, setActive] = useState(false);
 	const [query, setQuery] = useState('');
+	const [triggerElement, setTriggerElement] = useState(trigger);
 
-	const handleOnselect = (event, selectedValue) => {
-		setActive(false);
-		onSelect(event, selectedValue);
-	};
+	useEffect(() => {
+		if (dropDownWidth) {
+			setTriggerElement(
+				cloneElement(trigger, {
+					ref: (element) => {
+						if (element) {
+							setDropDownWidth(`${element.offsetWidth}px`);
+
+							if (typeof trigger.ref === 'function') {
+								trigger.ref(element);
+							}
+						}
+
+						return trigger.ref;
+					},
+				})
+			);
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [trigger]);
 
 	return (
-		<DropDownContext.Provider value={{query, setQuery}}>
+		<DropDownContext.Provider value={{items, query, setActive, setQuery}}>
 			<ClayDropDown
 				{...restProps}
 				active={active}
@@ -46,9 +74,10 @@ const DropDownWithSearch = ({
 					onClick: (event) => {
 						event.stopPropagation();
 					},
+					style: {maxWidth: dropDownWidth, width: '100%'},
 				}}
 				onActiveChange={setActive}
-				trigger={trigger}
+				trigger={triggerElement}
 			>
 				{<Search />}
 
@@ -68,12 +97,7 @@ const DropDownWithSearch = ({
 					/>
 				)}
 
-				<Items
-					items={items}
-					namePropertyKey={namePropertyKey}
-					onSelect={handleOnselect}
-					query={query}
-				/>
+				{children}
 			</ClayDropDown>
 		</DropDownContext.Provider>
 	);
@@ -89,7 +113,13 @@ const EmptyState = ({children, className, label}) => {
 	);
 };
 
-const Items = ({items, namePropertyKey, onSelect, query}) => {
+export const DropDownWithSearchItems = ({
+	emptyResultMessage,
+	namePropertyKey = 'name',
+	onSelect,
+}) => {
+	const {items, query, setActive} = useContext(DropDownContext);
+
 	const treatedQuery = query.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 
 	const getTranslatedName = ({
@@ -102,37 +132,61 @@ const Items = ({items, namePropertyKey, onSelect, query}) => {
 	};
 
 	const itemList = items
-		.filter((item) => getTranslatedName(item).match(treatedQuery))
+		.filter((item) =>
+			getTranslatedName(item).toLowerCase().match(treatedQuery)
+		)
 		.map((item) => ({...item, name: getTranslatedName(item)}));
+
+	const handleOnselect = (event, selectedValue) => {
+		setActive(false);
+		onSelect(event, selectedValue);
+	};
 
 	return (
 		<ClayDropDown.ItemList>
-			{itemList.length > 0 ? (
-				itemList.map(({id, name, ...otherProps}, index) => (
-					<ClayDropDown.Item
-						key={index}
-						onClick={(event) =>
-							onSelect(event, {
-								id,
-								name,
-							})
-						}
-						{...otherProps}
-					>
-						{name}
-					</ClayDropDown.Item>
-				))
-			) : (
-				<ClayDropDown.Item>
-					<span className="font-weight-light text-secondary">
-						{Liferay.Language.get(
-							'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
-						)}
-					</span>
-				</ClayDropDown.Item>
-			)}
+			{itemList.length > 0
+				? itemList.map(({id, name, type, ...otherProps}, index) => (
+						<ClayDropDown.Item
+							key={index}
+							onClick={(event) =>
+								handleOnselect(event, {
+									id,
+									name,
+									type,
+								})
+							}
+							{...otherProps}
+						>
+							{name}
+
+							<DropDownWithSearchItemsLabel type={type} />
+						</ClayDropDown.Item>
+				  ))
+				: items.length > 0 && (
+						<ClayDropDown.Item>
+							<span className="font-weight-light text-secondary">
+								{emptyResultMessage}
+							</span>
+						</ClayDropDown.Item>
+				  )}
 		</ClayDropDown.ItemList>
 	);
+};
+
+export const DropDownWithSearchItemsLabel = ({
+	className,
+	type,
+	...otherProps
+}) => {
+	return type ? (
+		<ClayLabel
+			className={`${className} float-right`}
+			displayType={DROPDOWN_ITEM_LABEL[type].displayType}
+			{...otherProps}
+		>
+			{DROPDOWN_ITEM_LABEL[type].label}
+		</ClayLabel>
+	) : null;
 };
 
 const LoadingState = ({label}) => (
@@ -148,6 +202,7 @@ const Search = () => {
 
 	return (
 		<ClayDropDown.Search
+			className="mb-2"
 			formProps={{onSubmit: (e) => e.preventDefault()}}
 			onChange={(event) => setQuery(event.target.value)}
 			placeholder={Liferay.Language.get('search')}

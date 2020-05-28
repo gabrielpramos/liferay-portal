@@ -22,6 +22,7 @@ import Popover from '../../components/popover/Popover.es';
 const CustomObjectPopover = ({
 	alignElement,
 	className,
+	dropDownWidth,
 	forwardRef,
 	onCancel,
 	onSubmit,
@@ -36,8 +37,7 @@ const CustomObjectPopover = ({
 
 		if (validate(name)) {
 			onSubmit({isAddFormView, name});
-		}
-		else {
+		} else {
 			nameInputRef.current.focus();
 		}
 	};
@@ -59,8 +59,7 @@ const CustomObjectPopover = ({
 	useEffect(() => {
 		if (visible) {
 			nameInputRef.current.focus();
-		}
-		else {
+		} else {
 			resetForm();
 		}
 	}, [alignElement, nameInputRef, visible]);
@@ -68,7 +67,7 @@ const CustomObjectPopover = ({
 	return (
 		<Popover
 			alignElement={alignElement}
-			className={`${className} mw-100`}
+			className={dropDownWidth ? className : `${className} mw-100`}
 			content={() => (
 				<ClayForm
 					onSubmit={(event) => {
@@ -131,7 +130,10 @@ const CustomObjectPopover = ({
 				</ClayForm>
 			)}
 			footer={() => (
-				<div className="border-top p-3" style={{width: 450}}>
+				<div
+					className="border-top p-3"
+					style={{width: dropDownWidth || 450}}
+				>
 					<div className="d-flex justify-content-end">
 						<Button
 							className="mr-3"
@@ -154,6 +156,7 @@ const CustomObjectPopover = ({
 			)}
 			ref={forwardRef}
 			showArrow={false}
+			style={{width: dropDownWidth}}
 			suggestedPosition="bottom"
 			title={() => (
 				<h4 className="m-0">

@@ -23,6 +23,14 @@ const DEPLOYMENT_TYPES = {
 	widget: Liferay.Language.get('widget'),
 };
 
+const DROPDOWN_ITEM_LABEL = {
+	custom: {
+		displayType: 'success',
+		label: Liferay.Language.get('custom'),
+	},
+	native: {displayType: 'info', label: Liferay.Language.get('native')},
+};
+
 const FILTER_NAMES = {
 	author: [
 		Liferay.Language.get('author'),
@@ -43,4 +51,10 @@ const STATUSES = {
 	inactive: Liferay.Language.get('undeployed'),
 };
 
-export {DEPLOYMENT_ACTION, DEPLOYMENT_TYPES, FILTER_NAMES, STATUSES};
+export {
+	DEPLOYMENT_ACTION,
+	DEPLOYMENT_TYPES,
+	DROPDOWN_ITEM_LABEL,
+	FILTER_NAMES,
+	STATUSES,
+};

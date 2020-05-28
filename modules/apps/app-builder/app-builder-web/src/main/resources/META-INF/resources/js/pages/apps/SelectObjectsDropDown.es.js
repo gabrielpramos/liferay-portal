@@ -20,10 +20,14 @@ import {AppContext} from '../../AppContext.es';
 import isClickOutside from '../../utils/clickOutside.es';
 import {addItem, getItem} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
-import DropDownWithSearch from './DropDownWithSearch.es';
+import DropDownWithSearch, {
+	DropDownWithSearchItems,
+	DropDownWithSearchItemsLabel,
+} from './DropDownWithSearch.es';
 
-export default ({onSelect, selectedValue}) => {
+export default ({label, onSelect, selectedValue: {name, type}}) => {
 	const {basePortletURL} = useContext(AppContext);
+	const [dropDownWidth, setDropDownWidth] = useState('200px');
 	const [state, setState] = useState({
 		error: null,
 		isLoading: true,
@@ -80,11 +84,17 @@ export default ({onSelect, selectedValue}) => {
 			),
 		])
 			.then(([customObjects, nativeObjects]) => {
-				setItems(
-					[...customObjects.items, ...nativeObjects.items].sort(
-						(a, b) => a - b
-					)
-				);
+				customObjects.items = customObjects.items.map((item) => ({
+					...item,
+					type: 'custom',
+				}));
+
+				nativeObjects.items = nativeObjects.items.map((item) => ({
+					...item,
+					type: 'native',
+				}));
+
+				setItems([...customObjects.items, ...nativeObjects.items]);
 				setState({
 					error: null,
 					isLoading: false,
@@ -117,11 +127,14 @@ export default ({onSelect, selectedValue}) => {
 					className="emptyButton"
 					displayType="secondary"
 					onClick={onClick}
+					small
 				>
 					{Liferay.Language.get('new-custom-object')}
 				</ClayButton>
 			),
-			label: Liferay.Language.get('there-are-no-objects-yet'),
+			label: Liferay.Language.get(
+				'there-are-no-objects-yet-create-your-first-object'
+			),
 		},
 		errorProps: {
 			children: (
@@ -157,10 +170,11 @@ export default ({onSelect, selectedValue}) => {
 	return (
 		<>
 			<DropDownWithSearch
+				dropDownWidth={dropDownWidth}
 				{...state}
 				items={items}
-				label={Liferay.Language.get('select-object')}
-				onSelect={handleOnSelect}
+				label={label}
+				setDropDownWidth={setDropDownWidth}
 				stateProps={stateProps}
 				trigger={
 					<ClayButton
@@ -170,21 +184,31 @@ export default ({onSelect, selectedValue}) => {
 							selectRef.current = element;
 						}}
 					>
-						<span className="float-left">
-							{selectedValue ||
-								Liferay.Language.get('select-object')}
-						</span>
+						<span className="float-left">{name || label}</span>
 
 						<ClayIcon
-							className="float-right icon"
+							className="dropdown-button-asset float-right ml-1"
 							symbol="caret-bottom"
+						/>
+
+						<DropDownWithSearchItemsLabel
+							className="dropdown-button-asset"
+							type={type}
 						/>
 					</ClayButton>
 				}
-			/>
+			>
+				<DropDownWithSearchItems
+					emptyResultMessage={Liferay.Language.get(
+						'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
+					)}
+					onSelect={handleOnSelect}
+				/>
+			</DropDownWithSearch>
 
 			<CustomObjectPopover
 				alignElement={selectRef.current}
+				dropDownWidth={dropDownWidth}
 				onCancel={() => {
 					setPopoverVisible(false);
 				}}

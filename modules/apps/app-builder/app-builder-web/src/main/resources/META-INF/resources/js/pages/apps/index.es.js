@@ -19,6 +19,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {AppContextProvider} from '../../AppContext.es';
 import ListApps from './ListApps.es';
 import EditApp from './edit/EditApp.es';
+import EditWorkflowApp from './edit/workflow-app/EditWorkflowApp.es';
 
 export default (props) => {
 	return (
@@ -31,6 +32,11 @@ export default (props) => {
 						<Route
 							component={EditApp}
 							path="/standard/deploy/:dataDefinitionId"
+						/>
+
+						<Route
+							component={EditWorkflowApp}
+							path="/workflow/deploy"
 						/>
 					</Switch>
 				</Router>
