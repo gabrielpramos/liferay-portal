@@ -104,9 +104,7 @@ export default ({onSelect, selectedValue, visible}) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const handleOnSelect = (event, newValue) => {
-		event.stopPropagation();
-
+	const handleOnSelect = (newValue) => {
 		onSelect(newValue);
 	};
 
@@ -158,9 +156,8 @@ export default ({onSelect, selectedValue, visible}) => {
 		<>
 			<DropDownWithSearch
 				{...state}
-				items={items}
+				isEmpty={items.length === 0}
 				label={Liferay.Language.get('select-object')}
-				onSelect={handleOnSelect}
 				stateProps={stateProps}
 				trigger={
 					<ClayButton
@@ -182,7 +179,15 @@ export default ({onSelect, selectedValue, visible}) => {
 					</ClayButton>
 				}
 				visible={visible}
-			/>
+			>
+				<DropDownWithSearch.Items
+					emptyResultMessage={Liferay.Language.get(
+						'no-objects-found-with-this-name-try-searching-again-with-a-different-name'
+					)}
+					items={items}
+					onSelect={handleOnSelect}
+				/>
+			</DropDownWithSearch>
 
 			<CustomObjectPopover
 				alignElement={selectRef.current}
