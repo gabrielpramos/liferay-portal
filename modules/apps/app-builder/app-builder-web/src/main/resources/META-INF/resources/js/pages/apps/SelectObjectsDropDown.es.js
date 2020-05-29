@@ -22,7 +22,7 @@ import {addItem, getItem} from '../../utils/client.es';
 import CustomObjectPopover from '../custom-object/CustomObjectPopover.es';
 import DropDownWithSearch from './DropDownWithSearch.es';
 
-export default ({onSelect, selectedValue}) => {
+export default ({onSelect, selectedValue, visible}) => {
 	const {basePortletURL} = useContext(AppContext);
 	const [state, setState] = useState({
 		error: null,
@@ -181,6 +181,7 @@ export default ({onSelect, selectedValue}) => {
 						/>
 					</ClayButton>
 				}
+				visible={visible}
 			/>
 
 			<CustomObjectPopover

@@ -45,6 +45,7 @@ const NewAppPopover = (
 							alignElement={alignElement}
 							onSelect={setSelectedValue}
 							selectedvalue={customObjectName}
+							visible={visible}
 						/>
 					</>
 				)}

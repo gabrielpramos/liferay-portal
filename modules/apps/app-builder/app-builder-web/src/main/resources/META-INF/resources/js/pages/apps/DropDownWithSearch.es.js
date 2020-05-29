@@ -25,6 +25,7 @@ const DropDownWithSearch = ({
 	onSelect,
 	stateProps: {emptyProps, errorProps, loadingProps},
 	trigger,
+	visible = true,
 	...restProps
 }) => {
 	const [active, setActive] = useState(false);
@@ -39,7 +40,7 @@ const DropDownWithSearch = ({
 		<DropDownContext.Provider value={{query, setQuery}}>
 			<ClayDropDown
 				{...restProps}
-				active={active}
+				active={active && visible}
 				alignmentPosition={Align.BottomLeft}
 				menuElementAttrs={{
 					className: 'select-dropdown-menu',
