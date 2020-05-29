@@ -16,20 +16,19 @@ import ClayButton from '@clayui/button';
 import React, {useState} from 'react';
 
 import Popover from '../../components/popover/Popover.es';
+import {useNavigation} from '../../hooks/useNavigation.es';
 import SelectObjects from './SelectObjectsDropDown.es';
 
 const NewAppPopover = (
 	{alignElement, history, onCancel, visible},
 	forwardRef
 ) => {
-	const [selectedValue, setSelectedValue] = useState({
-		id: undefined,
-		name: undefined,
-	});
-	const {id: customObjectId, name: customObjectName} = selectedValue;
+	const [selectedObject, setSelectedObject] = useState({});
 
-	const onClick = (customObjectId) => {
-		history.push(`/standard/deploy/${customObjectId}`);
+	const navigation = useNavigation(history);
+
+	const onClick = () => {
+		navigation.push(`/standard/deploy/${selectedObject.id}`);
 	};
 
 	return (
@@ -43,8 +42,8 @@ const NewAppPopover = (
 
 						<SelectObjects
 							alignElement={alignElement}
-							onSelect={setSelectedValue}
-							selectedValue={customObjectName}
+							onSelect={setSelectedObject}
+							selectedValue={selectedObject.name}
 							visible={visible}
 						/>
 					</>
@@ -56,7 +55,7 @@ const NewAppPopover = (
 								className="mr-3"
 								displayType="secondary"
 								onClick={() => {
-									setSelectedValue({});
+									setSelectedObject({});
 
 									onCancel();
 								}}
@@ -66,10 +65,8 @@ const NewAppPopover = (
 							</ClayButton>
 
 							<ClayButton
-								disabled={!customObjectId}
-								onClick={() => {
-									onClick(customObjectId);
-								}}
+								disabled={!selectedObject.id}
+								onClick={onClick}
 								small
 							>
 								{Liferay.Language.get('continue')}
