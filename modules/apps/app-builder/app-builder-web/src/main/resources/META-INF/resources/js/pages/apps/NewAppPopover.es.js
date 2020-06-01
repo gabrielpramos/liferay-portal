@@ -28,7 +28,7 @@ const NewAppPopover = (
 	const navigation = useNavigation(history);
 
 	const onClick = () => {
-		navigation.push(`/standard/deploy/${selectedObject.id}`);
+		navigation.push(`/standard/${selectedObject.id}/deploy`);
 	};
 
 	return (
