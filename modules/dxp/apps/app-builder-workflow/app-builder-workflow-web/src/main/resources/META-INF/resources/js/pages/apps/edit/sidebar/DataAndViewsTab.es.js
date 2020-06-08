@@ -107,7 +107,7 @@ export default () => {
 
 				<SelectObjects
 					defaultValue={app.dataDefinitionId}
-					label={Liferay.Language.get('select-data-object')}
+					label={Liferay.Language.get('select-object')}
 					onSelect={updateDataObject}
 					selectedValue={dataObject}
 				/>
@@ -119,7 +119,7 @@ export default () => {
 						{Liferay.Language.get('gather-data')}
 					</h5>
 
-					<label>{Liferay.Language.get('form-view')}</label>
+					<label>{Liferay.Language.get('form-views')}</label>
 
 					<SelectFormView
 						defaultValue={app.dataLayoutId}
@@ -132,7 +132,7 @@ export default () => {
 						{Liferay.Language.get('display-data')}
 					</h5>
 
-					<label>{Liferay.Language.get('table-view')}</label>
+					<label>{Liferay.Language.get('table-views')}</label>
 
 					<SelectTableView
 						defaultValue={app.dataListViewId}
