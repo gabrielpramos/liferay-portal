@@ -192,6 +192,71 @@ body.open .app-builder-upper-toolbar {
 	box-shadow: none;
 }
 
+.workflow-builder {
+	display: flex;
+	flex-wrap: wrap;
+	flex-flow: column;
+	height: calc(100vh - 120px);
+	padding: 56px 0px;
+	width: calc(100vw - 366px);
+
+	.card {
+		height: 64px;
+		margin-bottom: unset;
+		margin-left: 16px;
+		padding: 19px 16px;
+		width: 392px;
+
+		&.selected {
+			border: 2px solid #0b5fff;
+			box-sizing: border-box;
+		}
+	}
+
+	.divider {
+		display: flex;
+		flex-flow: wrap-reverse;
+		height: 100%;
+		justify-content: center;
+		margin: auto;
+		padding-left: 80.25px;
+		position: relative;
+
+		.arrow-tail {
+			background-color: #6b6c7e;
+			margin-bottom: 4px;
+			width: 3px;
+		}
+
+		.icon {
+			color: #6b6c7e;
+			margin-top: 4px;
+			position: absolute;
+		}
+	}
+
+	.step {
+		display: flex;
+		width: 100%;
+	}
+
+	.step-badge {
+		font-size: 18px;
+		height: 32px;
+		margin-top: 16px;
+		padding: 0.25rem 0.625rem;
+	}
+
+	.step-wrapper {
+		display: flex;
+		margin: auto;
+
+		&.no-badge {
+			padding-left: 64.25px;
+		}
+	}
+}
+
 .taglib-empty-result-message-description {
 	&.empty-message-color {
 		color: #6b6c7e;

@@ -12,14 +12,18 @@
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
 import React, {useContext} from 'react';
 
+import Step, {STEP_PROPS} from './WorkflowStep.es';
+
 export default function WorkflowBuilder() {
 	const {
 		config: {currentStep},
 	} = useContext(EditAppContext);
 
 	return (
-		<div className="app-builder-workflow-app__content">
-			{currentStep.name}
+		<div className="app-builder-workflow-app__content workflow-builder">
+			<Step cardContent={currentStep.name} step={STEP_PROPS.start}></Step>
+			<Step cardContent={'middle'}></Step>
+			<Step cardContent={'final'} step={STEP_PROPS.end}></Step>
 		</div>
 	);
 }
