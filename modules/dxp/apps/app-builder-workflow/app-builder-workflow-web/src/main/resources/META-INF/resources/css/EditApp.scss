@@ -1,3 +1,5 @@
+$sidebarWidth: 366px;
+
 .dropdown-button-asset {
 	margin-top: 0.25rem;
 }
@@ -9,6 +11,13 @@
 .app-builder-workflow-app {
 	margin-top: 64px;
 
+	&__content {
+		display: flex;
+		position: fixed;
+		justify-content: center;
+		width: calc(100% - $sidebarWidth);
+	}
+
 	&__sidebar {
 		border-left: 1px solid #e7e7ed;
 		flex-flow: column;
@@ -16,7 +25,14 @@
 		position: fixed;
 		right: 0;
 		transform: translateX(0%);
-		width: 366px;
+		width: $sidebarWidth;
+
+		.form-group-outlined {
+			padding: 0.5rem 1rem 1rem;
+			border: 1px solid #cdced9;
+			border-radius: 6px;
+			margin-bottom: 1rem;
+		}
 	}
 
 	.data-layout-builder-sidebar {
@@ -29,7 +45,11 @@
 			padding-top: 0;
 
 			.tab-button {
+				align-items: center;
+				display: flex;
 				padding: 1rem;
+				justify-content: space-between;
+				text-align: left;
 				width: 100%;
 			}
 
@@ -44,7 +64,7 @@
 
 			h3.title {
 				margin: 0;
-				padding: 1rem;
+				padding: 1.5rem 1rem;
 			}
 
 			.tab-title {
