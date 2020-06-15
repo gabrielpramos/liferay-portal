@@ -94,8 +94,7 @@ export default ({onCancel}) => {
 				)
 				.then(onSuccess)
 				.catch(onError);
-		}
-		else {
+		} else {
 			addItem(
 				`/o/app-builder/v1.0/data-definitions/${dataObject.id}/apps`,
 				app
