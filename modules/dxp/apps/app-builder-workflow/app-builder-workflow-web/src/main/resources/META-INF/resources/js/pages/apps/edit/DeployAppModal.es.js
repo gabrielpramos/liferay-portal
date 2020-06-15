@@ -106,8 +106,7 @@ export default ({onCancel}) => {
 				.then(parseResponse)
 				.then(onSuccess)
 				.catch(onError);
-		}
-		else {
+		} else {
 			fetch(
 				createResourceURL(baseResourceURL, {
 					p_p_resource_id: '/app_builder/add_workflow_app',
