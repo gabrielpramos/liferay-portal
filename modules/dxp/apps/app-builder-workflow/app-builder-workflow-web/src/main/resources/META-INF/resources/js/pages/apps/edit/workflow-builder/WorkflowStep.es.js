@@ -11,7 +11,7 @@
 
 import ClayBadge from '@clayui/badge';
 import ClayIcon from '@clayui/icon';
-import classNames from 'classNames';
+import classNames from 'classnames';
 import React from 'react';
 
 const Arrow = () => {

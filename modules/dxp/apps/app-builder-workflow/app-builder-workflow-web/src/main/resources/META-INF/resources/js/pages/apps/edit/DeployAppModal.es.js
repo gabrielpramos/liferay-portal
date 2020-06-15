@@ -23,7 +23,7 @@ import React, {useContext, useState} from 'react';
 export default ({onCancel}) => {
 	const {
 		appId,
-		config: {dataObject},
+		config: {dataObject, steps},
 		isModalVisible,
 		setModalVisible,
 		state: {app},
@@ -77,17 +77,33 @@ export default ({onCancel}) => {
 	const onClickDeploy = () => {
 		setDeploying(true);
 
+		const workflowApp = {
+			app,
+			appWorkflowStates: [steps[0], steps.pop()],
+		};
+
 		if (appId) {
 			updateItem(`/o/app-builder/v1.0/apps/${appId}`, app)
+				.then(() =>
+					updateItem(
+						`/o/app-builder/v1.0/app-workflows/${appId}`,
+						workflowApp
+					).then(() => app)
+				)
 				.then(onSuccess)
 				.then(onCancel)
 				.catch(onError);
-		}
-		else {
+		} else {
 			addItem(
 				`/o/app-builder/v1.0/data-definitions/${dataObject.id}/apps`,
 				app
 			)
+				.then(() =>
+					addItem(
+						`/o/app-builder/v1.0/app-workflows`,
+						workflowApp
+					).then(() => app)
+				)
 				.then(onSuccess)
 				.then(onCancel)
 				.catch(onError);
