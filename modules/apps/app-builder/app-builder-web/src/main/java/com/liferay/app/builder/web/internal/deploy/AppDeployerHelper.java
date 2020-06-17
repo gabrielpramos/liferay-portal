@@ -14,7 +14,13 @@
 
 package com.liferay.app.builder.web.internal.deploy;
 
+import com.liferay.app.builder.service.AppBuilderAppDataRecordLinkLocalService;
+import com.liferay.app.builder.service.AppBuilderAppLocalService;
 import com.liferay.app.builder.web.internal.portlet.AppPortlet;
+import com.liferay.app.builder.web.internal.portlet.action.AddDataRecordMVCResourceCommand;
+import com.liferay.dynamic.data.lists.service.DDLRecordLocalService;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.util.HashMapDictionary;
 
 import java.util.Map;
 
@@ -22,7 +28,10 @@ import javax.portlet.Portlet;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Rafael Praxedes
@@ -30,13 +39,47 @@ import org.osgi.service.component.annotations.Component;
 @Component(immediate = true, service = AppDeployerHelper.class)
 public class AppDeployerHelper {
 
-	public ServiceRegistration<?> deployPortlet(
+	public ServiceRegistration<?>[] deployPortlet(
 		AppPortlet appPortlet, BundleContext bundleContext,
 		Map<String, Object> customProperties) {
 
-		return bundleContext.registerService(
-			Portlet.class, appPortlet,
-			appPortlet.getProperties(customProperties));
+		return new ServiceRegistration<?>[] {
+			bundleContext.registerService(
+				Portlet.class, appPortlet,
+				appPortlet.getProperties(customProperties)),
+			bundleContext.registerService(
+				MVCResourceCommand.class, _addDataRecordMVCResourceCommand,
+				new HashMapDictionary<String, Object>() {
+					{
+						put("javax.portlet.name", appPortlet.getPortletName());
+						put("mvc.command.name", "/app_builder/add_data_record");
+					}
+				})
+		};
 	}
+
+	@Activate
+	protected void activate() {
+		_addDataRecordMVCResourceCommand = new AddDataRecordMVCResourceCommand(
+			_appBuilderAppDataRecordLinkLocalService,
+			_appBuilderAppLocalService, _ddlRecordLocalService);
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_addDataRecordMVCResourceCommand = null;
+	}
+
+	private AddDataRecordMVCResourceCommand _addDataRecordMVCResourceCommand;
+
+	@Reference
+	private AppBuilderAppDataRecordLinkLocalService
+		_appBuilderAppDataRecordLinkLocalService;
+
+	@Reference
+	private AppBuilderAppLocalService _appBuilderAppLocalService;
+
+	@Reference
+	private DDLRecordLocalService _ddlRecordLocalService;
 
 }
