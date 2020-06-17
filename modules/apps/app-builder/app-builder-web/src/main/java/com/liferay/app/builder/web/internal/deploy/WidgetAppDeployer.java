@@ -26,8 +26,6 @@ import com.liferay.portal.kernel.util.LocaleThreadLocal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.portlet.Portlet;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
@@ -81,17 +79,14 @@ public class WidgetAppDeployer implements AppDeployer {
 		AppBuilderApp appBuilderApp, String appName, String portletName,
 		boolean showFormView, boolean showTableView) {
 
-		AppPortlet appPortlet = new AppPortlet(
-			appBuilderApp, "widget", appName, portletName, showFormView,
-			showTableView);
-
-		return _bundleContext.registerService(
-			Portlet.class, appPortlet,
-			appPortlet.getProperties(
-				HashMapBuilder.<String, Object>put(
-					"com.liferay.portlet.display-category",
-					"category.app_builder"
-				).build()));
+		return _appDeployerHelper.deployPortlet(
+			new AppPortlet(
+				appBuilderApp, "widget", appName, portletName, showFormView,
+				showTableView),
+			_bundleContext,
+			HashMapBuilder.<String, Object>put(
+				"com.liferay.portlet.display-category", "category.app_builder"
+			).build());
 	}
 
 	private String _getAppName(AppBuilderApp appBuilderApp, String suffix) {
@@ -126,6 +121,9 @@ public class WidgetAppDeployer implements AppDeployer {
 
 	@Reference
 	private AppBuilderAppLocalService _appBuilderAppLocalService;
+
+	@Reference
+	private AppDeployerHelper _appDeployerHelper;
 
 	private BundleContext _bundleContext;
 	private final ConcurrentHashMap<Long, ServiceRegistration<?>[]>

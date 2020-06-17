@@ -45,8 +45,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.portlet.Portlet;
-
 import javax.servlet.ServletContext;
 
 import org.osgi.framework.BundleContext;
@@ -233,16 +231,12 @@ public class StandaloneAppDeployer implements AppDeployer {
 	private ServiceRegistration<?> _deployPortlet(
 		AppBuilderApp appBuilderApp, String appName, String portletName) {
 
-		AppPortlet appPortlet = new AppPortlet(
-			appBuilderApp, "standalone", appName, portletName);
-
-		return _bundleContext.registerService(
-			Portlet.class, appPortlet,
-			appPortlet.getProperties(
-				HashMapBuilder.<String, Object>put(
-					"com.liferay.portlet.application-type",
-					"full-page-application"
-				).build()));
+		return _appDeployerHelper.deployPortlet(
+			new AppPortlet(appBuilderApp, "standalone", appName, portletName),
+			_bundleContext,
+			HashMapBuilder.<String, Object>put(
+				"com.liferay.portlet.application-type", "full-page-application"
+			).build());
 	}
 
 	private String _getGroupFriendlyURL(long appId) {
@@ -259,6 +253,9 @@ public class StandaloneAppDeployer implements AppDeployer {
 
 	@Reference
 	private AppBuilderAppLocalService _appBuilderAppLocalService;
+
+	@Reference
+	private AppDeployerHelper _appDeployerHelper;
 
 	private BundleContext _bundleContext;
 	private GroupLocalService _groupLocalService;
