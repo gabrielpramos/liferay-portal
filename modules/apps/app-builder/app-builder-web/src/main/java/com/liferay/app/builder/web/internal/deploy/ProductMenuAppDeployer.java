@@ -31,11 +31,9 @@ import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.portlet.Portlet;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -161,12 +159,9 @@ public class ProductMenuAppDeployer implements AppDeployer {
 	private ServiceRegistration<?> _deployPortlet(
 		AppBuilderApp appBuilderApp, String appName, String portletName) {
 
-		AppPortlet appPortlet = new AppPortlet(
-			appBuilderApp, "productMenu", appName, portletName);
-
-		return _bundleContext.registerService(
-			Portlet.class, appPortlet,
-			appPortlet.getProperties(new HashMap<>()));
+		return _appDeployerHelper.deployPortlet(
+			new AppPortlet(appBuilderApp, "productMenu", appName, portletName),
+			_bundleContext, Collections.emptyMap());
 	}
 
 	private String _getPortletName(long appId) {
@@ -179,6 +174,9 @@ public class ProductMenuAppDeployer implements AppDeployer {
 
 	@Reference
 	private AppBuilderAppLocalService _appBuilderAppLocalService;
+
+	@Reference
+	private AppDeployerHelper _appDeployerHelper;
 
 	private BundleContext _bundleContext;
 
