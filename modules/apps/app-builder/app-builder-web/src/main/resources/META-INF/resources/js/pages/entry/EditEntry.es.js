@@ -19,16 +19,13 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {AppContext} from '../../AppContext.es';
 import Button from '../../components/button/Button.es';
 import {ControlMenuBase} from '../../components/control-menu/ControlMenu.es';
-import {addItem, updateItem} from '../../utils/client.es';
+import {parseResponse, updateItem} from '../../utils/client.es';
 import {successToast} from '../../utils/toast.es';
 
-export const EditEntry = ({
-	dataDefinitionId,
-	dataRecordId,
-	ddmForm,
-	redirect,
-}) => {
-	const {basePortletURL} = useContext(AppContext);
+export const EditEntry = ({dataRecordId, ddmForm, redirect}) => {
+	const {addEntryURL, appId, basePortletURL, namespace} = useContext(
+		AppContext
+	);
 
 	const onCancel = useCallback(() => {
 		if (redirect) {
@@ -102,16 +99,25 @@ export const EditEntry = ({
 				});
 			}
 			else {
-				addItem(
-					`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-records`,
-					dataRecord
-				).then(() => {
-					openSuccessToast(true);
-					onCancel();
-				});
+				const body = new URLSearchParams(
+					Liferay.Util.ns(namespace, {
+						appId,
+						dataRecord: JSON.stringify(dataRecord),
+					})
+				);
+
+				Liferay.Util.fetch(addEntryURL, {
+					body,
+					method: 'POST',
+				})
+					.then((response) => parseResponse(response))
+					.then(() => {
+						openSuccessToast(true);
+						onCancel();
+					});
 			}
 		});
-	}, [dataDefinitionId, dataRecordId, ddmForm, onCancel]);
+	}, [addEntryURL, appId, dataRecordId, ddmForm, namespace, onCancel]);
 
 	useEffect(() => {
 		const formNode = ddmForm.getFormNode();
