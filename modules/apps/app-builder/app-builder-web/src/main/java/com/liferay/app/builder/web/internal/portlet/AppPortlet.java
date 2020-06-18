@@ -27,11 +27,13 @@ import java.io.IOException;
 
 import java.util.Dictionary;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.portal.kernel.util.ParamUtil;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
@@ -124,6 +126,17 @@ public class AppPortlet extends MVCPortlet {
 			).put(
 				"viewEntryPoint", appBuilderAppPortletTab.getViewEntryPoint()
 			).build());
+
+		if (Objects.equals(
+			ParamUtil.getString(renderRequest, "mvcPath"),
+			"/edit_entry.jsp")) {
+
+			renderRequest.setAttribute(
+				AppBuilderWebKeys.DATA_LAYOUT_IDS,
+				appBuilderAppPortletTab.getEditEntryDataLayoutIds(
+					_appBuilderApp,
+					ParamUtil.getLong(renderRequest, "dataRecordId")));
+		}
 
 		renderRequest.setAttribute(
 			AppBuilderWebKeys.SHOW_FORM_VIEW, _showFormView);
