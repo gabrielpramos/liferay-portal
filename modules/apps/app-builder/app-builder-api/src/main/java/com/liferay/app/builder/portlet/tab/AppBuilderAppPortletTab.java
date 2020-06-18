@@ -14,7 +14,10 @@
 
 package com.liferay.app.builder.portlet.tab;
 
+import com.liferay.app.builder.model.AppBuilderApp;
 import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.List;
 
 /**
  * @author Inácio Nery
@@ -27,5 +30,8 @@ public interface AppBuilderAppPortletTab {
 	public String getListEntryPoint();
 
 	public String getViewEntryPoint();
+
+	public List<Long> getEditEntryDataLayoutIds(
+		AppBuilderApp appBuilderApp, long dataRecordId);
 
 }
