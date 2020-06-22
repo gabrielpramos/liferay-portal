@@ -287,6 +287,16 @@ public abstract class BaseAppWorkflowResourceTestCase {
 			}
 
 			if (Objects.equals(
+					"appWorkflowDefinitionId", additionalAssertFieldName)) {
+
+				if (appWorkflow.getAppWorkflowDefinitionId() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
 					"appWorkflowStates", additionalAssertFieldName)) {
 
 				if (appWorkflow.getAppWorkflowStates() == null) {
@@ -407,6 +417,19 @@ public abstract class BaseAppWorkflowResourceTestCase {
 			}
 
 			if (Objects.equals(
+					"appWorkflowDefinitionId", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						appWorkflow1.getAppWorkflowDefinitionId(),
+						appWorkflow2.getAppWorkflowDefinitionId())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
 					"appWorkflowStates", additionalAssertFieldName)) {
 
 				if (!Objects.deepEquals(
@@ -517,6 +540,11 @@ public abstract class BaseAppWorkflowResourceTestCase {
 				"Invalid entity field " + entityFieldName);
 		}
 
+		if (entityFieldName.equals("appWorkflowDefinitionId")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("appWorkflowStates")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -572,6 +600,7 @@ public abstract class BaseAppWorkflowResourceTestCase {
 		return new AppWorkflow() {
 			{
 				appId = RandomTestUtil.randomLong();
+				appWorkflowDefinitionId = RandomTestUtil.randomLong();
 			}
 		};
 	}

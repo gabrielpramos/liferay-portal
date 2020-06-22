@@ -51,6 +51,28 @@ public class AppWorkflow implements Cloneable {
 
 	protected Long appId;
 
+	public Long getAppWorkflowDefinitionId() {
+		return appWorkflowDefinitionId;
+	}
+
+	public void setAppWorkflowDefinitionId(Long appWorkflowDefinitionId) {
+		this.appWorkflowDefinitionId = appWorkflowDefinitionId;
+	}
+
+	public void setAppWorkflowDefinitionId(
+		UnsafeSupplier<Long, Exception> appWorkflowDefinitionIdUnsafeSupplier) {
+
+		try {
+			appWorkflowDefinitionId =
+				appWorkflowDefinitionIdUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long appWorkflowDefinitionId;
+
 	public AppWorkflowState[] getAppWorkflowStates() {
 		return appWorkflowStates;
 	}

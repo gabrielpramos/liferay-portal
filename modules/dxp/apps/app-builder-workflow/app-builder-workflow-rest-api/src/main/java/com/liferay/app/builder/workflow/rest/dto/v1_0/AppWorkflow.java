@@ -78,6 +78,35 @@ public class AppWorkflow {
 	protected Long appId;
 
 	@Schema
+	public Long getAppWorkflowDefinitionId() {
+		return appWorkflowDefinitionId;
+	}
+
+	public void setAppWorkflowDefinitionId(Long appWorkflowDefinitionId) {
+		this.appWorkflowDefinitionId = appWorkflowDefinitionId;
+	}
+
+	@JsonIgnore
+	public void setAppWorkflowDefinitionId(
+		UnsafeSupplier<Long, Exception> appWorkflowDefinitionIdUnsafeSupplier) {
+
+		try {
+			appWorkflowDefinitionId =
+				appWorkflowDefinitionIdUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Long appWorkflowDefinitionId;
+
+	@Schema
 	@Valid
 	public AppWorkflowState[] getAppWorkflowStates() {
 		return appWorkflowStates;
@@ -172,6 +201,16 @@ public class AppWorkflow {
 			sb.append("\"appId\": ");
 
 			sb.append(appId);
+		}
+
+		if (appWorkflowDefinitionId != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"appWorkflowDefinitionId\": ");
+
+			sb.append(appWorkflowDefinitionId);
 		}
 
 		if (appWorkflowStates != null) {

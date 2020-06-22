@@ -227,12 +227,13 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {processInstances(assigneeIds: ___, completed: ___, dateEnd: ___, dateStart: ___, page: ___, pageSize: ___, processId: ___, slaStatuses: ___, taskNames: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {processInstances(assigneeIds: ___, classPKs: ___, completed: ___, dateEnd: ___, dateStart: ___, page: ___, pageSize: ___, processId: ___, slaStatuses: ___, taskNames: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField
 	public InstancePage processInstances(
 			@GraphQLName("processId") Long processId,
 			@GraphQLName("assigneeIds") Long[] assigneeIds,
+			@GraphQLName("classPKs") Long[] classPKs,
 			@GraphQLName("completed") Boolean completed,
 			@GraphQLName("dateEnd") Date dateEnd,
 			@GraphQLName("dateStart") Date dateStart,
@@ -247,8 +248,9 @@ public class Query {
 			this::_populateResourceContext,
 			instanceResource -> new InstancePage(
 				instanceResource.getProcessInstancesPage(
-					processId, assigneeIds, completed, dateEnd, dateStart,
-					slaStatuses, taskNames, Pagination.of(page, pageSize))));
+					processId, assigneeIds, classPKs, completed, dateEnd,
+					dateStart, slaStatuses, taskNames,
+					Pagination.of(page, pageSize))));
 	}
 
 	/**
@@ -742,6 +744,7 @@ public class Query {
 		@GraphQLField
 		public InstancePage instances(
 				@GraphQLName("assigneeIds") Long[] assigneeIds,
+				@GraphQLName("classPKs") Long[] classPKs,
 				@GraphQLName("completed") Boolean completed,
 				@GraphQLName("dateEnd") Date dateEnd,
 				@GraphQLName("dateStart") Date dateStart,
@@ -756,8 +759,8 @@ public class Query {
 				Query.this::_populateResourceContext,
 				instanceResource -> new InstancePage(
 					instanceResource.getProcessInstancesPage(
-						_process.getId(), assigneeIds, completed, dateEnd,
-						dateStart, slaStatuses, taskNames,
+						_process.getId(), assigneeIds, classPKs, completed,
+						dateEnd, dateStart, slaStatuses, taskNames,
 						Pagination.of(page, pageSize))));
 		}
 
