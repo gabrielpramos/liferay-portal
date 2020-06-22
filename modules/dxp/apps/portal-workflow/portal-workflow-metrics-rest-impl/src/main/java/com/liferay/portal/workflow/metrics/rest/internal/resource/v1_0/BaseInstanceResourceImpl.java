@@ -91,6 +91,7 @@ public abstract class BaseInstanceResourceImpl
 		value = {
 			@Parameter(in = ParameterIn.PATH, name = "processId"),
 			@Parameter(in = ParameterIn.QUERY, name = "assigneeIds"),
+			@Parameter(in = ParameterIn.QUERY, name = "classPKs"),
 			@Parameter(in = ParameterIn.QUERY, name = "completed"),
 			@Parameter(in = ParameterIn.QUERY, name = "dateEnd"),
 			@Parameter(in = ParameterIn.QUERY, name = "dateStart"),
@@ -108,6 +109,7 @@ public abstract class BaseInstanceResourceImpl
 				processId,
 			@Parameter(hidden = true) @QueryParam("assigneeIds") Long[]
 				assigneeIds,
+			@Parameter(hidden = true) @QueryParam("classPKs") Long[] classPKs,
 			@Parameter(hidden = true) @QueryParam("completed") Boolean
 				completed,
 			@Parameter(hidden = true) @QueryParam("dateEnd") java.util.Date
@@ -332,6 +334,7 @@ public abstract class BaseInstanceResourceImpl
 		return getProcessInstancesPage(
 			(Long)parameters.get("processId"),
 			(Long[])parameters.get("assigneeIds"),
+			(Long[])parameters.get("classPKs"),
 			(Boolean)parameters.get("completed"),
 			(java.util.Date)parameters.get("dateEnd"),
 			(java.util.Date)parameters.get("dateStart"),

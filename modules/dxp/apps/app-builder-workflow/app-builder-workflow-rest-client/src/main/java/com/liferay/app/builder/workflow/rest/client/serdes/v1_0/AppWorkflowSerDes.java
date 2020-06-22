@@ -68,6 +68,16 @@ public class AppWorkflowSerDes {
 			sb.append(appWorkflow.getAppId());
 		}
 
+		if (appWorkflow.getAppWorkflowDefinitionId() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"appWorkflowDefinitionId\": ");
+
+			sb.append(appWorkflow.getAppWorkflowDefinitionId());
+		}
+
 		if (appWorkflow.getAppWorkflowStates() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -137,6 +147,15 @@ public class AppWorkflowSerDes {
 			map.put("appId", String.valueOf(appWorkflow.getAppId()));
 		}
 
+		if (appWorkflow.getAppWorkflowDefinitionId() == null) {
+			map.put("appWorkflowDefinitionId", null);
+		}
+		else {
+			map.put(
+				"appWorkflowDefinitionId",
+				String.valueOf(appWorkflow.getAppWorkflowDefinitionId()));
+		}
+
 		if (appWorkflow.getAppWorkflowStates() == null) {
 			map.put("appWorkflowStates", null);
 		}
@@ -179,6 +198,14 @@ public class AppWorkflowSerDes {
 			if (Objects.equals(jsonParserFieldName, "appId")) {
 				if (jsonParserFieldValue != null) {
 					appWorkflow.setAppId(
+						Long.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "appWorkflowDefinitionId")) {
+
+				if (jsonParserFieldValue != null) {
+					appWorkflow.setAppWorkflowDefinitionId(
 						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
