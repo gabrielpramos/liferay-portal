@@ -23,11 +23,15 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowDefinition;
 import com.liferay.portal.kernel.workflow.WorkflowDefinitionManager;
+import com.liferay.portal.workflow.kaleo.definition.Action;
 import com.liferay.portal.workflow.kaleo.definition.Definition;
+import com.liferay.portal.workflow.kaleo.definition.ExecutionType;
 import com.liferay.portal.workflow.kaleo.definition.Node;
 import com.liferay.portal.workflow.kaleo.definition.RoleAssignment;
+import com.liferay.portal.workflow.kaleo.definition.ScriptLanguage;
 import com.liferay.portal.workflow.kaleo.definition.State;
 import com.liferay.portal.workflow.kaleo.definition.Task;
 import com.liferay.portal.workflow.kaleo.definition.Transition;
@@ -89,10 +93,15 @@ public class AppWorkflowResourceHelper {
 		for (AppWorkflowState appWorkflowState :
 				appWorkflow.getAppWorkflowStates()) {
 
-			definition.addNode(
-				new State(
-					appWorkflowState.getName(), StringPool.BLANK,
-					appWorkflowState.getInitial()));
+			State state = new State(
+				appWorkflowState.getName(), StringPool.BLANK,
+				appWorkflowState.getInitial());
+
+			if (!appWorkflowState.getInitial()) {
+				state.setActions(Collections.singleton(_createApproveAction()));
+			}
+
+			definition.addNode(state);
 		}
 
 		if (Objects.nonNull(appWorkflow.getAppWorkflowTasks())) {
@@ -161,6 +170,13 @@ public class AppWorkflowResourceHelper {
 				definition.getNode(sourceNodeName),
 				definition.getNode(appWorkflowTransition.getTransitionTo()));
 		}
+	}
+
+	private Action _createApproveAction() {
+		return new Action(
+			"approve", StringPool.BLANK, ExecutionType.ON_ENTRY.getValue(),
+			StringUtil.read(getClass(), "dependencies/approve-script.groovy"),
+			ScriptLanguage.GROOVY.getValue(), StringPool.BLANK, 1);
 	}
 
 	@Reference
