@@ -30,6 +30,7 @@ const AutocompleteMultiSelect = ({
 	placeholder = Liferay.Language.get('select-or-type-an-option'),
 	onChange,
 	selectedItems = [],
+	setSelectedItems,
 }) => {
 	const [active, setActive] = useState(false);
 	const [currentIndex, setCurrentIndex] = useState(-1);
