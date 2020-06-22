@@ -59,16 +59,25 @@ public class AppWorkflowResourceHelper {
 			AppBuilderApp.class.getSimpleName(), content.getBytes());
 	}
 
-	public Definition getDefinition(Long appWorkflowId, long companyId)
+	public Definition getDefinition(AppBuilderApp appBuilderApp)
 		throws PortalException {
 
 		WorkflowDefinitionLink workflowDefinitionLink =
 			_workflowDefinitionLinkLocalService.getWorkflowDefinitionLink(
-				companyId, 0, AppBuilderApp.class.getName(), appWorkflowId, 0);
+				appBuilderApp.getCompanyId(), 0, AppBuilderApp.class.getName(),
+				appBuilderApp.getAppBuilderAppId(), 0);
 
 		return _definitionBuilder.buildDefinition(
-			companyId, workflowDefinitionLink.getWorkflowDefinitionName(),
+			appBuilderApp.getCompanyId(),
+			workflowDefinitionLink.getWorkflowDefinitionName(),
 			workflowDefinitionLink.getWorkflowDefinitionVersion());
+	}
+
+	public WorkflowDefinition getWorkflowDefinition(AppBuilderApp appBuilderApp)
+		throws PortalException {
+
+		return _workflowDefinitionManager.getLatestWorkflowDefinition(
+			appBuilderApp.getCompanyId(), appBuilderApp.getUuid());
 	}
 
 	public Definition toDefinition(
