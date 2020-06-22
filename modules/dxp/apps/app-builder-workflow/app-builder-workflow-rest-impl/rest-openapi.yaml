@@ -5,6 +5,9 @@ components:
                 appId:
                     format: int64
                     type: integer
+                appWorkflowDefinitionId:
+                    format: int64
+                    type: integer
                 appWorkflowStates:
                     items:
                         $ref: "#/components/schemas/AppWorkflowState"
