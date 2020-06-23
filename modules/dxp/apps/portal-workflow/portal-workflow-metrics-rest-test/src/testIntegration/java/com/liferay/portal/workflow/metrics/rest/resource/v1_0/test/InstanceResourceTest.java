@@ -57,6 +57,7 @@ public class InstanceResourceTest extends BaseInstanceResourceTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
+		_classPK = RandomTestUtil.nextLong();
 		_process = _workflowMetricsRESTTestHelper.addProcess(
 			testGroup.getCompanyId());
 		_user = UserTestUtil.addUser();
@@ -81,22 +82,27 @@ public class InstanceResourceTest extends BaseInstanceResourceTestCase {
 		super.testGetProcessInstancesPage();
 
 		_testGetProcessInstancesPage(
-			new Long[] {_user.getUserId()}, null,
+			new Long[] {_user.getUserId()}, null, null,
 			(instance1, instance2, page) -> assertEquals(
 				Collections.singletonList(instance2),
 				(List<Instance>)page.getItems()));
 		_testGetProcessInstancesPage(
-			null, true,
+			null, new Long[] {_classPK}, null,
 			(instance1, instance2, page) -> assertEquals(
 				Collections.singletonList(instance1),
 				(List<Instance>)page.getItems()));
 		_testGetProcessInstancesPage(
-			null, null,
+			null, null, true,
+			(instance1, instance2, page) -> assertEquals(
+				Collections.singletonList(instance1),
+				(List<Instance>)page.getItems()));
+		_testGetProcessInstancesPage(
+			null, null, null,
 			(instance1, instance2, page) -> assertEqualsIgnoringOrder(
 				Arrays.asList(instance1, instance2),
 				(List<Instance>)page.getItems()));
 		_testGetProcessInstancesPage(
-			null, false,
+			null, null, false,
 			(instance1, instance2, page) -> assertEquals(
 				Collections.singletonList(instance2),
 				(List<Instance>)page.getItems()));
@@ -107,7 +113,7 @@ public class InstanceResourceTest extends BaseInstanceResourceTestCase {
 
 	@Override
 	protected String[] getAdditionalAssertFieldNames() {
-		return new String[] {"assetTitle", "assetType", "processId"};
+		return new String[] {"assetTitle", "assetType", "classPK", "processId"};
 	}
 
 	@Override
@@ -219,7 +225,7 @@ public class InstanceResourceTest extends BaseInstanceResourceTestCase {
 	}
 
 	private void _testGetProcessInstancesPage(
-			Long[] assigneeIds, Boolean completed,
+			Long[] assigneeIds, Long[] classPKs, Boolean completed,
 			UnsafeTriConsumer<Instance, Instance, Page<Instance>, Exception>
 				unsafeTriConsumer)
 		throws Exception {
@@ -228,6 +234,7 @@ public class InstanceResourceTest extends BaseInstanceResourceTestCase {
 
 		Instance instance1 = randomInstance();
 
+		instance1.setClassPK(_classPK);
 		instance1.setCompleted(true);
 		instance1.setDateCompletion(RandomTestUtil.nextDate());
 
@@ -247,12 +254,13 @@ public class InstanceResourceTest extends BaseInstanceResourceTestCase {
 		testGetProcessInstancesPage_addInstance(_process.getId(), instance2);
 
 		Page<Instance> page = instanceResource.getProcessInstancesPage(
-			_process.getId(), assigneeIds, null, completed, null, null, null,
-			null, Pagination.of(1, 2));
+			_process.getId(), assigneeIds, classPKs, completed, null, null,
+			null, null, Pagination.of(1, 2));
 
 		unsafeTriConsumer.accept(instance1, instance2, page);
 	}
 
+	private Long _classPK;
 	private final List<Instance> _instances = new ArrayList<>();
 	private Process _process;
 	private User _user;

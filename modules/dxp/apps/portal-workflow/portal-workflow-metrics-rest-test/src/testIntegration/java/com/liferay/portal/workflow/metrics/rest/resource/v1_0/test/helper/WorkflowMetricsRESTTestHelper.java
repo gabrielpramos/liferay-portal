@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.document.DocumentBuilder;
@@ -121,7 +122,7 @@ public class WorkflowMetricsRESTTestHelper {
 		_instanceWorkflowMetricsIndexer.addInstance(
 			_createLocalizationMap(instance.getAssetTitle()),
 			_createLocalizationMap(instance.getAssetType()), StringPool.BLANK,
-			0, companyId, null,
+			GetterUtil.getLong(instance.getClassPK()), companyId, null,
 			Optional.ofNullable(
 				instance.getDateCreated()
 			).orElseGet(
@@ -456,7 +457,7 @@ public class WorkflowMetricsRESTTestHelper {
 
 		task.setAssignee(assignee);
 		task.setClassName(StringPool.BLANK);
-		task.setClassPK(0L);
+		task.setClassPK(GetterUtil.getLong(instance.getClassPK()));
 		task.setCompleted(durationAvg > 0);
 		task.setDateCompletion((durationAvg > 0) ? new Date() : null);
 		task.setCompletionUserId((durationAvg > 0) ? assignee.getId() : null);
