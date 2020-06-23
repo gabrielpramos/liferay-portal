@@ -121,7 +121,7 @@ public class WorkflowMetricsRESTTestHelper {
 		_instanceWorkflowMetricsIndexer.addInstance(
 			_createLocalizationMap(instance.getAssetTitle()),
 			_createLocalizationMap(instance.getAssetType()), StringPool.BLANK,
-			0, companyId, null,
+			instance.getClassPK(), companyId, null,
 			Optional.ofNullable(
 				instance.getDateCreated()
 			).orElseGet(
@@ -456,7 +456,7 @@ public class WorkflowMetricsRESTTestHelper {
 
 		task.setAssignee(assignee);
 		task.setClassName(StringPool.BLANK);
-		task.setClassPK(0L);
+		task.setClassPK(instance.getClassPK());
 		task.setCompleted(durationAvg > 0);
 		task.setDateCompletion((durationAvg > 0) ? new Date() : null);
 		task.setCompletionUserId((durationAvg > 0) ? assignee.getId() : null);
