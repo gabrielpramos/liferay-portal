@@ -16,28 +16,30 @@ export const UPDATE_STEP_INDEX = 'UPDATE_STEP_INDEX';
 export const UPDATE_TABLE_VIEW = 'UPDATE_TABLE_VIEW';
 export const UPDATE_WORKFLOW_APP = 'UPDATE_WORKFLOW_APP';
 
-const initialSteps = [
-	{
-		appWorkflowTransitions: [
-			{
-				name: Liferay.Language.get('submit'),
-				primary: true,
-				transitionTo: Liferay.Language.get('final-step'),
-			},
-		],
-		initial: true,
-		name: Liferay.Language.get('initial-step'),
-	},
-	{initial: false, name: Liferay.Language.get('final-step')},
-];
+export const getInitialConfig = () => {
+	const initialSteps = [
+		{
+			appWorkflowTransitions: [
+				{
+					name: Liferay.Language.get('submit'),
+					primary: true,
+					transitionTo: Liferay.Language.get('final-step'),
+				},
+			],
+			initial: true,
+			name: Liferay.Language.get('initial-step'),
+		},
+		{initial: false, name: Liferay.Language.get('final-step')},
+	];
 
-export const initialConfig = {
-	currentStep: initialSteps[0],
-	dataObject: {},
-	formView: {},
-	stepIndex: 0,
-	steps: initialSteps,
-	tableView: {},
+	return {
+		currentStep: initialSteps[0],
+		dataObject: {},
+		formView: {},
+		stepIndex: 0,
+		steps: initialSteps,
+		tableView: {},
+	};
 };
 
 export default (state, action) => {

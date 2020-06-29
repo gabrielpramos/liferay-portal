@@ -24,7 +24,7 @@ import '../../../../css/EditApp.scss';
 import DeployAppModal from './DeployAppModal.es';
 import configReducer, {
 	UPDATE_WORKFLOW_APP,
-	initialConfig,
+	getInitialConfig,
 } from './configReducer.es';
 import EditAppSidebar from './sidebar/EditAppSidebar.es';
 import WorkflowBuilder from './workflow-builder/WorkflowBuilder.es';
@@ -48,7 +48,10 @@ export default ({
 			scope,
 		},
 	});
-	const [config, dispatchConfig] = useReducer(configReducer, initialConfig);
+	const [config, dispatchConfig] = useReducer(
+		configReducer,
+		getInitialConfig()
+	);
 
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
