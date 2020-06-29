@@ -81,7 +81,7 @@ export default ({onCancel}) => {
 		setDeploying(true);
 
 		const workflowApp = {
-			appWorkflowStates: [steps[0], steps.pop()],
+			appWorkflowStates: [steps[0], steps[steps.length - 1]],
 		};
 
 		if (appId) {
