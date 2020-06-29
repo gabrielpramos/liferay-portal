@@ -132,7 +132,12 @@ export default ({
 									!config.dataObject.id ||
 									!app.dataLayoutId ||
 									!app.dataListViewId ||
-									!app.name.en_US
+									!app.name.en_US ||
+									config.steps.some(
+										(step) =>
+											step.initial === undefined &&
+											step.roleIds.length === 0
+									)
 								}
 								onClick={() => setModalVisible(true)}
 							>
