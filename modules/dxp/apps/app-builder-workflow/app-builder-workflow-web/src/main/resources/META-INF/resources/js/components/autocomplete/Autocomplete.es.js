@@ -23,7 +23,7 @@ const Autocomplete = ({
 	items,
 	onChange,
 	onSelect,
-	placeholder = Liferay.Language.get('select-or-type-an-option'),
+	placeholder = '',
 	promises = [],
 }) => {
 	const [activeItem, setActiveItem] = useState(-1);
@@ -108,8 +108,7 @@ const Autocomplete = ({
 			setDropDownItems(
 				items ? items.filter((item) => item.name.match(match)) : []
 			);
-		}
-		else {
+		} else {
 			onChange(value);
 		}
 

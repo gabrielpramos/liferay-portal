@@ -14,6 +14,7 @@ import ClayForm, {ClayInput} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
+import {getItem} from 'app-builder-web/js/utils/client.es';
 import {Sidebar} from 'data-engine-taglib';
 import React, {useContext, useEffect, useState} from 'react';
 
@@ -28,6 +29,7 @@ export default function EditAppSidebar({assigneeRoles}) {
 		dispatchConfig,
 	} = useContext(EditAppContext);
 
+	const [assigneeRoles, setAssigneeRoles] = useState([]);
 	const [currentTab, setCurrentTab] = useState();
 	const [selectedAssignees, setSelectedAssignees] = useState([]);
 
@@ -77,6 +79,12 @@ export default function EditAppSidebar({assigneeRoles}) {
 	useEffect(() => {
 		setCurrentTab(null);
 	}, [currentStep]);
+
+	useEffect(() => {
+		getItem('/o/headless-admin-user/v1.0/roles').then(({items}) =>
+			setAssigneeRoles(items)
+		);
+	}, []);
 
 	return (
 		<Sidebar className="app-builder-workflow-app__sidebar">
