@@ -12,7 +12,7 @@
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
 import React, {useContext} from 'react';
 
-import {UPDATE_STEP_INDEX} from '../configReducer.es';
+import {UPDATE_STEP_INDEX, UPDATE_WORKFLOW_APP} from '../configReducer.es';
 import WorkflowStep from './WorkflowStep.es';
 
 export default function WorkflowBuilder() {
@@ -20,6 +20,15 @@ export default function WorkflowBuilder() {
 		config: {dataObject, stepIndex, steps},
 		dispatchConfig,
 	} = useContext(EditAppContext);
+
+	const addStep = () => {
+		const workflowSteps = steps;
+		dispatchConfig({
+			appWorkflowStates: [workflowSteps.shift(), workflowSteps.pop()],
+			appWorkflowTasks: workflowSteps,
+			type: UPDATE_WORKFLOW_APP,
+		});
+	};
 
 	const onClickStep = (index) => {
 		if (index !== stepIndex) {
@@ -38,6 +47,7 @@ export default function WorkflowBuilder() {
 		<div className="app-builder-workflow-app__builder">
 			{steps.map((step, index) => (
 				<WorkflowStep
+					addStep={addStep}
 					{...step}
 					key={index}
 					onClick={() => onClickStep(index)}

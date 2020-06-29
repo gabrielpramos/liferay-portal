@@ -16,10 +16,16 @@ import React from 'react';
 
 import ButtonInfo from '../../../../components/button-info/ButtonInfo.es';
 
-const Arrow = () => {
+const Arrow = ({addStep, selected}) => {
 	return (
 		<div className="arrow">
 			<ClayIcon className="arrow-point icon" symbol="live" />
+
+			{selected && (
+				<div className="arrow-plus-button" onClick={addStep}>
+					<ClayIcon className="icon" symbol="plus" />
+				</div>
+			)}
 
 			<div className="arrow-body">
 				<div className="arrow-tail" />
@@ -30,6 +36,7 @@ const Arrow = () => {
 };
 
 export default function WorkflowStep({
+	addStep,
 	initial,
 	name,
 	onClick,
@@ -74,7 +81,7 @@ export default function WorkflowStep({
 				</div>
 			</div>
 
-			{!isFinalStep && <Arrow />}
+			{!isFinalStep && <Arrow addStep={addStep} selected={selected} />}
 		</>
 	);
 }

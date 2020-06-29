@@ -85,7 +85,7 @@ export default (state, action) => {
 			};
 		}
 		case UPDATE_WORKFLOW_APP: {
-			const {appWorkflowStates = []} = action;
+			const {appWorkflowStates = [], appWorkflowTasks = []} = action;
 
 			const initialState = appWorkflowStates.find(({initial}) => initial);
 			const finalState = appWorkflowStates.find(({initial}) => !initial);
@@ -93,7 +93,7 @@ export default (state, action) => {
 			return {
 				...state,
 				currentStep: initialState,
-				steps: [initialState, finalState],
+				steps: [initialState, ...appWorkflowTasks, finalState],
 			};
 		}
 		default: {

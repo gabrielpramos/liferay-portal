@@ -28,6 +28,22 @@ $navbarHeight: 120px;
 			padding-left: 80.25px;
 			position: relative;
 
+			.arrow-plus-button {
+				align-self: center;
+				background: #ffffff;
+				border: 1px solid #cdced9;
+				border-radius: 50%;
+				box-sizing: border-box;
+				cursor: pointer;
+				display: flex;
+				font-size: 1rem;
+				height: 2rem;
+				justify-content: center;
+				padding: 10px 0px;
+				position: absolute;
+				width: 2rem;
+			}
+
 			.arrow-body {
 				display: flex;
 				flex-flow: wrap-reverse;
