@@ -9,6 +9,9 @@
  * distribution rights of the Software.
  */
 
+import {sub} from 'app-builder-web/js/utils/lang.es';
+
+export const ADD_STEP = 'ADD_STEP';
 export const UPDATE_DATA_OBJECT = 'UPDATE_DATA_OBJECT';
 export const UPDATE_FORM_VIEW = 'UPDATE_FORM_VIEW';
 export const UPDATE_STEP = 'UPDATE_STEP';
@@ -44,6 +47,36 @@ export const getInitialConfig = () => {
 
 export default (state, action) => {
 	switch (action.type) {
+		case ADD_STEP: {
+			const workflowSteps = Array.from(state.steps);
+			const finalStep = workflowSteps.pop();
+
+			const stepIndex = action.stepIndex + 1;
+			const currentStep = {
+				appWorkflowTransitions: [
+					{
+						name: Liferay.Language.get('submit'),
+						primary: true,
+						transitionTo: finalStep.name,
+					},
+				],
+				name: sub(Liferay.Language.get('step-x'), [
+					state.steps.length - 1,
+				]),
+			};
+			workflowSteps.splice(stepIndex, 0, currentStep);
+			workflowSteps[
+				stepIndex - 1
+			].appWorkflowTransitions[0].transitionTo = currentStep.name;
+
+			return {
+				...state,
+				currentStep,
+				stepIndex,
+				steps: [...workflowSteps, finalStep],
+			};
+		}
+
 		case UPDATE_DATA_OBJECT: {
 			return {
 				...state,

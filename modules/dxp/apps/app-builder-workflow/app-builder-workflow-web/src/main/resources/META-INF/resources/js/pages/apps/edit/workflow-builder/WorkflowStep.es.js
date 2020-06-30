@@ -18,7 +18,7 @@ import ButtonInfo from '../../../../components/button-info/ButtonInfo.es';
 
 const Arrow = ({addStep, selected}) => {
 	return (
-		<div className="arrow">
+		<div className={classNames('arrow ', selected && 'selected')}>
 			<ClayIcon className="arrow-point icon" symbol="live" />
 
 			{selected && (
@@ -37,6 +37,7 @@ const Arrow = ({addStep, selected}) => {
 
 export default function WorkflowStep({
 	addStep,
+	badgeLabel,
 	initial,
 	name,
 	onClick,
@@ -46,26 +47,18 @@ export default function WorkflowStep({
 	const isInitialOrFinalSteps = initial !== undefined;
 	const isFinalStep = isInitialOrFinalSteps && !initial;
 
-	const badgeLabel = isFinalStep
-		? Liferay.Language.get('end')
-		: Liferay.Language.get('start');
-
 	return (
 		<>
 			<div className="step">
-				<div
-					className={classNames(
-						'step-wrapper',
-						!isInitialOrFinalSteps && 'no-badge'
-					)}
-				>
-					{isInitialOrFinalSteps && (
-						<ClayBadge
-							className="step-badge"
-							displayType={selected ? 'primary' : 'secondary'}
-							label={badgeLabel}
-						/>
-					)}
+				<div className="step-wrapper">
+					<ClayBadge
+						className={classNames(
+							'step-badge',
+							!isInitialOrFinalSteps && 'index-badge'
+						)}
+						displayType={selected ? 'primary' : 'secondary'}
+						label={badgeLabel}
+					/>
 
 					<div
 						className={classNames(
