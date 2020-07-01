@@ -83,7 +83,7 @@ export default ({onCancel}) => {
 	const onClickDeploy = () => {
 		setDeploying(true);
 
-		const workflowAppSteps = Array.from(steps);
+		const workflowAppSteps = [...steps];
 
 		const workflowApp = {
 			appWorkflowStates: [

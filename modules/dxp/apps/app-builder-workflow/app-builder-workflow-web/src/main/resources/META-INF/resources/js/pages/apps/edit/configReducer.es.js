@@ -48,7 +48,7 @@ export const getInitialConfig = () => {
 export default (state, action) => {
 	switch (action.type) {
 		case ADD_STEP: {
-			const workflowSteps = Array.from(state.steps);
+			const workflowSteps = [...state.steps];
 			const finalStep = workflowSteps.pop();
 
 			const stepIndex = action.stepIndex + 1;
