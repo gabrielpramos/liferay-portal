@@ -24,6 +24,7 @@ const history = {
 const customObjectItems = {
 	items: [
 		{
+			contentType: 'app-builder',
 			dataDefinitionKey: '37496',
 			dateCreated: '2020-06-05T13:43:16Z',
 			dateModified: '2020-06-05T13:44:08Z',
@@ -66,7 +67,6 @@ const formViewItems = {
 			dataRules: [],
 			dateCreated: '2020-06-08T12:12:23Z',
 			dateModified: '2020-06-08T12:12:23Z',
-			defaultLanguageId: 'en_US',
 			description: {},
 			id: 37625,
 			name: {
@@ -86,7 +86,6 @@ const tableViewItems = {
 			dataDefinitionId: 37497,
 			dateCreated: '2020-06-08T12:12:31Z',
 			dateModified: '2020-06-08T12:12:31Z',
-			defaultLanguageId: 'en_US',
 			fieldNames: ['Text'],
 			id: 37628,
 			name: {
@@ -99,6 +98,21 @@ const tableViewItems = {
 	],
 };
 
+const roleItems = {
+	items: [
+		{
+			availableLanguages: ['en-US'],
+			dateCreated: '2020-07-01T13:25:25Z',
+			dateModified: '2020-07-01T13:25:25Z',
+			description:
+				'Account Managers who belong to an organization can administer all accounts associated to that organization.',
+			id: 37238,
+			name: 'Account Manager',
+			roleType: 'organization',
+		},
+	],
+};
+
 describe('EditApp', () => {
 	afterEach(() => {
 		cleanup();
@@ -106,6 +120,7 @@ describe('EditApp', () => {
 	});
 
 	it('renders control menu, upperToolbar and sidebar component correctly when creating a new app', async () => {
+		fetch.mockResponseOnce(JSON.stringify(roleItems));
 		fetch.mockResponseOnce(JSON.stringify(customObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(nativeObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(formViewItems));
@@ -232,8 +247,10 @@ describe('EditApp', () => {
 			],
 		};
 
+		fetch.mockResponseOnce(JSON.stringify(roleItems));
 		fetch.mockResponseOnce(JSON.stringify(app));
 		fetch.mockResponseOnce(JSON.stringify(workflow));
+		fetch.mockResponseOnce(JSON.stringify(roleItems));
 		fetch.mockResponseOnce(JSON.stringify(customObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(nativeObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(formViewItems));

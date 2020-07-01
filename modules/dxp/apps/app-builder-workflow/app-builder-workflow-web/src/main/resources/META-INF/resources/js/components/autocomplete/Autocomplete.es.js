@@ -23,7 +23,7 @@ const Autocomplete = ({
 	items,
 	onChange,
 	onSelect,
-	placeholder = '',
+	placeholder = Liferay.Language.get('select-or-type-an-option'),
 	promises = [],
 }) => {
 	const [activeItem, setActiveItem] = useState(-1);
@@ -35,7 +35,7 @@ const Autocomplete = ({
 	const keyArrowUp = 40;
 	const keyEnter = 13;
 
-	const handleBlur = useCallback(() => {
+	const onBlur = useCallback(() => {
 		setDropDownVisible(false);
 		setActiveItem(-1);
 
@@ -60,11 +60,11 @@ const Autocomplete = ({
 		[onSelect, selected]
 	);
 
-	const handleFocus = () => {
+	const onFocus = () => {
 		setDropDownVisible(true);
 	};
 
-	const handleKeyDown = useCallback(
+	const onKeyDown = useCallback(
 		({keyCode}) => {
 			const item = dropDownItems[activeItem];
 
@@ -108,8 +108,7 @@ const Autocomplete = ({
 			setDropDownItems(
 				items ? items.filter((item) => item.name.match(match)) : []
 			);
-		}
-		else {
+		} else {
 			onChange(value);
 		}
 
@@ -135,10 +134,10 @@ const Autocomplete = ({
 									: ''
 							}`}
 							disabled={disabled}
-							onBlur={handleBlur}
+							onBlur={onBlur}
 							onChange={handleChange}
-							onFocus={handleFocus}
-							onKeyDown={handleKeyDown}
+							onFocus={onFocus}
+							onKeyDown={onKeyDown}
 							placeholder={placeholder}
 							value={defaultValue || value}
 						/>
