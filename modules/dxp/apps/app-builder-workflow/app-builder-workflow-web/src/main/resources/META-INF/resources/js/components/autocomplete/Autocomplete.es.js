@@ -23,7 +23,7 @@ const Autocomplete = ({
 	items,
 	onChange,
 	onSelect,
-	placeholder = '',
+	placeholder = Liferay.Language.get('select-or-type-an-option'),
 	promises = [],
 }) => {
 	const [activeItem, setActiveItem] = useState(-1);
