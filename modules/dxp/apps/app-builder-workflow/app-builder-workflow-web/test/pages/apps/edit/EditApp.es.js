@@ -70,7 +70,7 @@ const formViewItems = {
 			description: {},
 			id: 37625,
 			name: {
-				en_US: 'Form 01',
+				'en-US': 'Form 01',
 			},
 			paginationMode: 'wizard',
 			siteId: 20124,
@@ -89,7 +89,7 @@ const tableViewItems = {
 			fieldNames: ['Text'],
 			id: 37628,
 			name: {
-				en_US: 'Table 01',
+				'en-US': 'Table 01',
 			},
 			siteId: 20124,
 			sortField: '',
@@ -220,7 +220,6 @@ describe('EditApp', () => {
 			name: {
 				en_US: 'Test',
 			},
-			scope: 'standard',
 			siteId: 20124,
 			userId: 20126,
 		};
@@ -250,7 +249,6 @@ describe('EditApp', () => {
 		fetch.mockResponseOnce(JSON.stringify(roleItems));
 		fetch.mockResponseOnce(JSON.stringify(app));
 		fetch.mockResponseOnce(JSON.stringify(workflow));
-		fetch.mockResponseOnce(JSON.stringify(roleItems));
 		fetch.mockResponseOnce(JSON.stringify(customObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(nativeObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(formViewItems));
