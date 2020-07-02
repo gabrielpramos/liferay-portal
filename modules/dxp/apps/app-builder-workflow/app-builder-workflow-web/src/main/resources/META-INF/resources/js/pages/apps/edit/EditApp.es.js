@@ -53,6 +53,7 @@ export default ({
 		getInitialConfig()
 	);
 
+	const [assigneeRoles, setAssigneeRoles] = useState([]);
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 
@@ -67,6 +68,10 @@ export default ({
 	};
 
 	useEffect(() => {
+		getItem('/o/headless-admin-user/v1.0/roles').then(({items}) =>
+			setAssigneeRoles(items)
+		);
+
 		if (appId) {
 			setLoading(true);
 
@@ -139,6 +144,11 @@ export default ({
 									config.steps.some(
 										({name}) =>
 											!name || name.trim().length === 0
+									) ||
+									config.steps.some(
+										(step) =>
+											step.initial === undefined &&
+											step.roleIds.length === 0
 									)
 								}
 								onClick={() => setModalVisible(true)}
@@ -150,7 +160,7 @@ export default ({
 
 					<WorkflowBuilder />
 
-					<EditAppSidebar />
+					<EditAppSidebar assigneeRoles={assigneeRoles} />
 
 					<DeployAppModal onCancel={onCancel} />
 				</EditAppContext.Provider>
