@@ -53,6 +53,7 @@ export default (state, action) => {
 
 			const stepIndex = action.stepIndex + 1;
 			const currentStep = {
+				appWorkflowRoleAssignments: [],
 				appWorkflowTransitions: [
 					{
 						name: Liferay.Language.get('submit'),
@@ -60,6 +61,7 @@ export default (state, action) => {
 						transitionTo: finalStep.name,
 					},
 				],
+
 				name: sub(Liferay.Language.get('step-x'), [
 					state.steps.length - 1,
 				]),

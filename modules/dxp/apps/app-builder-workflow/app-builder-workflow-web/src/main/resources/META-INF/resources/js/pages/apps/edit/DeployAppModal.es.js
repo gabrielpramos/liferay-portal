@@ -24,7 +24,7 @@ import React, {useContext, useState} from 'react';
 export default ({onCancel}) => {
 	const {
 		appId,
-		config: {dataObject, steps},
+		config: {assigneesRoles, dataObject, steps},
 		isModalVisible,
 		setModalVisible,
 		state: {app},
@@ -90,7 +90,10 @@ export default ({onCancel}) => {
 				workflowAppSteps.shift(),
 				workflowAppSteps.pop(),
 			],
-			appWorkflowTasks: workflowAppSteps,
+			appWorkflowTasks: workflowAppSteps.map((appWorkflowTask) => ({
+				...appWorkflowTask,
+				appWorkflowRoleAssignments: assigneesRoles,
+			})),
 		};
 
 		if (appId) {

@@ -14,7 +14,6 @@ import ClayForm, {ClayInput} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
-import {getItem} from 'app-builder-web/js/utils/client.es';
 import {Sidebar} from 'data-engine-taglib';
 import React, {useContext, useEffect, useState} from 'react';
 
@@ -67,8 +66,12 @@ export default function EditAppSidebar({assigneeRoles}) {
 
 		dispatchConfig({
 			step: {
-				...currentStep,
-				roleIds: selectedAssignees.map(({id}) => id),
+				currentStep: {
+					...currentStep,
+					appWorkflowRoleAssignments: selectedAssignees.map(
+						({id, name}) => ({roleId: id, roleName: name})
+					),
+				},
 			},
 			stepIndex,
 			type: UPDATE_STEP,

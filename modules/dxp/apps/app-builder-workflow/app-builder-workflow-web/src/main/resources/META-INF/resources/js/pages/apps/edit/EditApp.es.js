@@ -146,10 +146,16 @@ export default ({
 											!name || name.trim().length === 0
 									) ||
 									config.steps.some(
-										(step) =>
-											step.initial === undefined &&
-											step.roleIds &&
-											step.roleIds.length === 0
+										({
+											appWorkflowRoleAssignments,
+											initial,
+											name,
+										}) =>
+											appWorkflowRoleAssignments &&
+											appWorkflowRoleAssignments.length ===
+												0 &&
+											initial === undefined &&
+											!name
 									)
 								}
 								onClick={() => setModalVisible(true)}
