@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.LiferayFileItemException;
@@ -34,7 +33,6 @@ import com.liferay.portal.kernel.upload.UploadRequestSizeException;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.translation.exception.XLIFFFileException;
 import com.liferay.translation.exporter.TranslationInfoItemFieldValuesExporter;
 import com.liferay.translation.info.item.updater.InfoItemFieldValuesUpdater;
@@ -100,26 +98,11 @@ public class ImportTranslationMVCActionCommand extends BaseMVCActionCommand {
 							articleResourcePrimKey),
 						inputStream);
 
-				JournalArticle journalArticle =
-					_journalArticleInfoItemFieldValuesUpdater.
-						updateFromInfoItemFieldValues(
-							_journalArticleService.getArticle(
-								groupId, articleId, version),
-							infoItemFieldValues);
-
-				int workflowAction = ParamUtil.getInteger(
-					actionRequest, "workflowAction",
-					WorkflowConstants.ACTION_PUBLISH);
-
-				if (workflowAction != WorkflowConstants.ACTION_SAVE_DRAFT) {
-					_journalArticleService.updateStatus(
-						journalArticle.getGroupId(),
-						journalArticle.getArticleId(),
-						journalArticle.getVersion(),
-						WorkflowConstants.STATUS_APPROVED,
-						journalArticle.getUrlTitle(),
-						ServiceContextFactory.getInstance(actionRequest));
-				}
+				_journalArticleInfoItemFieldValuesUpdater.
+					updateFromInfoItemFieldValues(
+						_journalArticleService.getArticle(
+							groupId, articleId, version),
+						infoItemFieldValues);
 			}
 		}
 		catch (Exception exception) {

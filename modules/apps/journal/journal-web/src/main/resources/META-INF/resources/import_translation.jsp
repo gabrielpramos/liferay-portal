@@ -19,11 +19,12 @@
 <%
 String redirect = ParamUtil.getString(request, "redirect");
 
-String articleResourcePrimKey = ParamUtil.getString(request, "articleResourcePrimKey");
-String groupId = ParamUtil.getString(request, "groupId");
-String articleId = ParamUtil.getString(request, "articleId");
-double version = ParamUtil.getDouble(request, "version");
-String articleTitle = ParamUtil.getString(request, "articleTitle");
+JournalArticle article = journalDisplayContext.getArticle();
+
+JournalEditArticleDisplayContext journalEditArticleDisplayContext = new JournalEditArticleDisplayContext(request, liferayPortletResponse, article);
+
+String articleResourcePrimKey = String.valueOf(article.getResourcePrimKey());
+String articleTitle = article.getTitle();
 
 portletDisplay.setShowBackIcon(true);
 portletDisplay.setURLBack(redirect);
@@ -40,16 +41,16 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 
 <portlet:actionURL name="/journal/import_translation" var="importTranslationURL">
 	<portlet:param name="articleResourcePrimKey" value="<%= articleResourcePrimKey %>" />
-	<portlet:param name="groupId" value="<%= groupId %>" />
-	<portlet:param name="articleId" value="<%= articleId %>" />
-	<portlet:param name="version" value="<%= String.valueOf(version) %>" />
+	<portlet:param name="groupId" value="<%= String.valueOf(article.getGroupId()) %>" />
+	<portlet:param name="articleId" value="<%= article.getArticleId() %>" />
+	<portlet:param name="version" value="<%= String.valueOf(article.getVersion()) %>" />
 </portlet:actionURL>
 
-<aui:form action="<%= importTranslationURL %>" name="fm">
+<aui:form action="<%= importTranslationURL %>" cssClass="import-translation" name="fm">
 	<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
 	<aui:input name="workflowAction" type="hidden" value="<%= WorkflowConstants.ACTION_PUBLISH %>" />
 
-	<nav class="component-tbar subnav-tbar-light tbar tbar-metadata-type">
+	<nav class="component-tbar subnav-tbar-light tbar">
 		<clay:container-fluid>
 			<ul class="tbar-nav">
 				<li class="tbar-item tbar-item-expand">
@@ -63,9 +64,9 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 					<div class="metadata-type-button-row tbar-section text-right">
 						<aui:button cssClass="btn-sm mr-3" href="<%= redirect %>" type="cancel" />
 
-						<aui:button cssClass="btn-sm mr-3" id="saveDraftBtn" primary="<%= false %>" type="submit" value='<%= LanguageUtil.get(request, "save-as-draft") %>' />
+						<aui:button cssClass="btn-sm mr-3" id="saveDraftBtn" primary="<%= false %>" type="submit" value="<%= journalEditArticleDisplayContext.getSaveButtonLabel() %>" />
 
-						<aui:button cssClass="btn-sm mr-3" id="submitBtnId" primary="<%= true %>" type="submit" value='<%= LanguageUtil.get(request, "publish") %>' />
+						<aui:button cssClass="btn-sm mr-3" disabled="<%= journalEditArticleDisplayContext.isPending() %>" id="submitBtnId" primary="<%= true %>" type="submit" value="<%= journalEditArticleDisplayContext.getPublishButtonLabel() %>" />
 					</div>
 				</li>
 			</ul>
@@ -84,6 +85,8 @@ renderResponse.setTitle(LanguageUtil.get(resourceBundle, "import-translation"));
 				"saveDraftBtnId", liferayPortletResponse.getNamespace() + "saveDraftBtn"
 			).put(
 				"submitBtnId", liferayPortletResponse.getNamespace() + "submitBtnId"
+			).put(
+				"worflowPending", journalEditArticleDisplayContext.isPending()
 			).build();
 			%>
 

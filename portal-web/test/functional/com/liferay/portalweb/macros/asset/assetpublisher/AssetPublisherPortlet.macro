@@ -662,9 +662,16 @@ definition {
 
 		SelectFrame(value1 = "relative=top");
 
-		AssertClick(
-			locator1 = "Button#ADD",
-			value1 = "Add");
+		if (IsElementPresent(locator1 = "//button[contains(.,'Add')]")) {
+			AssertClick(
+				locator1 = "//button[contains(.,'Add')]",
+				value1 = "Add");
+		}
+		else if (IsElementPresent(locator1 = "Button#DONE")) {
+			AssertClick(
+				locator1 = "Button#DONE",
+				value1 = "Done");
+		}
 
 		SelectFrame(locator1 = "IFrame#MODAL_BODY");
 

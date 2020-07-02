@@ -1632,52 +1632,10 @@ public abstract class BaseBuild implements Build {
 	public static class DefaultBranchInformation implements BranchInformation {
 
 		@Override
-		public RemoteGitRef getCachedRemoteGitRef() {
-			String cachedBranchName = JenkinsResultsParserUtil.combine(
+		public String getCachedRemoteGitRefName() {
+			return JenkinsResultsParserUtil.combine(
 				"cache-", getReceiverUsername(), "-", getUpstreamBranchSHA(),
 				"-", getSenderUsername(), "-", getSenderBranchSHA());
-
-			String remoteURL = JenkinsResultsParserUtil.combine(
-				"git@github-dev.liferay.com:liferay/", getRepositoryName(),
-				".git");
-
-			return GitUtil.getRemoteGitRef(
-				cachedBranchName, new File("."), remoteURL);
-		}
-
-		@Override
-		public LocalGitBranch getLocalGitBranch(
-			GitWorkingDirectory gitWorkingDirectory) {
-
-			gitWorkingDirectory.checkoutUpstreamLocalGitBranch();
-
-			LocalGitBranch localGitBranch =
-				gitWorkingDirectory.createLocalGitBranch(
-					JenkinsResultsParserUtil.combine(
-						getUpstreamBranchName(), "-temp-",
-						String.valueOf(System.currentTimeMillis())),
-					true);
-
-			try {
-				localGitBranch = gitWorkingDirectory.fetch(
-					localGitBranch, true, getCachedRemoteGitRef());
-			}
-			catch (Exception exception) {
-				localGitBranch = gitWorkingDirectory.fetch(
-					localGitBranch, true, getSenderRemoteGitRef());
-
-				LocalGitBranch upstreamLocalGitBranch =
-					gitWorkingDirectory.createLocalGitBranch(
-						JenkinsResultsParserUtil.combine(
-							getUpstreamBranchName(), "-temp-upstream-",
-							String.valueOf(System.currentTimeMillis())),
-						true, getUpstreamBranchSHA());
-
-				localGitBranch = gitWorkingDirectory.rebase(
-					true, upstreamLocalGitBranch, localGitBranch);
-			}
-
-			return localGitBranch;
 		}
 
 		@Override

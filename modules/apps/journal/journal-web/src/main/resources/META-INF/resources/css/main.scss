@@ -250,4 +250,73 @@ $productMenuWidth: 320px;
 			color: #008000;
 		}
 	}
+
+	.import-translation,
+	.translate-article {
+		nav {
+			height: auto;
+
+			> .container-fluid {
+				padding: 0;
+
+				> .tbar-nav {
+					flex-wrap: wrap;
+
+					> .tbar-item {
+						padding: 0.5em 0.75em;
+					}
+
+					> .tbar-item:first-child {
+						border-top: solid thin #e7e7ed;
+						order: 1;
+						width: 100%;
+					}
+
+					> .tbar-item:last-child {
+						flex-grow: 1;
+
+						> .tbar-section {
+							display: flex;
+							justify-content: flex-end;
+						}
+					}
+				}
+			}
+
+			@include media-breakpoint-up(lg) {
+				> .container-fluid > .tbar-nav {
+					> .tbar-item:first-child {
+						border-top: none;
+						order: 0;
+						width: auto;
+					}
+
+					> .tbar-item:last-child {
+						flex-grow: 0;
+					}
+				}
+			}
+		}
+	}
+
+	.translate-article {
+		.languages-selector .autofit-col {
+			margin-right: 1em;
+		}
+
+		.translate-body-form {
+			background-color: #fff;
+			padding: 1.5rem;
+
+			.form-control[readonly] {
+				background-color: #fff;
+			}
+
+			.separator {
+				border-color: $secondary;
+				margin-bottom: 2rem;
+				margin-top: 0.25rem;
+			}
+		}
+	}
 }

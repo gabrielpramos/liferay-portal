@@ -97,10 +97,12 @@ public class AssetCategoriesSelectorDisplayContext {
 			PortletRequest.RENDER_PHASE);
 
 		addCategoryURL.setParameter("mvcPath", "/edit_category.jsp");
-		addCategoryURL.setParameter("itemSelectorEventName", getEventName());
 		addCategoryURL.setParameter("redirect", themeDisplay.getURLCurrent());
 		addCategoryURL.setParameter(
+			"groupId", String.valueOf(assetVocabulary.getGroupId()));
+		addCategoryURL.setParameter(
 			"vocabularyId", String.valueOf(vocabularyIds[0]));
+		addCategoryURL.setParameter("itemSelectorEventName", getEventName());
 
 		addCategoryURL.setWindowState(LiferayWindowState.POP_UP);
 

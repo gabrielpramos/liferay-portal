@@ -19,31 +19,46 @@
 <%
 String redirect = ParamUtil.getString(request, "redirect");
 
-InfoItemFieldValues infoItemFieldValues = (InfoItemFieldValues)request.getAttribute(InfoItemFieldValues.class.getName());
-
 JournalArticle article = (JournalArticle)request.getAttribute(JournalWebKeys.JOURNAL_ARTICLES);
 
-String title = article.getTitle();
-
-TranslationInfoFieldChecker translationInfoFieldChecker = (TranslationInfoFieldChecker)request.getAttribute(TranslationInfoFieldChecker.class.getName());
+String sourceLanguageId = (String)request.getAttribute(JournalWebConstants.SOURCE_LANGUAGE_ID);
+String targetLanguageId = (String)request.getAttribute(JournalWebConstants.TARGET_LANGUAGE_ID);
 
 portletDisplay.setShowBackIcon(true);
 portletDisplay.setURLBack(redirect);
 
-renderResponse.setTitle(title);
+renderResponse.setTitle(article.getTitle());
 %>
 
-<aui:form name="translate_fm" onSubmit="event.preventDefault();">
+<aui:form cssClass="translate-article" name="translate_fm" onSubmit="event.preventDefault();">
 	<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
 
-	<nav class="component-tbar subnav-tbar-light tbar tbar-metadata-type">
+	<nav class="component-tbar subnav-tbar-light tbar">
 		<clay:container-fluid>
 			<ul class="tbar-nav">
 				<li class="tbar-item tbar-item-expand">
 					<div class="tbar-section text-left">
-						<h2 class="h4 text-truncate-inline" title="<%= HtmlUtil.escapeAttribute(title) %>">
-							<span class="text-truncate"><%= HtmlUtil.escape(title) %></span>
-						</h4>
+
+						<%
+						Map<String, Object> data = HashMapBuilder.<String, Object>put(
+							"currentUrl", currentURL
+						).put(
+							"sourceAvailableLanguages",
+							request.getAttribute(JournalWebConstants.AVAILABLE_SOURCE_LANGUAGE_IDS)
+						).put(
+							"sourceLanguageId", sourceLanguageId
+						).put(
+							"targetAvailableLanguages",
+							request.getAttribute(JournalWebConstants.AVAILABLE_TARGET_LANGUAGE_IDS)
+						).put(
+							"targetLanguageId", targetLanguageId
+						).build();
+						%>
+
+						<react:component
+							data="<%= data %>"
+							module="js/translate/TranslateLanguagesSelector"
+						/>
 					</div>
 				</li>
 				<li class="tbar-item">
@@ -52,7 +67,7 @@ renderResponse.setTitle(title);
 
 						<aui:button cssClass="btn-sm mr-3" id="saveDraftBtn" value='<%= LanguageUtil.get(request, "save-as-draft") %>' />
 
-						<aui:button cssClass="btn-sm mr-3" id="submitBtnId" primary="<%= true %>" type="submit" value='<%= LanguageUtil.get(request, "publish") %>' />
+						<aui:button cssClass="btn-sm" id="submitBtnId" primary="<%= true %>" type="submit" value='<%= LanguageUtil.get(request, "publish") %>' />
 					</div>
 				</li>
 			</ul>
@@ -62,31 +77,73 @@ renderResponse.setTitle(title);
 	<clay:container-fluid
 		cssClass="container-view"
 	>
-		<div class="bg-white p-4">
+		<div class="translate-body-form">
+			<clay:row>
+				<clay:col
+					md="6"
+				>
+
+					<%
+					String sourceLanguageIdTitle = StringUtil.replace(sourceLanguageId, CharPool.UNDERLINE, CharPool.DASH);
+					%>
+
+					<clay:icon
+						symbol="<%= StringUtil.toLowerCase(sourceLanguageIdTitle) %>"
+					/>
+
+					<span class="ml-1"> <%= sourceLanguageIdTitle %> </span>
+
+					<div class="separator"><!-- --></div>
+				</clay:col>
+
+				<clay:col
+					md="6"
+				>
+
+					<%
+					String targetLanguageIdTitle = StringUtil.replace(targetLanguageId, CharPool.UNDERLINE, CharPool.DASH);
+					%>
+
+					<clay:icon
+						symbol="<%= StringUtil.toLowerCase(targetLanguageIdTitle) %>"
+					/>
+
+					<span class="ml-1"> <%= targetLanguageIdTitle %> </span>
+
+					<div class="separator"><!-- --></div>
+				</clay:col>
+			</clay:row>
 
 			<%
+			Locale sourceLocale = LocaleUtil.fromLanguageId(sourceLanguageId);
+			Locale targetLocale = LocaleUtil.fromLanguageId(targetLanguageId);
+
+			InfoItemFieldValues infoItemFieldValues = (InfoItemFieldValues)request.getAttribute(InfoItemFieldValues.class.getName());
+
 			for (InfoFieldValue<Object> infoFieldValue : infoItemFieldValues.getInfoFieldValues()) {
+				TranslationInfoFieldChecker translationInfoFieldChecker = (TranslationInfoFieldChecker)request.getAttribute(TranslationInfoFieldChecker.class.getName());
+
 				InfoField infoField = infoFieldValue.getInfoField();
 
 				if (translationInfoFieldChecker.isTranslatable(infoField)) {
 					InfoLocalizedValue<String> labelInfoLocalizedValue = infoField.getLabelInfoLocalizedValue();
 
-					String label = labelInfoLocalizedValue.getValue(locale);
+					String label = labelInfoLocalizedValue.getValue(sourceLocale);
 			%>
 
-				<clay:row>
-					<clay:col
-						md="6"
-					>
-						<aui:input label="<%= label %>" name="<%= label %>" readonly="true" value="<%= String.valueOf(infoFieldValue.getValue(locale)) %>" />
-					</clay:col>
+					<clay:row>
+						<clay:col
+							md="6"
+						>
+							<aui:input dir='<%= LanguageUtil.get(sourceLocale, "lang.dir") %>' label="<%= label %>" name="<%= label %>" readonly="true" value="<%= String.valueOf(infoFieldValue.getValue(sourceLocale)) %>" />
+						</clay:col>
 
-					<clay:col
-						md="6"
-					>
-						<aui:input label="<%= label %>" name="<%= label %>" value="" />
-					</clay:col>
-				</clay:row>
+						<clay:col
+							md="6"
+						>
+							<aui:input dir='<%= LanguageUtil.get(targetLocale, "lang.dir") %>' label="<%= label %>" name="<%= label %>" value="<%= String.valueOf(infoFieldValue.getValue(targetLocale)) %>" />
+						</clay:col>
+					</clay:row>
 
 			<%
 				}

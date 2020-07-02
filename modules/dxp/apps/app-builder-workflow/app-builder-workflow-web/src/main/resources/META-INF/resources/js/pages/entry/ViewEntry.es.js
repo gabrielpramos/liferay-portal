@@ -19,28 +19,43 @@ import {ViewDataLayoutPageValues} from 'app-builder-web/js/pages/entry/ViewEntry
 import ViewEntryUpperToolbar from 'app-builder-web/js/pages/entry/ViewEntryUpperToolbar.es';
 import {getItem} from 'app-builder-web/js/utils/client.es';
 import {errorToast} from 'app-builder-web/js/utils/toast.es';
-import {isEqualObjects} from 'app-builder-web/js/utils/utils.es';
+import {concatValues, isEqualObjects} from 'app-builder-web/js/utils/utils.es';
 import {usePrevious} from 'frontend-js-react-web';
 import React, {useContext, useEffect, useState} from 'react';
 
 import '../../../css/ViewEntry.scss';
 import useAppWorkflow from '../../hooks/useAppWorkflow.es';
 
-const WorkflowInfo = ({assignees = [], completed, taskNames = []}) => {
+const WorkflowInfo = ({
+	assignees = [],
+	completed,
+	taskNames = [],
+	tasks = [],
+}) => {
 	const emptyValue = '--';
 
-	const {name = emptyValue} = assignees.pop() || {};
+	let assignee = assignees[0].name || emptyValue;
+
 	const status = completed ? (
 		<ClayLabel displayType="success">
 			{Liferay.Language.get('completed')}
 		</ClayLabel>
 	) : (
-		<ClayLabel displayType="secondary">
+		<ClayLabel displayType="info">
 			{Liferay.Language.get('pending')}
 		</ClayLabel>
 	);
 
-	const stepName = taskNames.pop() || emptyValue;
+	const stepName = taskNames[0] || emptyValue;
+
+	if (assignees[0].id === -1) {
+		const {appWorkflowRoleAssignments: roles = []} =
+			tasks.find(({name}) => name === stepName) || {};
+
+		const roleNames = roles.map(({roleName}) => roleName);
+
+		assignee = roleNames.length ? concatValues(roleNames) : emptyValue;
+	}
 
 	const items = [
 		{
@@ -53,7 +68,7 @@ const WorkflowInfo = ({assignees = [], completed, taskNames = []}) => {
 		},
 		{
 			label: Liferay.Language.get('assignee'),
-			value: name,
+			value: assignee,
 		},
 	];
 
@@ -79,7 +94,7 @@ export default function ViewEntry({
 	},
 }) {
 	const {appId, dataDefinitionId, dataLayoutId} = useContext(AppContext);
-	const {appWorkflowDefinitionId} = useAppWorkflow(appId);
+	const {appWorkflowDefinitionId, appWorkflowTasks} = useAppWorkflow(appId);
 	const {
 		dataDefinition,
 		dataLayout: {dataLayoutPages},
@@ -129,7 +144,10 @@ export default function ViewEntry({
 						)
 							.then((workflowResponse) => {
 								if (workflowResponse.totalCount > 0) {
-									state.workflowInfo = workflowResponse.items.pop();
+									state.workflowInfo = {
+										...workflowResponse.items.pop(),
+										tasks: appWorkflowTasks,
+									};
 								}
 
 								setState((prevState) => ({
@@ -157,10 +175,7 @@ export default function ViewEntry({
 	};
 
 	useEffect(() => {
-		if (
-			!isEqualObjects(query, previousQuery) ||
-			entryIndex !== previousIndex
-		) {
+		if (!isEqualObjects(query, previousQuery) || !previousIndex) {
 			doFetch(appWorkflowDefinitionId);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

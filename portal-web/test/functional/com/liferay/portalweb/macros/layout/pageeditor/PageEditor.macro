@@ -642,7 +642,7 @@ definition {
 	macro editCollectionDisplay {
 		var key_fragmentName = "${fragmentName}";
 
-		Click(locator1 = "PageEditor#CONTENT_PAGE_DISABLED_HEADER");
+		Click(locator1 = "PageEditor#MANAGEMENT_BAR");
 
 		Click.clickNoWaitForVisible(locator1 = "Fragment#FRAGMENT_HEADER");
 
@@ -895,7 +895,7 @@ definition {
 				value1 = "${text}");
 		}
 
-		Click(locator1 = "PageEditor#CONTENT_PAGE_DISABLED_HEADER");
+		Click(locator1 = "PageEditor#MANAGEMENT_BAR");
 
 		PageEditor.waitForAutoSave();
 	}

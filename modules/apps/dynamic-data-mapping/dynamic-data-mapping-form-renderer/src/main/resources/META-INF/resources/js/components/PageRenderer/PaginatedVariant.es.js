@@ -19,6 +19,7 @@ import {Pagination} from '../Pagination.es';
 import {PaginationControls} from '../PaginationControls.es';
 import * as DefaultVariant from './DefaultVariant.es';
 
+/* eslint-disable react/jsx-fragments */
 export const Container = ({
 	activePage,
 	children,
@@ -35,9 +36,9 @@ export const Container = ({
 		</DefaultVariant.Container>
 
 		{pageIndex === activePage && (
-			<>
+			<React.Fragment>
 				{pages.length > 0 && (
-					<>
+					<React.Fragment>
 						<Pagination activePage={activePage} pages={pages} />
 						<PaginationControls
 							activePage={activePage}
@@ -47,7 +48,7 @@ export const Container = ({
 							submitLabel={submitLabel}
 							total={pages.length}
 						/>
-					</>
+					</React.Fragment>
 				)}
 
 				{!pages.length && showSubmitButton && (
@@ -58,7 +59,7 @@ export const Container = ({
 						{submitLabel}
 					</ClayButton>
 				)}
-			</>
+			</React.Fragment>
 		)}
 	</div>
 );

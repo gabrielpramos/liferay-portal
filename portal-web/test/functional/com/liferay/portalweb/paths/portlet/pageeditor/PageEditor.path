@@ -64,6 +64,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>MANAGEMENT_BAR</td>
+	<td>//div[contains(@class,'management-bar')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>VIEWPOINT_HANDLE</td>
 	<td>//div[contains(@class,'page-editor__layout-viewport__handle')]</td>
 	<td></td>
@@ -476,6 +481,11 @@
 <tr>
 	<td>EDITABLE_FIELD_TOOLBAR_MAP_BUTTON</td>
 	<td>//button[@*='Map']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EDITABLE_FIELD_TOOLBAR_MAP_BUTTON_SPECIFIC</td>
+	<td>//div[contains(@class,'form-group') and contains(.,'${key_mappedField}')]//button[@*='Map']</td>
 	<td></td>
 </tr>
 <tr>

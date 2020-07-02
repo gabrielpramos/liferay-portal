@@ -176,9 +176,11 @@ public class AssetCategoryAdminPortlet extends MVCPortlet {
 
 			// Add category
 
+			long groupId = ParamUtil.getLong(actionRequest, "groupId");
+
 			_assetCategoryService.addCategory(
-				serviceContext.getScopeGroupId(), parentCategoryId, titleMap,
-				descriptionMap, vocabularyId, null, serviceContext);
+				groupId, parentCategoryId, titleMap, descriptionMap,
+				vocabularyId, null, serviceContext);
 
 			MultiSessionMessages.add(
 				actionRequest, "categoryAdded",

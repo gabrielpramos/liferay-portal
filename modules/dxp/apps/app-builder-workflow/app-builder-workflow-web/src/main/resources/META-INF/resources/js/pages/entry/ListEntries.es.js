@@ -29,7 +29,7 @@ import {
 } from 'app-builder-web/js/pages/entry/utils.es';
 import {getItem} from 'app-builder-web/js/utils/client.es';
 import {errorToast} from 'app-builder-web/js/utils/toast.es';
-import {isEqualObjects} from 'app-builder-web/js/utils/utils.es';
+import {concatValues, isEqualObjects} from 'app-builder-web/js/utils/utils.es';
 import {usePrevious} from 'frontend-js-react-web';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 
@@ -51,7 +51,9 @@ export default function ListEntries({history}) {
 		showFormView,
 	} = useContext(AppContext);
 
-	const {appWorkflowDefinitionId} = useAppWorkflow(appId);
+	const {appWorkflowDefinitionId, appWorkflowTasks = []} = useAppWorkflow(
+		appId
+	);
 
 	const {
 		columns,
@@ -155,12 +157,26 @@ export default function ListEntries({history}) {
 				WORKFLOW_COLUMNS.forEach(({key}) => {
 					switch (key) {
 						case 'assignees': {
-							const {name = emptyValue} =
-								entry[key] && entry[key].length
-									? entry[key].pop()
-									: {};
+							const {assignees = [{}], taskNames = []} = entry;
+							const {name = emptyValue, id} = assignees[0];
 
-							workflowValues[key] = name;
+							if (id === -1) {
+								const {appWorkflowRoleAssignments = []} =
+									appWorkflowTasks.find(
+										({name}) => name === taskNames[0]
+									) || {};
+
+								const roleNames = appWorkflowRoleAssignments.map(
+									({roleName}) => roleName
+								);
+
+								workflowValues[key] = roleNames.length
+									? concatValues(roleNames)
+									: emptyValue;
+							}
+							else {
+								workflowValues[key] = name;
+							}
 
 							break;
 						}
@@ -171,7 +187,7 @@ export default function ListEntries({history}) {
 										{Liferay.Language.get('completed')}
 									</ClayLabel>
 								) : (
-									<ClayLabel displayType="secondary">
+									<ClayLabel displayType="info">
 										{Liferay.Language.get('pending')}
 									</ClayLabel>
 								);
@@ -183,11 +199,8 @@ export default function ListEntries({history}) {
 							break;
 						}
 						case 'taskNames': {
-							workflowValues[key] =
-								entry[key] && entry[key].length
-									? entry[key].pop()
-									: emptyValue;
-
+							const {taskNames = [emptyValue]} = entry;
+							workflowValues[key] = taskNames[0];
 							break;
 						}
 						default: {

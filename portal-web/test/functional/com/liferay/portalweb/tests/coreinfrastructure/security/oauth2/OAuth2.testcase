@@ -375,6 +375,8 @@ definition {
 
 		var portalURL = PropsUtil.get("portal.url");
 
+		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+
 		var tokenCurl = '''
 			${portalURL}/o/oauth2/token \
 				--data grant_type=client_credentials&client_id=abc123&client_secret=abc123
@@ -415,7 +417,7 @@ definition {
 		ProductMenu.gotoPortlet(
 			category = "Content &amp; Data",
 			portlet = "Web Content",
-			site = "Guest");
+			site = "${siteName}");
 
 		AssertTextNotPresent(value1 = "WC Title");
 	}

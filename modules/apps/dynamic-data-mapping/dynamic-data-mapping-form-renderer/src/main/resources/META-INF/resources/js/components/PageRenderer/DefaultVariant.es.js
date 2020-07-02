@@ -186,13 +186,14 @@ export const Page = ({
 	);
 };
 
+/* eslint-disable react/jsx-fragments */
 export const PageHeader = ({description, title}) => (
-	<>
+	<React.Fragment>
 		{title && <h2 className="lfr-ddm-form-page-title">{title}</h2>}
 		{description && (
 			<h3 className="lfr-ddm-form-page-description">{description}</h3>
 		)}
-	</>
+	</React.Fragment>
 );
 
 export const Placeholder = ({

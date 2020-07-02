@@ -21,7 +21,6 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -255,20 +254,8 @@ public class AccountRoleLocalServiceImpl
 			roleDynamicQuery.add(disjunction);
 		}
 
-		if (orderByComparator != null) {
-			Order order;
-
-			if (orderByComparator.isAscending()) {
-				order = OrderFactoryUtil.asc(
-					orderByComparator.getOrderByFields()[0]);
-			}
-			else {
-				order = OrderFactoryUtil.desc(
-					orderByComparator.getOrderByFields()[0]);
-			}
-
-			roleDynamicQuery.addOrder(order);
-		}
+		OrderFactoryUtil.addOrderByComparator(
+			roleDynamicQuery, orderByComparator);
 
 		return roleDynamicQuery;
 	}

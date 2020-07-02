@@ -21,12 +21,23 @@ import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.constants.JournalWebKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
+import com.liferay.journal.web.internal.constants.JournalWebConstants;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.translation.info.field.TranslationInfoFieldChecker;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -71,6 +82,31 @@ public class TranslateMVCRenderCommand implements MVCRenderCommand {
 				InfoItemFieldValues.class.getName(),
 				infoItemFieldValuesProvider.getInfoItemFieldValues(article));
 
+			List<String> availableSourceLanguageIds = Arrays.asList(
+				article.getAvailableLanguageIds());
+
+			renderRequest.setAttribute(
+				JournalWebConstants.AVAILABLE_SOURCE_LANGUAGE_IDS,
+				availableSourceLanguageIds);
+
+			String sourceLanguageId = ParamUtil.getString(
+				renderRequest, "sourceLanguageId",
+				availableSourceLanguageIds.get(0));
+
+			List<String> availableTargetLanguageIds =
+				_getSiteAvailableLanguageIds(sourceLanguageId, themeDisplay);
+
+			renderRequest.setAttribute(
+				JournalWebConstants.AVAILABLE_TARGET_LANGUAGE_IDS,
+				availableTargetLanguageIds);
+
+			renderRequest.setAttribute(
+				JournalWebConstants.SOURCE_LANGUAGE_ID, sourceLanguageId);
+			renderRequest.setAttribute(
+				JournalWebConstants.TARGET_LANGUAGE_ID,
+				ParamUtil.getString(
+					renderRequest, "targetLanguageId",
+					availableTargetLanguageIds.get(0)));
 			renderRequest.setAttribute(
 				JournalWebKeys.JOURNAL_ARTICLES, article);
 			renderRequest.setAttribute(
@@ -82,6 +118,23 @@ public class TranslateMVCRenderCommand implements MVCRenderCommand {
 		}
 
 		return "/translate.jsp";
+	}
+
+	private List<String> _getSiteAvailableLanguageIds(
+		String sourceLanguageId, ThemeDisplay themeDisplay) {
+
+		Set<Locale> availableLocales = LanguageUtil.getAvailableLocales(
+			themeDisplay.getSiteGroupId());
+
+		Stream<Locale> stream = availableLocales.stream();
+
+		return stream.map(
+			LocaleUtil::toLanguageId
+		).filter(
+			languageId -> !Objects.equals(languageId, sourceLanguageId)
+		).collect(
+			Collectors.toList()
+		);
 	}
 
 	@Reference

@@ -74,10 +74,11 @@ function ViewEntryUpperToolbar({
 		<UpperToolbar className={appDeploymentType}>
 			<UpperToolbar.Item className="ml-2 text-left">
 				<label>
-					{sub(Liferay.Language.get('x-of-x-entries'), [
-						page,
-						totalCount,
-					])}
+					{totalCount > 0 &&
+						sub(Liferay.Language.get('x-of-x-entries'), [
+							page,
+							totalCount,
+						])}
 				</label>
 			</UpperToolbar.Item>
 

@@ -23,6 +23,7 @@ export default function ImportTranslation({
 	articleResourcePrimKey,
 	saveDraftBtnId,
 	submitBtnId,
+	worflowPending = false,
 }) {
 	const [hasError, setHasError] = useState();
 	const [importFile, setImportFile] = useState();
@@ -33,7 +34,10 @@ export default function ImportTranslation({
 
 	useEffect(() => {
 		Liferay.Util.toggleDisabled('#' + saveDraftBtnId, !importFile);
-		Liferay.Util.toggleDisabled('#' + submitBtnId, !importFile);
+		Liferay.Util.toggleDisabled(
+			'#' + submitBtnId,
+			!importFile || worflowPending
+		);
 
 		if (importFile && window.FileReader) {
 			const reader = new FileReader();
@@ -44,7 +48,7 @@ export default function ImportTranslation({
 
 			reader.readAsText(importFile);
 		}
-	}, [importFile, parseFile, saveDraftBtnId, submitBtnId]);
+	}, [importFile, parseFile, saveDraftBtnId, submitBtnId, worflowPending]);
 
 	const parseFile = useCallback(
 		(filename, fileData) => {

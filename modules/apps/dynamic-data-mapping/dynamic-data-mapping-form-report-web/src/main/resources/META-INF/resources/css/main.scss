@@ -85,6 +85,7 @@ body,
 		font-size: 16px;
 	}
 	.card-text {
+		color: #6b6c7e;
 		font-size: 12px;
 	}
 	.card-symbol {
@@ -168,6 +169,18 @@ body,
 	flex-wrap: nowrap;
 	max-width: 100%;
 	min-width: 0;
+}
+
+.color {
+	.color-viewer {
+		border-radius: 20%;
+		border-width: 0;
+		height: 28px;
+		width: 28px;
+	}
+	.color-text {
+		padding-top: 4px;
+	}
 }
 
 .empty-message {
