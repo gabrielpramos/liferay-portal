@@ -148,6 +148,7 @@ export default ({
 									config.steps.some(
 										(step) =>
 											step.initial === undefined &&
+											step.roleIds &&
 											step.roleIds.length === 0
 									)
 								}

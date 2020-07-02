@@ -28,10 +28,12 @@ export default function WorkflowBuilder() {
 	};
 
 	const stepInfo = [
-		{
-			...dataObject,
-			label: Liferay.Language.get('data-object'),
-		},
+		[
+			{
+				...dataObject,
+				label: Liferay.Language.get('data-object'),
+			},
+		],
 	];
 
 	const badgeLabel = (stepIndex) => {
@@ -56,7 +58,11 @@ export default function WorkflowBuilder() {
 					key={index}
 					onClick={() => onClickStep(index)}
 					selected={stepIndex === index}
-					stepInfo={index < steps.length - 1 ? stepInfo : []}
+					stepInfo={
+						index < steps.length - 1 && stepInfo[index]
+							? stepInfo[index]
+							: []
+					}
 				/>
 			))}
 		</div>
