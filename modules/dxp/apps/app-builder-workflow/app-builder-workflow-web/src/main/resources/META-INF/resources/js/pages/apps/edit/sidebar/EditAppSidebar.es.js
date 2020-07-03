@@ -82,6 +82,10 @@ export default function EditAppSidebar({assigneeRoles}) {
 		setCurrentTab(null);
 	}, [currentStep]);
 
+	useEffect(() => {
+		setSelectedAssignees([]);
+	}, [stepIndex]);
+
 	return (
 		<Sidebar className="app-builder-workflow-app__sidebar">
 			<Sidebar.Header>
@@ -125,7 +129,7 @@ export default function EditAppSidebar({assigneeRoles}) {
 								value={currentStep.name}
 							/>
 
-							{!currentStep.initial && (
+							{currentStep.initial === undefined && (
 								<>
 									<label className="mt-4">
 										{Liferay.Language.get('assignee')}
@@ -159,7 +163,12 @@ export default function EditAppSidebar({assigneeRoles}) {
 										placeholder={Liferay.Language.get(
 											'select-assignees'
 										)}
-										selectedItems={selectedAssignees}
+										selectedItems={currentStep.appWorkflowRoleAssignments.map(
+											({roleId, roleName}) => ({
+												id: roleId,
+												name: roleName,
+											})
+										)}
 										setSelectedItems={setSelectedAssignees}
 									/>
 								</>

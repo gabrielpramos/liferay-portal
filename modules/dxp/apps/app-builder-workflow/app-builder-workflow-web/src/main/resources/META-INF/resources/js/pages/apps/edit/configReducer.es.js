@@ -68,7 +68,7 @@ export default (state, action) => {
 			};
 			workflowSteps.splice(stepIndex, 0, currentStep);
 			workflowSteps[
-				stepIndex - 1
+				action.stepIndex
 			].appWorkflowTransitions[0].transitionTo = currentStep.name;
 
 			return {
@@ -92,7 +92,10 @@ export default (state, action) => {
 			};
 		}
 		case UPDATE_STEP: {
-			const {step: currentStep, stepIndex} = action;
+			const {
+				step: {currentStep},
+				stepIndex,
+			} = action;
 
 			if (stepIndex === 1) {
 				state.steps[0].appWorkflowTransitions[0].transitionTo =
