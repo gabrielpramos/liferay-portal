@@ -20,16 +20,44 @@ import React, {useContext, useEffect, useState} from 'react';
 import {AutocompleteMultiSelect} from '../../../../components/autocomplete/AutocompleteMultiSelect.es';
 import ButtonInfo from '../../../../components/button-info/ButtonInfo.es';
 import {UPDATE_STEP} from '../configReducer.es';
+import ActionsTab from './ActionsTab.es';
 import DataAndViewsTab from './DataAndViewsTab.es';
 
 export default function EditAppSidebar({assigneeRoles}) {
 	const {
-		config: {currentStep, dataObject, formView, stepIndex, tableView},
+		config: {
+			currentStep,
+			dataObject,
+			formView,
+			stepIndex,
+			steps,
+			tableView,
+		},
 		dispatchConfig,
 	} = useContext(EditAppContext);
 
 	const [currentTab, setCurrentTab] = useState();
 	const [selectedAssignees, setSelectedAssignees] = useState([]);
+
+	const {
+		appWorkflowTransitions: [primaryAction, secondaryAction] = [],
+	} = currentStep;
+
+	const actionsInfo = [];
+
+	if (primaryAction) {
+		actionsInfo.push({
+			label: Liferay.Language.get('primary-action'),
+			name: `${primaryAction.name} → ${primaryAction.transitionTo}`,
+		});
+	}
+
+	if (secondaryAction) {
+		actionsInfo.push({
+			label: Liferay.Language.get('secondary-action'),
+			name: `${secondaryAction.name} → ${secondaryAction.transitionTo}`,
+		});
+	}
 
 	const tabs = [
 		{
@@ -51,15 +79,13 @@ export default function EditAppSidebar({assigneeRoles}) {
 			show: stepIndex === 0,
 			title: Liferay.Language.get('data-and-views'),
 		},
+		{
+			content: ActionsTab,
+			infoItems: actionsInfo,
+			show: stepIndex !== steps.length - 1,
+			title: Liferay.Language.get('actions'),
+		},
 	];
-
-	const onChangeStepName = ({target}) => {
-		dispatchConfig({
-			step: {...currentStep, name: target.value},
-			stepIndex,
-			type: UPDATE_STEP,
-		});
-	};
 
 	const onChangeAssignees = (assignees) => {
 		setSelectedAssignees(assignees);
@@ -73,6 +99,14 @@ export default function EditAppSidebar({assigneeRoles}) {
 					),
 				},
 			},
+			stepIndex,
+			type: UPDATE_STEP,
+		});
+	};
+
+	const onChangeStepName = ({target}) => {
+		dispatchConfig({
+			step: {currentStep: {...currentStep, name: target.value}},
 			stepIndex,
 			type: UPDATE_STEP,
 		});
@@ -179,7 +213,7 @@ export default function EditAppSidebar({assigneeRoles}) {
 							({infoItems, show, title}, index) =>
 								show && (
 									<ClayButton
-										className="tab-button"
+										className="mb-3 tab-button"
 										displayType="secondary"
 										key={index}
 										onClick={() =>
