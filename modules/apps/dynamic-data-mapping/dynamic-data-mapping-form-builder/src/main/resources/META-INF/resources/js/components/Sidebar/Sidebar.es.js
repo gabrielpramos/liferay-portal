@@ -18,12 +18,12 @@ import {ClayActionsDropdown, ClayDropdownBase} from 'clay-dropdown';
 import {ClayIcon} from 'clay-icon';
 import ClayModal from 'clay-modal';
 import {
+	Form,
 	FormSupport,
 	PagesVisitor,
 	generateInstanceId,
 	generateName,
 } from 'dynamic-data-mapping-form-renderer';
-import Form from 'dynamic-data-mapping-form-renderer/js/containers/Form/Form.es';
 import {makeFetch} from 'dynamic-data-mapping-form-renderer/js/util/fetch.es';
 import dom from 'metal-dom';
 import {Drag, DragDrop} from 'metal-drag-drop';
@@ -323,8 +323,8 @@ class Sidebar extends Component {
 		const {evaluableForm} = this.refs;
 		const {focusedField} = this.props;
 
-		if (evaluableForm) {
-			evaluableForm
+		if (evaluableForm && evaluableForm.reactComponentRef.current) {
+			evaluableForm.reactComponentRef.current
 				.evaluate()
 				.then((pages) => {
 					dispatch('focusedFieldEvaluationEnded', {
@@ -716,7 +716,11 @@ class Sidebar extends Component {
 	}
 
 	_handleSettingsFormAttached() {
-		this.refs.evaluableForm.evaluate();
+		const reactForm = this.refs.evaluableForm.reactComponentRef.current;
+
+		if (reactForm) {
+			reactForm.evaluate();
+		}
 	}
 
 	_handleTabItemClicked(event) {

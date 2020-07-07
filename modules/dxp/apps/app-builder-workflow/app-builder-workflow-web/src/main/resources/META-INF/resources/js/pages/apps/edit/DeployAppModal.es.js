@@ -83,8 +83,14 @@ export default ({onCancel}) => {
 	const onClickDeploy = () => {
 		setDeploying(true);
 
+		const workflowAppSteps = [...steps];
+
 		const workflowApp = {
-			appWorkflowStates: [steps[0], steps[steps.length - 1]],
+			appWorkflowStates: [
+				workflowAppSteps.shift(),
+				workflowAppSteps.pop(),
+			],
+			appWorkflowTasks: workflowAppSteps,
 		};
 
 		if (appId) {
@@ -106,8 +112,7 @@ export default ({onCancel}) => {
 				.then(parseResponse)
 				.then(onSuccess)
 				.catch(onError);
-		}
-		else {
+		} else {
 			fetch(
 				createResourceURL(baseResourceURL, {
 					p_p_resource_id: '/app_builder/add_workflow_app',

@@ -782,20 +782,11 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 							WorkflowConstants.STATUS_APPROVED, comparator);
 
 					if (prevAndNextMessages[2] == null) {
-						thread.setLastPostByUserId(
-							prevAndNextMessages[0].getUserId());
-						thread.setLastPostDate(
+						_mbThreadLocalService.updateLastPostDate(
+							thread.getThreadId(),
 							prevAndNextMessages[0].getModifiedDate());
-
-						_mbThreadLocalService.updateMBThread(thread);
 					}
 				}
-			}
-
-			// Thread
-
-			if (message.isApproved()) {
-				MBUtil.updateThreadMessageCount(thread.getThreadId());
 			}
 
 			// Indexer
@@ -2413,7 +2404,7 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 		}
 	}
 
-	protected void updateThreadStatus(
+	protected MBThread updateThreadStatus(
 			MBThread thread, MBMessage message, User user, int oldStatus,
 			Date modifiedDate)
 		throws PortalException {
@@ -2421,7 +2412,7 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 		int status = message.getStatus();
 
 		if (status == oldStatus) {
-			return;
+			return thread;
 		}
 
 		if (thread.getRootMessageId() == message.getMessageId()) {
@@ -2430,35 +2421,31 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 			thread.setStatusByUserId(user.getUserId());
 			thread.setStatusByUserName(user.getFullName());
 			thread.setStatusDate(modifiedDate);
-		}
 
-		if (status == WorkflowConstants.STATUS_APPROVED) {
-			if (message.isAnonymous()) {
-				thread.setLastPostByUserId(0);
+			if (status == WorkflowConstants.STATUS_APPROVED) {
+				if (message.isAnonymous()) {
+					thread.setLastPostByUserId(0);
+				}
+				else {
+					thread.setLastPostByUserId(message.getUserId());
+				}
+
+				thread.setLastPostDate(modifiedDate);
 			}
-			else {
-				thread.setLastPostByUserId(message.getUserId());
-			}
 
-			thread.setLastPostDate(modifiedDate);
+			thread = mbThreadPersistence.update(thread);
+
+			Indexer<MBThread> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
+				MBThread.class);
+
+			indexer.reindex(thread);
+		}
+		else if (status == WorkflowConstants.STATUS_APPROVED) {
+			_mbThreadLocalService.updateLastPostDate(
+				thread.getThreadId(), modifiedDate);
 		}
 
-		if ((oldStatus == WorkflowConstants.STATUS_APPROVED) ||
-			(status == WorkflowConstants.STATUS_APPROVED)) {
-
-			// Thread
-
-			MBUtil.updateThreadMessageCount(thread.getThreadId());
-		}
-
-		// Indexer
-
-		thread = mbThreadPersistence.update(thread);
-
-		Indexer<MBThread> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			MBThread.class);
-
-		indexer.reindex(thread);
+		return thread;
 	}
 
 	protected void validate(String subject, String body)
@@ -2631,7 +2618,7 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 
 			// Thread
 
-			updateThreadStatus(
+			thread = updateThreadStatus(
 				thread, message, userLocalService.getUser(userId), oldStatus,
 				modifiedDate);
 
@@ -2672,7 +2659,7 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 
 			thread.setPriority(priority);
 
-			_mbThreadLocalService.updateMBThread(thread);
+			thread = _mbThreadLocalService.updateMBThread(thread);
 
 			updatePriorities(thread.getThreadId(), priority);
 		}

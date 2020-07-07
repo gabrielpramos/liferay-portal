@@ -226,6 +226,7 @@ export default function AuditBarChart({rtl, vocabularies}) {
 						tickLine={false}
 					/>
 					<YAxis
+						allowDecimals={false}
 						axisLine={{
 							stroke: BAR_CHART.stroke,
 						}}
@@ -245,6 +246,7 @@ export default function AuditBarChart({rtl, vocabularies}) {
 									}
 									dataKey={bar.dataKey}
 									fill={colors[bar.dataKey]}
+									hide={checkboxes[bar.dataKey] !== true}
 									key={index}
 									legendType="square"
 									name={bar.name}

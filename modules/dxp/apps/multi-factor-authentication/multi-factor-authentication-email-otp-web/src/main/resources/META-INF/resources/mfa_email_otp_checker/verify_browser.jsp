@@ -18,6 +18,7 @@
 
 <%
 long mfaEmailOTPFailedAttemptsRetryTimeout = GetterUtil.getLong(request.getAttribute(MFAEmailOTPWebKeys.MFA_EMAIL_OTP_FAILED_ATTEMPTS_RETRY_TIMEOUT));
+String mfaEmailOTPSendToAddressObfuscated = GetterUtil.getString(request.getAttribute(MFAEmailOTPWebKeys.MFA_EMAIL_OTP_SEND_TO_ADDRESS_OBFUSCATED));
 long mfaEmailOTPSetAtTime = GetterUtil.getLong(request.getAttribute(MFAEmailOTPWebKeys.MFA_EMAIL_OTP_SET_AT_TIME));
 %>
 
@@ -29,7 +30,7 @@ long mfaEmailOTPSetAtTime = GetterUtil.getLong(request.getAttribute(MFAEmailOTPW
 
 <div id="<portlet:namespace />phaseOne">
 	<div class="portlet-msg-info">
-		<liferay-ui:message key="your-one-time-password-will-be-sent-to-your-email-address" />
+		<liferay-ui:message arguments="<%= mfaEmailOTPSendToAddressObfuscated %>" key="press-the-button-below-to-obtain-your-one-time-password-it-will-be-sent-to-x" translateArguments="<%= false %>" />
 	</div>
 
 	<aui:button-row>
@@ -40,7 +41,7 @@ long mfaEmailOTPSetAtTime = GetterUtil.getLong(request.getAttribute(MFAEmailOTPW
 <div id="<portlet:namespace />messageContainer"></div>
 
 <div id="<portlet:namespace />phaseTwo">
-	<aui:input label="please-enter-the-otp-from-the-email" name="otp" showRequiredLabel="yes" />
+	<aui:input label="enter-the-otp-from-the-email" name="otp" showRequiredLabel="yes" />
 </div>
 
 <aui:button-row>

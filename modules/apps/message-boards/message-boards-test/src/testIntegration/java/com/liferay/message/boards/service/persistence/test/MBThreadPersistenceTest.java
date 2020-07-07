@@ -125,6 +125,8 @@ public class MBThreadPersistenceTest {
 
 		MBThread newMBThread = _persistence.create(pk);
 
+		newMBThread.setMvccVersion(RandomTestUtil.nextLong());
+
 		newMBThread.setUuid(RandomTestUtil.randomString());
 
 		newMBThread.setGroupId(RandomTestUtil.nextLong());
@@ -146,8 +148,6 @@ public class MBThreadPersistenceTest {
 		newMBThread.setRootMessageUserId(RandomTestUtil.nextLong());
 
 		newMBThread.setTitle(RandomTestUtil.randomString());
-
-		newMBThread.setMessageCount(RandomTestUtil.nextInt());
 
 		newMBThread.setLastPostByUserId(RandomTestUtil.nextLong());
 
@@ -172,6 +172,8 @@ public class MBThreadPersistenceTest {
 		MBThread existingMBThread = _persistence.findByPrimaryKey(
 			newMBThread.getPrimaryKey());
 
+		Assert.assertEquals(
+			existingMBThread.getMvccVersion(), newMBThread.getMvccVersion());
 		Assert.assertEquals(existingMBThread.getUuid(), newMBThread.getUuid());
 		Assert.assertEquals(
 			existingMBThread.getThreadId(), newMBThread.getThreadId());
@@ -199,8 +201,6 @@ public class MBThreadPersistenceTest {
 			newMBThread.getRootMessageUserId());
 		Assert.assertEquals(
 			existingMBThread.getTitle(), newMBThread.getTitle());
-		Assert.assertEquals(
-			existingMBThread.getMessageCount(), newMBThread.getMessageCount());
 		Assert.assertEquals(
 			existingMBThread.getLastPostByUserId(),
 			newMBThread.getLastPostByUserId());
@@ -407,12 +407,12 @@ public class MBThreadPersistenceTest {
 
 	protected OrderByComparator<MBThread> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create(
-			"MBThread", "uuid", true, "threadId", true, "groupId", true,
-			"companyId", true, "userId", true, "userName", true, "createDate",
-			true, "modifiedDate", true, "categoryId", true, "rootMessageId",
-			true, "rootMessageUserId", true, "title", true, "messageCount",
-			true, "lastPostByUserId", true, "lastPostDate", true, "priority",
-			true, "question", true, "lastPublishDate", true, "status", true,
+			"MBThread", "mvccVersion", true, "uuid", true, "threadId", true,
+			"groupId", true, "companyId", true, "userId", true, "userName",
+			true, "createDate", true, "modifiedDate", true, "categoryId", true,
+			"rootMessageId", true, "rootMessageUserId", true, "title", true,
+			"lastPostByUserId", true, "lastPostDate", true, "priority", true,
+			"question", true, "lastPublishDate", true, "status", true,
 			"statusByUserId", true, "statusByUserName", true, "statusDate",
 			true);
 	}
@@ -649,6 +649,8 @@ public class MBThreadPersistenceTest {
 
 		MBThread mbThread = _persistence.create(pk);
 
+		mbThread.setMvccVersion(RandomTestUtil.nextLong());
+
 		mbThread.setUuid(RandomTestUtil.randomString());
 
 		mbThread.setGroupId(RandomTestUtil.nextLong());
@@ -670,8 +672,6 @@ public class MBThreadPersistenceTest {
 		mbThread.setRootMessageUserId(RandomTestUtil.nextLong());
 
 		mbThread.setTitle(RandomTestUtil.randomString());
-
-		mbThread.setMessageCount(RandomTestUtil.nextInt());
 
 		mbThread.setLastPostByUserId(RandomTestUtil.nextLong());
 

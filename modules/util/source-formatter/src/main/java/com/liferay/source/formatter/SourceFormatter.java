@@ -300,11 +300,11 @@ public class SourceFormatter {
 	}
 
 	public void format() throws Exception {
-		_validateCommitMessages();
-
 		_printProgressStatusMessage("Scanning for files...");
 
 		_init();
+
+		_validateCommitMessages();
 
 		_printProgressStatusMessage("Initializing checks...");
 
@@ -748,6 +748,22 @@ public class SourceFormatter {
 		return properties;
 	}
 
+	private List<String> _getPropertyValues(String key) {
+		List<String> propertyValues = new ArrayList<>();
+
+		for (Map.Entry<String, Properties> entry : _propertiesMap.entrySet()) {
+			Properties properties = entry.getValue();
+
+			if (properties.containsKey(key)) {
+				propertyValues.addAll(
+					ListUtil.fromString(
+						properties.getProperty(key), StringPool.COMMA));
+			}
+		}
+
+		return propertyValues;
+	}
+
 	private void _init() throws Exception {
 		_sourceFormatterExcludes = new SourceFormatterExcludes(
 			SetUtil.fromArray(DEFAULT_EXCLUDE_SYNTAX_PATTERNS));
@@ -963,35 +979,17 @@ public class SourceFormatter {
 			return;
 		}
 
-		String parentDirName = _sourceFormatterArgs.getBaseDirName();
-
-		List<String> projectNames = new ArrayList<>();
-
-		for (int i = 0; i < ToolsUtil.PORTAL_MAX_DIR_LEVEL; i++) {
-			File file = new File(parentDirName + "ci.properties");
-
-			if (file.exists()) {
-				Properties properties = _getProperties(file);
-
-				projectNames.addAll(
-					ListUtil.fromString(
-						properties.getProperty("jira.project.keys"),
-						StringPool.COMMA));
-			}
-
-			parentDirName += "../";
-		}
-
-		if (projectNames.isEmpty()) {
-			return;
-		}
-
 		List<String> commitMessages = GitUtil.getCurrentBranchCommitMessages(
 			_sourceFormatterArgs.getBaseDirName(),
 			_sourceFormatterArgs.getGitWorkingBranchName());
 
-		JIRAUtil.validateJIRAProjectNames(commitMessages, projectNames);
+		JIRAUtil.validateJIRAProjectNames(
+			commitMessages, _getPropertyValues("jira.project.keys"));
 		JIRAUtil.validateJIRATicketIds(commitMessages, 20);
+
+		JIRAUtil.validateJIRASecurityKeywords(
+			commitMessages,
+			_getPropertyValues("jira.security.vulnerability.keywords"), 20);
 	}
 
 	private static final String _PROPERTIES_FILE_NAME =

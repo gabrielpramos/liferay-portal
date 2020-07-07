@@ -11,12 +11,6 @@
 		],
 		"snapshotSerializers": [
 			"metal-jest-serializer"
-		],
-		"testPathIgnorePatterns": [
-			"Evaluator",
-			"FormSupport",
-			"SuccessPage",
-			"PageRenderer"
 		]
 	},
 	"main": "index.js",

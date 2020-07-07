@@ -14,7 +14,9 @@
 
 import React, {useEffect, useRef} from 'react';
 
-import {EVENT_TYPES, usePage} from '../../hooks/usePage.es';
+import {EVENT_TYPES} from '../../actions/types.es';
+import {useForm} from '../../hooks/useForm.es';
+import {usePage} from '../../hooks/usePage.es';
 import MetalFieldAdapter from './MetalFieldAdapter.es';
 
 class NoRender extends React.Component {
@@ -36,10 +38,8 @@ export const MetalComponentAdapter = ({
 	type,
 	...field
 }) => {
-	const {
-		dispatch,
-		store: {activePage, editable, pageIndex, spritemap},
-	} = usePage();
+	const {activePage, editable, pageIndex, spritemap} = usePage();
+	const dispatch = useForm();
 
 	const component = useRef(null);
 	const container = useRef(null);

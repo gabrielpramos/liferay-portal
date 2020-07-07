@@ -15,10 +15,11 @@
 import ClayTabs from '@clayui/tabs';
 import React from 'react';
 
-import {EVENT_TYPES, usePage} from '../hooks/usePage.es';
+import {EVENT_TYPES} from '../actions/types.es';
+import {useForm} from '../hooks/useForm.es';
 
 export const Tabs = ({activePage, pages}) => {
-	const {dispatch} = usePage();
+	const dispatch = useForm();
 
 	return (
 		<nav className="component-tbar ddm-form-tabs mb-3 tbar">
@@ -31,8 +32,8 @@ export const Tabs = ({activePage, pages}) => {
 							key={index}
 							onClick={() =>
 								dispatch({
-									payload: {pageIndex: index},
-									type: EVENT_TYPES.PAGINATION,
+									payload: index,
+									type: EVENT_TYPES.CHANGE_ACTIVE_PAGE,
 								})
 							}
 						>

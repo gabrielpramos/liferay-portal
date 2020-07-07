@@ -482,6 +482,11 @@ public class MBThreadLocalServiceWrapper
 		return _mbThreadLocalService.getMBThreadsCount();
 	}
 
+	@Override
+	public int getMessageCount(long threadId, int status) {
+		return _mbThreadLocalService.getMessageCount(threadId, status);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -646,6 +651,11 @@ public class MBThreadLocalServiceWrapper
 			userId, messageId, subject, serviceContext);
 	}
 
+	@Override
+	public void updateLastPostDate(long threadId, java.util.Date lastPostDate) {
+		_mbThreadLocalService.updateLastPostDate(threadId, lastPostDate);
+	}
+
 	/**
 	 * Updates the message boards thread in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -657,13 +667,6 @@ public class MBThreadLocalServiceWrapper
 		com.liferay.message.boards.model.MBThread mbThread) {
 
 		return _mbThreadLocalService.updateMBThread(mbThread);
-	}
-
-	@Override
-	public com.liferay.message.boards.model.MBThread updateMessageCount(
-		long threadId) {
-
-		return _mbThreadLocalService.updateMessageCount(threadId);
 	}
 
 	@Override

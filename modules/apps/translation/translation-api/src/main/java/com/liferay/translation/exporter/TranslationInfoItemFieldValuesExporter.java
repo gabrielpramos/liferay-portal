@@ -14,9 +14,7 @@
 
 package com.liferay.translation.exporter;
 
-import com.liferay.info.item.InfoItemClassPKReference;
 import com.liferay.info.item.InfoItemFieldValues;
-import com.liferay.translation.exception.XLIFFFileException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,16 +24,11 @@ import java.util.Locale;
 /**
  * @author Alejandro Tardín
  */
-public interface TranslationInfoItemFieldValuesExporter<T> {
+public interface TranslationInfoItemFieldValuesExporter {
 
-	public InputStream export(
+	public InputStream exportInfoItemFieldValues(
 			InfoItemFieldValues infoItemFieldValues, Locale sourceLocale,
 			Locale targetLocale)
 		throws IOException;
-
-	public InfoItemFieldValues importXLIFF(
-			long groupId, InfoItemClassPKReference infoItemClassPKReference,
-			InputStream inputStream)
-		throws IOException, XLIFFFileException;
 
 }

@@ -31,6 +31,7 @@ public class MBThreadSoap implements Serializable {
 	public static MBThreadSoap toSoapModel(MBThread model) {
 		MBThreadSoap soapModel = new MBThreadSoap();
 
+		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setUuid(model.getUuid());
 		soapModel.setThreadId(model.getThreadId());
 		soapModel.setGroupId(model.getGroupId());
@@ -43,7 +44,6 @@ public class MBThreadSoap implements Serializable {
 		soapModel.setRootMessageId(model.getRootMessageId());
 		soapModel.setRootMessageUserId(model.getRootMessageUserId());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setMessageCount(model.getMessageCount());
 		soapModel.setLastPostByUserId(model.getLastPostByUserId());
 		soapModel.setLastPostDate(model.getLastPostDate());
 		soapModel.setPriority(model.getPriority());
@@ -104,6 +104,14 @@ public class MBThreadSoap implements Serializable {
 
 	public void setPrimaryKey(long pk) {
 		setThreadId(pk);
+	}
+
+	public long getMvccVersion() {
+		return _mvccVersion;
+	}
+
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
 	}
 
 	public String getUuid() {
@@ -202,14 +210,6 @@ public class MBThreadSoap implements Serializable {
 		_title = title;
 	}
 
-	public int getMessageCount() {
-		return _messageCount;
-	}
-
-	public void setMessageCount(int messageCount) {
-		_messageCount = messageCount;
-	}
-
 	public long getLastPostByUserId() {
 		return _lastPostByUserId;
 	}
@@ -286,6 +286,7 @@ public class MBThreadSoap implements Serializable {
 		_statusDate = statusDate;
 	}
 
+	private long _mvccVersion;
 	private String _uuid;
 	private long _threadId;
 	private long _groupId;
@@ -298,7 +299,6 @@ public class MBThreadSoap implements Serializable {
 	private long _rootMessageId;
 	private long _rootMessageUserId;
 	private String _title;
-	private int _messageCount;
 	private long _lastPostByUserId;
 	private Date _lastPostDate;
 	private double _priority;

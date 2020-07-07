@@ -39,7 +39,7 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
-import com.liferay.translation.exporter.TranslationInfoItemFieldValuesExporter;
+import com.liferay.translation.importer.TranslationInfoItemFieldValuesImporter;
 import com.liferay.translation.info.item.updater.InfoItemFieldValuesUpdater;
 import com.liferay.translation.test.util.TranslationTestUtil;
 
@@ -102,12 +102,13 @@ public class JournalArticleInfoItemFieldValuesUpdaterTest {
 			LocaleUtil.getSiteDefault(), false, true, _serviceContext);
 
 		InfoItemFieldValues infoItemFieldValues =
-			_xliffTranslationInfoItemFieldValuesImporter.importXLIFF(
-				_group.getGroupId(),
-				new InfoItemClassPKReference(
-					JournalArticle.class.getName(), 122),
-				TranslationTestUtil.readFileToInputStream(
-					"test-journal-article-122.xlf"));
+			_xliffTranslationInfoItemFieldValuesImporter.
+				importInfoItemFieldValues(
+					_group.getGroupId(),
+					new InfoItemClassPKReference(
+						JournalArticle.class.getName(), 122),
+					TranslationTestUtil.readFileToInputStream(
+						"test-journal-article-122.xlf"));
 
 		journalArticle =
 			_journalArticleInfoItemFieldValuesUpdater.
@@ -151,12 +152,13 @@ public class JournalArticleInfoItemFieldValuesUpdaterTest {
 			LocaleUtil.getSiteDefault(), false, true, _serviceContext);
 
 		InfoItemFieldValues infoItemFieldValues =
-			_xliffTranslationInfoItemFieldValuesImporter.importXLIFF(
-				_group.getGroupId(),
-				new InfoItemClassPKReference(
-					JournalArticle.class.getName(), 122),
-				TranslationTestUtil.readFileToInputStream(
-					"test-journal-article-122-ja-JP.xlf"));
+			_xliffTranslationInfoItemFieldValuesImporter.
+				importInfoItemFieldValues(
+					_group.getGroupId(),
+					new InfoItemClassPKReference(
+						JournalArticle.class.getName(), 122),
+					TranslationTestUtil.readFileToInputStream(
+						"test-journal-article-122-ja-JP.xlf"));
 
 		journalArticle =
 			_journalArticleInfoItemFieldValuesUpdater.
@@ -205,12 +207,13 @@ public class JournalArticleInfoItemFieldValuesUpdaterTest {
 			LocaleUtil.getSiteDefault(), false, true, _serviceContext);
 
 		InfoItemFieldValues infoItemFieldValues =
-			_xliffTranslationInfoItemFieldValuesImporter.importXLIFF(
-				_group.getGroupId(),
-				new InfoItemClassPKReference(
-					JournalArticle.class.getName(), 122),
-				TranslationTestUtil.readFileToInputStream(
-					"test-journal-article-122-only-title.xlf"));
+			_xliffTranslationInfoItemFieldValuesImporter.
+				importInfoItemFieldValues(
+					_group.getGroupId(),
+					new InfoItemClassPKReference(
+						JournalArticle.class.getName(), 122),
+					TranslationTestUtil.readFileToInputStream(
+						"test-journal-article-122-only-title.xlf"));
 
 		journalArticle =
 			_journalArticleInfoItemFieldValuesUpdater.
@@ -265,12 +268,13 @@ public class JournalArticleInfoItemFieldValuesUpdaterTest {
 				LocaleUtil.JAPAN));
 
 		InfoItemFieldValues infoItemFieldValues =
-			_xliffTranslationInfoItemFieldValuesImporter.importXLIFF(
-				_group.getGroupId(),
-				new InfoItemClassPKReference(
-					JournalArticle.class.getName(), 122),
-				TranslationTestUtil.readFileToInputStream(
-					"test-journal-article-122-ja-JP.xlf"));
+			_xliffTranslationInfoItemFieldValuesImporter.
+				importInfoItemFieldValues(
+					_group.getGroupId(),
+					new InfoItemClassPKReference(
+						JournalArticle.class.getName(), 122),
+					TranslationTestUtil.readFileToInputStream(
+						"test-journal-article-122-ja-JP.xlf"));
 
 		journalArticle =
 			_journalArticleInfoItemFieldValuesUpdater.
@@ -347,7 +351,7 @@ public class JournalArticleInfoItemFieldValuesUpdaterTest {
 	private ServiceContext _serviceContext;
 
 	@Inject(filter = "content.type=application/xliff+xml")
-	private TranslationInfoItemFieldValuesExporter
+	private TranslationInfoItemFieldValuesImporter
 		_xliffTranslationInfoItemFieldValuesImporter;
 
 }

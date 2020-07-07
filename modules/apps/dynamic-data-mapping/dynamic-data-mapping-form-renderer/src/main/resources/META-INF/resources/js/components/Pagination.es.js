@@ -16,10 +16,19 @@ import ClayPagination from '@clayui/pagination';
 import classnames from 'classnames';
 import React from 'react';
 
-import {EVENT_TYPES, usePage} from '../hooks/usePage.es';
+import {EVENT_TYPES} from '../actions/types.es';
+import {useEvaluate} from '../hooks/useEvaluate.es';
+import {useForm} from '../hooks/useForm.es';
+import {usePage} from '../hooks/usePage.es';
+import nextPage from '../thunks/nextPage.es';
+import previousPage from '../thunks/previousPage.es';
+import {getFormId, getFormNode} from '../util/formId.es';
 
 export const Pagination = ({activePage, pages}) => {
-	const {dispatch} = usePage();
+	const createPreviousPage = useEvaluate(previousPage);
+	const createNextPage = useEvaluate(nextPage);
+	const {containerElement} = usePage();
+	const dispatch = useForm();
 
 	return (
 		<ClayPagination className="ddm-pagination justify-content-center">
@@ -31,7 +40,14 @@ export const Pagination = ({activePage, pages}) => {
 				<button
 					className="page-link"
 					onClick={() =>
-						dispatch({type: EVENT_TYPES.PAGINATION_PREVIOUS})
+						dispatch(
+							createPreviousPage({
+								activePage,
+								formId: getFormId(
+									getFormNode(containerElement.current)
+								),
+							})
+						)
 					}
 					type="button"
 				>
@@ -49,8 +65,8 @@ export const Pagination = ({activePage, pages}) => {
 					key={index}
 					onClick={() =>
 						dispatch({
-							payload: {pageIndex: index},
-							type: EVENT_TYPES.PAGINATION,
+							payload: index,
+							type: EVENT_TYPES.CHANGE_ACTIVE_PAGE,
 						})
 					}
 				>
@@ -69,7 +85,14 @@ export const Pagination = ({activePage, pages}) => {
 				<button
 					className="page-link"
 					onClick={() =>
-						dispatch({type: EVENT_TYPES.PAGINATION_NEXT})
+						dispatch(
+							createNextPage({
+								activePage,
+								formId: getFormId(
+									getFormNode(containerElement.current)
+								),
+							})
+						)
 					}
 					type="button"
 				>

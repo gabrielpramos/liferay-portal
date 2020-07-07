@@ -22,6 +22,7 @@ import {
 	EVENT_TYPES,
 	Layout,
 	getRepeatedIndex,
+	useForm,
 	usePage,
 } from 'dynamic-data-mapping-form-renderer';
 import React, {useMemo} from 'react';
@@ -57,10 +58,8 @@ function FieldBase({
 	valid,
 	visible,
 }) {
-	const {
-		dispatch,
-		store: {editingLanguageId = {}},
-	} = usePage();
+	const {editingLanguageId = {}} = usePage();
+	const dispatch = useForm();
 
 	const localizedValueArray = useMemo(() => {
 		const languageValues = [];
@@ -97,7 +96,7 @@ function FieldBase({
 								onClick={() =>
 									dispatch({
 										payload: name,
-										type: EVENT_TYPES.REMOVED,
+										type: EVENT_TYPES.FIELD_REMOVED,
 									})
 								}
 								small
@@ -114,7 +113,7 @@ function FieldBase({
 							onClick={() =>
 								dispatch({
 									payload: name,
-									type: EVENT_TYPES.REPEATED,
+									type: EVENT_TYPES.FIELD_REPEATED,
 								})
 							}
 							small

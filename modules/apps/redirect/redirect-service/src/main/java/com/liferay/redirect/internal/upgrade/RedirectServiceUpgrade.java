@@ -15,8 +15,6 @@
 package com.liferay.redirect.internal.upgrade;
 
 import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
-import com.liferay.redirect.internal.upgrade.v2_0_0.UpgradeRedirectNotFoundEntry;
-import com.liferay.redirect.internal.upgrade.v2_0_1.UpgradeRedirectNotFoundEntryHits;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -28,10 +26,20 @@ public class RedirectServiceUpgrade implements UpgradeStepRegistrator {
 
 	@Override
 	public void register(Registry registry) {
-		registry.register("1.0.0", "2.0.0", new UpgradeRedirectNotFoundEntry());
+		registry.register(
+			"1.0.0", "2.0.0",
+			new com.liferay.redirect.internal.upgrade.v2_0_0.
+				UpgradeRedirectNotFoundEntry());
 
 		registry.register(
-			"2.0.0", "2.0.1", new UpgradeRedirectNotFoundEntryHits());
+			"2.0.0", "2.0.1",
+			new com.liferay.redirect.internal.upgrade.v2_0_1.
+				UpgradeRedirectNotFoundEntry());
+
+		registry.register(
+			"2.0.1", "3.0.0",
+			new com.liferay.redirect.internal.upgrade.v3_0_0.
+				UpgradeRedirectNotFoundEntry());
 	}
 
 }

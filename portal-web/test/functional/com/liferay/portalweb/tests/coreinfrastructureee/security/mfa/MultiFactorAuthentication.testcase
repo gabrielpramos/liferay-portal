@@ -100,7 +100,7 @@ definition {
 
 		AssertElementPresent(
 			key_fieldName = "emailOTPSentSubject",
-			locator1 = "MultiFactorAuthentication#EMAIL_OTP_ATTEMPTS_FAILED");
+			locator1 = "Message#ERROR");
 
 		Pause(locator1 = "5000");
 

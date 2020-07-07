@@ -43,6 +43,7 @@ public class MBThreadWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("threadId", getThreadId());
 		attributes.put("groupId", getGroupId());
@@ -55,7 +56,6 @@ public class MBThreadWrapper
 		attributes.put("rootMessageId", getRootMessageId());
 		attributes.put("rootMessageUserId", getRootMessageUserId());
 		attributes.put("title", getTitle());
-		attributes.put("messageCount", getMessageCount());
 		attributes.put("lastPostByUserId", getLastPostByUserId());
 		attributes.put("lastPostDate", getLastPostDate());
 		attributes.put("priority", getPriority());
@@ -71,6 +71,12 @@ public class MBThreadWrapper
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long mvccVersion = (Long)attributes.get("mvccVersion");
+
+		if (mvccVersion != null) {
+			setMvccVersion(mvccVersion);
+		}
+
 		String uuid = (String)attributes.get("uuid");
 
 		if (uuid != null) {
@@ -141,12 +147,6 @@ public class MBThreadWrapper
 
 		if (title != null) {
 			setTitle(title);
-		}
-
-		Integer messageCount = (Integer)attributes.get("messageCount");
-
-		if (messageCount != null) {
-			setMessageCount(messageCount);
 		}
 
 		Long lastPostByUserId = (Long)attributes.get("lastPostByUserId");
@@ -329,11 +329,6 @@ public class MBThreadWrapper
 		return model.getLock();
 	}
 
-	/**
-	 * Returns the message count of this message boards thread.
-	 *
-	 * @return the message count of this message boards thread
-	 */
 	@Override
 	public int getMessageCount() {
 		return model.getMessageCount();
@@ -347,6 +342,16 @@ public class MBThreadWrapper
 	@Override
 	public Date getModifiedDate() {
 		return model.getModifiedDate();
+	}
+
+	/**
+	 * Returns the mvcc version of this message boards thread.
+	 *
+	 * @return the mvcc version of this message boards thread
+	 */
+	@Override
+	public long getMvccVersion() {
+		return model.getMvccVersion();
 	}
 
 	/**
@@ -799,16 +804,6 @@ public class MBThreadWrapper
 	}
 
 	/**
-	 * Sets the message count of this message boards thread.
-	 *
-	 * @param messageCount the message count of this message boards thread
-	 */
-	@Override
-	public void setMessageCount(int messageCount) {
-		model.setMessageCount(messageCount);
-	}
-
-	/**
 	 * Sets the modified date of this message boards thread.
 	 *
 	 * @param modifiedDate the modified date of this message boards thread
@@ -816,6 +811,16 @@ public class MBThreadWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the mvcc version of this message boards thread.
+	 *
+	 * @param mvccVersion the mvcc version of this message boards thread
+	 */
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		model.setMvccVersion(mvccVersion);
 	}
 
 	/**

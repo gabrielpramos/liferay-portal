@@ -19,6 +19,7 @@ import com.liferay.fragment.constants.FragmentPortletKeys;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.fragment.service.FragmentEntryService;
 import com.liferay.fragment.web.internal.handler.FragmentEntryExceptionRequestHandler;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -74,6 +75,16 @@ public class AddFragmentEntryMVCActionCommand extends BaseMVCActionCommand {
 					serviceContext.getScopeGroupId(), fragmentCollectionId,
 					null, name, 0, type, WorkflowConstants.STATUS_DRAFT,
 					serviceContext);
+
+			fragmentEntry.setCss(
+				StringBundler.concat(
+					".fragment_", fragmentEntry.getFragmentEntryId(), " {\n}"));
+			fragmentEntry.setHtml(
+				StringBundler.concat(
+					"<div class=\"fragment_",
+					fragmentEntry.getFragmentEntryId(), "\">\n</div>"));
+
+			fragmentEntry = _fragmentEntryService.updateDraft(fragmentEntry);
 
 			JSONObject jsonObject = JSONUtil.put(
 				"redirectURL", getRedirectURL(actionResponse, fragmentEntry));

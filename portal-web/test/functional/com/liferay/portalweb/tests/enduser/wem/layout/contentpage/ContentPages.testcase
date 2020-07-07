@@ -94,7 +94,6 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -102,7 +101,6 @@ definition {
 			AssertVisible(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -110,13 +108,11 @@ definition {
 			AssertVisible(
 				key_content = "Submit",
 				key_fragmentClass = "footer",
-				key_position = "3",
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "Cancel",
 				key_fragmentClass = "footer",
-				key_position = "3",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -276,6 +272,43 @@ definition {
 				key_position = "1",
 				locator1 = "PageEditor#ROW_COLUMN_NESTED_ELEMENT");
 		}
+	}
+
+	@description = "This is a test for LPS-110708. Can add Row element into a custom module of anthor one."
+	@priority = "3"
+	test AddRowToCustomModuleOfAnotherRow {
+		ContentPagesNavigator.openEditContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Test Site Name");
+
+		PageEditor.addFragment(
+			collectionName = "Layout Elements",
+			fragmentName = "Row");
+
+		Click(
+			key_position = "3",
+			locator1 = "PageEditor#ROW_COLUMN_RESIZER");
+
+		DragAndDrop.DragAndDropObject(
+			key_position = "3",
+			locator1 = "PageEditor#ROW_COLUMN_RESIZER",
+			position = "530,0");
+
+		AssertVisible(locator1 = "PageEditor#ROW_COLUMN_FIRST_RESIZER");
+
+		PageEditor.addElementToColumn(
+			collectionName = "Layout Elements",
+			columnNumber = "3",
+			fragmentName = "Row",
+			navTab = "Fragments");
+
+		PageEditor.waitForAutoSave();
+
+		AssertElementPresent(
+			key_columnNumber = "3",
+			key_elementHeader = "//div[contains(@class,'page-editor__topper')][1]/div[contains(.,'Row')]//li[contains(@class,'title')]",
+			key_position = "1",
+			locator1 = "PageEditor#ROW_COLUMN_NESTED_ELEMENT");
 	}
 
 	@description = "This is a test for LPS-102887. A user can access content in a web content display widget through content panel"
@@ -515,7 +548,6 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -635,7 +667,6 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -698,7 +729,6 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -737,7 +767,7 @@ definition {
 		PortletEntry.publish();
 
 		ContentPagesNavigator.openEditContentPage(
-			pageName = "Content Page Name",
+			pageName = "Test Content Page Name",
 			siteName = "Test Site Name");
 
 		PageEditor.addFragment(
@@ -748,7 +778,7 @@ definition {
 			key_content = "Place fragments here.",
 			key_fragmentClass = "content",
 			key_position = "1",
-			locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
+			locator1 = "Fragment#PAGE_EDITOR_NO_FRAGMENTS_MESSAGE");
 
 		PageEditor.gotoTab(tabName = "Fragments");
 
@@ -999,7 +1029,6 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1007,7 +1036,6 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1023,7 +1051,6 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1031,7 +1058,6 @@ definition {
 			AssertVisible(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1062,7 +1088,6 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1070,7 +1095,6 @@ definition {
 			AssertVisible(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1078,7 +1102,6 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempus eleifend lacus nec porttitor. Vestibulum pharetra ullamcorper felis volutpat commodo. Nam id ipsum placerat, hendrerit orci eu, congue nisi. Proin.",
 				key_fragmentClass = "body",
-				key_position = "3",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1094,7 +1117,6 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1102,7 +1124,6 @@ definition {
 			AssertVisible(
 				key_content = "New editable fragment text",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -1110,7 +1131,6 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempus eleifend lacus nec porttitor. Vestibulum pharetra ullamcorper felis volutpat commodo. Nam id ipsum placerat, hendrerit orci eu, congue nisi. Proin.",
 				key_fragmentClass = "body",
-				key_position = "3",
 				locator1 = "Fragment#FRAGMENT");
 		}
 	}

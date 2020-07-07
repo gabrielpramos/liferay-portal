@@ -25,10 +25,12 @@ import groovy.json.JsonSlurper;
 
 import java.io.File;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.gradle.StartParameter;
 import org.gradle.api.Action;
@@ -37,9 +39,9 @@ import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.invocation.Gradle;
-import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.tasks.TaskContainer;
+import org.gradle.api.tasks.TaskProvider;
 
 /**
  * @author Peter Shin
@@ -56,287 +58,363 @@ public class LiferayYarnPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
+
+		// Plugins
+
 		GradleUtil.applyPlugin(project, NodePlugin.class);
 
 		GradleUtil.applyPlugin(project, NodeDefaultsPlugin.class);
 
-		Task yarnInstallTask = _addTaskYarnInstall(project);
+		// Tasks
 
-		_addTaskYarnCheckFormat(project);
-		_addTaskYarnFormat(project);
-		_addTaskYarnLock(project);
+		Map<TaskProvider<ExecutePackageManagerTask>, File>
+			yarnCheckFormatTaskProviders = new HashMap<>();
+		Map<TaskProvider<ExecutePackageManagerTask>, File>
+			yarnFormatTaskProviders = new HashMap<>();
+		Map<TaskProvider<YarnInstallTask>, File> yarnInstallTaskProviders =
+			new HashMap<>();
+		Map<TaskProvider<YarnInstallTask>, File> yarnLockTaskProviders =
+			new HashMap<>();
+
+		for (File yarnLockFile : _getYarnLockFiles(project)) {
+			yarnInstallTaskProviders.put(
+				GradleUtil.addTaskProvider(
+					project,
+					_getYarnTaskName(YARN_INSTALL_TASK_NAME, yarnLockFile),
+					YarnInstallTask.class),
+				yarnLockFile);
+			yarnLockTaskProviders.put(
+				GradleUtil.addTaskProvider(
+					project,
+					_getYarnTaskName(YARN_LOCK_TASK_NAME, yarnLockFile),
+					YarnInstallTask.class),
+				yarnLockFile);
+
+			if (_hasPackageJsonScript(
+					_CHECK_FORMAT_SCRIPT_NAME, yarnLockFile)) {
+
+				yarnCheckFormatTaskProviders.put(
+					GradleUtil.addTaskProvider(
+						project,
+						_getYarnTaskName(
+							YARN_CHECK_FORMAT_TASK_NAME, yarnLockFile),
+						ExecutePackageManagerTask.class),
+					yarnLockFile);
+			}
+
+			if (_hasPackageJsonScript(_FORMAT_SCRIPT_NAME, yarnLockFile)) {
+				yarnFormatTaskProviders.put(
+					GradleUtil.addTaskProvider(
+						project,
+						_getYarnTaskName(YARN_FORMAT_TASK_NAME, yarnLockFile),
+						ExecutePackageManagerTask.class),
+					yarnLockFile);
+			}
+		}
+
+		for (Map.Entry<TaskProvider<ExecutePackageManagerTask>, File> entry :
+				yarnCheckFormatTaskProviders.entrySet()) {
+
+			_configureTaskYarnCheckFormatProvider(
+				entry.getKey(), entry.getValue());
+		}
+
+		for (Map.Entry<TaskProvider<ExecutePackageManagerTask>, File> entry :
+				yarnFormatTaskProviders.entrySet()) {
+
+			_configureTaskYarnFormatProvider(entry.getKey(), entry.getValue());
+		}
+
+		for (Map.Entry<TaskProvider<YarnInstallTask>, File> entry :
+				yarnInstallTaskProviders.entrySet()) {
+
+			_configureTaskYarnInstallProvider(entry.getKey(), entry.getValue());
+		}
+
+		for (Map.Entry<TaskProvider<YarnInstallTask>, File> entry :
+				yarnLockTaskProviders.entrySet()) {
+
+			_configureTaskYarnLockProvider(entry.getKey(), entry.getValue());
+		}
+
+		TaskProvider<Task> yarnCheckFormatTaskProvider =
+			GradleUtil.addTaskProvider(
+				project, YARN_CHECK_FORMAT_TASK_NAME, Task.class);
+		TaskProvider<Task> yarnFormatTaskProvider = GradleUtil.addTaskProvider(
+			project, YARN_FORMAT_TASK_NAME, Task.class);
+		final TaskProvider<Task> yarnInstallTaskProvider =
+			GradleUtil.addTaskProvider(
+				project, YARN_INSTALL_TASK_NAME, Task.class);
+		TaskProvider<Task> yarnLockTaskProvider = GradleUtil.addTaskProvider(
+			project, YARN_LOCK_TASK_NAME, Task.class);
+
+		_configureTaskYarnCheckFormatProvider(
+			yarnCheckFormatTaskProvider, yarnCheckFormatTaskProviders.keySet());
+		_configureTaskYarnFormatProvider(
+			yarnFormatTaskProvider, yarnFormatTaskProviders.keySet());
+		_configureTaskYarnInstallProvider(
+			yarnInstallTaskProvider, yarnInstallTaskProviders.keySet());
+		_configureTaskYarnLockProvider(
+			yarnLockTaskProvider, yarnLockTaskProviders.keySet());
+
+		// Other
 
 		Gradle gradle = project.getGradle();
 
 		StartParameter startParameter = gradle.getStartParameter();
 
-		if (!startParameter.isParallelProjectExecutionEnabled()) {
-			for (final Project subproject : project.getSubprojects()) {
-				subproject.afterEvaluate(
-					new Action<Project>() {
+		if (startParameter.isParallelProjectExecutionEnabled()) {
+			return;
+		}
 
-						@Override
-						public void execute(Project project) {
-							_configureTasksNpmInstall(
-								subproject, yarnInstallTask);
-						}
+		for (Project subproject : project.getSubprojects()) {
+			subproject.afterEvaluate(
+				new Action<Project>() {
 
-					});
-			}
+					@Override
+					public void execute(Project project) {
+						TaskContainer taskContainer = project.getTasks();
+
+						taskContainer.withType(
+							NpmInstallTask.class,
+							new Action<NpmInstallTask>() {
+
+								@Override
+								public void execute(
+									NpmInstallTask npmInstallTask) {
+
+									_configureTaskNpmInstallAfterEvaluate(
+										npmInstallTask,
+										yarnInstallTaskProvider);
+								}
+
+							});
+					}
+
+				});
 		}
 	}
 
-	private ExecutePackageManagerTask _addTaskYarnCheckFormat(
-		File yarnLockFile, Project project) {
-
-		File workingDir = yarnLockFile.getParentFile();
-
-		String suffix = StringUtil.camelCase(workingDir.getName(), true);
-
-		ExecutePackageManagerTask executePackageManagerTask =
-			GradleUtil.addTask(
-				project, YARN_CHECK_FORMAT_TASK_NAME + suffix,
-				ExecutePackageManagerTask.class);
-
-		executePackageManagerTask.args(_CHECK_FORMAT_SCRIPT_NAME);
-		executePackageManagerTask.setDescription(
-			"Runs the Yarn \"" + _CHECK_FORMAT_SCRIPT_NAME + "\" script.");
-		executePackageManagerTask.setWorkingDir(workingDir);
-
-		return executePackageManagerTask;
-	}
-
-	private Task _addTaskYarnCheckFormat(Project project) {
-		Task task = project.task(YARN_CHECK_FORMAT_TASK_NAME);
-
-		task.setDescription(
-			"Runs the Yarn \"" + _CHECK_FORMAT_SCRIPT_NAME + "\" script.");
-		task.setGroup("formatting");
-
-		task.doFirst(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					Project project = task.getProject();
-
-					Logger logger = project.getLogger();
-
-					if (logger.isLifecycleEnabled()) {
-						StringBuilder sb = new StringBuilder();
-
-						sb.append("Running the Yarn \"");
-						sb.append(_CHECK_FORMAT_SCRIPT_NAME);
-						sb.append("\" script");
-
-						logger.lifecycle(sb.toString());
-					}
-				}
-
-			});
-
-		FileTree yarnLockFiles = _getYarnLockFiles(project);
-
-		yarnLockFiles.forEach(
-			yarnLockFile -> {
-				File packageJsonFile = new File(
-					yarnLockFile.getParentFile(), "package.json");
-
-				if (_hasPackageJsonScript(
-						_CHECK_FORMAT_SCRIPT_NAME, packageJsonFile)) {
-
-					task.finalizedBy(
-						_addTaskYarnCheckFormat(yarnLockFile, project));
-				}
-			});
-
-		return task;
-	}
-
-	private ExecutePackageManagerTask _addTaskYarnFormat(
-		File yarnLockFile, Project project) {
-
-		File workingDir = yarnLockFile.getParentFile();
-
-		String suffix = StringUtil.camelCase(workingDir.getName(), true);
-
-		ExecutePackageManagerTask executePackageManagerTask =
-			GradleUtil.addTask(
-				project, YARN_FORMAT_TASK_NAME + suffix,
-				ExecutePackageManagerTask.class);
-
-		executePackageManagerTask.args(_FORMAT_SCRIPT_NAME);
-		executePackageManagerTask.setDescription(
-			"Runs the Yarn \"" + _FORMAT_SCRIPT_NAME + "\" script.");
-		executePackageManagerTask.setWorkingDir(workingDir);
-
-		return executePackageManagerTask;
-	}
-
-	private Task _addTaskYarnFormat(Project project) {
-		Task task = project.task(YARN_FORMAT_TASK_NAME);
-
-		task.setDescription(
-			"Runs the Yarn \"" + _FORMAT_SCRIPT_NAME + "\" script.");
-		task.setGroup("formatting");
-
-		task.doFirst(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					Project project = task.getProject();
-
-					Logger logger = project.getLogger();
-
-					if (logger.isLifecycleEnabled()) {
-						StringBuilder sb = new StringBuilder();
-
-						sb.append("Running the Yarn \"");
-						sb.append(_FORMAT_SCRIPT_NAME);
-						sb.append("\" script");
-
-						logger.lifecycle(sb.toString());
-					}
-				}
-
-			});
-
-		FileTree yarnLockFiles = _getYarnLockFiles(project);
-
-		yarnLockFiles.forEach(
-			yarnLockFile -> {
-				File packageJsonFile = new File(
-					yarnLockFile.getParentFile(), "package.json");
-
-				if (_hasPackageJsonScript(
-						_FORMAT_SCRIPT_NAME, packageJsonFile)) {
-
-					task.finalizedBy(_addTaskYarnFormat(yarnLockFile, project));
-				}
-			});
-
-		return task;
-	}
-
-	private Task _addTaskYarnInstall(Project project) {
-		final Task task = project.task(YARN_INSTALL_TASK_NAME);
-
-		task.setDescription("Installs the Node.js packages.");
-		task.setGroup(BasePlugin.BUILD_GROUP);
-
-		task.doFirst(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					Project project = task.getProject();
-
-					Logger logger = project.getLogger();
-
-					if (logger.isLifecycleEnabled()) {
-						logger.lifecycle("Installing the Node.js packages");
-					}
-				}
-
-			});
-
-		FileTree yarnLockFiles = _getYarnLockFiles(project);
-
-		yarnLockFiles.forEach(
-			yarnLockFile -> task.finalizedBy(
-				_addTaskYarnInstall(task, yarnLockFile, true)));
-
-		return task;
-	}
-
-	private YarnInstallTask _addTaskYarnInstall(
-		Task task, File yarnLockFile, boolean frozenLockFile) {
-
-		File workingDir = yarnLockFile.getParentFile();
-
-		String suffix = StringUtil.camelCase(workingDir.getName(), true);
-
-		YarnInstallTask yarnInstallTask = GradleUtil.addTask(
-			task.getProject(), task.getName() + suffix, YarnInstallTask.class);
-
-		yarnInstallTask.setDescription("Installs the Node.js packages.");
-		yarnInstallTask.setFrozenLockFile(frozenLockFile);
-		yarnInstallTask.setWorkingDir(workingDir);
-
-		return yarnInstallTask;
-	}
-
-	private Task _addTaskYarnLock(Project project) {
-		final Task task = project.task(YARN_LOCK_TASK_NAME);
-
-		task.setDescription(
-			"Installs the Node.js packages and updates the yarn.lock file");
-		task.setGroup(BasePlugin.BUILD_GROUP);
-
-		task.doFirst(
-			new Action<Task>() {
-
-				@Override
-				public void execute(Task task) {
-					Project project = task.getProject();
-
-					Logger logger = project.getLogger();
-
-					if (logger.isLifecycleEnabled()) {
-						logger.lifecycle("Updating the yarn.lock file");
-					}
-				}
-
-			});
-
-		FileTree yarnLockFiles = _getYarnLockFiles(project);
-
-		yarnLockFiles.forEach(
-			yarnLockFile -> task.finalizedBy(
-				_addTaskYarnInstall(task, yarnLockFile, false)));
-
-		return task;
-	}
-
-	private void _configureTaskNpmInstall(
-		NpmInstallTask npmInstallTask, Task yarnInstallTask) {
+	private void _configureTaskNpmInstallAfterEvaluate(
+		NpmInstallTask npmInstallTask,
+		TaskProvider<Task> yarnInstallTaskProvider) {
 
 		if (!npmInstallTask.isUseNpm()) {
-			npmInstallTask.finalizedBy(yarnInstallTask);
+			npmInstallTask.finalizedBy(yarnInstallTaskProvider);
 		}
 	}
 
-	private void _configureTasksNpmInstall(
-		Project project, final Task yarnInstallTask) {
+	private void _configureTaskYarnCheckFormatProvider(
+		TaskProvider<ExecutePackageManagerTask> yarnCheckFormatTaskProvider,
+		final File yarnLockFile) {
 
-		TaskContainer taskContainer = project.getTasks();
-
-		taskContainer.withType(
-			NpmInstallTask.class,
-			new Action<NpmInstallTask>() {
+		yarnCheckFormatTaskProvider.configure(
+			new Action<ExecutePackageManagerTask>() {
 
 				@Override
-				public void execute(NpmInstallTask npmInstallTask) {
-					_configureTaskNpmInstall(npmInstallTask, yarnInstallTask);
+				public void execute(
+					ExecutePackageManagerTask
+						yarnCheckFormatExecutePackageManagerTask) {
+
+					yarnCheckFormatExecutePackageManagerTask.args(
+						_CHECK_FORMAT_SCRIPT_NAME);
+					yarnCheckFormatExecutePackageManagerTask.setDescription(
+						"Runs the Yarn \"" + _CHECK_FORMAT_SCRIPT_NAME +
+							"\" script.");
+					yarnCheckFormatExecutePackageManagerTask.setWorkingDir(
+						yarnLockFile.getParentFile());
 				}
 
 			});
 	}
 
-	private FileTree _getYarnLockFiles(Project project) {
+	private void _configureTaskYarnCheckFormatProvider(
+		TaskProvider<Task> yarnCheckFormatTaskProvider,
+		final Set<TaskProvider<ExecutePackageManagerTask>>
+			yarnCheckFormatTaskProviders) {
+
+		yarnCheckFormatTaskProvider.configure(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task yarnCheckFormatTask) {
+					yarnCheckFormatTask.setDescription(
+						"Runs the Yarn \"" + _CHECK_FORMAT_SCRIPT_NAME +
+							"\" script.");
+					yarnCheckFormatTask.setGroup("formatting");
+
+					for (TaskProvider<ExecutePackageManagerTask>
+							yarnCheckFormatTaskProvider :
+								yarnCheckFormatTaskProviders) {
+
+						yarnCheckFormatTask.finalizedBy(
+							yarnCheckFormatTaskProvider);
+					}
+				}
+
+			});
+	}
+
+	private void _configureTaskYarnFormatProvider(
+		TaskProvider<ExecutePackageManagerTask> yarnFormatTaskProvider,
+		final File yarnLockFile) {
+
+		yarnFormatTaskProvider.configure(
+			new Action<ExecutePackageManagerTask>() {
+
+				@Override
+				public void execute(
+					ExecutePackageManagerTask
+						yarnFormatExecutePackageManagerTask) {
+
+					yarnFormatExecutePackageManagerTask.args(
+						_FORMAT_SCRIPT_NAME);
+					yarnFormatExecutePackageManagerTask.setDescription(
+						"Runs the Yarn \"" + _FORMAT_SCRIPT_NAME +
+							"\" script.");
+					yarnFormatExecutePackageManagerTask.setWorkingDir(
+						yarnLockFile.getParentFile());
+				}
+
+			});
+	}
+
+	private void _configureTaskYarnFormatProvider(
+		TaskProvider<Task> yarnFormatTaskProvider,
+		final Set<TaskProvider<ExecutePackageManagerTask>>
+			yarnFormatTaskProviders) {
+
+		yarnFormatTaskProvider.configure(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task yarnFormatTask) {
+					yarnFormatTask.setDescription(
+						"Runs the Yarn \"" + _FORMAT_SCRIPT_NAME +
+							"\" script.");
+					yarnFormatTask.setGroup("formatting");
+
+					for (TaskProvider<ExecutePackageManagerTask>
+							yarnFormatTaskProvider : yarnFormatTaskProviders) {
+
+						yarnFormatTask.finalizedBy(yarnFormatTaskProvider);
+					}
+				}
+
+			});
+	}
+
+	private void _configureTaskYarnInstallProvider(
+		TaskProvider<Task> yarnInstallTaskProvider,
+		final Set<TaskProvider<YarnInstallTask>> yarnInstallTaskProviders) {
+
+		yarnInstallTaskProvider.configure(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task yarnInstallTask) {
+					yarnInstallTask.setDescription(
+						"Installs the Node.js packages.");
+					yarnInstallTask.setGroup(BasePlugin.BUILD_GROUP);
+
+					for (TaskProvider<YarnInstallTask> yarnInstallTaskProvider :
+							yarnInstallTaskProviders) {
+
+						yarnInstallTask.finalizedBy(yarnInstallTaskProvider);
+					}
+				}
+
+			});
+	}
+
+	private void _configureTaskYarnInstallProvider(
+		TaskProvider<YarnInstallTask> yarnInstallTaskProvider,
+		final File yarnLockFile) {
+
+		yarnInstallTaskProvider.configure(
+			new Action<YarnInstallTask>() {
+
+				@Override
+				public void execute(YarnInstallTask yarnInstallTask) {
+					yarnInstallTask.setDescription(
+						"Installs the Node.js packages.");
+					yarnInstallTask.setFrozenLockFile(true);
+					yarnInstallTask.setWorkingDir(yarnLockFile.getParentFile());
+				}
+
+			});
+	}
+
+	private void _configureTaskYarnLockProvider(
+		TaskProvider<Task> yarnLockTaskProvider,
+		final Set<TaskProvider<YarnInstallTask>> yarnLockTaskProviders) {
+
+		yarnLockTaskProvider.configure(
+			new Action<Task>() {
+
+				@Override
+				public void execute(Task yarnLockTask) {
+					yarnLockTask.setDescription(
+						"Installs the Node.js packages and updates the " +
+							"yarn.lock file");
+					yarnLockTask.setGroup(BasePlugin.BUILD_GROUP);
+
+					for (TaskProvider<YarnInstallTask> yarnLockTaskProvider :
+							yarnLockTaskProviders) {
+
+						yarnLockTask.finalizedBy(yarnLockTaskProvider);
+					}
+				}
+
+			});
+	}
+
+	private void _configureTaskYarnLockProvider(
+		TaskProvider<YarnInstallTask> yarnLockYarnInstallTaskProvider,
+		final File yarnLockFile) {
+
+		yarnLockYarnInstallTaskProvider.configure(
+			new Action<YarnInstallTask>() {
+
+				@Override
+				public void execute(YarnInstallTask yarnLockYarnInstallTask) {
+					yarnLockYarnInstallTask.setDescription(
+						"Installs the Node.js packages and updates the " +
+							"yarn.lock file");
+					yarnLockYarnInstallTask.setFrozenLockFile(false);
+					yarnLockYarnInstallTask.setWorkingDir(
+						yarnLockFile.getParentFile());
+				}
+
+			});
+	}
+
+	private List<File> _getYarnLockFiles(Project project) {
 		Map<String, Object> args = new HashMap<>();
 
 		args.put("dir", project.getProjectDir());
 		args.put("excludes", _excludes);
 		args.put("includes", _includes);
 
-		return project.fileTree(args);
+		FileTree yarnLockFileTree = project.fileTree(args);
+
+		return new ArrayList<>(yarnLockFileTree.getFiles());
+	}
+
+	private String _getYarnTaskName(String parentTaskName, File yarnLockFile) {
+		File workingDir = yarnLockFile.getParentFile();
+
+		String suffix = StringUtil.camelCase(workingDir.getName(), true);
+
+		return parentTaskName + suffix;
 	}
 
 	@SuppressWarnings("unchecked")
 	private boolean _hasPackageJsonScript(
-		String scriptName, File packageJsonFile) {
+		String scriptName, File yarnLockFile) {
+
+		File packageJsonFile = new File(
+			yarnLockFile.getParentFile(), "package.json");
 
 		if (!packageJsonFile.exists()) {
 			return false;

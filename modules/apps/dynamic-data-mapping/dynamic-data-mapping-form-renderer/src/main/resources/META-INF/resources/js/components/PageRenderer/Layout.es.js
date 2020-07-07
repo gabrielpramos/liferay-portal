@@ -14,15 +14,27 @@
 
 import React from 'react';
 
-import {EVENT_TYPES, usePage} from '../../hooks/usePage.es';
+import {useEvaluate} from '../../hooks/useEvaluate.es';
+import {useForm} from '../../hooks/useForm.es';
+import {usePage} from '../../hooks/usePage.es';
+import fieldBlur from '../../thunks/fieldBlur.es';
+import fieldChange from '../../thunks/fieldChange.es';
+import fieldFocus from '../../thunks/fieldFocus.es';
+import {getFormId, getFormNode} from '../../util/formId.es';
 import {Field} from '../Field/Field.es';
 import * as DefaultVariant from './DefaultVariant.es';
 
 export const Layout = ({components: Components = DefaultVariant, rows}) => {
 	const {
-		dispatch,
-		store: {activePage, allowNestedFields, editable, pageIndex, spritemap},
+		activePage,
+		allowNestedFields,
+		containerElement,
+		editable,
+		pageIndex,
+		spritemap,
 	} = usePage();
+	const createFieldChange = useEvaluate(fieldChange);
+	const dispatch = useForm();
 
 	return (
 		<Components.Rows
@@ -53,23 +65,39 @@ export const Layout = ({components: Components = DefaultVariant, rows}) => {
 										fieldProps.field?.instanceId ??
 										fieldProps.field.name
 									}
-									onBlur={(event) =>
-										dispatch({
-											payload: event,
-											type: EVENT_TYPES.FIELD_BLUR,
-										})
+									onBlur={(event, focusDuration) =>
+										dispatch(
+											fieldBlur({
+												activePage,
+												focusDuration,
+												formId: getFormId(
+													getFormNode(
+														containerElement.current
+													)
+												),
+												properties: event,
+											})
+										)
 									}
 									onChange={(event) =>
-										dispatch({
-											payload: event,
-											type: EVENT_TYPES.FIELD_CHANGE,
-										})
+										dispatch(
+											createFieldChange({
+												properties: event,
+											})
+										)
 									}
 									onFocus={(event) =>
-										dispatch({
-											payload: event,
-											type: EVENT_TYPES.FIELD_FOCUS,
-										})
+										dispatch(
+											fieldFocus({
+												activePage,
+												formId: getFormId(
+													getFormNode(
+														containerElement.current
+													)
+												),
+												properties: event,
+											})
+										)
 									}
 									pageIndex={pageIndex}
 									spritemap={spritemap}

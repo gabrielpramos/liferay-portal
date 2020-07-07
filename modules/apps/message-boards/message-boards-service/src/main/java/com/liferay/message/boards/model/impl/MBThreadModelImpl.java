@@ -80,13 +80,13 @@ public class MBThreadModelImpl
 	public static final String TABLE_NAME = "MBThread";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"uuid_", Types.VARCHAR}, {"threadId", Types.BIGINT},
-		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
-		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
-		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
-		{"categoryId", Types.BIGINT}, {"rootMessageId", Types.BIGINT},
-		{"rootMessageUserId", Types.BIGINT}, {"title", Types.VARCHAR},
-		{"messageCount", Types.INTEGER}, {"lastPostByUserId", Types.BIGINT},
+		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
+		{"threadId", Types.BIGINT}, {"groupId", Types.BIGINT},
+		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"modifiedDate", Types.TIMESTAMP}, {"categoryId", Types.BIGINT},
+		{"rootMessageId", Types.BIGINT}, {"rootMessageUserId", Types.BIGINT},
+		{"title", Types.VARCHAR}, {"lastPostByUserId", Types.BIGINT},
 		{"lastPostDate", Types.TIMESTAMP}, {"priority", Types.DOUBLE},
 		{"question", Types.BOOLEAN}, {"lastPublishDate", Types.TIMESTAMP},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
@@ -97,6 +97,7 @@ public class MBThreadModelImpl
 		new HashMap<String, Integer>();
 
 	static {
+		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("threadId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
@@ -109,7 +110,6 @@ public class MBThreadModelImpl
 		TABLE_COLUMNS_MAP.put("rootMessageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("rootMessageUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("messageCount", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("lastPostByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("lastPostDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("priority", Types.DOUBLE);
@@ -122,7 +122,7 @@ public class MBThreadModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table MBThread (uuid_ VARCHAR(75) null,threadId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,categoryId LONG,rootMessageId LONG,rootMessageUserId LONG,title VARCHAR(75) null,messageCount INTEGER,lastPostByUserId LONG,lastPostDate DATE null,priority DOUBLE,question BOOLEAN,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table MBThread (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,threadId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,categoryId LONG,rootMessageId LONG,rootMessageUserId LONG,title VARCHAR(75) null,lastPostByUserId LONG,lastPostDate DATE null,priority DOUBLE,question BOOLEAN,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table MBThread";
 
@@ -181,6 +181,7 @@ public class MBThreadModelImpl
 
 		MBThread model = new MBThreadImpl();
 
+		model.setMvccVersion(soapModel.getMvccVersion());
 		model.setUuid(soapModel.getUuid());
 		model.setThreadId(soapModel.getThreadId());
 		model.setGroupId(soapModel.getGroupId());
@@ -193,7 +194,6 @@ public class MBThreadModelImpl
 		model.setRootMessageId(soapModel.getRootMessageId());
 		model.setRootMessageUserId(soapModel.getRootMessageUserId());
 		model.setTitle(soapModel.getTitle());
-		model.setMessageCount(soapModel.getMessageCount());
 		model.setLastPostByUserId(soapModel.getLastPostByUserId());
 		model.setLastPostDate(soapModel.getLastPostDate());
 		model.setPriority(soapModel.getPriority());
@@ -350,6 +350,10 @@ public class MBThreadModelImpl
 		Map<String, BiConsumer<MBThread, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBThread, ?>>();
 
+		attributeGetterFunctions.put("mvccVersion", MBThread::getMvccVersion);
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<MBThread, Long>)MBThread::setMvccVersion);
 		attributeGetterFunctions.put("uuid", MBThread::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBThread, String>)MBThread::setUuid);
@@ -391,10 +395,6 @@ public class MBThreadModelImpl
 		attributeGetterFunctions.put("title", MBThread::getTitle);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<MBThread, String>)MBThread::setTitle);
-		attributeGetterFunctions.put("messageCount", MBThread::getMessageCount);
-		attributeSetterBiConsumers.put(
-			"messageCount",
-			(BiConsumer<MBThread, Integer>)MBThread::setMessageCount);
 		attributeGetterFunctions.put(
 			"lastPostByUserId", MBThread::getLastPostByUserId);
 		attributeSetterBiConsumers.put(
@@ -436,6 +436,17 @@ public class MBThreadModelImpl
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+	}
+
+	@JSON
+	@Override
+	public long getMvccVersion() {
+		return _mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		_mvccVersion = mvccVersion;
 	}
 
 	@JSON
@@ -680,17 +691,6 @@ public class MBThreadModelImpl
 	@Override
 	public void setTitle(String title) {
 		_title = title;
-	}
-
-	@JSON
-	@Override
-	public int getMessageCount() {
-		return _messageCount;
-	}
-
-	@Override
-	public void setMessageCount(int messageCount) {
-		_messageCount = messageCount;
 	}
 
 	@JSON
@@ -1161,6 +1161,7 @@ public class MBThreadModelImpl
 	public Object clone() {
 		MBThreadImpl mbThreadImpl = new MBThreadImpl();
 
+		mbThreadImpl.setMvccVersion(getMvccVersion());
 		mbThreadImpl.setUuid(getUuid());
 		mbThreadImpl.setThreadId(getThreadId());
 		mbThreadImpl.setGroupId(getGroupId());
@@ -1173,7 +1174,6 @@ public class MBThreadModelImpl
 		mbThreadImpl.setRootMessageId(getRootMessageId());
 		mbThreadImpl.setRootMessageUserId(getRootMessageUserId());
 		mbThreadImpl.setTitle(getTitle());
-		mbThreadImpl.setMessageCount(getMessageCount());
 		mbThreadImpl.setLastPostByUserId(getLastPostByUserId());
 		mbThreadImpl.setLastPostDate(getLastPostDate());
 		mbThreadImpl.setPriority(getPriority());
@@ -1309,6 +1309,8 @@ public class MBThreadModelImpl
 	public CacheModel<MBThread> toCacheModel() {
 		MBThreadCacheModel mbThreadCacheModel = new MBThreadCacheModel();
 
+		mbThreadCacheModel.mvccVersion = getMvccVersion();
+
 		mbThreadCacheModel.uuid = getUuid();
 
 		String uuid = mbThreadCacheModel.uuid;
@@ -1364,8 +1366,6 @@ public class MBThreadModelImpl
 		if ((title != null) && (title.length() == 0)) {
 			mbThreadCacheModel.title = null;
 		}
-
-		mbThreadCacheModel.messageCount = getMessageCount();
 
 		mbThreadCacheModel.lastPostByUserId = getLastPostByUserId();
 
@@ -1485,6 +1485,7 @@ public class MBThreadModelImpl
 
 	}
 
+	private long _mvccVersion;
 	private String _uuid;
 	private String _originalUuid;
 	private long _threadId;
@@ -1507,7 +1508,6 @@ public class MBThreadModelImpl
 	private boolean _setOriginalRootMessageId;
 	private long _rootMessageUserId;
 	private String _title;
-	private int _messageCount;
 	private long _lastPostByUserId;
 	private Date _lastPostDate;
 	private Date _originalLastPostDate;

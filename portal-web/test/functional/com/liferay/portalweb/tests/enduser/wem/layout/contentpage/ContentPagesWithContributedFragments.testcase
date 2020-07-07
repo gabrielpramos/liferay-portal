@@ -183,6 +183,111 @@ definition {
 		YoutubePortlet.assertVideoTitle(videoTitle = "Life at Liferay - A Look into Liferay Culture");
 	}
 
+	@description = "This is a use case for LPS-109298. Each tab of Tabs fragment is able to contain any elements in content page."
+	@priority = "5"
+	test AddFragmentToIndividualTabOfTabsFragment {
+		property test.assert.warning.exceptions = "true";
+
+		ContentPagesNavigator.openEditContentPage(
+			pageName = "Content Page Name",
+			siteName = "Test Site Name");
+
+		PageEditor.addFragment(
+			collectionName = "Basic Components",
+			fragmentName = "Tabs");
+
+		AssertVisible(
+			key_content = "Place fragments here.",
+			key_fragmentClass = "content",
+			key_position = "1",
+			locator1 = "Fragment#PAGE_EDITOR_NO_FRAGMENTS_MESSAGE");
+
+		PageEditor.expandFragmentCollection(collectionName = "Layout Elements");
+
+		DragAndDrop.javaScriptDragAndDropToObject(
+			key_collectionName = "Layout Elements",
+			key_fragmentName = "Container",
+			key_index = "2",
+			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_FRAGMENT",
+			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
+			value1 = "");
+
+		AssertElementPresent(
+			key_fragmentName = "Container",
+			key_inFragmentName = "Tabs",
+			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
+
+		PageEditor.gotoTabsFragmentNavItem(navItem = "Tab 2");
+
+		AssertVisible(
+			key_content = "Place fragments here.",
+			key_fragmentClass = "content",
+			key_position = "1",
+			locator1 = "Fragment#PAGE_EDITOR_NO_FRAGMENTS_MESSAGE");
+
+		PageEditor.expandFragmentCollection(collectionName = "Basic Components");
+
+		DragAndDrop.javaScriptDragAndDropToObject(
+			key_collectionName = "Basic Components",
+			key_fragmentName = "Heading",
+			key_index = "3",
+			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_FRAGMENT",
+			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
+			value1 = "");
+
+		AssertElementPresent(
+			key_fragmentName = "Heading",
+			key_inFragmentName = "Tabs",
+			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
+
+		PageEditor.gotoTabsFragmentNavItem(navItem = "Tab 3");
+
+		AssertVisible(
+			key_content = "Place fragments here.",
+			key_fragmentClass = "content",
+			key_position = "1",
+			locator1 = "Fragment#PAGE_EDITOR_NO_FRAGMENTS_MESSAGE");
+
+		PageEditor.expandFragmentCollection(collectionName = "Basic Components");
+
+		DragAndDrop.javaScriptDragAndDropToObject(
+			key_collectionName = "Basic Components",
+			key_fragmentName = "Tabs",
+			key_index = "4",
+			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_FRAGMENT",
+			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
+			value1 = "");
+
+		AssertElementPresent(
+			key_fragmentName = "Tabs",
+			key_inFragmentName = "Tabs",
+			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
+
+		PageEditor.gotoTabsFragmentNavItem(navItem = "Tab 4");
+
+		AssertVisible(
+			key_content = "Place fragments here.",
+			key_fragmentClass = "content",
+			key_position = "1",
+			locator1 = "Fragment#PAGE_EDITOR_NO_FRAGMENTS_MESSAGE");
+
+		Navigator.gotoNavTab(navTab = "Widgets");
+
+		DragAndDrop.javaScriptDragAndDropToObject(
+			key_index = "9",
+			key_portletName = "Asset Publisher",
+			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_WIDGET",
+			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
+			value1 = "Asset Publisher");
+
+		AssertElementPresent(
+			key_fragmentName = "Asset Publisher",
+			key_inFragmentName = "Tabs",
+			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
+
+		PageEditor.clickPublish();
+	}
+
 	@description = "This is a use case for LPS-86141. The fragment should be added to all cells of the Collection Display when add it to one cell."
 	@priority = "5"
 	test AddFragmentToOneCellOfCollectionDisplay {
@@ -244,114 +349,9 @@ definition {
 		}
 	}
 
-	@description = "This is a use case for LPS-109298. Each tab of Tabs fragment is able to contain any elements in content page."
-	@priority = "5"
-	test AddFrgamentToIndividualTabOfTabsFragment {
-		property test.assert.warning.exceptions = "true";
-
-		ContentPagesNavigator.openEditContentPage(
-			pageName = "Content Page Name",
-			siteName = "Test Site Name");
-
-		PageEditor.addFragment(
-			collectionName = "Basic Components",
-			fragmentName = "Tabs");
-
-		AssertVisible(
-			key_content = "Place fragments here.",
-			key_fragmentClass = "content",
-			key_position = "1",
-			locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
-
-		PageEditor.expandFragmentCollection(collectionName = "Layout Elements");
-
-		DragAndDrop.javaScriptDragAndDropToObject(
-			key_collectionName = "Layout Elements",
-			key_fragmentName = "Container",
-			key_index = "2",
-			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_FRAGMENT",
-			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
-			value1 = "");
-
-		AssertElementPresent(
-			key_fragmentName = "Container",
-			key_inFragmentName = "Tabs",
-			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
-
-		PageEditor.gotoTabsFragmentNavItem(navItem = "Tab 2");
-
-		AssertVisible(
-			key_content = "Place fragments here.",
-			key_fragmentClass = "content",
-			key_position = "1",
-			locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
-
-		PageEditor.expandFragmentCollection(collectionName = "Basic Components");
-
-		DragAndDrop.javaScriptDragAndDropToObject(
-			key_collectionName = "Basic Components",
-			key_fragmentName = "Heading",
-			key_index = "3",
-			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_FRAGMENT",
-			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
-			value1 = "");
-
-		AssertElementPresent(
-			key_fragmentName = "Heading",
-			key_inFragmentName = "Tabs",
-			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
-
-		PageEditor.gotoTabsFragmentNavItem(navItem = "Tab 3");
-
-		AssertVisible(
-			key_content = "Place fragments here.",
-			key_fragmentClass = "content",
-			key_position = "1",
-			locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
-
-		PageEditor.expandFragmentCollection(collectionName = "Basic Components");
-
-		DragAndDrop.javaScriptDragAndDropToObject(
-			key_collectionName = "Basic Components",
-			key_fragmentName = "Tabs",
-			key_index = "4",
-			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_FRAGMENT",
-			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
-			value1 = "");
-
-		AssertElementPresent(
-			key_fragmentName = "Tabs",
-			key_inFragmentName = "Tabs",
-			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
-
-		PageEditor.gotoTabsFragmentNavItem(navItem = "Tab 4");
-
-		AssertVisible(
-			key_content = "Place fragments here.",
-			key_fragmentClass = "content",
-			key_position = "1",
-			locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
-
-		Navigator.gotoNavTab(navTab = "Widgets");
-
-		DragAndDrop.javaScriptDragAndDropToObject(
-			key_index = "9",
-			key_portletName = "Asset Publisher",
-			locator1 = "PageEditor#FRAGMENTS_AND_WIDGETS_TAB_WIDGET",
-			locator2 = "PageEditor#FRAGMENT_WITH_DROP_TARGET",
-			value1 = "Asset Publisher");
-
-		AssertElementPresent(
-			key_fragmentName = "Asset Publisher",
-			key_inFragmentName = "Tabs",
-			locator1 = "Fragment#FRAGMENT_BODY_IN_FRAGMENT");
-
-		PageEditor.clickPublish();
-	}
-
 	@description = "This is a use case for LPS-109298. Can add elements above and below Tabs fragment to page."
 	@priority = "4"
-	test AddFrgamentWithTabsFragmentInTheMiddle {
+	test AddFragmentWithTabsFragmentInTheMiddle {
 		ContentPagesNavigator.openEditContentPage(
 			pageName = "Content Page Name",
 			siteName = "Test Site Name");
@@ -915,6 +915,38 @@ definition {
 			}
 		}
 
+		task ("Get modified date of Web Content Articles") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "First Web Content",
+				menuItem = "View History");
+
+			Pause(locator1 = "3000");
+
+			var firstModifiedDate = selenium.getAttribute("//td[contains(@class,'modified-date')]/span[contains(@class,'tooltip')]@title");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "Second Web Content",
+				menuItem = "View History");
+
+			Pause(locator1 = "3000");
+
+			var secondModifiedDate = selenium.getAttribute("//td[contains(@class,'modified-date')]/span[contains(@class,'tooltip')]@title");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "Third Web Content",
+				menuItem = "View History");
+
+			Pause(locator1 = "3000");
+
+			var thirdModifiedDate = selenium.getAttribute("//td[contains(@class,'modified-date')]/span[contains(@class,'tooltip')]@title");
+		}
+
 		task ("Add a Collection Display to page and Select Recent Content Collection Providers") {
 			ContentPagesNavigator.openEditContentPage(
 				pageName = "Content Page Name",
@@ -957,6 +989,34 @@ definition {
 			}
 		}
 
+		task ("Add a Paragraph to Collection Display and Map Modified Date of collection items to editable field") {
+			PageEditor.addFragmentToCollectionDisplay(
+				collectionName = "Basic Components",
+				fragmentName = "Paragraph",
+				targetFragmentName = "Heading");
+
+			PageEditorMapping.mapEditableFieldToCollectionItems(
+				field = "Modified Date",
+				fragmentName = "Paragraph",
+				id = "element-text");
+		}
+
+		task ("Assert modified date of collection items are shown in Paragraph") {
+			var n = "1";
+
+			for (var modifiedDate : list "${thirdModifiedDate},${secondModifiedDate},${firstModifiedDate}") {
+				AssertTextEquals(
+					key_colPosition = "1",
+					key_element = "//*[contains(@class,'paragraph') and contains(@data-lfr-editable-id,'element-text')]",
+					key_fragmentName = "Collection Display",
+					key_rowPosition = "${n}",
+					locator1 = "PageEditor#COLLECTION_CELL_NESTED_ELEMENT",
+					value1 = "${modifiedDate}");
+
+				var n = ${n} + 1;
+			}
+		}
+
 		task ("Assert the display order of collection items") {
 			PageEditor.clickPublish();
 
@@ -978,6 +1038,21 @@ definition {
 			}
 		}
 
+		task ("Assert modified date of collection items are shown in Paragraph") {
+			var n = "1";
+
+			for (var modifiedDate : list "${thirdModifiedDate},${secondModifiedDate},${firstModifiedDate}") {
+				AssertTextEquals(
+					key_colPosition = "${n}",
+					key_fragmentName = "paragraph",
+					key_rowPosition = "1",
+					locator1 = "Fragment#CONTRIBUTED_FRAGMENT_INLINE_CONTENT_IN_COLLECTION_DISPLAY",
+					value1 = "${modifiedDate}");
+
+				var n = ${n} + 1;
+			}
+		}
+
 		task ("Modify the First Web Content") {
 			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -987,6 +1062,18 @@ definition {
 				webContentContentEdit = "New Web Content Content",
 				webContentTitle = "First Web Content",
 				webContentTitleEdit = "First Web Content");
+		}
+
+		task ("Get modified date of the First Web Content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "First Web Content",
+				menuItem = "View History");
+
+			Pause(locator1 = "3000");
+
+			var firstModifiedDate = selenium.getAttribute("//tr[2]//td[contains(@class,'modified-date')]/span[contains(@class,'tooltip')]@title");
 		}
 
 		task ("Assert the display order of collection items") {
@@ -1003,6 +1090,21 @@ definition {
 					key_rowPosition = "1",
 					locator1 = "Fragment#CONTRIBUTED_FRAGMENT_INLINE_CONTENT_IN_COLLECTION_DISPLAY",
 					value1 = "${title}");
+
+				var n = ${n} + 1;
+			}
+		}
+
+		task ("Assert modified date of collection items are shown in Paragraph") {
+			var n = "1";
+
+			for (var modifiedDate : list "${firstModifiedDate},${thirdModifiedDate},${secondModifiedDate}") {
+				AssertTextEquals(
+					key_colPosition = "${n}",
+					key_fragmentName = "paragraph",
+					key_rowPosition = "1",
+					locator1 = "Fragment#CONTRIBUTED_FRAGMENT_INLINE_CONTENT_IN_COLLECTION_DISPLAY",
+					value1 = "${modifiedDate}");
 
 				var n = ${n} + 1;
 			}

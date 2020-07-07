@@ -257,16 +257,6 @@ public class EditFragmentEntryDisplayContext {
 
 		if (fragmentEntry != null) {
 			_cssContent = fragmentEntry.getCss();
-
-			if (Validator.isNull(_cssContent)) {
-				StringBundler sb = new StringBundler(3);
-
-				sb.append(".fragment_");
-				sb.append(fragmentEntry.getFragmentEntryId());
-				sb.append(" {\n}");
-
-				_cssContent = sb.toString();
-			}
 		}
 
 		return _cssContent;
@@ -304,16 +294,6 @@ public class EditFragmentEntryDisplayContext {
 
 		if (fragmentEntry != null) {
 			_htmlContent = fragmentEntry.getHtml();
-
-			if (Validator.isNull(_htmlContent)) {
-				StringBundler sb = new StringBundler(3);
-
-				sb.append("<div class=\"fragment_");
-				sb.append(fragmentEntry.getFragmentEntryId());
-				sb.append("\">\n</div>");
-
-				_htmlContent = sb.toString();
-			}
 		}
 
 		return _htmlContent;

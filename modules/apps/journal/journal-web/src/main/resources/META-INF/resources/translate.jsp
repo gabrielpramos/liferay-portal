@@ -19,15 +19,12 @@
 <%
 String redirect = ParamUtil.getString(request, "redirect");
 
-JournalArticle article = (JournalArticle)request.getAttribute(JournalWebKeys.JOURNAL_ARTICLES);
-
-String sourceLanguageId = (String)request.getAttribute(JournalWebConstants.SOURCE_LANGUAGE_ID);
-String targetLanguageId = (String)request.getAttribute(JournalWebConstants.TARGET_LANGUAGE_ID);
+JournalTranslateDisplayContext journalTranslateDisplayContext = new JournalTranslateDisplayContext(liferayPortletRequest);
 
 portletDisplay.setShowBackIcon(true);
 portletDisplay.setURLBack(redirect);
 
-renderResponse.setTitle(article.getTitle());
+renderResponse.setTitle(journalTranslateDisplayContext.getTitle());
 %>
 
 <aui:form cssClass="translate-article" name="translate_fm" onSubmit="event.preventDefault();">
@@ -38,25 +35,8 @@ renderResponse.setTitle(article.getTitle());
 			<ul class="tbar-nav">
 				<li class="tbar-item tbar-item-expand">
 					<div class="tbar-section text-left">
-
-						<%
-						Map<String, Object> data = HashMapBuilder.<String, Object>put(
-							"currentUrl", currentURL
-						).put(
-							"sourceAvailableLanguages",
-							request.getAttribute(JournalWebConstants.AVAILABLE_SOURCE_LANGUAGE_IDS)
-						).put(
-							"sourceLanguageId", sourceLanguageId
-						).put(
-							"targetAvailableLanguages",
-							request.getAttribute(JournalWebConstants.AVAILABLE_TARGET_LANGUAGE_IDS)
-						).put(
-							"targetLanguageId", targetLanguageId
-						).build();
-						%>
-
 						<react:component
-							data="<%= data %>"
+							data="<%= journalTranslateDisplayContext.getTranslateLanguagesSelectorData() %>"
 							module="js/translate/TranslateLanguagesSelector"
 						/>
 					</div>
@@ -84,7 +64,7 @@ renderResponse.setTitle(article.getTitle());
 				>
 
 					<%
-					String sourceLanguageIdTitle = StringUtil.replace(sourceLanguageId, CharPool.UNDERLINE, CharPool.DASH);
+					String sourceLanguageIdTitle = journalTranslateDisplayContext.getLanguageIdTitle(journalTranslateDisplayContext.getSourceLanguageId());
 					%>
 
 					<clay:icon
@@ -101,7 +81,7 @@ renderResponse.setTitle(article.getTitle());
 				>
 
 					<%
-					String targetLanguageIdTitle = StringUtil.replace(targetLanguageId, CharPool.UNDERLINE, CharPool.DASH);
+					String targetLanguageIdTitle = journalTranslateDisplayContext.getLanguageIdTitle(journalTranslateDisplayContext.getTargetLanguageId());
 					%>
 
 					<clay:icon
@@ -115,33 +95,54 @@ renderResponse.setTitle(article.getTitle());
 			</clay:row>
 
 			<%
-			Locale sourceLocale = LocaleUtil.fromLanguageId(sourceLanguageId);
-			Locale targetLocale = LocaleUtil.fromLanguageId(targetLanguageId);
+			for (InfoFieldSetEntry infoFieldSetEntry : journalTranslateDisplayContext.getInfoFieldSetEntries()) {
+				List<InfoFieldValue<Object>> infoFieldValues = journalTranslateDisplayContext.getInfoFieldValues(infoFieldSetEntry);
 
-			InfoItemFieldValues infoItemFieldValues = (InfoItemFieldValues)request.getAttribute(InfoItemFieldValues.class.getName());
+				if (ListUtil.isEmpty(infoFieldValues)) {
+					continue;
+				}
 
-			for (InfoFieldValue<Object> infoFieldValue : infoItemFieldValues.getInfoFieldValues()) {
-				TranslationInfoFieldChecker translationInfoFieldChecker = (TranslationInfoFieldChecker)request.getAttribute(TranslationInfoFieldChecker.class.getName());
+				String infoFieldSetLabel = journalTranslateDisplayContext.getInfoFieldSetLabel(infoFieldSetEntry, locale);
 
-				InfoField infoField = infoFieldValue.getInfoField();
-
-				if (translationInfoFieldChecker.isTranslatable(infoField)) {
-					InfoLocalizedValue<String> labelInfoLocalizedValue = infoField.getLabelInfoLocalizedValue();
-
-					String label = labelInfoLocalizedValue.getValue(sourceLocale);
+				if (Validator.isNotNull(infoFieldSetLabel)) {
 			%>
 
 					<clay:row>
 						<clay:col
 							md="6"
 						>
-							<aui:input dir='<%= LanguageUtil.get(sourceLocale, "lang.dir") %>' label="<%= label %>" name="<%= label %>" readonly="true" value="<%= String.valueOf(infoFieldValue.getValue(sourceLocale)) %>" />
+							<div class="fieldset-title">
+								<%= infoFieldSetLabel %>
+							</div>
 						</clay:col>
 
 						<clay:col
 							md="6"
 						>
-							<aui:input dir='<%= LanguageUtil.get(targetLocale, "lang.dir") %>' label="<%= label %>" name="<%= label %>" value="<%= String.valueOf(infoFieldValue.getValue(targetLocale)) %>" />
+							<div class="fieldset-title">
+								<%= infoFieldSetLabel %>
+							</div>
+						</clay:col>
+					</clay:row>
+
+				<%
+				}
+
+				for (InfoFieldValue<Object> infoFieldValue : infoFieldValues) {
+					String label = journalTranslateDisplayContext.getInfoFieldLabel(infoFieldValue.getInfoField());
+				%>
+
+					<clay:row>
+						<clay:col
+							md="6"
+						>
+							<aui:input dir='<%= LanguageUtil.get(journalTranslateDisplayContext.getSourceLocale(), "lang.dir") %>' label="<%= label %>" name="<%= label %>" readonly="true" value="<%= String.valueOf(infoFieldValue.getValue(journalTranslateDisplayContext.getSourceLocale())) %>" />
+						</clay:col>
+
+						<clay:col
+							md="6"
+						>
+							<aui:input dir='<%= LanguageUtil.get(journalTranslateDisplayContext.getTargetLocale(), "lang.dir") %>' label="<%= label %>" name="<%= label %>" value="<%= String.valueOf(infoFieldValue.getValue(journalTranslateDisplayContext.getTargetLocale())) %>" />
 						</clay:col>
 					</clay:row>
 

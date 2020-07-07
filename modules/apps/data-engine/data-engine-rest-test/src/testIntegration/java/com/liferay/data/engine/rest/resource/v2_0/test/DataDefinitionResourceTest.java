@@ -20,11 +20,13 @@ import com.liferay.data.engine.rest.client.dto.v2_0.DataDefinitionField;
 import com.liferay.data.engine.rest.client.dto.v2_0.DataLayout;
 import com.liferay.data.engine.rest.client.pagination.Page;
 import com.liferay.data.engine.rest.client.pagination.Pagination;
+import com.liferay.data.engine.rest.client.permission.Permission;
 import com.liferay.data.engine.rest.client.problem.Problem;
 import com.liferay.data.engine.rest.resource.v2_0.test.util.DataDefinitionTestUtil;
 import com.liferay.data.engine.rest.resource.v2_0.test.util.DataLayoutTestUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.test.rule.DataGuard;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -39,7 +41,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +55,53 @@ public class DataDefinitionResourceTest
 
 	@Override
 	@Test
+	public void testDeleteDataDefinition() throws Exception {
+		super.testDeleteDataDefinition();
+
+		DataDefinition parentDataDefinition =
+			dataDefinitionResource.postSiteDataDefinitionByContentType(
+				testGroup.getGroupId(), _CONTENT_TYPE,
+				DataDefinition.toDTO(
+					DataDefinitionTestUtil.read(
+						"data-definition-parent.json")));
+
+		DataDefinition childDataDefinition = DataDefinition.toDTO(
+			DataDefinitionTestUtil.read("data-definition-child.json"));
+
+		DataDefinitionField[] dataDefinitionFields =
+			childDataDefinition.getDataDefinitionFields();
+
+		for (DataDefinitionField dataDefinitionField : dataDefinitionFields) {
+			dataDefinitionField.setCustomProperties(
+				HashMapBuilder.<String, Object>put(
+					"collapsible", true
+				).put(
+					"ddmStructureId", parentDataDefinition.getId()
+				).put(
+					"ddmStructureLayoutId", ""
+				).put(
+					"rows",
+					new String[] {
+						"[{\"columns\":[{\"fields\":[\"Text\"],\"size\": 12}]}]"
+					}
+				).build());
+		}
+
+		dataDefinitionResource.postSiteDataDefinitionByContentType(
+			testGroup.getGroupId(), _CONTENT_TYPE, childDataDefinition);
+
+		assertHttpResponseStatusCode(
+			204,
+			dataDefinitionResource.deleteDataDefinitionHttpResponse(
+				parentDataDefinition.getId()));
+		assertHttpResponseStatusCode(
+			404,
+			dataDefinitionResource.getDataDefinitionHttpResponse(
+				parentDataDefinition.getId()));
+	}
+
+	@Override
+	@Test
 	public void testGetDataDefinitionDataDefinitionFieldFieldTypes()
 		throws Exception {
 
@@ -64,10 +112,17 @@ public class DataDefinitionResourceTest
 		Assert.assertTrue(Validator.isNotNull(fieldTypes));
 	}
 
-	@Ignore
 	@Override
 	@Test
-	public void testGetDataDefinitionPermissionsPage() {
+	public void testGetDataDefinitionPermissionsPage() throws Exception {
+		DataDefinition postDataDefinition =
+			testGetDataDefinition_addDataDefinition();
+
+		Page<Permission> page =
+			dataDefinitionResource.getDataDefinitionPermissionsPage(
+				postDataDefinition.getId(), RoleConstants.GUEST);
+
+		Assert.assertNotNull(page);
 	}
 
 	@Override
@@ -429,6 +484,20 @@ public class DataDefinitionResourceTest
 			Assert.assertEquals("BAD_REQUEST", problem.getStatus());
 			Assert.assertEquals("MustSetValidName", problem.getType());
 		}
+
+		// Fill the data layout name with the data definition's name when no
+		// name is set
+
+		DataDefinition dataDefinition =
+			dataDefinitionResource.postSiteDataDefinitionByContentType(
+				testGroup.getGroupId(), _CONTENT_TYPE,
+				DataDefinition.toDTO(
+					DataDefinitionTestUtil.read(
+						"data-definition-must-set-data-layout-name.json")));
+
+		DataLayout dataLayout = dataDefinition.getDefaultDataLayout();
+
+		Assert.assertEquals(dataDefinition.getName(), dataLayout.getName());
 	}
 
 	@Override

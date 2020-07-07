@@ -12,21 +12,52 @@
 import ClayButton from '@clayui/button';
 import ClayForm, {ClayInput} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
+import {ClayTooltipProvider} from '@clayui/tooltip';
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
 import {Sidebar} from 'data-engine-taglib';
 import React, {useContext, useEffect, useState} from 'react';
 
+import {AutocompleteMultiSelect} from '../../../../components/autocomplete/AutocompleteMultiSelect.es';
 import ButtonInfo from '../../../../components/button-info/ButtonInfo.es';
 import {UPDATE_STEP} from '../configReducer.es';
+import ActionsTab from './ActionsTab.es';
 import DataAndViewsTab from './DataAndViewsTab.es';
 
-export default function EditAppSidebar() {
+export default function EditAppSidebar({assigneeRoles}) {
 	const {
-		config: {currentStep, dataObject, formView, stepIndex, tableView},
+		config: {
+			currentStep,
+			dataObject,
+			formView,
+			stepIndex,
+			steps,
+			tableView,
+		},
 		dispatchConfig,
 	} = useContext(EditAppContext);
 
 	const [currentTab, setCurrentTab] = useState();
+	const [selectedAssignees, setSelectedAssignees] = useState([]);
+
+	const {
+		appWorkflowTransitions: [primaryAction, secondaryAction] = [],
+	} = currentStep;
+
+	const actionsInfo = [];
+
+	if (primaryAction) {
+		actionsInfo.push({
+			label: Liferay.Language.get('primary-action'),
+			name: `${primaryAction.name} → ${primaryAction.transitionTo}`,
+		});
+	}
+
+	if (secondaryAction) {
+		actionsInfo.push({
+			label: Liferay.Language.get('secondary-action'),
+			name: `${secondaryAction.name} → ${secondaryAction.transitionTo}`,
+		});
+	}
 
 	const tabs = [
 		{
@@ -48,11 +79,34 @@ export default function EditAppSidebar() {
 			show: stepIndex === 0,
 			title: Liferay.Language.get('data-and-views'),
 		},
+		{
+			content: ActionsTab,
+			infoItems: actionsInfo,
+			show: stepIndex !== steps.length - 1,
+			title: Liferay.Language.get('actions'),
+		},
 	];
+
+	const onChangeAssignees = (assignees) => {
+		setSelectedAssignees(assignees);
+
+		dispatchConfig({
+			step: {
+				currentStep: {
+					...currentStep,
+					appWorkflowRoleAssignments: selectedAssignees.map(
+						({id, name}) => ({roleId: id, roleName: name})
+					),
+				},
+			},
+			stepIndex,
+			type: UPDATE_STEP,
+		});
+	};
 
 	const onChangeStepName = ({target}) => {
 		dispatchConfig({
-			step: {...currentStep, name: target.value},
+			step: {currentStep: {...currentStep, name: target.value}},
 			stepIndex,
 			type: UPDATE_STEP,
 		});
@@ -61,6 +115,10 @@ export default function EditAppSidebar() {
 	useEffect(() => {
 		setCurrentTab(null);
 	}, [currentStep]);
+
+	useEffect(() => {
+		setSelectedAssignees([]);
+	}, [stepIndex]);
 
 	return (
 		<Sidebar className="app-builder-workflow-app__sidebar">
@@ -104,13 +162,58 @@ export default function EditAppSidebar() {
 								type="text"
 								value={currentStep.name}
 							/>
+
+							{currentStep.initial === undefined && (
+								<>
+									<label className="mt-4">
+										{Liferay.Language.get('assignee')}
+
+										<span className="reference-mark">
+											<ClayIcon symbol="asterisk" />
+										</span>
+									</label>
+
+									<ClayTooltipProvider>
+										<ClayIcon
+											className="ml-2 text-muted tooltip-icon"
+											data-tooltip-align="top"
+											data-tooltip-delay="0"
+											symbol="question-circle-full"
+											title={Liferay.Language.get(
+												'assignees-are-the-roles-responsible-to-transition-this-workflow-step'
+											)}
+										/>
+									</ClayTooltipProvider>
+
+									<AutocompleteMultiSelect
+										emptyMessage={Liferay.Language.get(
+											'no-roles-found'
+										)}
+										emptyResultMessage={Liferay.Language.get(
+											'no-roles-found-with-this-name-try-a-different-one'
+										)}
+										items={assigneeRoles}
+										onChange={onChangeAssignees}
+										placeholder={Liferay.Language.get(
+											'select-assignees'
+										)}
+										selectedItems={currentStep.appWorkflowRoleAssignments.map(
+											({roleId, roleName}) => ({
+												id: roleId,
+												name: roleName,
+											})
+										)}
+										setSelectedItems={setSelectedAssignees}
+									/>
+								</>
+							)}
 						</ClayForm.Group>
 
 						{tabs.map(
 							({infoItems, show, title}, index) =>
 								show && (
 									<ClayButton
-										className="tab-button"
+										className="mb-3 tab-button"
 										displayType="secondary"
 										key={index}
 										onClick={() =>

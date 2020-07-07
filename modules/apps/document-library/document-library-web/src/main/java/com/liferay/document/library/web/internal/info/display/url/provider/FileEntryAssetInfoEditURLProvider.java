@@ -20,7 +20,9 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.PortletRequest;
@@ -61,9 +63,17 @@ public class FileEntryAssetInfoEditURLProvider
 
 		portletURL.setParameter(
 			"mvcRenderCommandName", "/document_library/edit_file_entry");
+
+		String redirect = ParamUtil.getString(httpServletRequest, "redirect");
+
+		if (Validator.isNull(redirect)) {
+			redirect = themeDisplay.getURLCurrent();
+		}
+
+		portletURL.setParameter("redirect", redirect);
+
 		portletURL.setParameter(
 			"fileEntryId", String.valueOf(fileEntry.getFileEntryId()));
-		portletURL.setParameter("redirect", themeDisplay.getURLCurrent());
 
 		return portletURL.toString();
 	}

@@ -20,6 +20,8 @@ import MetalComponent from 'metal-component';
 import React, {Suspense, lazy, useCallback, useRef, useState} from 'react';
 
 import {usePage} from '../../hooks/usePage.es';
+import {useStorage} from '../../hooks/useStorage.es';
+import {AutoFocus} from '../AutoFocus.es';
 import {ErrorBoundary} from '../ErrorBoundary.es';
 import {MetalComponentAdapter} from './MetalComponentAdapter.es';
 import {ParentFieldContext} from './ParentFieldContext.es';
@@ -41,40 +43,37 @@ const load = (fieldModule) => {
 };
 
 const useLazy = () => {
+	const {components} = useStorage();
 
-	// To have a better effect, we need to move this to a higher
-	// component above PageRenderer or FormRenderer because we
-	// can have two instances of it on the same page and they
-	// are destroyed all the time.
+	return useCallback(
+		(fieldModule) => {
+			if (!components.has(fieldModule)) {
+				const Component = lazy(() => {
+					return load(fieldModule).then((instance) => {
+						if (!(instance && instance.default)) {
+							return null;
+						}
 
-	const components = useRef(new Map());
+						// To maintain compatibility with fields in Metal+Soy,
+						// we call the bridge component to handle this component.
 
-	return useCallback((fieldModule) => {
-		if (!components.current.has(fieldModule)) {
-			const Component = lazy(() => {
-				return load(fieldModule).then((instance) => {
-					if (!(instance && instance.default)) {
-						return null;
-					}
+						if (MetalComponent.isComponentCtor(instance.default)) {
+							return {
+								default: MetalComponentAdapter,
+							};
+						}
 
-					// To maintain compatibility with fields in Metal+Soy,
-					// we call the bridge component to handle this component.
-
-					if (MetalComponent.isComponentCtor(instance.default)) {
-						return {
-							default: MetalComponentAdapter,
-						};
-					}
-
-					return instance;
+						return instance;
+					});
 				});
-			});
 
-			components.current.set(fieldModule, Component);
-		}
+				components.set(fieldModule, Component);
+			}
 
-		return components.current.get(fieldModule);
-	}, []);
+			return components.get(fieldModule);
+		},
+		[components]
+	);
 };
 
 class FieldEventStruct {
@@ -113,11 +112,11 @@ const mountStruct = (event, field, value) => {
 };
 
 export const Field = ({field, onBlur, onChange, onFocus, ...otherProps}) => {
-	const {
-		store: {fieldTypes},
-	} = usePage();
+	const {fieldTypes} = usePage();
 	const [hasError, setHasError] = useState(false);
 	const loadField = useLazy();
+
+	const focusDurationRef = useRef({end: null, start: null});
 
 	if (!fieldTypes) {
 		return <ClayLoadingIndicator />;
@@ -147,25 +146,32 @@ export const Field = ({field, onBlur, onChange, onFocus, ...otherProps}) => {
 		<ErrorBoundary onError={() => setHasError(true)}>
 			<Suspense fallback={<ClayLoadingIndicator />}>
 				<ParentFieldContext.Provider value={field}>
-					<div
-						className="ddm-field"
-						data-field-name={field.fieldName}
-					>
-						<FieldLazy
-							visible
-							{...field}
-							{...otherProps}
-							onBlur={(event) =>
-								onBlur(mountStruct(event, field))
-							}
-							onChange={(event, value) =>
-								onChange(mountStruct(event, field, value))
-							}
-							onFocus={(event) =>
-								onFocus(mountStruct(event, field))
-							}
-						/>
-					</div>
+					<AutoFocus>
+						<div
+							className="ddm-field"
+							data-field-name={field.fieldName}
+						>
+							<FieldLazy
+								visible
+								{...field}
+								{...otherProps}
+								onBlur={(event) => {
+									focusDurationRef.current.end = new Date();
+									onBlur(
+										mountStruct(event, field),
+										focusDurationRef.current
+									);
+								}}
+								onChange={(event, value) =>
+									onChange(mountStruct(event, field, value))
+								}
+								onFocus={(event) => {
+									focusDurationRef.current.start = new Date();
+									onFocus(mountStruct(event, field));
+								}}
+							/>
+						</div>
+					</AutoFocus>
 				</ParentFieldContext.Provider>
 			</Suspense>
 		</ErrorBoundary>

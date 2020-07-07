@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <div class="sheet-section">
-	<liferay-ui:message key="you-can-only-have-one-timebased-otp-password-configured-you-must-delete-actual-one-to-generate-new-timebased-otp" />
+	<liferay-ui:message key="you-can-only-have-one-timebased-otp-password-configured-delete-your-existing-timebased-otp-password-to-generate-new-timebased-otp-password" />
 
 	<aui:input name="mfaRemoveExistingSetup" type="hidden" value="<%= true %>" />
 </div>

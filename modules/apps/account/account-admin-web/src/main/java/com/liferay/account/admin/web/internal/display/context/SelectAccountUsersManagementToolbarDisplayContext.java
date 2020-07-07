@@ -15,13 +15,19 @@
 package com.liferay.account.admin.web.internal.display.context;
 
 import com.liferay.account.admin.web.internal.display.AccountUserDisplay;
+import com.liferay.account.constants.AccountPortletKeys;
 import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.SearchContainerManagementToolbarDisplayContext;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +60,46 @@ public class SelectAccountUsersManagementToolbarDisplayContext
 	}
 
 	@Override
+	public CreationMenu getCreationMenu() {
+		if (!isSingleSelect()) {
+			return null;
+		}
+
+		return CreationMenuBuilder.addPrimaryDropdownItem(
+			dropdownItem -> {
+				dropdownItem.putData("action", "addAccountEntryUser");
+
+				PortletURL addAccountEntryUserURL =
+					PortletURLFactoryUtil.create(
+						liferayPortletRequest,
+						AccountPortletKeys.ACCOUNT_USERS_ADMIN,
+						PortletRequest.RENDER_PHASE);
+
+				addAccountEntryUserURL.setParameter(
+					"mvcRenderCommandName", "/account_admin/add_account_user");
+				addAccountEntryUserURL.setParameter(
+					"redirect", ParamUtil.getString(request, "redirect"));
+				addAccountEntryUserURL.setParameter(
+					"backURL", ParamUtil.getString(request, "redirect"));
+				addAccountEntryUserURL.setParameter(
+					"accountEntryId",
+					ParamUtil.getString(request, "accountEntryId"));
+
+				dropdownItem.putData(
+					"addAccountEntryUserURL",
+					addAccountEntryUserURL.toString());
+
+				dropdownItem.setLabel(LanguageUtil.get(request, "new-user"));
+			}
+		).build();
+	}
+
+	@Override
+	public String getDefaultEventHandler() {
+		return "SELECT_ACCOUNT_USERS_MANAGEMENT_TOOLBAR_DEFAULT_EVENT_HANDLER";
+	}
+
+	@Override
 	public String getNavigation() {
 		return ParamUtil.getString(
 			liferayPortletRequest, getNavigationParam(),
@@ -70,6 +116,15 @@ public class SelectAccountUsersManagementToolbarDisplayContext
 	@Override
 	public Boolean isDisabled() {
 		return false;
+	}
+
+	@Override
+	public Boolean isSelectable() {
+		return !isSingleSelect();
+	}
+
+	public boolean isSingleSelect() {
+		return ParamUtil.getBoolean(liferayPortletRequest, "singleSelect");
 	}
 
 	@Override

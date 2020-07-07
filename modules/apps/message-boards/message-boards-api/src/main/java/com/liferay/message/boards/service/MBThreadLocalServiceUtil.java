@@ -449,6 +449,10 @@ public class MBThreadLocalServiceUtil {
 		return getService().getMBThreadsCount();
 	}
 
+	public static int getMessageCount(long threadId, int status) {
+		return getService().getMessageCount(threadId, status);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -592,6 +596,12 @@ public class MBThreadLocalServiceUtil {
 			userId, messageId, subject, serviceContext);
 	}
 
+	public static void updateLastPostDate(
+		long threadId, java.util.Date lastPostDate) {
+
+		getService().updateLastPostDate(threadId, lastPostDate);
+	}
+
 	/**
 	 * Updates the message boards thread in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -602,12 +612,6 @@ public class MBThreadLocalServiceUtil {
 		com.liferay.message.boards.model.MBThread mbThread) {
 
 		return getService().updateMBThread(mbThread);
-	}
-
-	public static com.liferay.message.boards.model.MBThread updateMessageCount(
-		long threadId) {
-
-		return getService().updateMessageCount(threadId);
 	}
 
 	public static void updateQuestion(long threadId, boolean question)

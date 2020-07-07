@@ -52,11 +52,6 @@
 </tr>
 <!--EMAIL_OTP_VERIFY-->
 <tr>
-	<td>EMAIL_OTP_ATTEMPTS_FAILED</td>
-	<td>//div[contains(@class,'alert alert-danger')]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>EMAIL_OTP_VERIFY_INFO_MESSAGE</td>
 	<td>//div[@class='portlet-msg-info']</td>
 	<td></td>
