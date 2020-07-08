@@ -173,6 +173,6 @@ describe('The Autocomplete component should be render with no items', () => {
 	test('Render with "no results found" message', () => {
 		const dropDownEmpty = getByTestId('dropDownEmpty');
 
-		expect(dropDownEmpty).toHaveTextContent('no-results-found');
+		expect(dropDownEmpty).toHaveTextContent('no-results-were-found');
 	});
 });
