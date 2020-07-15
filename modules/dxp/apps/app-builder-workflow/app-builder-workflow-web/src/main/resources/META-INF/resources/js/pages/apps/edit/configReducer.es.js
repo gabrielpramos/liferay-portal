@@ -144,9 +144,24 @@ export default (state, action) => {
 			};
 		}
 		case UPDATE_FORM_VIEW: {
+			let workflowSteps = [...state.steps];
+
+			const initialStep = workflowSteps.shift();
+			const finalStep = workflowSteps.pop();
+
+			if (workflowSteps.length > 0) {
+				workflowSteps = workflowSteps.map((step) => ({
+					...step,
+					appWorkflowDataLayoutLinks: [
+						{dataLayoutId: action.formView.id, readOnly: true},
+					],
+				}));
+			}
+
 			return {
 				...state,
 				formView: action.formView,
+				steps: [initialStep, ...workflowSteps, finalStep],
 			};
 		}
 		case UPDATE_STEP: {
