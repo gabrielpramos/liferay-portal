@@ -19,6 +19,7 @@ export const REMOVE_STEP_FORM_VIEW = 'REMOVE_STEP_FORM_VIEW';
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 export const UPDATE_DATA_OBJECT = 'UPDATE_DATA_OBJECT';
 export const UPDATE_FORM_VIEW = 'UPDATE_FORM_VIEW';
+export const UPDATE_LIST_ITEMS = 'UPDATE_LIST_ITEMS';
 export const UPDATE_STEP = 'UPDATE_STEP';
 export const UPDATE_STEP_ACTION = 'UPDATE_STEP_ACTION';
 export const UPDATE_STEP_FORM_VIEW = 'UPDATE_STEP_FORM_VIEW';
@@ -46,6 +47,13 @@ export const getInitialConfig = () => {
 		currentStep: initialSteps[0],
 		dataObject: {},
 		formView: {},
+		listItems: {
+			assigneeRoles: [],
+			dataObjects: [],
+			fetching: false,
+			formViews: [],
+			tableViews: [],
+		},
 		stepIndex: 0,
 		steps: initialSteps,
 		tableView: {},
@@ -186,6 +194,15 @@ export default (state, action) => {
 				...state,
 				formView: action.formView,
 				steps: [initialStep, ...workflowSteps, finalStep],
+			};
+		}
+		case UPDATE_LIST_ITEMS: {
+			return {
+				...state,
+				listItems: {
+					...state.listItems,
+					...action.listItems,
+				},
 			};
 		}
 		case UPDATE_STEP: {
