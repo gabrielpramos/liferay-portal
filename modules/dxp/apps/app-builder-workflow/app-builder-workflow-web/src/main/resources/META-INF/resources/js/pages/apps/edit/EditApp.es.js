@@ -24,13 +24,19 @@ import React, {useEffect, useReducer, useState} from 'react';
 
 import '../../../../css/EditApp.scss';
 import DeployAppModal from './DeployAppModal.es';
+import {
+	getAssigneeRoles,
+	getDataObjects,
+	getFormViews,
+	getTableViews,
+	populateConfigData,
+} from './actions.es';
 import configReducer, {
 	UPDATE_CONFIG,
-	UPDATE_WORKFLOW_APP,
+	UPDATE_LIST_ITEMS,
 	getInitialConfig,
 } from './configReducer.es';
 import EditAppSidebar from './sidebar/EditAppSidebar.es';
-import {populateConfigData} from './utils.es';
 import WorkflowBuilder from './workflow-builder/WorkflowBuilder.es';
 
 export default ({
@@ -57,7 +63,6 @@ export default ({
 		getInitialConfig()
 	);
 
-	const [assigneeRoles, setAssigneeRoles] = useState([]);
 	const [isModalVisible, setModalVisible] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 
@@ -72,9 +77,42 @@ export default ({
 	};
 
 	useEffect(() => {
-		getItem('/o/headless-admin-user/v1.0/roles').then(({items}) =>
-			setAssigneeRoles(items)
-		);
+		if (!appId && app.dataDefinitionId) {
+			dispatchConfig({
+				listItems: {fetching: true},
+				type: UPDATE_LIST_ITEMS,
+			});
+
+			Promise.all([
+				getFormViews(app.dataDefinitionId),
+				getTableViews(app.dataDefinitionId),
+			])
+				.then(([formViews, tableViews]) => {
+					dispatchConfig({
+						listItems: {
+							fetching: false,
+							formViews,
+							tableViews,
+						},
+						type: UPDATE_LIST_ITEMS,
+					});
+				})
+				.catch(() => {
+					dispatchConfig({
+						listItems: {fetching: false},
+						type: UPDATE_LIST_ITEMS,
+					});
+				});
+		}
+	}, [appId, app.dataDefinitionId]);
+
+	useEffect(() => {
+		const promises = [getAssigneeRoles(), getDataObjects()];
+
+		dispatchConfig({
+			listItems: {fetching: true},
+			type: UPDATE_LIST_ITEMS,
+		});
 
 		if (appId) {
 			setLoading(true);
@@ -84,17 +122,21 @@ export default ({
 				getItem(
 					`/o/app-builder-workflow/v1.0/apps/${appId}/app-workflows`
 				),
+				...promises,
 			])
+				.then(([app, ...previousResults]) => {
+					return Promise.all([
+						getFormViews(app.dataDefinitionId),
+						getTableViews(app.dataDefinitionId),
+					]).then((results) => [app, ...previousResults, ...results]);
+				})
 				.then(populateConfigData)
-				.then(([app, workflowApp, config]) => {
+				.then(([app, config]) => {
 					dispatch({
 						app,
 						type: UPDATE_APP,
 					});
-					dispatchConfig({
-						...workflowApp,
-						type: UPDATE_WORKFLOW_APP,
-					});
+
 					dispatchConfig({
 						config,
 						type: UPDATE_CONFIG,
@@ -105,6 +147,30 @@ export default ({
 				.catch(() => {
 					errorToast();
 					setLoading(false);
+
+					dispatchConfig({
+						listItems: {fetching: false},
+						type: UPDATE_LIST_ITEMS,
+					});
+				});
+		}
+		else {
+			Promise.all(promises)
+				.then(([assigneeRoles, dataObjects]) => {
+					dispatchConfig({
+						listItems: {
+							assigneeRoles,
+							dataObjects,
+							fetching: false,
+						},
+						type: UPDATE_LIST_ITEMS,
+					});
+				})
+				.catch(() => {
+					dispatchConfig({
+						listItems: {fetching: false},
+						type: UPDATE_LIST_ITEMS,
+					});
 				});
 		}
 	}, [appId]);
@@ -170,7 +236,7 @@ export default ({
 
 					<WorkflowBuilder />
 
-					<EditAppSidebar assigneeRoles={assigneeRoles} />
+					<EditAppSidebar />
 
 					<DeployAppModal onCancel={onCancel} />
 				</EditAppContext.Provider>
