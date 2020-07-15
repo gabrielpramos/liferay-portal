@@ -15,6 +15,7 @@ export const ADD_STEP = 'ADD_STEP';
 export const ADD_STEP_ACTION = 'ADD_STEP_ACTION';
 export const ADD_STEP_FORM_VIEW = 'ADD_STEP_FORM_VIEW';
 export const REMOVE_STEP_ACTION = 'REMOVE_STEP_ACTION';
+export const REMOVE_STEP_FORM_VIEW = 'REMOVE_STEP_FORM_VIEW';
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 export const UPDATE_DATA_OBJECT = 'UPDATE_DATA_OBJECT';
 export const UPDATE_FORM_VIEW = 'UPDATE_FORM_VIEW';
@@ -129,6 +130,19 @@ export default (state, action) => {
 
 			return {...state, steps: [...workflowSteps]};
 		}
+		case REMOVE_STEP_ACTION: {
+			state.steps[state.stepIndex].appWorkflowTransitions.pop();
+
+			return {...state, currentStep: state.steps[state.stepIndex]};
+		}
+		case REMOVE_STEP_FORM_VIEW: {
+			state.steps[state.stepIndex].appWorkflowDataLayoutLinks.splice(
+				action.index,
+				1
+			);
+
+			return {...state, steps: [...state.steps]};
+		}
 		case UPDATE_CONFIG: {
 			const {
 				dataObject = {},
@@ -142,11 +156,6 @@ export default (state, action) => {
 				formView,
 				tableView,
 			};
-		}
-		case REMOVE_STEP_ACTION: {
-			state.steps[state.stepIndex].appWorkflowTransitions.pop();
-
-			return {...state, currentStep: state.steps[state.stepIndex]};
 		}
 		case UPDATE_DATA_OBJECT: {
 			return {
