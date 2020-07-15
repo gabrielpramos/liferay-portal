@@ -23,12 +23,13 @@ import {UPDATE_STEP} from '../configReducer.es';
 import ActionsTab from './ActionsTab.es';
 import DataAndViewsTab from './DataAndViewsTab.es';
 
-export default function EditAppSidebar({assigneeRoles}) {
+export default function EditAppSidebar() {
 	const {
 		config: {
 			currentStep,
 			dataObject,
 			formView,
+			listItems: {assigneeRoles},
 			stepIndex,
 			steps,
 			tableView,

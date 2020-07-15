@@ -88,7 +88,14 @@ const SelectTableView = (props) => {
 
 export default function DataAndViewsTab() {
 	const {
-		config: {currentStep, dataObject, formView, stepIndex, tableView},
+		config: {
+			currentStep,
+			dataObject,
+			formView,
+			listItems: {fetching, formViews, tableViews},
+			stepIndex,
+			tableView,
+		},
 		dispatch,
 		dispatchConfig,
 		state: {app},
@@ -241,7 +248,8 @@ export default function DataAndViewsTab() {
 
 							<SelectFormView
 								ariaLabelId="form-view-label"
-								objectId={dataObject.id}
+								isLoading={fetching}
+								items={formViews}
 								onSelect={updateFormView}
 								selectedValue={formView.name}
 							/>
@@ -256,7 +264,8 @@ export default function DataAndViewsTab() {
 
 							<SelectTableView
 								ariaLabelId="table-view-label"
-								objectId={dataObject.id}
+								isLoading={fetching}
+								items={tableViews}
 								onSelect={updateTableView}
 								selectedValue={tableView.name}
 							/>
