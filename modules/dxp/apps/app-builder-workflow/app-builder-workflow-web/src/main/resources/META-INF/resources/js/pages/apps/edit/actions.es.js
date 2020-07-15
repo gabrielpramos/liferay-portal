@@ -12,81 +12,103 @@
 import {getItem} from 'app-builder-web/js/utils/client.es';
 import {getTranslatedValue} from 'app-builder-web/js/utils/utils.es';
 
-export function populateConfigData([app, workflowApp]) {
-	return new Promise((resolve, reject) => {
-		const {dataDefinitionId, dataLayoutId, dataListViewId} = app;
+const PARAMS = {keywords: '', page: -1, pageSize: -1, sort: ''};
 
-		const params = {keywords: '', page: -1, pageSize: -1, sort: ''};
+export function getAssigneeRoles() {
+	return getItem('/o/headless-admin-user/v1.0/roles').then(getItems);
+}
 
-		const promises = [
-			getItem(
-				`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-layouts`,
-				params
-			).then(({items}) => items),
-			Promise.all([
-				getItem(
-					'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder',
-					params
-				),
-				getItem(
-					'/o/data-engine/v2.0/data-definitions/by-content-type/native-object',
-					params
-				),
-			]).then(([customObjects, nativeObjects]) => {
-				return [
-					...customObjects.items.map((item) => ({
-						...item,
-						type: 'custom',
-					})),
-					...nativeObjects.items.map((item) => ({
-						...item,
-						type: 'native',
-					})),
-				];
-			}),
-			getItem(
-				`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-list-views`,
-				params
-			).then(({items}) => items),
+export function getDataObjects() {
+	return Promise.all([
+		getItem(
+			'/o/data-engine/v2.0/data-definitions/by-content-type/app-builder',
+			PARAMS
+		).then(getItems),
+		getItem(
+			'/o/data-engine/v2.0/data-definitions/by-content-type/native-object',
+			PARAMS
+		).then(getItems),
+	]).then(([customObjects, nativeObjects]) => {
+		return [
+			...customObjects.map((item) => ({
+				...item,
+				type: 'custom',
+			})),
+			...nativeObjects.map((item) => ({
+				...item,
+				type: 'native',
+			})),
 		];
-
-		return Promise.all(promises)
-			.then(([formViews, objects, tableViews]) => {
-				const parseItem = (item = {}) => {
-					return {
-						...item,
-						name: getTranslatedValue(item, 'name'),
-					};
-				};
-
-				const config = {
-					dataObject: parseItem(
-						objects.find(({id}) => id === dataDefinitionId)
-					),
-					formView: parseItem(
-						formViews.find(({id}) => id === dataLayoutId)
-					),
-					tableView: parseItem(
-						tableViews.find(({id}) => id === dataListViewId)
-					),
-				};
-
-				workflowApp.appWorkflowTasks.forEach((task) => {
-					task.appWorkflowDataLayoutLinks = task.appWorkflowDataLayoutLinks.map(
-						(item) => {
-							const {name} = parseItem(
-								formViews.find(
-									({id}) => id === item.dataLayoutId
-								)
-							);
-
-							return {...item, name};
-						}
-					);
-				});
-
-				resolve([app, workflowApp, config]);
-			})
-			.catch(reject);
 	});
+}
+
+export function getFormViews(dataDefinitionId) {
+	return getItem(
+		`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-layouts`,
+		PARAMS
+	).then(getItems);
+}
+
+function getItems({items}) {
+	return items;
+}
+
+export function getTableViews(dataDefinitionId) {
+	return getItem(
+		`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-list-views`,
+		PARAMS
+	).then(getItems);
+}
+
+export function populateConfigData([
+	app,
+	appWorkflow,
+	assigneeRoles,
+	dataObjects,
+	formViews,
+	tableViews,
+]) {
+	const parseItem = (item = {}) => {
+		return {
+			...item,
+			name: getTranslatedValue(item, 'name'),
+		};
+	};
+
+	appWorkflow.appWorkflowTasks.forEach((task) => {
+		task.appWorkflowDataLayoutLinks = task.appWorkflowDataLayoutLinks.map(
+			(item) => {
+				const {name} = parseItem(
+					formViews.find(({id}) => id === item.dataLayoutId)
+				);
+
+				return {...item, name};
+			}
+		);
+	});
+
+	const {appWorkflowStates = [], appWorkflowTasks = []} = appWorkflow;
+	const initialState = appWorkflowStates.find(({initial}) => initial);
+	const finalState = appWorkflowStates.find(({initial}) => !initial);
+
+	const config = {
+		currentStep: initialState,
+		dataObject: parseItem(
+			dataObjects.find(({id}) => id === app.dataDefinitionId)
+		),
+		formView: parseItem(formViews.find(({id}) => id === app.dataLayoutId)),
+		listItems: {
+			assigneeRoles,
+			dataObjects,
+			fetching: false,
+			formViews,
+			tableViews,
+		},
+		steps: [initialState, ...appWorkflowTasks, finalState],
+		tableView: parseItem(
+			tableViews.find(({id}) => id === app.dataListViewId)
+		),
+	};
+
+	return [app, config];
 }
