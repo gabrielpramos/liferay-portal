@@ -171,6 +171,10 @@ export default function EditEntry({dataRecordId, redirect}) {
 			const assigned = assignees.findIndex(({id}) => id === userId) > -1;
 
 			if (assigned) {
+				appWorkflowTransitions.sort(
+					(actionA, actionB) => actionB.primary - actionA.primary
+				);
+
 				appWorkflowTransitions.forEach(({name, primary}, index) => {
 					actionButtons[index] = (
 						<ClayButton

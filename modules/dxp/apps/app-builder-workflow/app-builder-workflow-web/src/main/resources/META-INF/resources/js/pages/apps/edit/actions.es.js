@@ -85,6 +85,10 @@ export function populateConfigData([
 				return {...item, name};
 			}
 		);
+
+		task.appWorkflowTransitions.sort(
+			(actionA, actionB) => actionB.primary - actionA.primary
+		);
 	});
 
 	const {appWorkflowStates = [], appWorkflowTasks = []} = appWorkflow;
