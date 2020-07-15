@@ -94,11 +94,7 @@ export default ({onCancel}) => {
 				({appWorkflowDataLayoutLinks, ...restProps}) => ({
 					...restProps,
 					appWorkflowDataLayoutLinks: appWorkflowDataLayoutLinks.map(
-						(item) => {
-							delete item.name;
-
-							return item;
-						}
+						({dataLayoutId, readOnly}) => ({dataLayoutId, readOnly})
 					),
 				})
 			),
