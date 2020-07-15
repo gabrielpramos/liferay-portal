@@ -125,15 +125,14 @@ export default () => {
 							/>
 						</ClayButton>
 
-						<div style={{textAlign: 'right'}}>
+						<div className="text-right">
 							<ClayButton
-								className="mt-2"
+								className="border-0 mt-2"
 								displayType="secondary"
 								onClick={() =>
 									dispatchConfig({type: REMOVE_STEP_ACTION})
 								}
 								small
-								style={{borderColor: 'white'}}
 							>
 								{Liferay.Language.get('remove')}
 							</ClayButton>
