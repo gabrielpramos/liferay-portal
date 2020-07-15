@@ -115,7 +115,7 @@ export default () => {
 			{stepIndex > 0 ? (
 				<>
 					{appWorkflowDataLayoutLinks.map((stepFormView, index) => (
-						<>
+						<div className="step-form-view" key={index}>
 							<label id="form-view-label">
 								{Liferay.Language.get('form-view')}
 							</label>
@@ -129,10 +129,11 @@ export default () => {
 								}
 								selectedValue={stepFormView.name}
 							/>
-						</>
+						</div>
 					))}
 
 					<ClayButton
+						className="w-100"
 						displayType="secondary"
 						onClick={addStepFormView}
 					>
