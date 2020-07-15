@@ -101,9 +101,15 @@ export default function DataAndViewsTab() {
 		state: {app},
 	} = useContext(EditAppContext);
 
-	const {
-		appWorkflowDataLayoutLinks = [{dataLayoutId: '', name: ''}],
-	} = currentStep;
+	const {appWorkflowDataLayoutLinks: stepFormViews = []} = currentStep;
+
+	const availableFormViews = formViews.map((form) => ({
+		...form,
+		disabled:
+			stepFormViews.findIndex(
+				({dataLayoutId}) => dataLayoutId === form.id
+			) > -1,
+	}));
 
 	const addStepFormView = () => {
 		dispatchConfig({
@@ -166,7 +172,7 @@ export default function DataAndViewsTab() {
 		<>
 			{stepIndex > 0 ? (
 				<>
-					{appWorkflowDataLayoutLinks.map((stepFormView, index) => (
+					{stepFormViews.map(({name}, index) => (
 						<div className="step-form-view" key={index}>
 							<label id="form-view-label">
 								{Liferay.Language.get('form-view')}
@@ -174,15 +180,14 @@ export default function DataAndViewsTab() {
 
 							<SelectFormView
 								ariaLabelId="form-view-label"
-								defaultValue={stepFormView.dataLayoutId}
-								objectId={dataObject.id}
+								items={availableFormViews}
 								onSelect={(formView) =>
 									updateStepFormView(formView, index)
 								}
-								selectedValue={stepFormView.name}
+								selectedValue={name}
 							/>
 
-							{appWorkflowDataLayoutLinks.length > 1 && (
+							{stepFormViews.length > 1 && (
 								<div className="text-right">
 									<ClayButton
 										className="border-0 mt-2"
