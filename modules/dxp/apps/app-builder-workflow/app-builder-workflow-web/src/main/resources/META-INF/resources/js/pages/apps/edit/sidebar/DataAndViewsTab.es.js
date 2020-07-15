@@ -9,6 +9,7 @@
  * distribution rights of the Software.
  */
 
+import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import SelectObjects from 'app-builder-web/js/pages/apps/SelectObjectsDropDown.es';
@@ -24,6 +25,7 @@ import {
 	SelectTableView,
 } from '../../../../components/select-dropdown/SelectDropdown.es';
 import {
+	ADD_STEP_FORM_VIEW,
 	UPDATE_DATA_OBJECT,
 	UPDATE_FORM_VIEW,
 	UPDATE_STEP_FORM_VIEW,
@@ -55,10 +57,14 @@ export default () => {
 	} = useContext(EditAppContext);
 
 	const {
-		appWorkflowDataLayoutLinks: [stepFormView] = [
-			{dataLayoutId: '', name: ''},
-		],
+		appWorkflowDataLayoutLinks = [{dataLayoutId: '', name: ''}],
 	} = currentStep;
+
+	const addStepFormView = () => {
+		dispatchConfig({
+			type: ADD_STEP_FORM_VIEW,
+		});
+	};
 
 	const updateDataObject = (dataObject) => {
 		dispatchConfig({
@@ -84,9 +90,10 @@ export default () => {
 		});
 	};
 
-	const updateStepFormView = (formView) => {
+	const updateStepFormView = (formView, index) => {
 		dispatchConfig({
 			formView,
+			index,
 			type: UPDATE_STEP_FORM_VIEW,
 		});
 	};
@@ -107,17 +114,32 @@ export default () => {
 		<>
 			{stepIndex > 0 ? (
 				<>
-					<label id="form-view-label">
-						{Liferay.Language.get('form-view')}
-					</label>
+					{appWorkflowDataLayoutLinks.map((stepFormView, index) => (
+						<>
+							<label id="form-view-label">
+								{Liferay.Language.get('form-view')}
+							</label>
 
-					<SelectFormView
-						ariaLabelId="form-view-label"
-						defaultValue={stepFormView.dataLayoutId}
-						objectId={dataObject.id}
-						onSelect={updateStepFormView}
-						selectedValue={stepFormView.name}
-					/>
+							<SelectFormView
+								ariaLabelId="form-view-label"
+								defaultValue={stepFormView.dataLayoutId}
+								objectId={dataObject.id}
+								onSelect={(formView) =>
+									updateStepFormView(formView, index)
+								}
+								selectedValue={stepFormView.name}
+							/>
+						</>
+					))}
+
+					<ClayButton
+						displayType="secondary"
+						onClick={addStepFormView}
+					>
+						<span className="text-secondary">
+							{Liferay.Language.get('add-new-form-view')}
+						</span>
+					</ClayButton>
 				</>
 			) : (
 				<>

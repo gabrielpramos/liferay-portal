@@ -13,6 +13,7 @@ import {sub} from 'app-builder-web/js/utils/lang.es';
 
 export const ADD_STEP = 'ADD_STEP';
 export const ADD_STEP_ACTION = 'ADD_STEP_ACTION';
+export const ADD_STEP_FORM_VIEW = 'ADD_STEP_FORM_VIEW';
 export const REMOVE_STEP_ACTION = 'REMOVE_STEP_ACTION';
 export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 export const UPDATE_DATA_OBJECT = 'UPDATE_DATA_OBJECT';
@@ -118,6 +119,16 @@ export default (state, action) => {
 
 			return {...state, currentStep: state.steps[state.stepIndex]};
 		}
+		case ADD_STEP_FORM_VIEW: {
+			const workflowSteps = [...state.steps];
+
+			workflowSteps[state.stepIndex].appWorkflowDataLayoutLinks.push({
+				dataLayoutId: undefined,
+				readOnly: true,
+			});
+
+			return {...state, steps: [...workflowSteps]};
+		}
 		case UPDATE_CONFIG: {
 			const {
 				dataObject = {},
@@ -183,8 +194,10 @@ export default (state, action) => {
 			const appWorkflowDataLayoutLinks =
 				state.steps[state.stepIndex].appWorkflowDataLayoutLinks;
 
-			appWorkflowDataLayoutLinks[0].dataLayoutId = action.formView.id;
-			appWorkflowDataLayoutLinks[0].name = action.formView.name;
+			appWorkflowDataLayoutLinks[action.index].dataLayoutId =
+				action.formView.id;
+			appWorkflowDataLayoutLinks[action.index].name =
+				action.formView.name;
 
 			return {...state, currentStep: state.steps[state.stepIndex]};
 		}
