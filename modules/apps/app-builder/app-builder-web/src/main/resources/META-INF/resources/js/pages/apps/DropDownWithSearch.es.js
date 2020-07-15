@@ -151,6 +151,7 @@ const Items = ({
 			{itemList.length > 0
 				? itemList.map((item, index) => (
 						<ClayDropDown.Item
+							disabled={item.disabled}
 							key={index}
 							onClick={(event) => onClick(event, item)}
 						>
