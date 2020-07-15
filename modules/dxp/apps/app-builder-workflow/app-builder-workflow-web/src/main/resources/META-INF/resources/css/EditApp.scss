@@ -220,3 +220,15 @@ $navbarHeight: 120px;
 	position: absolute;
 	z-index: 50;
 }
+
+.step-form-view {
+	border: 1px solid #cdced9;
+	border-radius: 6px;
+	box-sizing: border-box;
+	margin-bottom: 1rem;
+	padding: 1rem;
+
+	&:first-of-type {
+		margin-top: 1rem;
+	}
+}
