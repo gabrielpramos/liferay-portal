@@ -26,6 +26,7 @@ import {
 } from '../../../../components/select-dropdown/SelectDropdown.es';
 import {
 	ADD_STEP_FORM_VIEW,
+	REMOVE_STEP_FORM_VIEW,
 	UPDATE_DATA_OBJECT,
 	UPDATE_FORM_VIEW,
 	UPDATE_STEP_FORM_VIEW,
@@ -63,6 +64,13 @@ export default () => {
 	const addStepFormView = () => {
 		dispatchConfig({
 			type: ADD_STEP_FORM_VIEW,
+		});
+	};
+
+	const removeStepFormView = (index) => {
+		dispatchConfig({
+			index,
+			type: REMOVE_STEP_FORM_VIEW,
 		});
 	};
 
@@ -129,6 +137,21 @@ export default () => {
 								}
 								selectedValue={stepFormView.name}
 							/>
+
+							{appWorkflowDataLayoutLinks.length > 1 && (
+								<div className="text-right">
+									<ClayButton
+										className="border-0 mt-2"
+										displayType="secondary"
+										onClick={() =>
+											removeStepFormView(index)
+										}
+										small
+									>
+										{Liferay.Language.get('remove')}
+									</ClayButton>
+								</div>
+							)}
 						</div>
 					))}
 
