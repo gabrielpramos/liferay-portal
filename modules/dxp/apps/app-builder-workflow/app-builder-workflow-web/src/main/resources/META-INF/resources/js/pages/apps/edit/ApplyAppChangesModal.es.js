@@ -10,6 +10,7 @@
  */
 
 import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 import ClayModal, {useModal} from '@clayui/modal';
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
 import React, {useContext} from 'react';
@@ -28,12 +29,23 @@ export default function ApplyAppChangesModal({onSave}) {
 	}
 
 	return (
-		<ClayModal observer={observer} size="sm">
-			<ClayModal.Header>
+		<ClayModal className="save-app-modal" observer={observer}>
+			<ClayModal.Header className="border-0">
+				<ClayIcon
+					className="circle-icon info mr-3"
+					fontSize="26px"
+					symbol="exclamation-full"
+				/>
 				{Liferay.Language.get('applying-app-updates')}
 			</ClayModal.Header>
 
-			<ClayModal.Body>description</ClayModal.Body>
+			<ClayModal.Body>
+				<span className="text-secondary">
+					{Liferay.Language.get(
+						'some-of-the-updates-cannot-be-applied-to-existing-app-data'
+					)}
+				</span>
+			</ClayModal.Body>
 
 			<ClayModal.Footer
 				last={
