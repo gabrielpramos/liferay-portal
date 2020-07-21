@@ -49,7 +49,8 @@ export default function DeploySettingsModal() {
 
 		if (appId) {
 			deployApp(app).then(onSuccess);
-		} else {
+		}
+		else {
 			onSuccess();
 		}
 	};

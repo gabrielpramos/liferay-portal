@@ -172,7 +172,8 @@ export default ({
 						type: UPDATE_LIST_ITEMS,
 					});
 				});
-		} else {
+		}
+		else {
 			Promise.all(promises)
 				.then(([assigneeRoles, dataObjects]) => {
 					dispatchConfig({
@@ -252,7 +253,8 @@ export default ({
 
 		if (appId) {
 			params.appBuilderAppId = appId;
-		} else {
+		}
+		else {
 			params.dataDefinitionId = app.dataDefinitionId;
 		}
 
@@ -294,7 +296,8 @@ export default ({
 	const onClickSave = () => {
 		if (appId && hasConfigBreakChanges(config)) {
 			setAppChangesModalVisible(true);
-		} else {
+		}
+		else {
 			onSave();
 		}
 	};

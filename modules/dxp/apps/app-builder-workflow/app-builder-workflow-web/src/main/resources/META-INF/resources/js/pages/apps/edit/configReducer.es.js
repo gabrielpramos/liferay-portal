@@ -172,7 +172,7 @@ export default (state, action) => {
 			return {
 				...state,
 				...action.config,
-				draftConfig: JSON.parse(JSON.stringify(action.config))
+				draftConfig: JSON.parse(JSON.stringify(action.config)),
 			};
 		}
 		case UPDATE_DATA_OBJECT: {
