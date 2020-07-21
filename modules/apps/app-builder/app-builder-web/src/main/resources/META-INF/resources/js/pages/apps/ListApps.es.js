@@ -32,7 +32,7 @@ import {
 	STATUSES,
 } from './constants.es';
 
-export const Actions = () => {
+export const actions = () => {
 	const {getStandaloneURL} = useContext(AppContext);
 	const {deployApp, undeployApp} = useDeployApp();
 
@@ -105,7 +105,7 @@ export default ({
 
 	return (
 		<ListView
-			actions={Actions()}
+			actions={actions()}
 			addButton={ADD_BUTTON}
 			columns={COLUMNS}
 			emptyState={EMPTY_STATE}

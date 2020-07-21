@@ -12,7 +12,7 @@
 import ClayPopover from '@clayui/popover';
 import {AppContext} from 'app-builder-web/js/AppContext.es';
 import Button from 'app-builder-web/js/components/button/Button.es';
-import ListApps, {Actions} from 'app-builder-web/js/pages/apps/ListApps.es';
+import ListApps, {actions} from 'app-builder-web/js/pages/apps/ListApps.es';
 import {COLUMNS, FILTERS} from 'app-builder-web/js/pages/apps/constants.es';
 import {parseResponse} from 'app-builder-web/js/utils/client.es';
 import {errorToast, successToast} from 'app-builder-web/js/utils/toast.es';
@@ -109,9 +109,9 @@ export default ({scope, ...props}) => {
 		});
 	};
 
-	const actions = [...Actions()];
+	const appActions = [...actions()];
 
-	actions.splice(-1, 1, {
+	appActions.splice(-1, 1, {
 		action: confirmDelete,
 		name: Liferay.Language.get('delete'),
 	});
@@ -119,7 +119,7 @@ export default ({scope, ...props}) => {
 	return (
 		<ListApps
 			listViewProps={{
-				actions,
+				actions: appActions,
 				addButton: () => (
 					<ClayPopover
 						alignPosition="bottom-right"
