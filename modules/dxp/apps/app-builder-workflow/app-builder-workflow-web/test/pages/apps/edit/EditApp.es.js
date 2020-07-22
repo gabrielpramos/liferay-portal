@@ -138,7 +138,6 @@ describe('EditApp', () => {
 			container,
 			getByLabelText,
 			getByPlaceholderText,
-			getByTestId,
 			getByText,
 			queryByText,
 		} = render(<EditApp {...routeProps} />, {
@@ -167,12 +166,11 @@ describe('EditApp', () => {
 
 		await fireEvent.click(dataAndViewsButton);
 
-		const backButton = getByTestId('back-button');
 		const sidebarHeader = document.querySelector('div.tab-title');
 
 		expect(queryByText('step-configuration')).toBeNull();
-		expect(sidebarHeader).toHaveTextContent('data-and-views');
-		expect(sidebarHeader).toContainElement(backButton);
+		expect(sidebarHeader.children.length).toBe(2);
+		expect(sidebarHeader.children[1]).toHaveTextContent('data-and-views');
 
 		await waitForElementToBeRemoved(() =>
 			document.querySelector('span.loading-animation')

@@ -25,7 +25,6 @@ const items = [
 describe('Autocomplete', () => {
 	describe('with items', () => {
 		let getByPlaceholderText;
-		let getByTestId;
 		let getByText;
 
 		const onChange = jest.fn();
@@ -43,7 +42,6 @@ describe('Autocomplete', () => {
 			);
 
 			getByPlaceholderText = autocomplete.getByPlaceholderText;
-			getByTestId = autocomplete.getByTestId;
 			getByText = autocomplete.getByText;
 		});
 
@@ -51,7 +49,7 @@ describe('Autocomplete', () => {
 			const autocompleteInput = getByPlaceholderText(
 				'select-or-type-an-option'
 			);
-			const dropDownList = getByTestId('dropDownList');
+			const dropDownList = document.getElementById('dropDownList');
 			const dropDown = dropDownList.parentNode;
 
 			expect(dropDown).not.toHaveClass('show');
