@@ -13,13 +13,9 @@ import ClayAutocomplete from '@clayui/autocomplete';
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import {ClayTooltipProvider} from '@clayui/tooltip';
+import isClickOutside from 'app-builder-web/js/utils/clickOutside.es';
 import React, {useEffect, useRef, useState} from 'react';
 
-import {
-	addClickOutsideListener,
-	handleClickOutside,
-	removeClickOutsideListener,
-} from '../filter/util/filterEvents.es';
 import {Autocomplete} from './Autocomplete.es';
 
 const AutocompleteMultiSelect = ({
@@ -98,19 +94,24 @@ const AutocompleteMultiSelect = ({
 	};
 
 	useEffect(() => {
-		const listener = handleClickOutside((event) => {
-			const listenerCallback = handleClickOutside(
-				onBlur,
-				document.getElementById(`dropDownList${id}`)
-			);
+		const listener = (event) => {
+			const dropdown = document.getElementById(`dropDownList${id}`);
 
-			listenerCallback(event);
-		}, wrapperRef.current);
+			if (
+				isClickOutside(
+					event.target,
+					dropdown?.parentNode,
+					wrapperRef.current
+				)
+			) {
+				onBlur(event);
+			}
+		};
 
-		addClickOutsideListener(listener);
+		document.addEventListener('mousedown', listener);
 
 		return () => {
-			removeClickOutsideListener(listener);
+			document.removeEventListener('mousedown', listener);
 		};
 	}, [id, wrapperRef]);
 
