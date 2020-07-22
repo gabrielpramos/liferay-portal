@@ -25,6 +25,8 @@ import ActionsTab from './ActionsTab.es';
 import DataAndViewsTab from './DataAndViewsTab.es';
 
 export default function EditAppSidebar() {
+	const editAppContext = useContext(EditAppContext);
+
 	const {
 		config: {
 			currentStep,
@@ -36,7 +38,7 @@ export default function EditAppSidebar() {
 			tableView,
 		},
 		dispatchConfig,
-	} = useContext(EditAppContext);
+	} = editAppContext;
 
 	const [currentTab, setCurrentTab] = useState();
 
@@ -275,7 +277,7 @@ export default function EditAppSidebar() {
 						)}
 					</>
 				) : (
-					currentTab.content()
+					currentTab.content(editAppContext)
 				)}
 			</Sidebar.Body>
 		</Sidebar>
