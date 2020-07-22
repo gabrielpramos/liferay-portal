@@ -62,6 +62,22 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class AppWorkflowResourceImpl extends BaseAppWorkflowResourceImpl {
 
 	@Override
+	public void deleteAppWorkflow(Long appId) throws Exception {
+		_workflowDefinitionLinkLocalService.deleteWorkflowDefinitionLink(
+			contextCompany.getCompanyId(), 0,
+			ResourceActionsUtil.getCompositeModelName(
+				AppBuilderApp.class.getName(), DDLRecord.class.getName()),
+			appId, 0);
+
+		_appWorkflowResourceHelper.undeployWorkflowDefinition(
+			_appBuilderAppLocalService.getAppBuilderApp(appId),
+			contextUser.getUserId());
+
+		_appBuilderWorkflowTaskLinkLocalService.
+			deleteAppBuilderWorkflowTaskLinks(appId);
+	}
+
+	@Override
 	public AppWorkflow getAppWorkflow(Long appId) throws Exception {
 		AppBuilderApp appBuilderApp =
 			_appBuilderAppLocalService.getAppBuilderApp(appId);
