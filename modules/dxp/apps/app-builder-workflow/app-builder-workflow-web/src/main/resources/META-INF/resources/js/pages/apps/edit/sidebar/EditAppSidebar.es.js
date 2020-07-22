@@ -146,7 +146,6 @@ export default function EditAppSidebar() {
 				) : (
 					<div className="tab-title">
 						<ClayButton
-							data-testid="back-button"
 							displayType="secondary"
 							onClick={() => setCurrentTab(null)}
 							small

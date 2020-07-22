@@ -26,10 +26,7 @@ const DropDown = ({
 }) => {
 	return (
 		<ClayAutocomplete.DropDown active={active}>
-			<ClayDropDown.ItemList
-				data-testid="dropDownList"
-				id={`dropDownList${id}`}
-			>
+			<ClayDropDown.ItemList id={`dropDownList${id}`}>
 				{items.length > 0 ? (
 					items.map((item, index) => (
 						<ClayAutocomplete.Item
