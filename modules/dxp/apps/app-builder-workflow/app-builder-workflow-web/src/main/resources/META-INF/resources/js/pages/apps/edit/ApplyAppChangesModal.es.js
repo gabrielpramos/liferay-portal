@@ -11,57 +11,35 @@
 
 import ClayButton from '@clayui/button';
 import ClayModal, {useModal} from '@clayui/modal';
-import {DeploySettings} from 'app-builder-web/js/pages/apps/edit/DeployApp.es';
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 
-export default function DeployAppModal({onSave}) {
-	const {
-		isDeployModalVisible,
-		setDeployModalVisible,
-		state: {app},
-	} = useContext(EditAppContext);
-
-	const [isDeploying, setDeploying] = useState(false);
+export default function ApplyAppChangesModal({onSave}) {
+	const {isAppChangesModalVisible, setAppChangesModalVisible} = useContext(
+		EditAppContext
+	);
 
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			setDeployModalVisible(false);
-			setDeploying(false);
-		},
+		onClose: () => setAppChangesModalVisible(false),
 	});
 
-	if (!isDeployModalVisible) {
+	if (!isAppChangesModalVisible) {
 		return <></>;
 	}
 
-	const onDone = () => {
-		setDeploying(true);
-
-		if (!app.active) {
-			onSave(onClose, true);
-		}
-		else {
-			onClose();
-		}
-	};
-
 	return (
-		<ClayModal observer={observer} size="md">
+		<ClayModal observer={observer} size="sm">
 			<ClayModal.Header>
-				{Liferay.Language.get('deploy')}
+				{Liferay.Language.get('applying-app-updates')}
 			</ClayModal.Header>
 
-			<div className="modal-body px-0">
-				<DeploySettings />
-			</div>
+			<ClayModal.Body>description</ClayModal.Body>
 
 			<ClayModal.Footer
 				last={
 					<>
 						<ClayButton
 							className="mr-3"
-							disabled={isDeploying}
 							displayType="secondary"
 							onClick={onClose}
 							small
@@ -70,13 +48,10 @@ export default function DeployAppModal({onSave}) {
 						</ClayButton>
 
 						<ClayButton
-							disabled={
-								isDeploying || app.appDeployments.length === 0
-							}
-							onClick={onDone}
+							onClick={() => onSave(setAppChangesModalVisible)}
 							small
 						>
-							{Liferay.Language.get('done')}
+							{Liferay.Language.get('save')}
 						</ClayButton>
 					</>
 				}

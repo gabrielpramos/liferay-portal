@@ -24,31 +24,10 @@ import AppContextProviderWrapper from '../../../AppContextProviderWrapper.es';
 
 const mockToast = jest.fn();
 
-jest.mock('app-builder-web/js/utils/client.es', () => ({
-	parseResponse: jest
-		.fn()
-		.mockReturnValueOnce({appDeployments: [{type: 'standalone'}]})
-		.mockRejectedValue({errorMessage: 'App name can not be null'}),
-}));
-
 jest.mock('app-builder-web/js/utils/toast.es', () => ({
 	__esModule: true,
 	errorToast: (errorMessage) => mockToast(errorMessage),
 	successToast: (title) => mockToast(title),
-}));
-
-jest.mock('dynamic-data-mapping-form-builder', () => ({
-	compose: jest.fn().mockResolvedValue(),
-}));
-
-jest.mock('dynamic-data-mapping-form-renderer', () => ({
-	debounce: jest.fn().mockResolvedValue(),
-	getConnectedReactComponentAdapter: jest.fn().mockResolvedValue(),
-}));
-
-jest.mock('frontend-js-web', () => ({
-	createResourceURL: jest.fn(() => 'http://resource_url?'),
-	fetch: jest.fn().mockResolvedValue(),
 }));
 
 const EditAppContextProviderWrapper = ({children, edit}) => {
@@ -69,15 +48,15 @@ const EditAppContextProviderWrapper = ({children, edit}) => {
 		getInitialConfig()
 	);
 
-	const [isModalVisible, setModalVisible] = useState(true);
+	const [isDeployModalVisible, setDeployModalVisible] = useState(true);
 
 	const editState = {
 		appId: edit ? 1234 : undefined,
 		config,
 		dispatch,
 		dispatchConfig,
-		isModalVisible,
-		setModalVisible,
+		isDeployModalVisible,
+		setDeployModalVisible,
 		state: {app},
 	};
 
@@ -91,8 +70,6 @@ const EditAppContextProviderWrapper = ({children, edit}) => {
 };
 
 describe('DeployAppModal', () => {
-	const mockOnCancel = jest.fn();
-
 	beforeAll(() => {
 		jest.useFakeTimers();
 	});
@@ -105,10 +82,9 @@ describe('DeployAppModal', () => {
 
 	describe('Add', () => {
 		it('renders correctly and submit', async () => {
-			const {baseElement, getByText} = render(
-				<DeployAppModal onCancel={mockOnCancel} />,
-				{wrapper: EditAppContextProviderWrapper}
-			);
+			const {baseElement, getByText} = render(<DeployAppModal />, {
+				wrapper: EditAppContextProviderWrapper,
+			});
 
 			act(() => {
 				jest.runAllTimers();
@@ -133,21 +109,15 @@ describe('DeployAppModal', () => {
 				await fireEvent.click(deployButton);
 			});
 		});
-
-		it('call success toast', () => {
-			expect(mockOnCancel).toHaveBeenCalled();
-			expect(mockToast.mock.calls.length).toBe(1);
-			expect(JSON.stringify(mockToast.mock.calls[0][0])).toContain(
-				'the-app-was-deployed-successfully'
-			);
-		});
 	});
 
 	describe('Edit', () => {
 		it('renders correctly and submit', async () => {
+			fetch.mockResponse();
+
 			const {baseElement, getByText} = render(
 				<EditAppContextProviderWrapper edit>
-					<DeployAppModal onCancel={mockOnCancel} />
+					<DeployAppModal />
 				</EditAppContextProviderWrapper>
 			);
 
@@ -169,11 +139,10 @@ describe('DeployAppModal', () => {
 			});
 		});
 
-		it('call error toast', () => {
-			expect(mockOnCancel.mock.calls.length).toBe(1);
-			expect(mockToast.mock.calls.length).toBe(2);
-			expect(mockToast.mock.calls[1][0]).toContain(
-				'App name can not be null'
+		it('call success toast', () => {
+			expect(mockToast.mock.calls.length).toBe(1);
+			expect(JSON.stringify(mockToast.mock.calls[0][0])).toContain(
+				'the-app-was-deployed-successfully'
 			);
 		});
 	});

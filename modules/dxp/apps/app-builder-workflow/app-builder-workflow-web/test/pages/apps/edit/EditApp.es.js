@@ -146,6 +146,7 @@ describe('EditApp', () => {
 
 		const dataAndViewsButton = getByText('data-and-views');
 		const deployButton = getByText('deploy');
+		const saveButton = getByText('save');
 		const nameInput = getByPlaceholderText('untitled-app');
 		const steps = container.querySelectorAll('.step');
 		const stepNameInput = container.querySelector(
@@ -161,7 +162,7 @@ describe('EditApp', () => {
 		expect(stepNameInput.value).toBe('initial-step');
 
 		expect(nameInput.value).toBe('');
-		expect(deployButton).toBeDisabled();
+		expect(saveButton).toBeDisabled();
 
 		await fireEvent.click(dataAndViewsButton);
 
@@ -204,7 +205,7 @@ describe('EditApp', () => {
 
 	it('renders upperToolbar and data and views with respective infos when editing an app', async () => {
 		const app = {
-			active: true,
+			active: false,
 			appDeployments: [
 				{
 					settings: {},

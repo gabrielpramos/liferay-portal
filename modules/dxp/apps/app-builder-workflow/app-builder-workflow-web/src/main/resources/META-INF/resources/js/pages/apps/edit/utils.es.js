@@ -9,7 +9,10 @@
  * distribution rights of the Software.
  */
 
-import {getTranslatedValue} from 'app-builder-web/js/utils/utils.es';
+import {
+	getTranslatedValue,
+	isEqualObjects,
+} from 'app-builder-web/js/utils/utils.es';
 
 export function canDeployApp(app, config) {
 	const appName = getTranslatedValue(app, 'name');
@@ -51,6 +54,14 @@ export function getFormViewFields({dataLayoutPages = []}) {
 		],
 		[]
 	);
+}
+
+export function hasConfigBreakChanges({draftConfig, ...config}) {
+	return ['dataObject', 'formView', 'steps']
+		.map((property) =>
+			isEqualObjects(draftConfig[property], config[property])
+		)
+		.some((isEqual) => !isEqual);
 }
 
 export function validateSelectedFormViews(formViews = []) {
