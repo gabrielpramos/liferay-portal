@@ -9,6 +9,7 @@
  * distribution rights of the Software.
  */
 
+import ClayBadge from '@clayui/badge';
 import ControlMenu from 'app-builder-web/js/components/control-menu/ControlMenu.es';
 import {Loading} from 'app-builder-web/js/components/loading/Loading.es';
 import UpperToolbar from 'app-builder-web/js/components/upper-toolbar/UpperToolbar.es';
@@ -207,6 +208,12 @@ export default ({
 							value={app.name.en_US}
 						/>
 						<UpperToolbar.Group>
+							<ClayBadge
+								className="mr-1 text-secondary"
+								displayType="secondary"
+								label={`${Liferay.Language.get('version')}:`}
+							/>
+
 							<UpperToolbar.Button
 								displayType="secondary"
 								onClick={onCancel}
