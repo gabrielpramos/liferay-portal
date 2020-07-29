@@ -20,17 +20,15 @@ $navbarHeight: 120px;
 			position: relative;
 
 			.arrow-plus-button {
-				align-self: center;
 				background: #fff;
 				border: 1px solid #cdced9;
 				border-radius: 50%;
 				box-sizing: border-box;
 				cursor: pointer;
-				display: flex;
 				font-size: 1rem;
 				height: 2rem;
-				justify-content: center;
-				padding: 10px 0;
+				margin-top: 43px;
+				padding: 10px 7px;
 				position: absolute;
 				width: 2rem;
 
@@ -39,20 +37,31 @@ $navbarHeight: 120px;
 				}
 			}
 
+			.arrow-plus-button-ie {
+				margin-left: -15px;
+			}
+
 			.arrow-body {
 				display: flex;
-				flex-flow: wrap-reverse;
 				justify-content: center;
 
 				.arrow-head {
 					bottom: 0;
+					display: flex;
+					justify-content: center;
+					margin: auto;
 					margin-bottom: -4px;
 					margin-top: 4px;
 				}
 
+				.arrow-head-ie {
+					margin-left: -9px;
+				}
+
 				.arrow-tail {
 					background-color: #6b6c7e;
-					height: 95%;
+					height: 45px;
+					margin: auto;
 					margin-bottom: 5px;
 					width: 2px;
 				}
@@ -64,12 +73,21 @@ $navbarHeight: 120px;
 				font-size: 6px;
 			}
 
+			.arrow-point-ie {
+				margin-left: -2px;
+			}
+
 			.icon {
 				color: #6b6c7e;
 				position: absolute;
 			}
 
 			&.selected {
+				.arrow-body {
+					.arrow-tail {
+						height: 120px;
+					}
+				}
 				min-height: 120px;
 			}
 		}
