@@ -40,6 +40,7 @@ const Arrow = ({addStep, selected}) => {
 
 			<div className="arrow-body">
 				<div className="arrow-tail" />
+
 				<ClayIcon className="arrow-head icon" symbol="caret-bottom" />
 			</div>
 		</div>
