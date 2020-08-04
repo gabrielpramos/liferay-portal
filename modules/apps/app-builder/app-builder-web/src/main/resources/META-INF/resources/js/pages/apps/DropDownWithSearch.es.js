@@ -12,14 +12,9 @@
  * details.
  */
 
+import ClayButton from '@clayui/button';
 import ClayDropDown, {Align} from '@clayui/drop-down';
-import React, {
-	cloneElement,
-	createContext,
-	useContext,
-	useEffect,
-	useState,
-} from 'react';
+import React, {createContext, useContext, useRef, useState} from 'react';
 
 export const DropDownContext = createContext();
 
@@ -36,19 +31,24 @@ const DropDownWithSearch = ({
 	const [active, setActive] = useState(false);
 	const [dropDownWidth, setDropDownWidth] = useState();
 	const [query, setQuery] = useState('');
-	const [triggerElement, setTriggerElement] = useState(trigger);
+	const triggerButtonRef = useRef();
+	const dropDownMenuRef = useRef();
 
-	const onActiveChange = (newActive) => {
+	const onSetActive = (newActive) => {
 		setActive(newActive);
 		setQuery('');
 	};
 
-	useEffect(() => {
-		setTriggerElement(
-			cloneElement(trigger, {
-				ref: (element) => {
+	return (
+		<DropDownContext.Provider value={{query, setActive, setQuery}}>
+			<ClayButton
+				{...trigger.props}
+				onClick={() => onSetActive(!active)}
+				ref={(element) => {
 					if (element) {
 						setDropDownWidth(`${element.offsetWidth}px`);
+
+						triggerButtonRef.current = element;
 
 						if (typeof trigger.ref === 'function') {
 							trigger.ref(element);
@@ -56,28 +56,22 @@ const DropDownWithSearch = ({
 					}
 
 					return trigger.ref;
-				},
-			})
-		);
+				}}
+			/>
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [trigger]);
-
-	return (
-		<DropDownContext.Provider value={{query, setActive, setQuery}}>
-			<ClayDropDown
+			<ClayDropDown.Menu
 				{...restProps}
 				active={active && visible}
+				alignElementRef={triggerButtonRef}
 				alignmentPosition={Align.BottomLeft}
-				menuElementAttrs={{
-					className: 'select-dropdown-menu',
-					onClick: (event) => {
-						event.stopPropagation();
-					},
-					style: {maxWidth: dropDownWidth, width: '100%'},
+				autoBestAlign={true}
+				className={'select-dropdown-menu'}
+				onClick={(event) => {
+					event.stopPropagation();
 				}}
-				onActiveChange={onActiveChange}
-				trigger={triggerElement}
+				onSetActive={() => onSetActive(!active)}
+				ref={dropDownMenuRef}
+				style={{maxWidth: dropDownWidth, width: '100%'}}
 			>
 				{<Search disabled={isEmpty} />}
 
@@ -98,7 +92,7 @@ const DropDownWithSearch = ({
 				)}
 
 				{children}
-			</ClayDropDown>
+			</ClayDropDown.Menu>
 		</DropDownContext.Provider>
 	);
 };
