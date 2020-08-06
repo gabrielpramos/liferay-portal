@@ -35,6 +35,7 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 
 import useAppWorkflow from '../../hooks/useAppWorkflow.es';
 import useDataRecordApps from '../../hooks/useDataRecordApps.es';
+import ReassignEntryModal from './ReassignEntryModal.es';
 
 const WORKFLOW_COLUMNS = [
 	{key: 'status', value: Liferay.Language.get('status')},
@@ -52,11 +53,9 @@ export default function ListEntries({history}) {
 		showFormView,
 	} = useContext(AppContext);
 
-	const actions = useEntriesActions({
-		update: ({completed}) => !completed,
-	});
-
 	const [dataRecordIds, setDataRecordIds] = useState([]);
+	const [isModalVisible, setModalVisible] = useState(false);
+	const [selectedEntry, setSelectedEntry] = useState();
 
 	const {appWorkflowDefinitionId} = useAppWorkflow(appId);
 	const dataRecordApps = useDataRecordApps(appId, dataRecordIds);
@@ -124,7 +123,12 @@ export default function ListEntries({history}) {
 
 							if (workflowResponse.totalCount > 0) {
 								items = response.items.map((item) => {
-									const {assignees, completed, taskNames} =
+									const {
+										assignees,
+										completed,
+										id: instanceId,
+										taskNames,
+									} =
 										workflowResponse.items.find(
 											({classPK}) => classPK === item.id
 										) || {};
@@ -133,6 +137,7 @@ export default function ListEntries({history}) {
 										...item,
 										assignees,
 										completed,
+										instanceId,
 										taskNames,
 									};
 								});
@@ -159,6 +164,15 @@ export default function ListEntries({history}) {
 
 	const onClickAddButton = () => navigateToEditPage(basePortletURL);
 
+	const onCloseModal = (isRefetch) => {
+		setModalVisible(false);
+		setSelectedEntry();
+
+		if (isRefetch) {
+			refetch();
+		}
+	};
+
 	const buildWorkflowItems = (items) => {
 		return items
 			.map(
@@ -177,7 +191,12 @@ export default function ListEntries({history}) {
 					switch (key) {
 						case 'assignees': {
 							const {assignees = [{}], taskNames = []} = entry;
-							const {name = emptyValue, id} = assignees[0];
+
+							const {
+								id,
+								name = emptyValue,
+								reviewer,
+							} = assignees[0];
 
 							if (id === -1) {
 								const {appWorkflowTasks = []} =
@@ -192,11 +211,14 @@ export default function ListEntries({history}) {
 									({roleName}) => roleName
 								);
 
+								workflowValues.canReassign = reviewer;
 								workflowValues[key] = roleNames.length
 									? concatValues(roleNames)
 									: emptyValue;
 							}
 							else {
+								workflowValues.canReassign =
+									Number(themeDisplay.getUserId()) === id;
 								workflowValues[key] = name;
 							}
 
@@ -249,6 +271,22 @@ export default function ListEntries({history}) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [appWorkflowDefinitionId]);
 
+	const ACTIONS = [
+		{
+			action: (entry) => {
+				setSelectedEntry(entry);
+				setModalVisible(true);
+
+				return Promise.resolve(false);
+			},
+			name: Liferay.Language.get('assign-to'),
+			show: ({canReassign}) => canReassign,
+		},
+		...useEntriesActions({
+			update: ({completed}) => !completed,
+		}),
+	];
+
 	const COLUMNS = [
 		...columns.map(({value, ...column}) => ({
 			...column,
@@ -260,7 +298,7 @@ export default function ListEntries({history}) {
 	const isEmpty = items.length === 0;
 	const showAddButton = showFormView && permissions.add;
 
-	const refetchActions = actions.map((action = {}) => ({
+	const refetchActions = ACTIONS.map((action = {}) => ({
 		...action,
 		action: (entry) =>
 			action?.action(entry).then((isRefetch) => {
@@ -319,6 +357,13 @@ export default function ListEntries({history}) {
 					totalCount={totalCount}
 				/>
 			</SearchContext.Provider>
+
+			{isModalVisible && (
+				<ReassignEntryModal
+					entry={selectedEntry}
+					onCloseModal={onCloseModal}
+				/>
+			)}
 		</Loading>
 	);
 }
