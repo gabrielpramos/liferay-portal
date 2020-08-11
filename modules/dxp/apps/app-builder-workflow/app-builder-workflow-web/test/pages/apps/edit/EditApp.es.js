@@ -17,10 +17,6 @@ import React from 'react';
 import EditApp from '../../../../src/main/resources/META-INF/resources/js/pages/apps/edit/EditApp.es';
 import AppContextProviderWrapper from '../../../AppContextProviderWrapper.es';
 
-const history = {
-	goBack: jest.fn(),
-};
-
 const customObjectItems = {
 	items: [
 		{
@@ -113,6 +109,27 @@ const formViewItems = {
 	],
 };
 
+const history = {
+	push: jest.fn(),
+};
+
+const nativeObjectItems = {items: []};
+
+const roleItems = {
+	items: [
+		{
+			availableLanguages: ['en-US'],
+			dateCreated: '2020-07-01T13:25:25Z',
+			dateModified: '2020-07-01T13:25:25Z',
+			description:
+				'Account Managers who belong to an organization can administer all accounts associated to that organization.',
+			id: 37238,
+			name: 'Account Manager',
+			roleType: 'organization',
+		},
+	],
+};
+
 const tableViewItems = {
 	items: [
 		{
@@ -132,22 +149,15 @@ const tableViewItems = {
 	],
 };
 
-const roleItems = {
-	items: [
-		{
-			availableLanguages: ['en-US'],
-			dateCreated: '2020-07-01T13:25:25Z',
-			dateModified: '2020-07-01T13:25:25Z',
-			description:
-				'Account Managers who belong to an organization can administer all accounts associated to that organization.',
-			id: 37238,
-			name: 'Account Manager',
-			roleType: 'organization',
-		},
-	],
-};
-
 describe('EditApp', () => {
+	const mockToast = jest.fn();
+
+	jest.mock('app-builder-web/js/utils/toast.es', () => ({
+		__esModule: true,
+		errorToast: (title) => mockToast(title),
+		successToast: (title) => mockToast(title),
+	}));
+
 	afterEach(() => {
 		cleanup();
 		jest.restoreAllMocks();
@@ -159,10 +169,60 @@ describe('EditApp', () => {
 		fetch.mockResponseOnce(JSON.stringify(customObjectItems));
 		fetch.mockResponseOnce(JSON.stringify(formViewItems));
 		fetch.mockResponseOnce(JSON.stringify(tableViewItems));
+		fetch.mockResponseOnce(JSON.stringify(tableViewItems));
+		fetch.mockResponseOnce(
+			JSON.stringify({
+				active: false,
+				appDeployments: [],
+				dataDefinitionId: 37497,
+				dataDefinitionName: 'Object 01',
+				dataLayoutId: 37625,
+				dataListViewId: 37628,
+				dataRecordCollectionId: 37725,
+				dateCreated: '2020-08-10T19:55:34Z',
+				dateModified: '2020-08-10T20:10:37Z',
+				id: 37796,
+				name: {en_US: 'Test'},
+				siteId: 20124,
+				userId: 20126,
+				version: '1.0',
+			})
+		);
+		fetch.mockResponseOnce(
+			JSON.stringify({
+				actions: {},
+				facets: [],
+				items: [
+					{
+						active: false,
+						appDeployments: [],
+						dataDefinitionId: 37723,
+						dataDefinitionName: 'Object 01',
+						dataLayoutId: 37729,
+						dataListViewId: 37732,
+						dataRecordCollectionId: 37725,
+						dateCreated: '2020-08-10T20:20:11Z',
+						dateModified: '2020-08-10T20:45:53Z',
+						id: 37812,
+						name: {
+							en_US: 'Test12',
+						},
+						siteId: 20124,
+						userId: 20126,
+						version: '1.0',
+					},
+				],
+				lastPage: 1,
+				page: 1,
+				pageSize: 20,
+				totalCount: 1,
+			})
+		);
+
+		const params = {};
 
 		const routeProps = {
-			history,
-			match: {params: {}},
+			match: {params},
 		};
 
 		const {
@@ -173,10 +233,13 @@ describe('EditApp', () => {
 			getByLabelText,
 			getByPlaceholderText,
 			getByText,
+			getByTitle,
 			queryByText,
-		} = render(<EditApp {...routeProps} />, {
-			wrapper: AppContextProviderWrapper,
-		});
+		} = render(
+			<AppContextProviderWrapper history={history}>
+				<EditApp {...routeProps} />
+			</AppContextProviderWrapper>
+		);
 
 		const deployButton = getByText('deploy');
 		const nameInput = getByPlaceholderText('untitled-app');
@@ -234,7 +297,7 @@ describe('EditApp', () => {
 
 		expect(deployButton).toBeEnabled();
 
-		await fireEvent.click(container.querySelector('.arrow-plus-button'));
+		await fireEvent.click(getByTitle('create-new-step'));
 
 		expect(deployButton).toBeDisabled();
 
@@ -262,7 +325,7 @@ describe('EditApp', () => {
 
 		await fireEvent.click(getAllByTitle('remove')[1]);
 
-		await fireEvent.click(container.querySelector('.arrow-plus-button'));
+		await fireEvent.click(getByTitle('create-new-step'));
 
 		await fireEvent.click(getByText('actions'));
 
@@ -277,6 +340,14 @@ describe('EditApp', () => {
 		await fireEvent.click(getAllByText('delete-step')[1]);
 
 		expect(deployButton).toBeEnabled();
+
+		await fireEvent.click(getByText('save'));
+
+		expect(mockToast).toHaveBeenCalledWith(
+			'the-app-was-saved-successfully'
+		);
+
+		expect(history.push).toHaveBeenCalled();
 	});
 
 	it('renders upperToolbar and data and views with respective infos when editing an app', async () => {
@@ -303,7 +374,7 @@ describe('EditApp', () => {
 		};
 
 		const workflow = {
-			appId: 123,
+			appId: 37634,
 			appWorkflowStates: [
 				{
 					appWorkflowTransitions: [
@@ -361,7 +432,6 @@ describe('EditApp', () => {
 		fetch.mockResponseOnce(JSON.stringify(formViewItems));
 
 		const routeProps = {
-			history,
 			match: {params: {appId: '37634'}},
 		};
 
@@ -370,9 +440,11 @@ describe('EditApp', () => {
 			getByLabelText,
 			getByPlaceholderText,
 			getByText,
-		} = render(<EditApp {...routeProps} />, {
-			wrapper: AppContextProviderWrapper,
-		});
+		} = render(
+			<AppContextProviderWrapper history={history}>
+				<EditApp {...routeProps} />
+			</AppContextProviderWrapper>
+		);
 
 		await waitForElementToBeRemoved(() =>
 			document.querySelector('span.loading-animation')
@@ -436,5 +508,9 @@ describe('EditApp', () => {
 
 		expect(stepNameInput.value).toBe('End');
 		expect(steps[2]).toHaveTextContent('End');
+
+		await fireEvent.click(getByText('cancel'));
+
+		expect(history.push).toHaveBeenCalled();
 	});
 });

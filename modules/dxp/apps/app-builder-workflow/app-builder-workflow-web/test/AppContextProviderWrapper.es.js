@@ -15,8 +15,11 @@ import React from 'react';
 import {HashRouter} from 'react-router-dom';
 
 export default ({
+	appContext = {
+		baseResourceURL:
+			'"http://localhost:8080/group/guest/~/control_panel/manage?p_p_id=com_liferay_app_builder_web_internal_portlet_AppsPortlet&p_p_lifecycle=2&p_p_state=maximized&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_auth=unagSOkK"',
+	},
 	children,
-	appContext = {},
 	history = createMemoryHistory(),
 }) => {
 	return (
