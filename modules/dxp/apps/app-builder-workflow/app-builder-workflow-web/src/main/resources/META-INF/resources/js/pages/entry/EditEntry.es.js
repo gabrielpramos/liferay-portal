@@ -169,7 +169,7 @@ export default function EditEntry({dataRecordId, redirect}) {
 
 				if (workflowInfo) {
 					const {
-						id,
+						instanceId,
 						tasks = [],
 						taskNames: [taskName],
 					} = workflowInfo;
@@ -183,7 +183,7 @@ export default function EditEntry({dataRecordId, redirect}) {
 
 					params.taskName = taskName;
 					params.transitionName = transitionName ?? action.name;
-					params.workflowInstanceId = id;
+					params.workflowInstanceId = instanceId;
 				}
 
 				fetch(
