@@ -20,6 +20,7 @@ import com.liferay.data.engine.rest.dto.v2_0.DataRecord;
 import com.liferay.data.engine.rest.internal.content.type.DataDefinitionContentTypeTracker;
 import com.liferay.data.engine.rest.internal.odata.entity.v2_0.DataRecordEntityModel;
 import com.liferay.data.engine.rest.internal.security.permission.resource.DataRecordCollectionModelResourcePermission;
+import com.liferay.data.engine.rest.internal.security.permission.resource.DataRecordModelResourcePermission;
 import com.liferay.data.engine.rest.internal.storage.DataRecordExporter;
 import com.liferay.data.engine.rest.internal.storage.DataStorageTracker;
 import com.liferay.data.engine.rest.resource.v2_0.DataRecordResource;
@@ -96,11 +97,11 @@ public class DataRecordResourceImpl
 
 	@Override
 	public void deleteDataRecord(Long dataRecordId) throws Exception {
-		DDLRecord ddlRecord = _ddlRecordLocalService.getDDLRecord(dataRecordId);
+		_dataRecordModelResourcePermission.check(
+			PermissionThreadLocal.getPermissionChecker(), dataRecordId,
+			DataActionKeys.DELETE_DATA_RECORD);
 
-		_dataRecordCollectionModelResourcePermission.check(
-			PermissionThreadLocal.getPermissionChecker(),
-			ddlRecord.getRecordSetId(), DataActionKeys.DELETE_DATA_RECORD);
+		DDLRecord ddlRecord = _ddlRecordLocalService.getDDLRecord(dataRecordId);
 
 		DDLRecordSet ddlRecordSet = ddlRecord.getRecordSet();
 
@@ -130,13 +131,11 @@ public class DataRecordResourceImpl
 
 	@Override
 	public DataRecord getDataRecord(Long dataRecordId) throws Exception {
-		DDLRecord ddlRecord = _ddlRecordLocalService.getDDLRecord(dataRecordId);
+		_dataRecordModelResourcePermission.check(
+			PermissionThreadLocal.getPermissionChecker(), dataRecordId,
+			DataActionKeys.VIEW_DATA_RECORD);
 
-		_dataRecordCollectionModelResourcePermission.check(
-			PermissionThreadLocal.getPermissionChecker(),
-			ddlRecord.getRecordSetId(), DataActionKeys.VIEW_DATA_RECORD);
-
-		return _toDataRecord(ddlRecord);
+		return _toDataRecord(_ddlRecordLocalService.getDDLRecord(dataRecordId));
 	}
 
 	@Override
@@ -313,13 +312,13 @@ public class DataRecordResourceImpl
 	public DataRecord putDataRecord(Long dataRecordId, DataRecord dataRecord)
 		throws Exception {
 
+		_dataRecordModelResourcePermission.check(
+			PermissionThreadLocal.getPermissionChecker(), dataRecordId,
+			DataActionKeys.UPDATE_DATA_RECORD);
+
 		DDLRecord ddlRecord = _ddlRecordLocalService.getRecord(dataRecordId);
 
 		DDLRecordSet ddlRecordSet = ddlRecord.getRecordSet();
-
-		_dataRecordCollectionModelResourcePermission.check(
-			PermissionThreadLocal.getPermissionChecker(),
-			ddlRecordSet.getRecordSetId(), DataActionKeys.UPDATE_DATA_RECORD);
 
 		dataRecord.setDataRecordCollectionId(ddlRecordSet.getRecordSetId());
 
@@ -510,6 +509,10 @@ public class DataRecordResourceImpl
 	@Reference
 	private DataRecordCollectionModelResourcePermission
 		_dataRecordCollectionModelResourcePermission;
+
+	@Reference
+	private DataRecordModelResourcePermission
+		_dataRecordModelResourcePermission;
 
 	@Reference
 	private DataStorageTracker _dataStorageTracker;
