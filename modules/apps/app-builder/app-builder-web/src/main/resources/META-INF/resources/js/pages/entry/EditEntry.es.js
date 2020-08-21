@@ -13,7 +13,7 @@
  */
 
 import ClayButton from '@clayui/button';
-import React, {useCallback, useContext} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 
 import {AppContext} from '../../AppContext.es';
 import Button from '../../components/button/Button.es';
@@ -37,12 +37,12 @@ export const EditEntry = ({
 	const {availableLanguageIds, defaultLanguageId} = useDataDefinition(
 		dataDefinitionId
 	);
+	const [submiting, setSubmiting] = useState(false);
 
 	const onCancel = useCallback(() => {
 		if (redirect) {
 			Liferay.Util.navigate(redirect);
-		}
-		else {
+		} else {
 			Liferay.Util.navigate(basePortletURL);
 		}
 	}, [basePortletURL, redirect]);
@@ -54,7 +54,7 @@ export const EditEntry = ({
 		preserveValue: true,
 	});
 
-	const onSubmit = useDDMFormValidation(
+	const submitDDMForms = useDDMFormValidation(
 		ddmForm,
 		useCallback(
 			(dataRecord) => {
@@ -62,23 +62,30 @@ export const EditEntry = ({
 					updateItem(
 						`/o/data-engine/v2.0/data-records/${dataRecordId}`,
 						dataRecord
-					).then(() => {
-						successToast(
-							Liferay.Language.get('an-entry-was-updated')
-						);
-						onCancel();
-					});
-				}
-				else {
+					)
+						.then(() => {
+							successToast(
+								Liferay.Language.get('an-entry-was-updated')
+							);
+							onCancel();
+						})
+						.catch(() => {
+							setSubmiting(false);
+						});
+				} else {
 					addItem(
 						`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-records`,
 						dataRecord
-					).then(() => {
-						successToast(
-							Liferay.Language.get('an-entry-was-added')
-						);
-						onCancel();
-					});
+					)
+						.then(() => {
+							successToast(
+								Liferay.Language.get('an-entry-was-added')
+							);
+							onCancel();
+						})
+						.catch(() => {
+							setSubmiting(false);
+						});
 				}
 			},
 			[dataDefinitionId, dataRecordId, onCancel]
@@ -87,7 +94,12 @@ export const EditEntry = ({
 		availableLanguageIds
 	);
 
-	useDDMFormSubmit(ddmForm, onSubmit);
+	const onSubmit = (event) => {
+		setSubmiting(true);
+		submitDDMForms(event);
+	};
+
+	useDDMFormSubmit(ddmForm, submitDDMForms);
 
 	return (
 		<>
@@ -102,7 +114,7 @@ export const EditEntry = ({
 			/>
 
 			<ClayButton.Group className="app-builder-form-buttons" spaced>
-				<Button onClick={onSubmit}>
+				<Button disabled={submiting} onClick={onSubmit}>
 					{Liferay.Language.get('save')}
 				</Button>
 

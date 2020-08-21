@@ -133,8 +133,6 @@ export default function EditEntry({dataRecordId, redirect}) {
 	]);
 
 	const onCancel = useCallback(() => {
-		setTransitioning(false);
-
 		if (redirect) {
 			Liferay.Util.navigate(redirect);
 		}
@@ -151,14 +149,12 @@ export default function EditEntry({dataRecordId, redirect}) {
 		}
 	};
 
-	const onSubmit = useDDMForms(
+	const submitDDMForms = useDDMForms(
 		dataLayoutIds.map(
 			(dataLayoutId) => `${namespace}container${dataLayoutId}`
 		),
 		useCallback(
 			({transitionName}, dataRecord) => {
-				setTransitioning(true);
-
 				const params = {
 					appBuilderAppId: appId,
 					dataRecord: JSON.stringify(dataRecord),
@@ -196,14 +192,18 @@ export default function EditEntry({dataRecordId, redirect}) {
 						),
 						method: 'POST',
 					}
-				).then(() => {
-					successToast(
-						isEdit
-							? Liferay.Language.get('an-entry-was-updated')
-							: Liferay.Language.get('an-entry-was-added')
-					);
-					onCancel();
-				});
+				)
+					.then(() => {
+						successToast(
+							isEdit
+								? Liferay.Language.get('an-entry-was-updated')
+								: Liferay.Language.get('an-entry-was-added')
+						);
+						onCancel();
+					})
+					.catch(() => {
+						setTransitioning(false);
+					});
 			},
 			[
 				appId,
@@ -216,6 +216,11 @@ export default function EditEntry({dataRecordId, redirect}) {
 			]
 		)
 	);
+
+	const onSubmit = (event) => {
+		setTransitioning(true);
+		submitDDMForms(event);
+	};
 
 	useEffect(() => {
 		doFetch();
