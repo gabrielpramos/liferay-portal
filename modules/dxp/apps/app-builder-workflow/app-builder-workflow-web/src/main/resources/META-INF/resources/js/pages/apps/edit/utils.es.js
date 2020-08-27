@@ -16,9 +16,15 @@ export function canDeployApp(app, config) {
 		const assigneeRoles = step?.appWorkflowRoleAssignments || [{}];
 		const duplicatedFields =
 			step?.errors?.formViews?.duplicatedFields || [];
+		const dataLayoutLinks =
+			step.initial !== undefined ||
+			step?.appWorkflowDataLayoutLinks?.every(
+				({dataLayoutId}) => dataLayoutId
+			);
 
 		return (
 			assigneeRoles.length > 0 &&
+			dataLayoutLinks &&
 			duplicatedFields.length === 0 &&
 			step.name.trim().length > 0
 		);
