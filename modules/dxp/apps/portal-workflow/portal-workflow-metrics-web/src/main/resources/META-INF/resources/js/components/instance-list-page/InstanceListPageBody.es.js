@@ -10,6 +10,7 @@
  */
 
 import ClayLayout from '@clayui/layout';
+import {usePrevious} from 'frontend-js-react-web';
 import React, {useContext, useMemo} from 'react';
 
 import ContentView from '../../shared/components/content-view/ContentView.es';
@@ -32,10 +33,13 @@ const Body = ({
 	filtered,
 	routeParams,
 }) => {
-	const {visibleModal} = useContext(ModalContext);
-
+	const {fetchOnClose, visibleModal} = useContext(ModalContext);
+	const previousFetchData = usePrevious(fetchData);
 	const promises = useMemo(() => {
-		if (!visibleModal) {
+		if (
+			(previousFetchData !== fetchData || fetchOnClose) &&
+			!visibleModal
+		) {
 			return [fetchData()];
 		}
 
