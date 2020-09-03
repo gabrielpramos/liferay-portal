@@ -47,7 +47,7 @@ describe('The instance list table should', () => {
 					value={{setInstanceId: jest.fn()}}
 				>
 					<ModalContext.Provider
-						value={{setSingleModal: () => {}, singleModal: false}}
+						value={{closeModal: jest.fn(), openModal: jest.fn()}}
 					>
 						<Table items={instances} />
 					</ModalContext.Provider>

@@ -21,8 +21,6 @@ import {MockRouter} from '../../../../../mock/MockRouter.es';
 import '@testing-library/jest-dom/extend-expect';
 
 const ContainerMock = ({children}) => {
-	const [visibleModal, setVisibleModal] = useState('singleTransition');
-
 	const selectedInstance = {
 		assetTitle: 'Blog1',
 		assetType: 'Blogs Entry',
@@ -45,9 +43,8 @@ const ContainerMock = ({children}) => {
 			<ModalContext.Provider
 				value={{
 					setSingleTransition,
-					setVisibleModal,
 					singleTransition,
-					visibleModal,
+					visibleModal: 'singleTransition',
 				}}
 			>
 				<ToasterProvider>{children}</ToasterProvider>

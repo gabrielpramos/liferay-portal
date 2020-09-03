@@ -32,7 +32,6 @@ const ContainerMock = ({children}) => {
 		taskNames: ['Review'],
 	});
 	const [selectedItems, setSelectedItems] = useState([]);
-	const [visibleModal, setVisibleModal] = useState('singleReassign');
 
 	return (
 		<MockRouter client={clientMock}>
@@ -44,9 +43,7 @@ const ContainerMock = ({children}) => {
 					setSelectedItems,
 				}}
 			>
-				<ModalContext.Provider value={{setVisibleModal, visibleModal}}>
-					{children}
-				</ModalContext.Provider>
+				<ModalContext.Provider>{children}</ModalContext.Provider>
 			</InstanceListContext.Provider>
 		</MockRouter>
 	);

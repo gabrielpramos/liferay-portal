@@ -30,7 +30,7 @@ const instance = {
 };
 
 const setInstanceId = jest.fn();
-const setVisibleModal = jest.fn();
+const openModal = jest.fn();
 
 const ContainerMock = ({children}) => {
 	const [, setSelectAll] = useState(false);
@@ -53,7 +53,6 @@ const ContainerMock = ({children}) => {
 		},
 	]);
 	const [singleTransition, setSingleTransition] = useState({});
-	const [visibleModal] = useState('');
 
 	return (
 		<MockRouter>
@@ -69,10 +68,10 @@ const ContainerMock = ({children}) => {
 			>
 				<ModalContext.Provider
 					value={{
+						openModal,
 						setSingleTransition,
-						setVisibleModal,
 						singleTransition,
-						visibleModal,
+						visibleModal: '',
 					}}
 				>
 					{children}
@@ -165,7 +164,7 @@ describe('The instance list item should', () => {
 
 		fireEvent.click(reassignTaskButton);
 
-		expect(setVisibleModal).toHaveBeenCalled();
+		expect(openModal).toHaveBeenCalled();
 	});
 
 	test('set BulkTransition modal visualization by clicking the reassign task button', () => {
@@ -177,7 +176,7 @@ describe('The instance list item should', () => {
 
 		fireEvent.click(reassignTaskButton);
 
-		expect(setVisibleModal).toHaveBeenCalled();
+		expect(openModal).toHaveBeenCalled();
 	});
 });
 
@@ -211,7 +210,7 @@ describe('The InstanceListPageItem quick action menu should', () => {
 
 		fireEvent.click(reassignTaskButton);
 
-		expect(setVisibleModal).toHaveBeenCalled();
+		expect(openModal).toHaveBeenCalled();
 	});
 
 	test('set SingleUpdateDueDate modal visualization by clicking the reassign task button', () => {
@@ -223,7 +222,7 @@ describe('The InstanceListPageItem quick action menu should', () => {
 
 		fireEvent.click(reassignTaskButton);
 
-		expect(setVisibleModal).toHaveBeenCalled();
+		expect(openModal).toHaveBeenCalled();
 	});
 
 	test('set SingleUpdateDueDate modal visualization by clicking the reassign task button', () => {
@@ -235,7 +234,7 @@ describe('The InstanceListPageItem quick action menu should', () => {
 
 		fireEvent.click(reassignTaskButton);
 
-		expect(setVisibleModal).toHaveBeenCalled();
+		expect(openModal).toHaveBeenCalled();
 	});
 
 	test('set SingleUpdateDueDate modal visualization by clicking the reassign task button', () => {
@@ -247,7 +246,7 @@ describe('The InstanceListPageItem quick action menu should', () => {
 
 		fireEvent.click(reassignTaskButton);
 
-		expect(setVisibleModal).toHaveBeenCalled();
+		expect(openModal).toHaveBeenCalled();
 	});
 });
 

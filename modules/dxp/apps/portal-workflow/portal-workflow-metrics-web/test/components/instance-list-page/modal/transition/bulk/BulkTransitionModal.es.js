@@ -169,7 +169,6 @@ const ContainerMockPrimary = ({children}) => {
 		selectAll: false,
 		tasks: [],
 	});
-	const [visibleModal, setVisibleModal] = useState('bulkTransition');
 
 	const clientMock = {
 		patch: jest
@@ -205,8 +204,7 @@ const ContainerMockPrimary = ({children}) => {
 						selectTasks,
 						setBulkTransition,
 						setSelectTasks,
-						setVisibleModal,
-						visibleModal,
+						visibleModal: 'bulkTransition',
 					}}
 				>
 					<ToasterProvider>{children}</ToasterProvider>
@@ -246,7 +244,7 @@ const ContainerMockSecondary = ({children}) => {
 		selectAll: false,
 		tasks: [],
 	});
-	const [visibleModal, setVisibleModal] = useState('bulkTransition');
+	const [visibleModal] = useState('bulkTransition');
 
 	const clientMock = {
 		get: jest.fn().mockResolvedValueOnce({data}),
@@ -272,7 +270,6 @@ const ContainerMockSecondary = ({children}) => {
 						selectTasks,
 						setBulkTransition,
 						setSelectTasks,
-						setVisibleModal,
 						visibleModal,
 					}}
 				>

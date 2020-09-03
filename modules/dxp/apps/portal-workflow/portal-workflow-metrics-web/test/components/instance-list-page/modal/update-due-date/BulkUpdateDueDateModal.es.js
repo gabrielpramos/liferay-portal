@@ -78,7 +78,6 @@ const ContainerMock = ({children}) => {
 	const [updateDueDate, setUpdateDueDate] = useState({});
 	const processId = '12345';
 	const [selectAll, setSelectAll] = useState(false);
-	const [visibleModal, setVisibleModal] = useState('bulkUpdateDueDate');
 	const [selectTasks, setSelectTasks] = useState({
 		selectAll: false,
 		tasks: [],
@@ -102,9 +101,8 @@ const ContainerMock = ({children}) => {
 						selectTasks,
 						setSelectTasks,
 						setUpdateDueDate,
-						setVisibleModal,
 						updateDueDate,
-						visibleModal,
+						visibleModal: 'bulkUpdateDueDate',
 					}}
 				>
 					<ToasterProvider>{children}</ToasterProvider>

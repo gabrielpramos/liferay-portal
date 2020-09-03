@@ -29,7 +29,6 @@ const ContainerMock = ({children}) => {
 		status: 'In Progress',
 		taskNames: ['Review'],
 	};
-	const [visibleModal, setVisibleModal] = useState('updateDueDate');
 	const [updateDueDate, setUpdateDueDate] = useState({
 		comment: undefined,
 		dueDate: undefined,
@@ -44,9 +43,8 @@ const ContainerMock = ({children}) => {
 			<ModalContext.Provider
 				value={{
 					setUpdateDueDate,
-					setVisibleModal,
 					updateDueDate,
-					visibleModal,
+					visibleModal: 'updateDueDate',
 				}}
 			>
 				<ToasterProvider>{children}</ToasterProvider>

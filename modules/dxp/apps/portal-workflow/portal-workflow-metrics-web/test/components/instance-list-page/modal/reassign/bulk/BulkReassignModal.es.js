@@ -145,11 +145,11 @@ const ContainerMock = ({children}) => {
 				<ModalContext.Provider
 					value={{
 						bulkReassign,
+						closeModal: setVisibleModal,
 						processId,
 						selectTasks,
 						setBulkReassign,
 						setSelectTasks,
-						setVisibleModal,
 						visibleModal,
 					}}
 				>

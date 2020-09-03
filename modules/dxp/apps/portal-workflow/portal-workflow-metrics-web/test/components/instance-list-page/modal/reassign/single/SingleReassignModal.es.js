@@ -10,7 +10,7 @@
  */
 
 import {fireEvent, render} from '@testing-library/react';
-import React, {useState} from 'react';
+import React from 'react';
 
 import {InstanceListContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPageProvider.es';
 import {ModalContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalProvider.es';
@@ -29,7 +29,6 @@ const ContainerMock = ({children}) => {
 		status: 'In Progress',
 		taskNames: ['Review'],
 	};
-	const [visibleModal, setVisibleModal] = useState('singleReassign');
 
 	return (
 		<InstanceListContext.Provider
@@ -37,7 +36,7 @@ const ContainerMock = ({children}) => {
 				selectedInstance,
 			}}
 		>
-			<ModalContext.Provider value={{setVisibleModal, visibleModal}}>
+			<ModalContext.Provider value={{visibleModal: 'singleReassign'}}>
 				<ToasterProvider>{children}</ToasterProvider>
 			</ModalContext.Provider>
 		</InstanceListContext.Provider>
@@ -147,7 +146,7 @@ describe('The SingleReassignModal component should', () => {
 		fireEvent.click(reassignBtn);
 	});
 
-	test('Render alert with success message and close modal', () => {
+	test('Render alert with success message and close modal', async () => {
 		const alertToast = getByTestId('alertToast');
 		const alertClose = alertToast.children[1];
 
