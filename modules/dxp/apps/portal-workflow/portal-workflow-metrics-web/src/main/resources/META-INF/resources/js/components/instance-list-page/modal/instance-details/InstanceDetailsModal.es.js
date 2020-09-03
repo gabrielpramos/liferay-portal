@@ -58,7 +58,7 @@ const Header = ({completed, id = '', slaResults = [], slaStatus}) => {
 const InstanceDetailsModal = () => {
 	const [retry, setRetry] = useState(0);
 	const {instanceId, setInstanceId} = useContext(InstanceListContext);
-	const {processId, setVisibleModal, visibleModal} = useContext(ModalContext);
+	const {closeModal, processId, visibleModal} = useContext(ModalContext);
 
 	const url = useMemo(
 		() => `/processes/${processId}/instances/${instanceId}`,
@@ -79,8 +79,8 @@ const InstanceDetailsModal = () => {
 
 	const {observer} = useModal({
 		onClose: () => {
+			closeModal(false);
 			setInstanceId();
-			setVisibleModal('');
 		},
 	});
 

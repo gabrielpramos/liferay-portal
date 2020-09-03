@@ -28,10 +28,10 @@ const BulkTransitionModal = () => {
 			transition: {errors},
 			transitionTasks,
 		},
+		closeModal,
 		selectTasks: {selectAll, tasks},
 		setBulkTransition,
 		setSelectTasks,
-		setVisibleModal,
 		visibleModal,
 	} = useContext(ModalContext);
 	const {clearFilters, fetchTasks} = useFetchTasks({withoutUnassigned: true});
@@ -48,15 +48,17 @@ const BulkTransitionModal = () => {
 		});
 	}, [setBulkTransition]);
 
+	const onCloseModal = (refetch) => {
+		clearContext();
+		clearFilters();
+		closeModal(refetch);
+		setSelectTasks({selectAll: false, tasks: []});
+		setCurrentStep('selectTasks');
+		setErrorToast(false);
+	};
+
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			clearContext();
-			clearFilters();
-			setSelectTasks({selectAll: false, tasks: []});
-			setCurrentStep('selectTasks');
-			setVisibleModal('');
-			setErrorToast(false);
-		},
+		onClose: onCloseModal,
 	});
 
 	const {patchData} = usePatch({
@@ -76,8 +78,6 @@ const BulkTransitionModal = () => {
 
 			patchData()
 				.then(() => {
-					onClose();
-
 					toaster.success(
 						transitionTasks.length > 1
 							? Liferay.Language.get(
@@ -88,6 +88,7 @@ const BulkTransitionModal = () => {
 							  )
 					);
 
+					onCloseModal(true);
 					setSelectedItems([]);
 					setSelectAll(false);
 					setTransitioning(false);

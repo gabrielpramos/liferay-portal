@@ -32,18 +32,19 @@ const SingleReassignModal = () => {
 
 	const toaster = useToaster();
 
-	const {setVisibleModal, visibleModal} = useContext(ModalContext);
+	const {closeModal, visibleModal} = useContext(ModalContext);
 	const {selectedInstance, setSelectedItem, setSelectedItems} = useContext(
 		InstanceListContext
 	);
 
+	const onCloseModal = (refetch) => {
+		closeModal(refetch);
+		setAssigneeId();
+		setSelectedItem({});
+		setSelectedItems([]);
+	};
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			setAssigneeId();
-			setSelectedItem({});
-			setSelectedItems([]);
-			setVisibleModal('');
-		},
+		onClose: onCloseModal,
 	});
 
 	const {data, fetchData} = useFetch({
@@ -64,27 +65,23 @@ const SingleReassignModal = () => {
 	});
 
 	const reassignButtonHandler = useCallback(() => {
-		if (assigneeId && taskId) {
-			setErrorToast(() => false);
-			setSendingPost(() => true);
-			postData()
-				.then(() => {
-					onClose();
-					toaster.success(
-						Liferay.Language.get('this-task-has-been-reassigned')
-					);
-					setErrorToast(false);
-					setSendingPost(false);
-					setSelectedItem({});
-				})
-				.catch(() => {
-					setErrorToast(true);
-					setSendingPost(false);
-				});
-		}
-		else {
-			onClose();
-		}
+		setErrorToast(() => false);
+		setSendingPost(() => true);
+		postData()
+			.then(() => {
+				toaster.success(
+					Liferay.Language.get('this-task-has-been-reassigned')
+				);
+
+				onCloseModal(true);
+				setErrorToast(false);
+				setSendingPost(false);
+				setSelectedItem({});
+			})
+			.catch(() => {
+				setErrorToast(true);
+				setSendingPost(false);
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postData]);
 

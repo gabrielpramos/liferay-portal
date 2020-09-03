@@ -25,10 +25,10 @@ import SelectAssigneesStep from './select-assignees-step/SelectAssigneesStep.es'
 const BulkReassignModal = () => {
 	const {
 		bulkReassign: {reassignedTasks, reassigning},
+		closeModal,
 		selectTasks,
 		setBulkReassign,
 		setSelectTasks,
-		setVisibleModal,
 		visibleModal,
 	} = useContext(ModalContext);
 	const {clearFilters, fetchTasks} = useFetchTasks();
@@ -48,15 +48,16 @@ const BulkReassignModal = () => {
 		});
 	}, [setBulkReassign]);
 
+	const onCloseModal = (refetch) => {
+		clearContext();
+		clearFilters();
+		closeModal(refetch);
+		setSelectTasks({selectAll: false, tasks: []});
+		setCurrentStep('selectTasks');
+		setErrorToast(false);
+	};
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			clearContext();
-			clearFilters();
-			setSelectTasks({selectAll: false, tasks: []});
-			setCurrentStep('selectTasks');
-			setErrorToast(false);
-			setVisibleModal('');
-		},
+		onClose: onCloseModal,
 	});
 
 	const {patchData} = usePatch({
@@ -95,50 +96,43 @@ const BulkReassignModal = () => {
 	}, [clearContext]);
 
 	const handleReassign = useCallback(() => {
-		if (
-			reassignedTasks.length > 0 &&
-			reassignedTasks.length === tasks.length
-		) {
-			setBulkReassign((bulkReassign) => ({
-				...bulkReassign,
-				reassigning: true,
-			}));
+		setBulkReassign((bulkReassign) => ({
+			...bulkReassign,
+			reassigning: true,
+		}));
 
-			setErrorToast(false);
+		setErrorToast(false);
 
-			patchData()
-				.then(() => {
-					onClose();
+		patchData()
+			.then(() => {
+				onCloseModal(true);
 
-					toaster.success(
-						reassignedTasks.length > 1
-							? sub(
-									Liferay.Language.get(
-										'x-tasks-have-been-reassigned'
-									),
-									[reassignedTasks.length]
-							  )
-							: Liferay.Language.get(
-									'this-task-has-been-reassigned'
-							  )
-					);
+				toaster.success(
+					reassignedTasks.length > 1
+						? sub(
+								Liferay.Language.get(
+									'x-tasks-have-been-reassigned'
+								),
+								[reassignedTasks.length]
+						  )
+						: Liferay.Language.get('this-task-has-been-reassigned')
+				);
 
-					setSelectedItems([]);
-					setSelectAll(false);
-				})
-				.catch(() => {
-					const error = `${Liferay.Language.get(
-						'your-request-has-failed'
-					)} ${Liferay.Language.get('select-reassign-to-retry')}`;
+				setSelectedItems([]);
+				setSelectAll(false);
+			})
+			.catch(() => {
+				const error = `${Liferay.Language.get(
+					'your-request-has-failed'
+				)} ${Liferay.Language.get('select-reassign-to-retry')}`;
 
-					setBulkReassign((bulkReassign) => ({
-						...bulkReassign,
-						reassigning: false,
-					}));
+				setBulkReassign((bulkReassign) => ({
+					...bulkReassign,
+					reassigning: false,
+				}));
 
-					setErrorToast(error);
-				});
-		}
+				setErrorToast(error);
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [patchData, setBulkReassign]);
 

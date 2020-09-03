@@ -52,7 +52,7 @@ const Item = ({totalCount, ...instance}) => {
 		setSelectAll,
 		setSelectedItems,
 	} = useContext(InstanceListContext);
-	const {setVisibleModal} = useContext(ModalContext);
+	const {openModal} = useContext(ModalContext);
 
 	const {
 		assetTitle,
@@ -127,7 +127,7 @@ const Item = ({totalCount, ...instance}) => {
 					onClick={() => {
 						setInstanceId(id);
 
-						setVisibleModal('instanceDetails');
+						openModal('instanceDetails');
 					}}
 					tabIndex="-1"
 				>
@@ -168,18 +168,18 @@ const Item = ({totalCount, ...instance}) => {
 };
 
 const QuickActionMenu = ({disabled, instance}) => {
-	const {setSingleTransition, setVisibleModal} = useContext(ModalContext);
+	const {openModal, setSingleTransition} = useContext(ModalContext);
 	const {setSelectedItem, setSelectedItems} = useContext(InstanceListContext);
 	const {transitions = [], taskNames = []} = instance;
 
 	const handleClick = (bulkModal, singleModal) => {
 		if (taskNames.length > 1) {
 			setSelectedItems([instance]);
-			setVisibleModal(bulkModal);
+			openModal(bulkModal);
 		}
 		else {
 			setSelectedItem(instance);
-			setVisibleModal(singleModal);
+			openModal(singleModal);
 		}
 	};
 
@@ -209,7 +209,7 @@ const QuickActionMenu = ({disabled, instance}) => {
 					label,
 					name,
 					onClick: () => {
-						setVisibleModal('singleTransition');
+						openModal('singleTransition');
 						setSelectedItem(instance);
 						setSingleTransition({
 							title: label,
@@ -233,7 +233,7 @@ const QuickActionMenu = ({disabled, instance}) => {
 				label: transitionLabel,
 				onClick: () => {
 					setSelectedItems([instance]);
-					setVisibleModal('bulkTransition');
+					openModal('bulkTransition');
 				},
 			},
 			updateDueDateItem

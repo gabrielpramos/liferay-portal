@@ -32,8 +32,8 @@ const SingleUpdateDueDateModal = () => {
 	const toaster = useToaster();
 
 	const {
+		closeModal,
 		setUpdateDueDate,
-		setVisibleModal,
 		updateDueDate,
 		visibleModal,
 	} = useContext(ModalContext);
@@ -43,16 +43,17 @@ const SingleUpdateDueDateModal = () => {
 
 	const {comment, dueDate} = updateDueDate;
 
+	const onCloseModal = (refetch) => {
+		closeModal(refetch);
+		setSelectedItem({});
+		setSelectedItems([]);
+		setUpdateDueDate({
+			comment: undefined,
+			dueDate: undefined,
+		});
+	};
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			setSelectedItem({});
-			setSelectedItems([]);
-			setVisibleModal('');
-			setUpdateDueDate({
-				comment: undefined,
-				dueDate: undefined,
-			});
-		},
+		onClose: onCloseModal,
 	});
 
 	const {data, fetchData} = useFetch({
@@ -73,30 +74,29 @@ const SingleUpdateDueDateModal = () => {
 	});
 
 	const handleDone = useCallback(() => {
-		if (dueDate) {
-			setSendingPost(true);
-			setErrorToast(false);
+		setSendingPost(true);
+		setErrorToast(false);
 
-			postData()
-				.then(() => {
-					onClose();
-					toaster.success(
-						Liferay.Language.get(
-							'the-due-date-for-this-task-has-been-updated'
-						)
-					);
-					setSendingPost(false);
-					setErrorToast(false);
-				})
-				.catch(({response}) => {
-					const errorMessage = `${Liferay.Language.get(
-						'your-request-has-failed'
-					)} ${Liferay.Language.get('select-done-to-retry')}`;
+		postData()
+			.then(() => {
+				toaster.success(
+					Liferay.Language.get(
+						'the-due-date-for-this-task-has-been-updated'
+					)
+				);
 
-					setErrorToast(response?.data.title ?? errorMessage);
-					setSendingPost(false);
-				});
-		}
+				onCloseModal(true);
+				setSendingPost(false);
+				setErrorToast(false);
+			})
+			.catch(({response}) => {
+				const errorMessage = `${Liferay.Language.get(
+					'your-request-has-failed'
+				)} ${Liferay.Language.get('select-done-to-retry')}`;
+
+				setErrorToast(response?.data.title ?? errorMessage);
+				setSendingPost(false);
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postData]);
 

@@ -24,10 +24,10 @@ import UpdateDueDateStep from './UpdateDueDateStep.es';
 const BulkUpdateDueDateModal = () => {
 	const {setSelectAll, setSelectedItems} = useContext(InstanceListContext);
 	const {
+		closeModal,
 		selectTasks: {selectAll, tasks},
 		setSelectTasks,
 		setUpdateDueDate,
-		setVisibleModal,
 		updateDueDate: {comment, dueDate},
 		visibleModal,
 	} = useContext(ModalContext);
@@ -45,15 +45,16 @@ const BulkUpdateDueDateModal = () => {
 		});
 	}, [setUpdateDueDate]);
 
+	const onCloseModal = (refetch) => {
+		clearContext();
+		clearFilters();
+		closeModal(refetch);
+		setSelectTasks({selectAll: false, tasks: []});
+		setCurrentStep('selectTasks');
+		setErrorToast(false);
+	};
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			clearContext();
-			clearFilters();
-			setSelectTasks({selectAll: false, tasks: []});
-			setVisibleModal('');
-			setCurrentStep('selectTasks');
-			setErrorToast(false);
-		},
+		onClose: onCloseModal,
 	});
 
 	const body = useMemo(() => {
@@ -75,36 +76,34 @@ const BulkUpdateDueDateModal = () => {
 	});
 
 	const handleDone = useCallback(() => {
-		if (dueDate) {
-			setUpdating(true);
+		setUpdating(true);
 
-			patchData()
-				.then(() => {
-					onClose();
-					setUpdating(false);
+		patchData()
+			.then(() => {
+				setUpdating(false);
 
-					toaster.success(
-						tasks.length > 1
-							? Liferay.Language.get(
-									'the-due-dates-for-these-tasks-have-been-updated'
-							  )
-							: Liferay.Language.get(
-									'the-due-date-for-this-task-has-been-updated'
-							  )
-					);
+				toaster.success(
+					tasks.length > 1
+						? Liferay.Language.get(
+								'the-due-dates-for-these-tasks-have-been-updated'
+						  )
+						: Liferay.Language.get(
+								'the-due-date-for-this-task-has-been-updated'
+						  )
+				);
 
-					setSelectedItems([]);
-					setSelectAll(false);
-				})
-				.catch(({response}) => {
-					const errorMessage = `${Liferay.Language.get(
-						'your-request-has-failed'
-					)} ${Liferay.Language.get('select-done-to-retry')}`;
+				onCloseModal(true);
+				setSelectedItems([]);
+				setSelectAll(false);
+			})
+			.catch(({response}) => {
+				const errorMessage = `${Liferay.Language.get(
+					'your-request-has-failed'
+				)} ${Liferay.Language.get('select-done-to-retry')}`;
 
-					setErrorToast(response?.data.title ?? errorMessage);
-					setUpdating(false);
-				});
-		}
+				setErrorToast(response?.data.title ?? errorMessage);
+				setUpdating(false);
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [patchData, tasks]);
 

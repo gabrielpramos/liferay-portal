@@ -45,7 +45,7 @@ const Header = ({
 		setSelectedItems,
 	} = useContext(InstanceListContext);
 	const previousCount = usePrevious(totalCount);
-	const {setVisibleModal} = useContext(ModalContext);
+	const {openModal} = useContext(ModalContext);
 
 	const handleClick = useCallback(
 		(bulkModal, singleModal) => {
@@ -53,9 +53,9 @@ const Header = ({
 				selectedItems.length > 1 ||
 				selectedItems[0].taskNames.length > 1;
 
-			setVisibleModal(bulkOperation ? bulkModal : singleModal);
+			openModal(bulkOperation ? bulkModal : singleModal);
 		},
-		[selectedItems, setVisibleModal]
+		[openModal, selectedItems]
 	);
 
 	const compareId = (itemId) => ({id}) => id === itemId;
@@ -65,7 +65,7 @@ const Header = ({
 			icon: 'arrow-start',
 			label: capitalize(Liferay.Language.get('transition')),
 			onClick: () => {
-				setVisibleModal('bulkTransition');
+				openModal('bulkTransition');
 			},
 		},
 		{

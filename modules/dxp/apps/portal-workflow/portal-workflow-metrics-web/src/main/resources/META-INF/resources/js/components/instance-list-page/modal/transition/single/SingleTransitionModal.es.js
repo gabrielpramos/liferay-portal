@@ -30,8 +30,8 @@ import {ModalContext} from '../../ModalProvider.es';
 const SingleTransitionModal = () => {
 	const [comment, setComment] = useState('');
 	const {
+		closeModal,
 		setSingleTransition,
-		setVisibleModal,
 		singleTransition,
 		visibleModal,
 	} = useContext(ModalContext);
@@ -49,16 +49,17 @@ const SingleTransitionModal = () => {
 		url: `/workflow-instances/${selectedInstance.id}/workflow-tasks`,
 	});
 
+	const onCloseModal = (refetch) => {
+		closeModal(refetch);
+		setSelectedItem({});
+		setSelectedItems([]);
+		setSingleTransition({
+			title: '',
+			transitionName: '',
+		});
+	};
 	const {observer, onClose} = useModal({
-		onClose: () => {
-			setSelectedItem({});
-			setSelectedItems([]);
-			setVisibleModal('');
-			setSingleTransition({
-				title: '',
-				transitionName: '',
-			});
-		},
+		onClose: onCloseModal,
 	});
 
 	useEffect(() => {
@@ -82,12 +83,13 @@ const SingleTransitionModal = () => {
 		setErrorToast(false);
 		postData()
 			.then(() => {
-				onClose();
 				toaster.success(
 					Liferay.Language.get(
 						'the-selected-step-has-transitioned-successfully'
 					)
 				);
+
+				onCloseModal(true);
 			})
 			.catch(() => {
 				setErrorToast(
