@@ -24,6 +24,7 @@ const ModalProvider = ({children, processId}) => {
 		transition: {errors: {}, onGoing: false},
 		transitionTasks: [],
 	});
+	const [fetchOnClose, setFetchOnClose] = useState(true);
 	const [selectTasks, setSelectTasks] = useState({
 		selectAll: false,
 		tasks: [],
@@ -38,9 +39,17 @@ const ModalProvider = ({children, processId}) => {
 	});
 	const [visibleModal, setVisibleModal] = useState('');
 
+	const closeModal = (refetch) => {
+		setFetchOnClose(refetch);
+		setVisibleModal('');
+	};
+
 	const modalState = {
 		bulkReassign,
 		bulkTransition,
+		closeModal,
+		fetchOnClose,
+		openModal: setVisibleModal,
 		processId,
 		selectTasks,
 		setBulkReassign,
@@ -48,7 +57,6 @@ const ModalProvider = ({children, processId}) => {
 		setSelectTasks,
 		setSingleTransition,
 		setUpdateDueDate,
-		setVisibleModal,
 		singleTransition,
 		updateDueDate,
 		visibleModal,
