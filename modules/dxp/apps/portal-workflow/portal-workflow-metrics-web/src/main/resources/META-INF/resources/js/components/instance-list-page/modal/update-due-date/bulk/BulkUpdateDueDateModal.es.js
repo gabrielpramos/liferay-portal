@@ -12,14 +12,14 @@
 import {useModal} from '@clayui/modal';
 import React, {useCallback, useContext, useMemo, useState} from 'react';
 
-import ModalWithSteps from '../../../../shared/components/modal-with-steps/ModalWithSteps.es';
-import {useToaster} from '../../../../shared/components/toaster/hooks/useToaster.es';
-import {usePatch} from '../../../../shared/hooks/usePatch.es';
-import {InstanceListContext} from '../../InstanceListPageProvider.es';
-import {ModalContext} from '../ModalProvider.es';
-import SelectTasksStep from '../shared/select-tasks-step/SelectTasksStep.es';
-import {useFetchTasks} from '../shared/select-tasks-step/hooks/useFetchTasks.es';
-import UpdateDueDateStep from './UpdateDueDateStep.es';
+import ModalWithSteps from '../../../../../shared/components/modal-with-steps/ModalWithSteps.es';
+import {useToaster} from '../../../../../shared/components/toaster/hooks/useToaster.es';
+import {usePatch} from '../../../../../shared/hooks/usePatch.es';
+import {InstanceListContext} from '../../../InstanceListPageProvider.es';
+import {ModalContext} from '../../ModalProvider.es';
+import SelectTasksStep from '../../shared/select-tasks-step/SelectTasksStep.es';
+import {useFetchTasks} from '../../shared/select-tasks-step/hooks/useFetchTasks.es';
+import UpdateDueDateStep from '../UpdateDueDateStep.es';
 
 const BulkUpdateDueDateModal = () => {
 	const {setSelectAll, setSelectedItems} = useContext(InstanceListContext);

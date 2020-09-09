@@ -14,15 +14,15 @@ import ClayButton from '@clayui/button';
 import ClayModal, {useModal} from '@clayui/modal';
 import React, {useCallback, useContext, useMemo, useState} from 'react';
 
-import ContentView from '../../../../shared/components/content-view/ContentView.es';
-import RetryButton from '../../../../shared/components/list/RetryButton.es';
-import PromisesResolver from '../../../../shared/components/promises-resolver/PromisesResolver.es';
-import {useToaster} from '../../../../shared/components/toaster/hooks/useToaster.es';
-import {useFetch} from '../../../../shared/hooks/useFetch.es';
-import {usePost} from '../../../../shared/hooks/usePost.es';
-import {InstanceListContext} from '../../InstanceListPageProvider.es';
-import {ModalContext} from '../ModalProvider.es';
-import UpdateDueDateStep from './UpdateDueDateStep.es';
+import ContentView from '../../../../../shared/components/content-view/ContentView.es';
+import RetryButton from '../../../../../shared/components/list/RetryButton.es';
+import PromisesResolver from '../../../../../shared/components/promises-resolver/PromisesResolver.es';
+import {useToaster} from '../../../../../shared/components/toaster/hooks/useToaster.es';
+import {useFetch} from '../../../../../shared/hooks/useFetch.es';
+import {usePost} from '../../../../../shared/hooks/usePost.es';
+import {InstanceListContext} from '../../../InstanceListPageProvider.es';
+import {ModalContext} from '../../ModalProvider.es';
+import UpdateDueDateStep from '../UpdateDueDateStep.es';
 
 const SingleUpdateDueDateModal = () => {
 	const [errorToast, setErrorToast] = useState(false);

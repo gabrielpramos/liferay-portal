@@ -24,8 +24,8 @@ import BulkReassignModal from './modal/reassign/bulk/BulkReassignModal.es';
 import SingleReassignModal from './modal/reassign/single/SingleReassignModal.es';
 import BulkTransitionModal from './modal/transition/bulk/BulkTransitionModal.es';
 import SingleTransitionModal from './modal/transition/single/SingleTransitionModal.es';
-import BulkUpdateDueDateModal from './modal/update-due-date/BulkUpdateDueDateModal.es';
-import SingleUpdateDueDateModal from './modal/update-due-date/SingleUpdateDueDateModal.es';
+import BulkUpdateDueDateModal from './modal/update-due-date/bulk/BulkUpdateDueDateModal.es';
+import SingleUpdateDueDateModal from './modal/update-due-date/single/SingleUpdateDueDateModal.es';
 
 const Body = ({
 	data: {items, totalCount},

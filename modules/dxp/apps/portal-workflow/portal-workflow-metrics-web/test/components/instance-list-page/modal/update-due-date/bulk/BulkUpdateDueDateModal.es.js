@@ -12,11 +12,11 @@
 import {fireEvent, render} from '@testing-library/react';
 import React, {useState} from 'react';
 
-import {InstanceListContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPageProvider.es';
-import {ModalContext} from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalProvider.es';
-import BulkUpdateDueDateModal from '../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/update-due-date/BulkUpdateDueDateModal.es';
-import ToasterProvider from '../../../../../src/main/resources/META-INF/resources/js/shared/components/toaster/ToasterProvider.es';
-import {MockRouter} from '../../../../mock/MockRouter.es';
+import {InstanceListContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/InstanceListPageProvider.es';
+import {ModalContext} from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/ModalProvider.es';
+import BulkUpdateDueDateModal from '../../../../../../src/main/resources/META-INF/resources/js/components/instance-list-page/modal/update-due-date/bulk/BulkUpdateDueDateModal.es';
+import ToasterProvider from '../../../../../../src/main/resources/META-INF/resources/js/shared/components/toaster/ToasterProvider.es';
+import {MockRouter} from '../../../../../mock/MockRouter.es';
 
 import '@testing-library/jest-dom/extend-expect';
 
