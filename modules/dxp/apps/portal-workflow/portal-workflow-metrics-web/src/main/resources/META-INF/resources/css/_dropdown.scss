@@ -10,7 +10,9 @@
 
 	.custom-control-label-text {
 		color: #6b6c7e;
+		display: flex;
 		font-weight: normal;
+		word-break: break-all;
 	}
 
 	&.control-hidden {
