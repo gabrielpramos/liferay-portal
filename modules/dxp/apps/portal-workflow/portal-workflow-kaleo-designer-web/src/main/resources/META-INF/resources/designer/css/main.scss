@@ -2,6 +2,24 @@
 	margin: 0 !important;
 }
 
+.assignments-cell-editor {
+	max-height: 35vh;
+	overflow: auto;
+
+	.checkbox {
+		align-items: center;
+		display: flex;
+
+		.assignments-cell-editor-input {
+			position: absolute;
+		}
+
+		.celleditor-label-checkbox {
+			min-height: 16px;
+		}
+	}
+}
+
 .actions-cell-editor-hidden,
 .assignments-cell-editor-hidden,
 .forms-cell-editor-hidden,
