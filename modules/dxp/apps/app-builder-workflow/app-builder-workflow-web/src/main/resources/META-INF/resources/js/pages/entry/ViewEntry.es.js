@@ -211,7 +211,7 @@ export default function ViewEntry({
 	}, [entryIndex, query]);
 
 	const showButtons = {
-		update: !workflowInfo?.completed,
+		update: workflowInfo?.completed === false,
 	};
 
 	return (

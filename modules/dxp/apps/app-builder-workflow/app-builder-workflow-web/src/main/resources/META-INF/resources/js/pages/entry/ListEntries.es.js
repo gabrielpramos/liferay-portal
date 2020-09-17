@@ -288,7 +288,7 @@ export default function ListEntries({history}) {
 			show: ({canReassign}) => canReassign,
 		},
 		...useEntriesActions({
-			update: ({completed}) => !completed,
+			update: ({completed}) => completed === false,
 		}),
 	];
 
