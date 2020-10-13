@@ -150,6 +150,11 @@
 			}
 		}
 	}
+
+	.portlet-body .panel {
+		padding: 1rem;
+	}
+
 	@include media-breakpoint-between(md, lg) {
 		.calendar-portlet-column-parent {
 			.calendar-portlet-column-grid,
