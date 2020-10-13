@@ -420,6 +420,20 @@
 	}
 }
 
+.lfr-discussion-editor {
+	.button-holder.dialog-footer {
+		position: relative;
+		bottom: 0;
+		left: unset;
+		display: block;
+		padding: 10px 0;
+
+		.btn {
+			margin-left: 0px;
+		}
+	}
+}
+
 .portal-popup .calendar-portlet .fieldset {
 	margin-bottom: 2em;
 }
