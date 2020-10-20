@@ -52,6 +52,7 @@ export default ({
 				[defaultLanguageId]: '',
 			},
 			scope,
+			workflowProcessId: null,
 		},
 	});
 
@@ -116,7 +117,7 @@ export default ({
 									<ClayLayout.Col>
 										<MultiStepNav
 											currentStep={currentStep}
-											steps={['1', '2', '3']}
+											steps={['1', '2', '3', '4']}
 										/>
 									</ClayLayout.Col>
 								</ClayLayout.Row>
@@ -159,7 +160,38 @@ export default ({
 									/>
 								)}
 
-								{currentStep == 2 && <DeployApp />}
+								{currentStep == 2 && (
+									<EditAppBody
+										defaultLanguageId={defaultLanguageId}
+										emptyState={getEmptyState(
+											Liferay.Language.get(
+												'create-one-or-more-tables-to-display-the-data-held-in-your-data-object'
+											),
+											Liferay.Language.get(
+												'there-are-no-table-views-yet'
+											)
+										)}
+										endpoint={`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-list-views`}
+										itemType="WORKFLOW_PROCESS"
+										subtitle={Liferay.Language.get(
+											'enable-app-submissions-to-flow-through-a-workflow-process'
+										)}
+										title={
+											<>
+												{Liferay.Language.get(
+													'connect-a-workflow'
+												)}
+												<span className="text-secondary">
+													{` (${Liferay.Language.get(
+														'optional'
+													)})`}
+												</span>
+											</>
+										}
+									/>
+								)}
+
+								{currentStep == 3 && <DeployApp />}
 							</div>
 
 							<h4 className="card-divider"></h4>

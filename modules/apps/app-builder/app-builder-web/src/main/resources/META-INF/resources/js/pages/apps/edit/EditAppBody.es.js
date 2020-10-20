@@ -20,7 +20,13 @@ import {useRequest} from '../../../hooks/index.es';
 import {getLocalizedValue} from '../../../utils/lang.es';
 import ListItems from './ListItems.es';
 
-export default ({defaultLanguageId, endpoint, title, ...restProps}) => {
+export default ({
+	defaultLanguageId,
+	endpoint,
+	subtitle,
+	title,
+	...restProps
+}) => {
 	const [searchText, setSearchText] = useState('');
 
 	const {
@@ -39,6 +45,9 @@ export default ({defaultLanguageId, endpoint, title, ...restProps}) => {
 			<ClayLayout.ContentRow className="mb-4 pl-4 pr-4">
 				<ClayLayout.ContentCol expand>
 					<h2>{title}</h2>
+					{subtitle && (
+						<span className="text-secondary">{subtitle}</span>
+					)}
 				</ClayLayout.ContentCol>
 			</ClayLayout.ContentRow>
 
