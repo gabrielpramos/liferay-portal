@@ -836,6 +836,8 @@ definition {
 
 		App.clickPrevious();
 
+		App.clickPrevious();
+
 		App.selectTableView(tableViewName = "My Table View 1");
 
 		App.toggleDeploy(deployOption = "Widget");
