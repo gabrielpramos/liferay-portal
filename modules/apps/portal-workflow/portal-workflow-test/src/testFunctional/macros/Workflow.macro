@@ -286,6 +286,10 @@ definition {
 			workflowTask = "${workflowTask}");
 	}
 
+	macro clickRevertSortDirection {
+		Click(locator1 = "MyWorkflowTasks#REVERSE_SORT_DIRECTION_BUTTON");
+	}
+
 	macro completeWorkflowBlogInstance {
 		var key_workflowInstanceTitle = "${workflowInstanceName}";
 

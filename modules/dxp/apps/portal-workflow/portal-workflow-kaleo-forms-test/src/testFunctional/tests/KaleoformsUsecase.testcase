@@ -4857,6 +4857,8 @@ definition {
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
+		Workflow.clickRevertSortDirection();
+
 		Workflow.viewCompletedTask(
 			workflowAssetTitle = "Kaleo Forms Process",
 			workflowAssetType = "${workflowAssetType}",
