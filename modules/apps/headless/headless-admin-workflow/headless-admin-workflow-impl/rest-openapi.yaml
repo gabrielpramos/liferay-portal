@@ -179,6 +179,10 @@ components:
                     type: boolean
                 content:
                     type: string
+                dateCreated:
+                    format: date-time
+                    readOnly: true
+                    type: string
                 dateModified:
                     format: date-time
                     readOnly: true
