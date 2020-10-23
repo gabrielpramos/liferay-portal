@@ -126,6 +126,7 @@ public class WorkflowDefinitionResourceImpl
 				active = workflowDefinition.isActive();
 				content = workflowDefinition.getContent();
 				dateModified = workflowDefinition.getModifiedDate();
+				dateCreated = workflowDefinition.getCreatedDate();
 				description = workflowDefinition.getDescription();
 				name = workflowDefinition.getName();
 				title = titleMap.get(

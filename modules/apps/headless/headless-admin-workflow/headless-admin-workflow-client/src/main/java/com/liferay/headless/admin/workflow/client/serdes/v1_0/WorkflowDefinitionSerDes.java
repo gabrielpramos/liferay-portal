@@ -85,6 +85,22 @@ public class WorkflowDefinitionSerDes {
 			sb.append("\"");
 		}
 
+		if (workflowDefinition.getDateCreated() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"dateCreated\": ");
+
+			sb.append("\"");
+
+			sb.append(
+				liferayToJSONDateFormat.format(
+					workflowDefinition.getDateCreated()));
+
+			sb.append("\"");
+		}
+
 		if (workflowDefinition.getDateModified() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -203,6 +219,15 @@ public class WorkflowDefinitionSerDes {
 		}
 		else {
 			map.put("content", String.valueOf(workflowDefinition.getContent()));
+		}
+
+		if (workflowDefinition.getDateCreated() == null) {
+			map.put("dateCreated", null);
+		} else {
+			map.put(
+				"dateCreated",
+				liferayToJSONDateFormat.format(
+					workflowDefinition.getDateCreated()));
 		}
 
 		if (workflowDefinition.getDateModified() == null) {

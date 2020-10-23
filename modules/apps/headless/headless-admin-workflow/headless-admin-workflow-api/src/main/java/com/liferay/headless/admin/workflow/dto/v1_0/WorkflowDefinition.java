@@ -111,6 +111,35 @@ public class WorkflowDefinition {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String content;
 
+
+	@Schema
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	@JsonIgnore
+	public void setDateCreated(
+		UnsafeSupplier<Date, Exception> dateCreatedUnsafeSupplier) {
+
+		try {
+			dateCreated = dateCreatedUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected Date dateCreated;
+
 	@Schema
 	public Date getDateModified() {
 		return dateModified;
@@ -329,6 +358,20 @@ public class WorkflowDefinition {
 			sb.append("\"");
 
 			sb.append(_escape(content));
+
+			sb.append("\"");
+		}
+
+		if (dateCreated != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"dateCreated\": ");
+
+			sb.append("\"");
+
+			sb.append(liferayToJSONDateFormat.format(dateCreated));
 
 			sb.append("\"");
 		}
