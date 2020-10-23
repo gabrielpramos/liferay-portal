@@ -190,6 +190,11 @@ components:
                     type: string
                 title:
                     type: string
+                title_i18n:
+                    additionalProperties:
+                        type: string
+                    readOnly: true
+                    type: object
                 version:
                     type: string
             type: object
