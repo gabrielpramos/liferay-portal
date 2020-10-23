@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.liferay.headless.admin.workflow.client.dto.v1_0.WorkflowDefinition;
 import com.liferay.headless.admin.workflow.client.http.HttpInvoker;
 import com.liferay.headless.admin.workflow.client.pagination.Page;
+import com.liferay.headless.admin.workflow.client.pagination.Pagination;
 import com.liferay.headless.admin.workflow.client.resource.v1_0.WorkflowDefinitionResource;
 import com.liferay.headless.admin.workflow.client.serdes.v1_0.WorkflowDefinitionSerDes;
 import com.liferay.petra.reflect.ReflectionUtil;
@@ -203,7 +204,86 @@ public abstract class BaseWorkflowDefinitionResourceTestCase {
 
 	@Test
 	public void testGetWorkflowDefinitionsPage() throws Exception {
-		Assert.assertTrue(false);
+		Page<WorkflowDefinition> page =
+			workflowDefinitionResource.getWorkflowDefinitionsPage(
+				null, Pagination.of(1, 2));
+
+		Assert.assertEquals(0, page.getTotalCount());
+
+		WorkflowDefinition workflowDefinition1 =
+			testGetWorkflowDefinitionsPage_addWorkflowDefinition(
+				randomWorkflowDefinition());
+
+		WorkflowDefinition workflowDefinition2 =
+			testGetWorkflowDefinitionsPage_addWorkflowDefinition(
+				randomWorkflowDefinition());
+
+		page = workflowDefinitionResource.getWorkflowDefinitionsPage(
+			null, Pagination.of(1, 2));
+
+		Assert.assertEquals(2, page.getTotalCount());
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(workflowDefinition1, workflowDefinition2),
+			(List<WorkflowDefinition>)page.getItems());
+		assertValid(page);
+	}
+
+	@Test
+	public void testGetWorkflowDefinitionsPageWithPagination()
+		throws Exception {
+
+		WorkflowDefinition workflowDefinition1 =
+			testGetWorkflowDefinitionsPage_addWorkflowDefinition(
+				randomWorkflowDefinition());
+
+		WorkflowDefinition workflowDefinition2 =
+			testGetWorkflowDefinitionsPage_addWorkflowDefinition(
+				randomWorkflowDefinition());
+
+		WorkflowDefinition workflowDefinition3 =
+			testGetWorkflowDefinitionsPage_addWorkflowDefinition(
+				randomWorkflowDefinition());
+
+		Page<WorkflowDefinition> page1 =
+			workflowDefinitionResource.getWorkflowDefinitionsPage(
+				null, Pagination.of(1, 2));
+
+		List<WorkflowDefinition> workflowDefinitions1 =
+			(List<WorkflowDefinition>)page1.getItems();
+
+		Assert.assertEquals(
+			workflowDefinitions1.toString(), 2, workflowDefinitions1.size());
+
+		Page<WorkflowDefinition> page2 =
+			workflowDefinitionResource.getWorkflowDefinitionsPage(
+				null, Pagination.of(2, 2));
+
+		Assert.assertEquals(3, page2.getTotalCount());
+
+		List<WorkflowDefinition> workflowDefinitions2 =
+			(List<WorkflowDefinition>)page2.getItems();
+
+		Assert.assertEquals(
+			workflowDefinitions2.toString(), 1, workflowDefinitions2.size());
+
+		Page<WorkflowDefinition> page3 =
+			workflowDefinitionResource.getWorkflowDefinitionsPage(
+				null, Pagination.of(1, 3));
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(
+				workflowDefinition1, workflowDefinition2, workflowDefinition3),
+			(List<WorkflowDefinition>)page3.getItems());
+	}
+
+	protected WorkflowDefinition
+			testGetWorkflowDefinitionsPage_addWorkflowDefinition(
+				WorkflowDefinition workflowDefinition)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Test
@@ -412,6 +492,14 @@ public abstract class BaseWorkflowDefinitionResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals("title_i18n", additionalAssertFieldName)) {
+				if (workflowDefinition.getTitle_i18n() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("version", additionalAssertFieldName)) {
 				if (workflowDefinition.getVersion() == null) {
 					valid = false;
@@ -573,6 +661,17 @@ public abstract class BaseWorkflowDefinitionResourceTestCase {
 				if (!Objects.deepEquals(
 						workflowDefinition1.getTitle(),
 						workflowDefinition2.getTitle())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("title_i18n", additionalAssertFieldName)) {
+				if (!equals(
+						(Map)workflowDefinition1.getTitle_i18n(),
+						(Map)workflowDefinition2.getTitle_i18n())) {
 
 					return false;
 				}
@@ -745,6 +844,11 @@ public abstract class BaseWorkflowDefinitionResourceTestCase {
 			sb.append("'");
 
 			return sb.toString();
+		}
+
+		if (entityFieldName.equals("title_i18n")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("version")) {

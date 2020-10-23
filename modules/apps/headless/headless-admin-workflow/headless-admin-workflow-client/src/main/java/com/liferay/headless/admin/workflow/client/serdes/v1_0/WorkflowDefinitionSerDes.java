@@ -143,6 +143,16 @@ public class WorkflowDefinitionSerDes {
 			sb.append("\"");
 		}
 
+		if (workflowDefinition.getTitle_i18n() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"title_i18n\": ");
+
+			sb.append(_toJSON(workflowDefinition.getTitle_i18n()));
+		}
+
 		if (workflowDefinition.getVersion() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -228,6 +238,15 @@ public class WorkflowDefinitionSerDes {
 			map.put("title", String.valueOf(workflowDefinition.getTitle()));
 		}
 
+		if (workflowDefinition.getTitle_i18n() == null) {
+			map.put("title_i18n", null);
+		}
+		else {
+			map.put(
+				"title_i18n",
+				String.valueOf(workflowDefinition.getTitle_i18n()));
+		}
+
 		if (workflowDefinition.getVersion() == null) {
 			map.put("version", null);
 		}
@@ -286,6 +305,13 @@ public class WorkflowDefinitionSerDes {
 			else if (Objects.equals(jsonParserFieldName, "title")) {
 				if (jsonParserFieldValue != null) {
 					workflowDefinition.setTitle((String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "title_i18n")) {
+				if (jsonParserFieldValue != null) {
+					workflowDefinition.setTitle_i18n(
+						(Map)WorkflowDefinitionSerDes.toMap(
+							(String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "version")) {
