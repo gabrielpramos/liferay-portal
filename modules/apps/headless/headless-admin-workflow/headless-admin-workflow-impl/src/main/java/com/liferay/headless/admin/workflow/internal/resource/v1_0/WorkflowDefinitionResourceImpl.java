@@ -118,6 +118,9 @@ public class WorkflowDefinitionResourceImpl
 		com.liferay.portal.kernel.workflow.WorkflowDefinition
 			workflowDefinition) {
 
+		Map<Locale, String> titleMap = LocalizationUtil.getLocalizationMap(
+			workflowDefinition.getTitle());
+
 		return new WorkflowDefinition() {
 			{
 				active = workflowDefinition.isActive();
@@ -126,7 +129,12 @@ public class WorkflowDefinitionResourceImpl
 				dateModified = workflowDefinition.getModifiedDate();
 				description = workflowDefinition.getDescription();
 				name = workflowDefinition.getName();
-				title = workflowDefinition.getTitle();
+				title = titleMap.get(
+					contextAcceptLanguage.getPreferredLocale());
+				title_i18n = LocalizedMapUtil.getI18nMap(
+					contextAcceptLanguage.isAcceptAllLanguages(),
+					LocalizationUtil.getLocalizationMap(
+						workflowDefinition.getTitle()));
 				version = String.valueOf(workflowDefinition.getVersion());
 			}
 		};
