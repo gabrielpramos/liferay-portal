@@ -571,6 +571,10 @@ paths:
             operationId: getWorkflowDefinitionsPage
             parameters:
                 - in: query
+                  name: active
+                  schema:
+                      type: boolean
+                - in: query
                   name: page
                   schema:
                       type: integer
