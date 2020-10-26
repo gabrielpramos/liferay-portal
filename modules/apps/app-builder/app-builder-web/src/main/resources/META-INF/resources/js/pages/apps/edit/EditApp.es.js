@@ -170,15 +170,7 @@ export default ({
 								{currentStep == 2 && (
 									<EditAppBody
 										defaultLanguageId={defaultLanguageId}
-										emptyState={getEmptyState(
-											Liferay.Language.get(
-												'create-one-or-more-tables-to-display-the-data-held-in-your-data-object'
-											),
-											Liferay.Language.get(
-												'there-are-no-table-views-yet'
-											)
-										)}
-										endpoint={`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-list-views`}
+										endpoint={`/o/headless-admin-workflow/v1.0/workflow-definitions?page=-1&pageSize=-1`}
 										itemType="WORKFLOW_PROCESS"
 										title={
 											<>
