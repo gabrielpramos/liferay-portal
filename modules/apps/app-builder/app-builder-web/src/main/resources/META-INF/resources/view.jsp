@@ -37,6 +37,8 @@
 			).put(
 				"pathFriendlyURLPublic", PortalUtil.getPathFriendlyURLPublic()
 			).put(
+				"processBuilderPortletURL", WorkflowPortletKeys.CONTROL_PANEL_WORKFLOW
+			).put(
 				"scope", AppBuilderAppConstants.SCOPE_STANDARD
 			).put(
 				"showNativeObjectsTab", request.getAttribute(AppBuilderWebKeys.SHOW_NATIVE_OBJECTS_TAB)
