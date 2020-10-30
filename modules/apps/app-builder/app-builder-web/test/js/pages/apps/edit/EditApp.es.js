@@ -262,7 +262,10 @@ describe('EditApp', () => {
 
 		const tableViewRows = tableViewTable.querySelectorAll('tbody tr');
 
-		fireEvent.click(tableViewRows[1]);
+		await act(async () => {
+			await fireEvent.click(tableViewRows[1]);
+		});
+
 		search = queryByPlaceholderText('search...');
 
 		fireEvent.change(search, {target: {value: 'no-items'}});
