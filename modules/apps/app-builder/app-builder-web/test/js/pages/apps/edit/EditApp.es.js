@@ -289,7 +289,9 @@ describe('EditApp', () => {
 
 		const [, standalone] = queryAllByRole('checkbox');
 
-		fireEvent.click(standalone);
+		await act(async () => {
+			await fireEvent.click(standalone);
+		});
 
 		const deploy = queryByText('deploy');
 
