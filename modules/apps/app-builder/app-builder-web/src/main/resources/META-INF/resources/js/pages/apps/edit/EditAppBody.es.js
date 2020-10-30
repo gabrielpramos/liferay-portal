@@ -12,9 +12,12 @@
  * details.
  */
 
+import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
 import ClayLayout from '@clayui/layout';
 import React, {useContext} from 'react';
 
+import {AppContext} from '../../../AppContext.es';
 import MultiStepNav from '../../../components/multi-step-nav/MultiStepNav.es';
 import DeployApp from './DeployApp.es';
 import EditAppContext, {
@@ -25,6 +28,7 @@ import EditAppContext, {
 import EditAppStepContent from './EditAppStepContent.es';
 
 const EditAppBody = ({currentStep, dataDefinitionId, defaultLanguageId}) => {
+	const {workflowProcessBuilderPortletURL} = useContext(AppContext);
 	const {
 		dispatch,
 		state: {
@@ -78,6 +82,17 @@ const EditAppBody = ({currentStep, dataDefinitionId, defaultLanguageId}) => {
 			endpoint: `/o/headless-admin-workflow/v1.0/workflow-definitions?active=true&page=-1&pageSize=-1`,
 			itemId: workflowDefinitionName ?? '',
 			onSelect: dispatchSelection(UPDATE_WORKFLOW_PROCESS_ID),
+			shortCutButton: (
+				<ClayButton
+					displayType="secondary"
+					onClick={() => {
+						window.open(workflowProcessBuilderPortletURL, '_blank');
+					}}
+				>
+					{Liferay.Language.get('manage-workflows')}
+					<ClayIcon className="ml-2" symbol="shortcut" />
+				</ClayButton>
+			),
 			parseItems: (items) =>
 				items.map(({name, title, ...restProps}) => ({
 					...restProps,
