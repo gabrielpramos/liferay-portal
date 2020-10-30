@@ -23,6 +23,8 @@
 <div id="<portlet:namespace />-app-builder-root">
 	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" var="baseResourceURL" />
 
+	<liferay-portlet:renderURL portletName="<%= WorkflowPortletKeys.CONTROL_PANEL_WORKFLOW %>" var="workflowProcessBuilderPortletURL" />
+
 	<react:component
 		module="js/index.es"
 		props='<%=
@@ -42,6 +44,8 @@
 				"showNativeObjectsTab", request.getAttribute(AppBuilderWebKeys.SHOW_NATIVE_OBJECTS_TAB)
 			).put(
 				"showTranslationManager", request.getAttribute(AppBuilderWebKeys.SHOW_TRANSLATION_MANAGER)
+			).put(
+				"workflowProcessBuilderPortletURL", String.valueOf(workflowProcessBuilderPortletURL)
 			).build()
 		%>'
 	/>
