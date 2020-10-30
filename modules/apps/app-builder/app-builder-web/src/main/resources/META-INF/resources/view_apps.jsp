@@ -25,6 +25,8 @@
 
 	<liferay-portlet:renderURL portletName="<%= AppBuilderPortletKeys.OBJECTS %>" var="objectsPortletURL" />
 
+	<liferay-portlet:renderURL portletName="<%= WorkflowPortletKeys.CONTROL_PANEL_WORKFLOW %>" var="workflowProcessBuilderPortletURL" />
+
 	<react:component
 		module="js/pages/apps/index.es"
 		props='<%=
@@ -46,6 +48,8 @@
 				"showTranslationManager", request.getAttribute(AppBuilderWebKeys.SHOW_TRANSLATION_MANAGER)
 			).put(
 				"userId", themeDisplay.getUserId()
+			).put(
+				"workflowProcessBuilderPortletURL", String.valueOf(workflowProcessBuilderPortletURL)
 			).build()
 		%>'
 	/>
