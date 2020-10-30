@@ -13,27 +13,18 @@
  */
 
 import ClayLayout from '@clayui/layout';
-import {SearchInput} from 'data-engine-taglib';
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 
-import {useRequest} from '../../../hooks/index.es';
-import {getLocalizedValue} from '../../../utils/lang.es';
+import MultiStepNav from '../../../components/multi-step-nav/MultiStepNav.es';
+import DeployApp from './DeployApp.es';
 import EditAppContext, {
 	UPDATE_DATA_LAYOUT_ID,
 	UPDATE_DATA_LIST_VIEW_ID,
 	UPDATE_WORKFLOW_PROCESS_ID,
 } from './EditAppContext.es';
-import ListItems from './ListItems.es';
+import EditAppStepContent from './EditAppStepContent.es';
 
-const EditAppBody = ({
-	defaultLanguageId,
-	endpoint,
-	itemType,
-	title,
-	...restProps
-}) => {
-	const [searchText, setSearchText] = useState('');
-
+const EditAppBody = ({currentStep, dataDefinitionId, defaultLanguageId}) => {
 	const {
 		dispatch,
 		state: {
@@ -41,25 +32,60 @@ const EditAppBody = ({
 		},
 	} = useContext(EditAppContext);
 
-	const {
-		response: {items = []},
-		isLoading,
-	} = useRequest(endpoint);
+	const dispatchSelection = (type) => (item) => {
+		dispatch({
+			...item,
+			type,
+		});
+	};
 
-	const stepItems = {
-		DATA_LAYOUT: {
-			id: dataLayoutId,
-			items,
-			type: UPDATE_DATA_LAYOUT_ID,
+	const stepProps = [
+		{
+			emptyState: {
+				description: Liferay.Language.get(
+					'create-one-or-more-forms-to-display-the-data-held-in-your-data-object'
+				),
+				title: Liferay.Language.get('there-are-no-form-views-yet'),
+			},
+			endpoint: `/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-layouts`,
+			itemId: dataLayoutId,
+			onSelect: dispatchSelection(UPDATE_DATA_LAYOUT_ID),
+			stepHeader: {
+				title: Liferay.Language.get('select-a-form-view'),
+			},
 		},
-		DATA_LIST_VIEW: {
-			id: dataListViewId,
-			items,
-			type: UPDATE_DATA_LIST_VIEW_ID,
+		{
+			emptyState: {
+				description: Liferay.Language.get(
+					'create-one-or-more-tables-to-display-the-data-held-in-your-data-object'
+				),
+				title: Liferay.Language.get('there-are-no-table-views-yet'),
+			},
+			endpoint: `/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-list-views`,
+			itemId: dataListViewId,
+			onSelect: dispatchSelection(UPDATE_DATA_LIST_VIEW_ID),
+			stepHeader: {
+				title: Liferay.Language.get('select-a-table-view'),
+			},
 		},
-		WORKFLOW_PROCESS: {
-			id: workflowDefinitionName ?? '',
-			items: [
+		{
+			emptyState: {
+				search: {
+					className: 'taglib-search-state',
+					title: Liferay.Language.get('no-results-were-found'),
+				},
+			},
+			endpoint: `/o/headless-admin-workflow/v1.0/workflow-definitions?active=true&page=-1&pageSize=-1`,
+			itemId: workflowDefinitionName ?? '',
+			onSelect: dispatchSelection(UPDATE_WORKFLOW_PROCESS_ID),
+			parseItems: (items) =>
+				items.map(({name, title, ...restProps}) => ({
+					...restProps,
+					id: name,
+					name: {[defaultLanguageId]: title},
+				})),
+
+			staticItems: [
 				{
 					dateCreated: null,
 					dateModified: null,
@@ -70,57 +96,47 @@ const EditAppBody = ({
 						),
 					},
 				},
-				...items.map(({name, title, ...restProps}) => ({
-					...restProps,
-					id: name,
-					name: {[defaultLanguageId]: title},
-				})),
 			],
-			type: UPDATE_WORKFLOW_PROCESS_ID,
+			stepHeader: {
+				description: (
+					<span className="text-secondary">
+						{Liferay.Language.get(
+							'enable-app-submissions-to-flow-through-a-workflow-process'
+						)}
+					</span>
+				),
+				label: (
+					<span className="text-secondary">
+						{` (${Liferay.Language.get('optional')})`}
+					</span>
+				),
+				title: Liferay.Language.get('connect-a-workflow'),
+			},
 		},
-	};
-
-	const filteredItems = stepItems[itemType].items.filter((item) =>
-		new RegExp(searchText, 'ig').test(
-			getLocalizedValue(defaultLanguageId, item.name)
-		)
-	);
+	];
 
 	return (
-		<>
-			<ClayLayout.ContentRow className="mb-4 pl-4 pr-4">
-				<ClayLayout.ContentCol expand>{title}</ClayLayout.ContentCol>
-			</ClayLayout.ContentRow>
-
-			<ClayLayout.ContentRow className="mb-4 pl-4 pr-4">
-				<ClayLayout.ContentCol expand>
-					<SearchInput
-						onChange={(searchText) => setSearchText(searchText)}
+		<div className="card-body p-0 shadowless-card-body">
+			<ClayLayout.Row>
+				<ClayLayout.Col>
+					<MultiStepNav
+						currentStep={currentStep}
+						steps={['1', '2', '3', '4']}
 					/>
-				</ClayLayout.ContentCol>
-			</ClayLayout.ContentRow>
+				</ClayLayout.Col>
+			</ClayLayout.Row>
 
-			<ClayLayout.ContentRow className="pl-4 pr-4 scrollable-container">
-				<ClayLayout.ContentCol expand>
-					<ListItems
-						defaultLanguageId={defaultLanguageId}
-						isEmpty={filteredItems.length === 0}
-						isLoading={isLoading}
-						itemId={stepItems[itemType].id}
-						items={stepItems[itemType].items}
-						keywords={searchText}
-						onChange={(item) => {
-							dispatch({
-								...item,
-								type: stepItems[itemType].type,
-							});
-						}}
-						{...restProps}
-					/>
-				</ClayLayout.ContentCol>
-			</ClayLayout.ContentRow>
-		</>
+			{currentStep < 3 && (
+				<EditAppBody.StepContent
+					defaultLanguageId={defaultLanguageId}
+					{...stepProps[currentStep]}
+				/>
+			)}
+
+			{currentStep == 3 && <DeployApp />}
+		</div>
 	);
 };
 
+EditAppBody.StepContent = EditAppStepContent;
 export default EditAppBody;
