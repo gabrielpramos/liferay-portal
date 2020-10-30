@@ -115,9 +115,7 @@ export default ({
 							currentStep={currentStep}
 							defaultLanguageId={defaultLanguageId}
 							editingLanguageId={editingLanguageId}
-							onCurrentStepChange={(step) => {
-								setCurrentStep(step);
-							}}
+							onCurrentStepChange={setCurrentStep}
 						/>
 					</ClayLayout.ContainerFluid>
 				</EditAppContext.Provider>
