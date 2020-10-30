@@ -25,6 +25,7 @@ const EditAppStepContent = ({
 	endpoint,
 	emptyState,
 	itemId,
+	shortCutButton,
 	onSelect,
 	parseItems = (items) => items,
 	staticItems = [],
@@ -65,6 +66,8 @@ const EditAppStepContent = ({
 						searchText={searchText}
 					/>
 				</ClayLayout.ContentCol>
+
+				{shortCutButton}
 			</ClayLayout.ContentRow>
 
 			<ClayLayout.ContentRow className="pl-4 pr-4 scrollable-container">
