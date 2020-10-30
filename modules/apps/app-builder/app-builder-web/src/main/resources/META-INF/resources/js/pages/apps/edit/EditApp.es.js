@@ -17,11 +17,9 @@ import React, {useEffect, useReducer, useState} from 'react';
 
 import ControlMenu from '../../../components/control-menu/ControlMenu.es';
 import {Loading} from '../../../components/loading/Loading.es';
-import MultiStepNav from '../../../components/multi-step-nav/MultiStepNav.es';
 import useDataDefinition from '../../../hooks/useDataDefinition.es';
 import {toQuery} from '../../../hooks/useQuery.es';
 import {getItem} from '../../../utils/client.es';
-import DeployApp from './DeployApp.es';
 import EditAppBody from './EditAppBody.es';
 import EditAppContext, {UPDATE_APP, reducer} from './EditAppContext.es';
 import EditAppFooter from './EditAppFooter.es';
@@ -85,13 +83,6 @@ export default ({
 		title = Liferay.Language.get('edit-app');
 	}
 
-	const getEmptyState = (description, title) => {
-		return {
-			description,
-			title,
-		};
-	};
-
 	return (
 		<>
 			<ControlMenu backURL={backUrl} title={title} />
@@ -111,113 +102,23 @@ export default ({
 								}}
 							/>
 
-							<div className="card-body p-0 shadowless-card-body">
-								<ClayLayout.Row>
-									<ClayLayout.Col>
-										<MultiStepNav
-											currentStep={currentStep}
-											steps={['1', '2', '3', '4']}
-										/>
-									</ClayLayout.Col>
-								</ClayLayout.Row>
-
-								{currentStep == 0 && (
-									<EditAppBody
-										defaultLanguageId={defaultLanguageId}
-										emptyState={getEmptyState(
-											Liferay.Language.get(
-												'create-one-or-more-forms-to-display-the-data-held-in-your-data-object'
-											),
-											Liferay.Language.get(
-												'there-are-no-form-views-yet'
-											)
-										)}
-										endpoint={`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-layouts`}
-										itemType="DATA_LAYOUT"
-										title={
-											<h2>
-												{Liferay.Language.get(
-													'select-a-form-view'
-												)}
-											</h2>
-										}
-									/>
-								)}
-
-								{currentStep == 1 && (
-									<EditAppBody
-										defaultLanguageId={defaultLanguageId}
-										emptyState={getEmptyState(
-											Liferay.Language.get(
-												'create-one-or-more-tables-to-display-the-data-held-in-your-data-object'
-											),
-											Liferay.Language.get(
-												'there-are-no-table-views-yet'
-											)
-										)}
-										endpoint={`/o/data-engine/v2.0/data-definitions/${dataDefinitionId}/data-list-views`}
-										itemType="DATA_LIST_VIEW"
-										title={
-											<h2>
-												{Liferay.Language.get(
-													'select-a-table-view'
-												)}
-											</h2>
-										}
-									/>
-								)}
-
-								{currentStep == 2 && (
-									<EditAppBody
-										defaultLanguageId={defaultLanguageId}
-										emptyState={{
-											search: {
-												className:
-													'taglib-search-state',
-												title: Liferay.Language.get(
-													'no-results-were-found'
-												),
-											},
-										}}
-										endpoint={`/o/headless-admin-workflow/v1.0/workflow-definitions?active=true&page=-1&pageSize=-1`}
-										itemType="WORKFLOW_PROCESS"
-										title={
-											<>
-												<h2>
-													{Liferay.Language.get(
-														'connect-a-workflow'
-													)}
-													<span className="text-secondary">
-														{` (${Liferay.Language.get(
-															'optional'
-														)})`}
-													</span>
-												</h2>
-
-												<span className="text-secondary">
-													{Liferay.Language.get(
-														'enable-app-submissions-to-flow-through-a-workflow-process'
-													)}
-												</span>
-											</>
-										}
-									/>
-								)}
-
-								{currentStep == 3 && <DeployApp />}
-							</div>
-
-							<h4 className="card-divider"></h4>
-
-							<EditAppFooter
+							<EditAppBody
 								currentStep={currentStep}
+								dataDefinitionId={dataDefinitionId}
 								defaultLanguageId={defaultLanguageId}
-								editingLanguageId={editingLanguageId}
-								onCurrentStepChange={(step) => {
-									setCurrentStep(step);
-								}}
 							/>
 						</div>
+
+						<h4 className="card-divider"></h4>
+
+						<EditAppFooter
+							currentStep={currentStep}
+							defaultLanguageId={defaultLanguageId}
+							editingLanguageId={editingLanguageId}
+							onCurrentStepChange={(step) => {
+								setCurrentStep(step);
+							}}
+						/>
 					</ClayLayout.ContainerFluid>
 				</EditAppContext.Provider>
 			</Loading>
