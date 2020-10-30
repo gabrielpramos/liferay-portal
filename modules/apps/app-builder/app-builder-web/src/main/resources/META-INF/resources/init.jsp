@@ -34,7 +34,8 @@ page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.SetUtil" %><%@
-page import="com.liferay.portal.util.PropsValues" %>
+page import="com.liferay.portal.util.PropsValues" %><%@
+page import="com.liferay.portal.workflow.constants.WorkflowPortletKeys" %>
 
 <%@ page import="java.util.Arrays" %><%@
 page import="java.util.List" %>
