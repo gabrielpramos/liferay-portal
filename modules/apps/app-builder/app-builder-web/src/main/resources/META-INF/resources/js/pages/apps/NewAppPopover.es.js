@@ -17,8 +17,8 @@ import {compile} from 'path-to-regexp';
 import React, {useState} from 'react';
 
 import Popover from '../../components/popover/Popover.es';
+import SelectObjects from '../../components/select-objects/SelectObjects.es';
 import useBackUrl from '../../hooks/useBackUrl.es';
-import SelectObjects from './SelectObjectsDropDown.es';
 
 const NewAppPopover = (
 	{alignElement, editPath, history, onCancel, visible},

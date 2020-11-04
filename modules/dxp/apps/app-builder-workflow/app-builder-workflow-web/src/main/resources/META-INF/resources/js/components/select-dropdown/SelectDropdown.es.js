@@ -11,7 +11,7 @@
 
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
-import DropDownWithSearch from 'app-builder-web/js/pages/apps/DropDownWithSearch.es';
+import DropDownWithSearch from 'app-builder-web/js/components/dropdown-with-search/DropDownWithSearch.es';
 import React from 'react';
 
 export default function SelectDropdown({
