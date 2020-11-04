@@ -24,6 +24,7 @@ import React, {
 export const DropDownContext = createContext();
 
 const DropDownWithSearch = ({
+	addButton,
 	children,
 	error,
 	isEmpty,
@@ -79,7 +80,11 @@ const DropDownWithSearch = ({
 				onActiveChange={onActiveChange}
 				trigger={triggerElement}
 			>
-				{<Search disabled={isEmpty} />}
+				<div className="align-items-center d-flex">
+					<Search disabled={isEmpty} />
+
+					{addButton}
+				</div>
 
 				{isLoading && <LoadingState {...loadingProps} />}
 
@@ -171,6 +176,7 @@ const Search = ({disabled}) => {
 
 	return (
 		<ClayDropDown.Search
+			className="w-100"
 			disabled={disabled}
 			formProps={{onSubmit: (e) => e.preventDefault()}}
 			onChange={(event) => setQuery(event.target.value)}
