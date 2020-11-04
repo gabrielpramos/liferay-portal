@@ -12,16 +12,15 @@
  * details.
  */
 
-import ClayButton from '@clayui/button';
+import ClayButton, {ClayButtonWithIcon} from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
-import ClayLink from '@clayui/link';
-import React, {useContext, useEffect, useState} from 'react';
+import {ClayTooltipProvider} from '@clayui/tooltip';
+import React, {useEffect, useState} from 'react';
 
-import {AppContext} from '../../AppContext.es';
 import {getItem} from '../../utils/client.es';
 import {getLocalizedValue} from '../../utils/lang.es';
-import DropDownWithSearch from './DropDownWithSearch.es';
+import DropDownWithSearch from '../dropdown-with-search/DropDownWithSearch.es';
 
 export function getDataObjects() {
 	return getItem(
@@ -36,13 +35,18 @@ export function getDataObjects() {
 	);
 }
 
-export default ({defaultValue, label, onSelect, selectedValue, visible}) => {
-	const {objectsPortletURL} = useContext(AppContext);
+export default function SelectObjects({
+	defaultValue,
+	label,
+	onSelect,
+	selectedValue,
+	visible,
+}) {
+	const [items, setItems] = useState([]);
 	const [state, setState] = useState({
 		error: null,
 		isLoading: true,
 	});
-	const [items, setItems] = useState([]);
 
 	const doFetch = () => {
 		setState({
@@ -74,44 +78,6 @@ export default ({defaultValue, label, onSelect, selectedValue, visible}) => {
 					isLoading: false,
 				});
 			});
-	};
-
-	const getMessageWithNewObjectLink = (message) => (
-		<>
-			<span className="d-block">{message}</span>
-
-			<ClayLink
-				href={`${objectsPortletURL}#/?showCustomObjectPopover=1`}
-				target="_blank"
-			>
-				{Liferay.Language.get('create-new-object')}{' '}
-				<ClayIcon fontSize="10px" symbol="shortcut" />
-			</ClayLink>
-		</>
-	);
-
-	useEffect(() => {
-		doFetch();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	const stateProps = {
-		emptyProps: {
-			label: getMessageWithNewObjectLink(
-				Liferay.Language.get('there-are-no-objects-yet')
-			),
-		},
-		errorProps: {
-			children: (
-				<ClayButton displayType="link" onClick={doFetch} small>
-					{Liferay.Language.get('retry')}
-				</ClayButton>
-			),
-			label: Liferay.Language.get('unable-to-retrieve-the-objects'),
-		},
-		loadingProps: {
-			label: Liferay.Language.get('retrieving-all-objects'),
-		},
 	};
 
 	const labelProps = {
@@ -149,10 +115,45 @@ export default ({defaultValue, label, onSelect, selectedValue, visible}) => {
 		);
 	};
 
+	const stateProps = {
+		emptyProps: {
+			label: Liferay.Language.get('there-are-no-objects-yet'),
+		},
+		errorProps: {
+			children: (
+				<ClayButton displayType="link" onClick={doFetch} small>
+					{Liferay.Language.get('retry')}
+				</ClayButton>
+			),
+			label: Liferay.Language.get('unable-to-retrieve-the-objects'),
+		},
+		loadingProps: {
+			label: Liferay.Language.get('retrieving-all-objects'),
+		},
+	};
+
+	useEffect(() => {
+		doFetch();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [visible]);
+
 	return (
 		<>
 			<DropDownWithSearch
 				{...state}
+				addButton={
+					<ClayTooltipProvider>
+						<ClayButtonWithIcon
+							className="mr-2"
+							data-tooltip-align="bottom"
+							data-tooltip-delay="0"
+							displayType="secondary"
+							small
+							symbol="plus"
+							title={Liferay.Language.get('new-custom-object')}
+						/>
+					</ClayTooltipProvider>
+				}
 				isEmpty={items.length === 0}
 				label={label}
 				stateProps={stateProps}
@@ -173,10 +174,8 @@ export default ({defaultValue, label, onSelect, selectedValue, visible}) => {
 				visible={visible}
 			>
 				<DropDownWithSearch.Items
-					emptyResultMessage={getMessageWithNewObjectLink(
-						Liferay.Language.get(
-							'there-were-no-objects-found-with-this-name'
-						)
+					emptyResultMessage={Liferay.Language.get(
+						'there-were-no-objects-found-with-this-name'
 					)}
 					items={items}
 					onSelect={onSelect}
@@ -186,4 +185,4 @@ export default ({defaultValue, label, onSelect, selectedValue, visible}) => {
 			</DropDownWithSearch>
 		</>
 	);
-};
+}
