@@ -3,6 +3,8 @@
 @import 'configs/standalone';
 @import 'configs/utilities';
 
+@import 'components/dropdown';
+
 .app-builder-root {
 	@import 'pages/edit_app';
 	@import 'pages/edit_entry';
@@ -14,7 +16,6 @@
 	@import 'components/custom_object_app';
 	@import 'components/custom_object_sidebar';
 	@import 'components/data_engine_form_builder';
-	@import 'components/dropdown';
 	@import 'components/empty_state';
 	@import 'components/multiple_select_filter_dropdown';
 	@import 'components/upper_toolbar';
