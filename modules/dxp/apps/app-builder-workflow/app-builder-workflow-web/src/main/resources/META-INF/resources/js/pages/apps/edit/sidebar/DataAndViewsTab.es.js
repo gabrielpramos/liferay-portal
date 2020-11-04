@@ -14,7 +14,7 @@ import ClayButton, {ClayButtonWithIcon} from '@clayui/button';
 import {ClayRadio, ClayRadioGroup} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import {ClayTooltipProvider} from '@clayui/tooltip';
-import SelectObjects from 'app-builder-web/js/pages/apps/SelectObjectsDropDown.es';
+import SelectObjects from 'app-builder-web/js/components/select-objects/SelectObjects.es';
 import {
 	UPDATE_APP,
 	UPDATE_DATA_LAYOUT_ID,
