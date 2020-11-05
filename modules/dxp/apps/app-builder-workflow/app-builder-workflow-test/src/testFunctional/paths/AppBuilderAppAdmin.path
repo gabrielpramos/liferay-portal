@@ -31,7 +31,7 @@
 </tr>
 <tr>
 	<td>SEARCH_BOX_OBJECT_NO_RESULT_MESSAGE</td>
-	<td>//span[contains(text(),'There were no objects found with this name.')]</td>
+	<td>//p[contains(text(),'There were no objects found with this name.')]</td>
 	<td></td>
 </tr>
 <tr>
