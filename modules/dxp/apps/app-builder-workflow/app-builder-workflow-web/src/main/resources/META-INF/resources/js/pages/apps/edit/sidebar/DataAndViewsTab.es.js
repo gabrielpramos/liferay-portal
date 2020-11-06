@@ -425,6 +425,27 @@ export default function DataAndViewsTab({
 							</label>
 
 							<SelectFormView
+								addButton={
+									<ClayTooltipProvider>
+										<ClayButtonWithIcon
+											className="mr-2"
+											data-tooltip-align="bottom"
+											data-tooltip-delay="0"
+											displayType="secondary"
+											onClick={() =>
+												openFormViewModal(
+													dataObject.id,
+													dataObject.defaultLanguageId
+												)
+											}
+											small
+											symbol="plus"
+											title={Liferay.Language.get(
+												'new-form-view'
+											)}
+										/>
+									</ClayTooltipProvider>
+								}
 								ariaLabelId="form-view-label"
 								isLoading={fetching}
 								items={formViews}
