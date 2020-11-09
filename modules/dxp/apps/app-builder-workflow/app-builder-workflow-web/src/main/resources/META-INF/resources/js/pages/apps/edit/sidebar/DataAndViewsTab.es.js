@@ -15,6 +15,7 @@ import {ClayRadio, ClayRadioGroup} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import {AppContext} from 'app-builder-web/js/AppContext.es';
+import Button from 'app-builder-web/js/components/button/Button.es';
 import SelectObjects from 'app-builder-web/js/components/select-objects/SelectObjects.es';
 import {
 	UPDATE_APP,
@@ -425,6 +426,26 @@ export default function DataAndViewsTab({
 							</label>
 
 							<SelectFormView
+								addButton={
+									<ClayTooltipProvider>
+										<Button
+											className="btn btn-monospaced btn-secondary mr-2 nav-btn nav-btn-monospaced"
+											data-tooltip-align="bottom-right"
+											data-tooltip-delay="0"
+											displayType="secondary"
+											onClick={() =>
+												openFormViewModal(
+													dataObject.id,
+													dataObject.defaultLanguageId
+												)
+											}
+											symbol="plus"
+											title={Liferay.Language.get(
+												'new-form-view'
+											)}
+										/>
+									</ClayTooltipProvider>
+								}
 								ariaLabelId="form-view-label"
 								isLoading={fetching}
 								items={formViews}
