@@ -47,8 +47,8 @@ const EditFormView = (props) => {
 		dataDefinitionId,
 		dataLayoutBuilder,
 		dataLayoutId,
-		isPopUpWindow,
 		newCustomObject,
+		popUpWindow,
 		showTranslationManager,
 	} = parseProps(props);
 	const {basePortletURL} = useContext(AppContext);
@@ -77,8 +77,8 @@ const EditFormView = (props) => {
 					/>
 
 					<FormViewUpperToolbar
-						isPopUpWindow={isPopUpWindow}
 						newCustomObject={newCustomObject}
+						popUpWindow={popUpWindow}
 						showTranslationManager={showTranslationManager}
 					/>
 

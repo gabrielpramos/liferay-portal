@@ -28,8 +28,8 @@ import {getValidName} from '../../utils/utils.es';
 import FormViewContext from './FormViewContext.es';
 
 export default function FormViewUpperToolbar({
-	isPopUpWindow,
 	newCustomObject,
+	popUpWindow,
 	showTranslationManager,
 }) {
 	const [defaultLanguageId, setDefaultLanguageId] = useState('');
@@ -107,7 +107,7 @@ export default function FormViewUpperToolbar({
 			Liferay.Language.get('the-form-view-was-saved-successfully')
 		);
 
-		if (isPopUpWindow) {
+		if (popUpWindow) {
 			const tLiferay = window.top?.Liferay;
 
 			tLiferay.fire('newFormViewCreated', {
@@ -201,12 +201,12 @@ export default function FormViewUpperToolbar({
 					value={dataLayout.name[editingLanguageId] || ''}
 				/>
 
-				{!isPopUpWindow && (
+				{!popUpWindow && (
 					<UpperToolbar.Group>{actionButtons}</UpperToolbar.Group>
 				)}
 			</UpperToolbar>
 
-			{isPopUpWindow && (
+			{popUpWindow && (
 				<div className="dialog-footer">{actionButtons}</div>
 			)}
 		</>
