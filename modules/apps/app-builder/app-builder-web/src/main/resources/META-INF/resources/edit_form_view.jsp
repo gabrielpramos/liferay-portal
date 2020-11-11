@@ -24,11 +24,11 @@ String editFormViewRootElementId = liferayPortletResponse.getNamespace() + "-app
 
 long dataDefinitionId = ParamUtil.getLong(request, "dataDefinitionId");
 long dataLayoutId = ParamUtil.getLong(request, "dataLayoutId");
-boolean isPopUpWindow = LiferayWindowState.isPopUp(request);
+boolean popUpWindow = LiferayWindowState.isPopUp(request);
 boolean newCustomObject = ParamUtil.getBoolean(request, "newCustomObject");
 String popUpCssClass = "";
 
-if (isPopUpWindow) {
+if (popUpWindow) {
 	popUpCssClass = "app-builder-popup";
 }
 %>
@@ -57,9 +57,9 @@ if (isPopUpWindow) {
 					).put(
 						"dataLayoutId", dataLayoutId
 					).put(
-						"isPopUpWindow", isPopUpWindow
-					).put(
 						"newCustomObject", newCustomObject
+					).put(
+						"popUpWindow", popUpWindow
 					).put(
 						"showTranslationManager", request.getAttribute(AppBuilderWebKeys.SHOW_TRANSLATION_MANAGER)
 					).build()
