@@ -95,6 +95,10 @@ const FILTERS = [
 	},
 ];
 
+const MODALS = {
+	EDIT_TABLE_VIEW: 'EDIT_TABLE_VIEW',
+};
+
 export {
 	COLORS,
 	COLUMNS,
@@ -102,5 +106,6 @@ export {
 	DEPLOYMENT_TYPES,
 	FILTERS,
 	FILTER_NAMES,
+	MODALS,
 	STATUSES,
 };
