@@ -26,6 +26,7 @@ import '../../../../css/EditApp.scss';
 import ApplyAppChangesModal from './ApplyAppChangesModal.es';
 import DeployAppModal from './DeployAppModal.es';
 import EditAppToolbar from './EditAppToolbar.es';
+import ModalContextProvider from './ModalContextProvider.es';
 import {
 	getAssigneeRoles,
 	getDataDefinition,
@@ -39,6 +40,7 @@ import configReducer, {
 	getInitialConfig,
 } from './configReducer.es';
 import EditAppSidebar from './sidebar/EditAppSidebar.es';
+import EditTableViewModal from './table-view/EditTableViewModal.es';
 import WorkflowBuilder from './workflow-builder/WorkflowBuilder.es';
 
 export default ({
@@ -298,19 +300,23 @@ export default ({
 
 			<Loading isLoading={isLoading}>
 				<EditAppContext.Provider value={editState}>
-					<EditAppToolbar
-						isSaving={isSaving}
-						onCancel={onCancel}
-						onSave={onSave}
-					/>
+					<ModalContextProvider>
+						<EditAppToolbar
+							isSaving={isSaving}
+							onCancel={onCancel}
+							onSave={onSave}
+						/>
 
-					<WorkflowBuilder />
+						<WorkflowBuilder />
 
-					<EditAppSidebar />
+						<EditAppSidebar />
 
-					<ApplyAppChangesModal onSave={onSave} />
+						<ApplyAppChangesModal onSave={onSave} />
 
-					<DeployAppModal onSave={onSave} />
+						<DeployAppModal onSave={onSave} />
+
+						<EditTableViewModal />
+					</ModalContextProvider>
 				</EditAppContext.Provider>
 			</Loading>
 		</div>
