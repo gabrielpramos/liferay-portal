@@ -40,7 +40,7 @@ import {
 } from './utils.es';
 
 const EditTableView = withRouter(({history}) => {
-	const {showTranslationManager} = useContext(AppContext);
+	const {popUpWindow, showTranslationManager} = useContext(AppContext);
 	const [{dataDefinition, dataListView}, dispatch] = useContext(
 		EditTableViewContext
 	);
@@ -73,12 +73,23 @@ const EditTableView = withRouter(({history}) => {
 		errorToast(title);
 	};
 
-	const onSuccess = () => {
-		successToast(
-			Liferay.Language.get('the-table-view-was-saved-successfully')
-		);
+	const onSuccess = (newTableView) => {
+		if (popUpWindow) {
+			const tLiferay = window.top?.Liferay;
 
-		history.goBack();
+			tLiferay.fire('newTableViewCreated', {
+				newTableView,
+			});
+
+			tLiferay.fire('closeModal');
+		}
+		else {
+			successToast(
+				Liferay.Language.get('the-table-view-was-saved-successfully')
+			);
+
+			history.goBack();
+		}
 	};
 
 	const onSave = () => {
@@ -130,7 +141,12 @@ const EditTableView = withRouter(({history}) => {
 	}
 
 	return (
-		<div className="app-builder-table-view">
+		<div
+			className={classNames(
+				'app-builder-table-view',
+				popUpWindow && 'app-builder-popup'
+			)}
+		>
 			<ControlMenu
 				backURL="../"
 				title={getTableViewTitle(dataListView)}

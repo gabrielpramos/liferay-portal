@@ -31,7 +31,7 @@ import {openModal} from 'frontend-js-web';
 import React, {useContext} from 'react';
 
 import SelectDropdown from '../../../../components/select-dropdown/SelectDropdown.es';
-import {getFormViews} from '../actions.es';
+import {getFormViews, getTableViews} from '../actions.es';
 import {
 	ADD_STEP_FORM_VIEW,
 	REMOVE_STEP_FORM_VIEW,
@@ -244,6 +244,47 @@ export default function DataAndViewsTab({
 		});
 	};
 
+	const openTableViewModal = (dataDefinitionId, defaultLanguageId) => {
+		const event = window.top?.Liferay.once(
+			'newTableViewCreated',
+			({newTableView}) => {
+				successToast(
+					Liferay.Language.get(
+						'the-table-view-was-saved-successfully'
+					)
+				);
+
+				getTableViews(dataDefinitionId, defaultLanguageId).then(
+					(tableViews) => {
+						dispatchConfig({
+							listItems: {
+								fetching: false,
+								tableViews,
+							},
+							type: UPDATE_LIST_ITEMS,
+						});
+					}
+				);
+
+				updateTableView({
+					...newTableView,
+					name: getLocalizedValue(
+						defaultLanguageId,
+						newTableView.name
+					),
+				});
+			}
+		);
+
+		openModal({
+			onClose: () => event?.detach(),
+			title: Liferay.Language.get('new-table-view'),
+			url: `${Liferay.Util.PortletURL.createRenderURL(objectsPortletURL, {
+				p_p_state: 'pop_up',
+			})}#/custom-object/${dataDefinitionId}/table-views/add`,
+		});
+	};
+
 	const onCreateObject = (newObject) => {
 		const {defaultLanguageId, id, name} = newObject;
 
@@ -260,24 +301,30 @@ export default function DataAndViewsTab({
 		openFormViewModal(id, defaultLanguageId, updateFormView);
 	};
 
-	const addFormViewButton = (selectFormView) => (
+	const AddButton = (props) => (
 		<ClayTooltipProvider>
 			<Button
 				className="btn btn-monospaced btn-secondary mr-2 nav-btn nav-btn-monospaced"
 				data-tooltip-align="bottom-right"
 				data-tooltip-delay="0"
 				displayType="secondary"
-				onClick={() =>
-					openFormViewModal(
-						dataObject.id,
-						dataObject.defaultLanguageId,
-						selectFormView
-					)
-				}
 				symbol="plus"
-				title={Liferay.Language.get('new-form-view')}
+				{...props}
 			/>
 		</ClayTooltipProvider>
+	);
+
+	const addFormViewButton = (selectFormView) => (
+		<AddButton
+			onClick={() =>
+				openFormViewModal(
+					dataObject.id,
+					dataObject.defaultLanguageId,
+					selectFormView
+				)
+			}
+			title={Liferay.Language.get('new-form-view')}
+		/>
 	);
 
 	const duplicatedFieldsMessage =
@@ -477,6 +524,19 @@ export default function DataAndViewsTab({
 							</label>
 
 							<SelectTableView
+								addButton={
+									<AddButton
+										onClick={() =>
+											openTableViewModal(
+												dataObject.id,
+												dataObject.defaultLanguageId
+											)
+										}
+										title={Liferay.Language.get(
+											'new-table-view'
+										)}
+									/>
+								}
 								ariaLabelId="table-view-label"
 								isLoading={fetching}
 								items={tableViews}
