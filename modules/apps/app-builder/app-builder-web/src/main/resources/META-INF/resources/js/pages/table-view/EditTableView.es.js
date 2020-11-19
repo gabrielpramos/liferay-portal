@@ -12,6 +12,7 @@
  * details.
  */
 
+import ClayButton from '@clayui/button';
 import classNames from 'classnames';
 import {TranslationManager} from 'data-engine-taglib';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
@@ -71,6 +72,15 @@ const EditTableView = withRouter(({history}) => {
 
 	const onError = ({title}) => {
 		errorToast(title);
+	};
+
+	const onCancel = () => {
+		if (popUpWindow) {
+			window.top?.Liferay.fire('closeModal');
+		}
+		else {
+			history.goBack();
+		}
 	};
 
 	const onSuccess = (newTableView) => {
@@ -140,6 +150,21 @@ const EditTableView = withRouter(({history}) => {
 		return null;
 	}
 
+	const actionButtons = (
+		<ClayButton.Group spaced>
+			<ClayButton displayType="secondary" onClick={onCancel}>
+				{Liferay.Language.get('cancel')}
+			</ClayButton>
+
+			<ClayButton
+				disabled={isLoading || !dataListView.name[editingLanguageId]}
+				onClick={onSave}
+			>
+				{Liferay.Language.get('save')}
+			</ClayButton>
+		</ClayButton.Group>
+	);
+
 	return (
 		<div
 			className={classNames(
@@ -193,24 +218,11 @@ const EditTableView = withRouter(({history}) => {
 							value={dataListView.name[editingLanguageId] || ''}
 						/>
 
-						<UpperToolbar.Group>
-							<UpperToolbar.Button
-								displayType="secondary"
-								onClick={() => history.goBack()}
-							>
-								{Liferay.Language.get('cancel')}
-							</UpperToolbar.Button>
-
-							<UpperToolbar.Button
-								disabled={
-									isLoading ||
-									!dataListView.name[editingLanguageId]
-								}
-								onClick={onSave}
-							>
-								{Liferay.Language.get('save')}
-							</UpperToolbar.Button>
-						</UpperToolbar.Group>
+						{!popUpWindow && (
+							<UpperToolbar.Group>
+								{actionButtons}
+							</UpperToolbar.Group>
+						)}
 					</UpperToolbar>
 				</form>
 
@@ -238,6 +250,9 @@ const EditTableView = withRouter(({history}) => {
 						/>
 					</div>
 				</div>
+				{popUpWindow && (
+					<div className="dialog-footer">{actionButtons}</div>
+				)}
 			</Loading>
 		</div>
 	);
