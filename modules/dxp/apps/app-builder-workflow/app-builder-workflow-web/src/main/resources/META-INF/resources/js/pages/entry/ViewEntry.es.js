@@ -25,6 +25,7 @@ import {isEqualObjects} from 'app-builder-web/js/utils/utils.es';
 import {usePrevious} from 'frontend-js-react-web';
 import React, {useContext, useEffect, useState} from 'react';
 
+import Comments from '../../components/comments/Comments.es';
 import WorkflowInfoBar from '../../components/workflow-info-bar/WorkflowInfoBar.es';
 import useDataLayouts from '../../hooks/useDataLayouts.es';
 import ReassignEntryModal from './ReassignEntryModal.es';
@@ -278,6 +279,8 @@ export default function ViewEntry({
 										</div>
 									)
 								)}
+
+								<Comments />
 						</div>
 					</div>
 				</div>

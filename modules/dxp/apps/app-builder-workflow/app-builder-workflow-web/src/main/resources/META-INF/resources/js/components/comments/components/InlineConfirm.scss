@@ -1,0 +1,35 @@
+@keyframes inlineConfirmShow {
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.app-builder-workflow__inline-confirm {
+	align-items: center;
+	animation: inlineConfirmShow ease 0.3s;
+	animation-fill-mode: forwards;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translateY(-1em);
+
+	&::before {
+		animation: inlineConfirmShow ease 0.3s;
+		animation-fill-mode: forwards;
+		bottom: 0;
+		background: white;
+		content: "";
+		left: 0;
+		opacity: 0.6;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
