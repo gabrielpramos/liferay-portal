@@ -370,6 +370,7 @@ export default function EditEntry({
 					<WorkflowInfoPortal>
 						<div className="d-flex justify-content-center mt-4">
 							<WorkflowInfoBar
+								className="bar-sm"
 								{...workflowInfo}
 								hideColumns={['step']}
 							/>
