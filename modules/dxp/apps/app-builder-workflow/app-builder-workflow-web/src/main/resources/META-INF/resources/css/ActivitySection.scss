@@ -35,8 +35,10 @@
 		}
 
 		&__content {
+			border-bottom: solid 2px #e7e7ed;
 			height: auto;
 			max-height: 50vh;
+			overflow: auto;
 			transition: max-height 0.3s ease-in-out;
 
 			&.collapsed {
