@@ -16,7 +16,7 @@
 
 <%@ include file="/dynamic_include/init.jsp" %>
 
-<div>
+<div class="container-fluid container-fluid-max-xl edit-entry-activity-section">
 	<react:component
 		module="js/pages/entry/activity/ActivitySection.es"
 		props='<%=
