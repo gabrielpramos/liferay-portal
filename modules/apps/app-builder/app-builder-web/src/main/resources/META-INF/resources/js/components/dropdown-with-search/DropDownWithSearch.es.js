@@ -13,6 +13,8 @@
  */
 
 import ClayDropDown, {Align} from '@clayui/drop-down';
+import ClayIcon from '@clayui/icon';
+import classNames from 'classnames';
 import React, {
 	cloneElement,
 	createContext,
@@ -122,10 +124,12 @@ const EmptyState = ({children, className, label}) => {
 
 const Items = ({
 	children,
+	currentItemInfo,
 	emptyResultMessage,
 	items = [],
-	propertyKey = 'name',
 	onSelect,
+	propertyKey = 'name',
+	setShowInfoPopover,
 }) => {
 	const {query, setActive, setQuery} = useContext(DropDownContext);
 	const treatedQuery = query
@@ -147,15 +151,35 @@ const Items = ({
 	return (
 		<ClayDropDown.ItemList>
 			{itemList.length > 0
-				? itemList.map((item, index) => (
-						<ClayDropDown.Item
-							disabled={item.disabled}
-							key={index}
-							onClick={(event) => onClick(event, item)}
-						>
-							{children ? children(item) : item.name}
-						</ClayDropDown.Item>
-				  ))
+				? itemList.map((item, index) => {
+						currentItemInfo.message = item.info?.message;
+						currentItemInfo.title = item.info?.title;
+
+						return (
+							<ClayDropDown.Item
+								disabled={item.disabled}
+								key={index}
+								onClick={(event) => onClick(event, item)}
+							>
+								{children ? children(item) : item.name}
+								{item.info && (
+									<ClayIcon
+										className={classNames(
+											'dropdown-button-asset float-right',
+											item.info.icon.color
+										)}
+										onMouseOut={() =>
+											setShowInfoPopover(false)
+										}
+										onMouseOver={() =>
+											setShowInfoPopover(true)
+										}
+										symbol={item.info.icon.symbol}
+									/>
+								)}
+							</ClayDropDown.Item>
+						);
+				  })
 				: items.length > 0 && (
 						<p className="font-weight-light m-0 px-3 py-2 text-muted">
 							{emptyResultMessage}

@@ -16,11 +16,13 @@ import React from 'react';
 
 export default function SelectDropdown({
 	ariaLabelId,
+	currentItemInfo,
 	emptyResultMessage,
 	items = [],
 	label,
 	onSelect,
 	selectedValue,
+	setShowInfoPopover,
 	...otherProps
 }) {
 	const itemName = selectedValue || label;
@@ -53,9 +55,11 @@ export default function SelectDropdown({
 				{...otherProps}
 			>
 				<DropDownWithSearch.Items
+					currentItemInfo={currentItemInfo}
 					emptyResultMessage={emptyResultMessage}
 					items={items}
 					onSelect={onSelect}
+					setShowInfoPopover={setShowInfoPopover}
 				/>
 			</DropDownWithSearch>
 		</>

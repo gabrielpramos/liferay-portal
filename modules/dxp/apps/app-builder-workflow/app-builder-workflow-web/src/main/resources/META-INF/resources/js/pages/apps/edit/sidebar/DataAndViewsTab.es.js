@@ -13,6 +13,7 @@ import ClayAlert from '@clayui/alert';
 import ClayButton, {ClayButtonWithIcon} from '@clayui/button';
 import {ClayRadio, ClayRadioGroup} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
+import ClayPopover from '@clayui/popover';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import {AppContext} from 'app-builder-web/js/AppContext.es';
 import Button from 'app-builder-web/js/components/button/Button.es';
@@ -28,7 +29,7 @@ import {concatValues} from 'app-builder-web/js/utils/utils.es';
 import classNames from 'classnames';
 import {DataDefinitionUtils} from 'data-engine-taglib';
 import {openModal} from 'frontend-js-web';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 import SelectDropdown from '../../../../components/select-dropdown/SelectDropdown.es';
 import {getFormViews, getTableViews} from '../actions.es';
@@ -138,6 +139,7 @@ export default function DataAndViewsTab({
 	dispatchConfig,
 }) {
 	const {objectsPortletURL} = useContext(AppContext);
+	const [showPopover, setShowPopover] = useState(false);
 	const {
 		appWorkflowDataLayoutLinks: stepFormViews = [],
 		errors: {
@@ -151,6 +153,20 @@ export default function DataAndViewsTab({
 			stepFormViews.findIndex(
 				({dataLayoutId}) => dataLayoutId === form.id
 			) > -1,
+	}));
+
+	const testFormInfo = formViews.map((form) => ({
+		...form,
+		info: {
+			icon: {
+				color: 'text-info',
+				symbol: 'info-circle',
+			},
+			message: Liferay.Language.get(
+				'this-form-view-does-not-contain-all-required-fields'
+			),
+			title: Liferay.Language.get('missing-required-fields'),
+		},
 	}));
 
 	const addStepFormView = () => {
@@ -386,6 +402,8 @@ export default function DataAndViewsTab({
 		parsedFieldsLabels.push(`others*`);
 	}
 
+	const currentItemInfo = {message: '', title: ''};
+
 	return (
 		<>
 			{stepIndex > 0 ? (
@@ -557,8 +575,9 @@ export default function DataAndViewsTab({
 							<SelectFormView
 								addButton={addFormViewButton(updateFormView)}
 								ariaLabelId="form-view-label"
+								currentItemInfo={currentItemInfo}
 								isLoading={fetching}
-								items={formViews}
+								items={testFormInfo}
 								onSelect={updateFormView}
 								openButtonProps={{
 									disabled: !formView.name,
@@ -571,7 +590,17 @@ export default function DataAndViewsTab({
 										),
 								}}
 								selectedValue={formView.name}
+								setShowInfoPopover={setShowPopover}
 							/>
+
+							{showPopover && (
+								<ClayPopover
+									alignPosition="left"
+									header={currentItemInfo.title}
+								>
+									{currentItemInfo.message}
+								</ClayPopover>
+							)}
 
 							<h5 className="mt-3 text-secondary text-uppercase">
 								{Liferay.Language.get('display-data')}
