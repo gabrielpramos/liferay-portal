@@ -571,7 +571,17 @@ export default function DataAndViewsTab({
 										),
 								}}
 								selectedValue={formView.name}
-							/>
+							>
+								{({missingRequiredFields, name}) => (
+									<>
+										{`${name} ${
+											missingRequiredFields
+												? 'missing'
+												: ''
+										}`}
+									</>
+								)}
+							</SelectFormView>
 
 							<h5 className="mt-3 text-secondary text-uppercase">
 								{Liferay.Language.get('display-data')}
