@@ -39,6 +39,7 @@ import configReducer, {
 	getInitialConfig,
 } from './configReducer.es';
 import EditAppSidebar from './sidebar/EditAppSidebar.es';
+import {checkRequiredFields} from './utils.es';
 import WorkflowBuilder from './workflow-builder/WorkflowBuilder.es';
 
 export default ({
@@ -106,7 +107,10 @@ export default ({
 					dispatchConfig({
 						listItems: {
 							fetching: false,
-							formViews,
+							formViews: checkRequiredFields(
+								formViews,
+								config.dataObject
+							),
 							tableViews,
 						},
 						type: UPDATE_LIST_ITEMS,
@@ -119,6 +123,7 @@ export default ({
 					});
 				});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [app.dataDefinitionId, defaultLanguageId]);
 
 	useEffect(() => {
