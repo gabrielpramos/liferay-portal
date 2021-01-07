@@ -13,6 +13,7 @@ import ClayAlert from '@clayui/alert';
 import ClayButton, {ClayButtonWithIcon} from '@clayui/button';
 import {ClayRadio, ClayRadioGroup} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
+import ClayPopover from '@clayui/popover';
 import {ClayTooltipProvider} from '@clayui/tooltip';
 import {AppContext} from 'app-builder-web/js/AppContext.es';
 import Button from 'app-builder-web/js/components/button/Button.es';
@@ -28,9 +29,8 @@ import {concatValues} from 'app-builder-web/js/utils/utils.es';
 import classNames from 'classnames';
 import {DataDefinitionUtils} from 'data-engine-taglib';
 import {openModal} from 'frontend-js-web';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
-import SelectDropdown from '../../../../components/select-dropdown/SelectDropdown.es';
 import {getFormViews, getTableViews} from '../actions.es';
 import {
 	ADD_STEP_FORM_VIEW,
@@ -42,6 +42,8 @@ import {
 	UPDATE_STEP_FORM_VIEW_READONLY,
 	UPDATE_TABLE_VIEW,
 } from '../configReducer.es';
+import SelectFormView from './SelectFormView.es';
+import SelectTableView from './SelectTableView.es';
 
 const NoObjectEmptyState = () => (
 	<div className="taglib-empty-result-message">
@@ -59,7 +61,7 @@ const NoObjectEmptyState = () => (
 	</div>
 );
 
-const OpenButton = (props) => (
+export const OpenButton = (props) => (
 	<ClayTooltipProvider>
 		<Button
 			className="ml-2 px-2 tap-ahead-icon-wrapper"
@@ -72,58 +74,6 @@ const OpenButton = (props) => (
 		/>
 	</ClayTooltipProvider>
 );
-
-const SelectFormView = ({openButtonProps, ...props}) => {
-	props = {
-		...props,
-		emptyResultMessage: Liferay.Language.get(
-			'no-form-views-were-found-with-this-name-try-searching-again-with-a-different-name'
-		),
-		label: Liferay.Language.get('select-a-form-view'),
-		stateProps: {
-			emptyProps: {
-				label: Liferay.Language.get('there-are-no-form-views-yet'),
-			},
-			loadingProps: {
-				label: Liferay.Language.get('retrieving-all-form-views'),
-			},
-		},
-	};
-
-	return (
-		<div className="d-flex">
-			<SelectDropdown {...props} />
-
-			<OpenButton {...openButtonProps} />
-		</div>
-	);
-};
-
-const SelectTableView = ({openButtonProps, ...props}) => {
-	props = {
-		...props,
-		emptyResultMessage: Liferay.Language.get(
-			'no-table-views-were-found-with-this-name-try-searching-again-with-a-different-name'
-		),
-		label: Liferay.Language.get('select-a-table-view'),
-		stateProps: {
-			emptyProps: {
-				label: Liferay.Language.get('there-are-no-table-views-yet'),
-			},
-			loadingProps: {
-				label: Liferay.Language.get('retrieving-all-table-views'),
-			},
-		},
-	};
-
-	return (
-		<div className="d-flex">
-			<SelectDropdown {...props} />
-
-			<OpenButton {...openButtonProps} />
-		</div>
-	);
-};
 
 export default function DataAndViewsTab({
 	config: {
@@ -138,6 +88,7 @@ export default function DataAndViewsTab({
 	dispatchConfig,
 }) {
 	const {objectsPortletURL} = useContext(AppContext);
+	const [showPopover, setShowPopover] = useState(false);
 	const {
 		appWorkflowDataLayoutLinks: stepFormViews = [],
 		errors: {
@@ -571,7 +522,24 @@ export default function DataAndViewsTab({
 										),
 								}}
 								selectedValue={formView.name}
-							/>
+							>
+								<SelectFormView.Item
+									setShowPopover={setShowPopover}
+								/>
+							</SelectFormView>
+
+							{showPopover && (
+								<ClayPopover
+									alignPosition="left"
+									header={Liferay.Language.get(
+										'missing-required-fields'
+									)}
+								>
+									{Liferay.Language.get(
+										'this-form-view-does-not-contain-all-required-fields-for-the-x-object'
+									)}
+								</ClayPopover>
+							)}
 
 							<h5 className="mt-3 text-secondary text-uppercase">
 								{Liferay.Language.get('display-data')}

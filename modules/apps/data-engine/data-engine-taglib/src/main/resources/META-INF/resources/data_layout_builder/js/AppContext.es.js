@@ -187,9 +187,9 @@ const setDataDefinitionFields = (
 		// If the field is required at the form view level,
 		// it cannot be required at the object level
 
-		if (dataLayoutField && dataLayoutField.required) {
-			definitionField.required = false;
-		}
+		// if (dataLayoutField && dataLayoutField.required) {
+		// 	definitionField.required = false;
+		// }
 
 		newFields.push(definitionField);
 	});
