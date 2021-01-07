@@ -49,6 +49,7 @@ const customObjectItems = {
 		{
 			availableLanguageIds: ['en_US', 'pt_BR'],
 			contentType: 'app-builder',
+			dataDefinitionFields: [{name: 'Text1', required: false}],
 			dataDefinitionKey: '37496',
 			dateCreated: '2020-06-05T13:43:16Z',
 			dateModified: '2020-06-05T13:44:08Z',
