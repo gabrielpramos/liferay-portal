@@ -79,12 +79,14 @@ const Item = ({missingRequiredFields, name}) => {
 					}
 					show={showPopover}
 					trigger={
-						<ClayIcon
-							className="dropdown-button-asset float-right help-cursor text-info"
-							onMouseOut={() => setShowPopover(false)}
-							onMouseOver={() => setShowPopover(true)}
-							symbol="info-circle"
-						/>
+						<div className="dropdown-button-asset help-cursor">
+							<ClayIcon
+								className="text-info"
+								onMouseOut={() => setShowPopover(false)}
+								onMouseOver={() => setShowPopover(true)}
+								symbol="info-circle"
+							/>
+						</div>
 					}
 				>
 					{sub(

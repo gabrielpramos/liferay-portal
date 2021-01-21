@@ -242,6 +242,16 @@ $navbarHeight: 120px;
 
 .dropdown-button-asset {
 	margin-top: 0.25rem;
+
+	&.help-cursor {
+		display: flex;
+		justify-content: center;
+		margin-top: unset;
+		position: absolute;
+		right: 12px;
+		top: 1rem;
+		width: 2rem;
+	}
 }
 
 .dropdown-button-title {
