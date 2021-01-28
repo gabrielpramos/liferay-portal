@@ -174,14 +174,6 @@ definition {
 			locator1 = "AppBuilderAppAdmin#OBJECT_ITEM");
 	}
 
-	macro validateObjectSearchBoxDisabled {
-		AppBuilderAppAdmin.clickOnCreateNewAppButton();
-
-		AppBuilderAppAdmin.clickOnSelectObject();
-
-		AssertElementPresent(locator1 = "AppBuilderAppAdmin#SEARCH_BOX_DISABLED");
-	}
-
 	macro validateSearchItemCount {
 		AssertTextEquals(
 			locator1 = "AppBuilder#VALIDATE_SEARCH_RESULTS_BAR",

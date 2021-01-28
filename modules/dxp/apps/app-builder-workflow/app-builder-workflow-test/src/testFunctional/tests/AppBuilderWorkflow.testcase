@@ -615,8 +615,6 @@ definition {
 
 		AppBuilderAppAdmin.validateTabsPresent();
 
-		AppBuilderAppAdmin.validateObjectSearchBoxDisabled();
-
 		ApplicationsMenu.gotoPortlet(
 			category = "App Builder",
 			panel = "Applications",
