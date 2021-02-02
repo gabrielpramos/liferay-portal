@@ -13,6 +13,7 @@ import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
 import EditAppContext from 'app-builder-web/js/pages/apps/edit/EditAppContext.es';
 import {sub} from 'app-builder-web/js/utils/lang.es';
+import classNames from 'classnames';
 import React, {useContext, useState} from 'react';
 
 import IconWithPopover from '../../../../components/icon-with-popover/IconWithPopover.es';
@@ -114,7 +115,7 @@ const PopoverContent = ({
 				<>
 					{sub(
 						Liferay.Language.get(
-							'this-form-view-does-not-contain-all-required-fields-and-cannot-be-used'
+							'this-form-view-does-not-contain-all-required-fields-for-the-x-object'
 						),
 						[name]
 					)}
@@ -148,9 +149,13 @@ const PopoverContent = ({
 const PopoverHeader = ({nativeField}) => {
 	return (
 		<>
-			{!nativeField && (
-				<ClayIcon className="mr-1 text-info" symbol="info-circle" />
-			)}
+			<ClayIcon
+				className={classNames(
+					'mr-2',
+					nativeField ? 'text-danger' : 'text-info'
+				)}
+				symbol="info-circle"
+			/>
 
 			<span>{Liferay.Language.get('missing-required-fields')}</span>
 		</>
