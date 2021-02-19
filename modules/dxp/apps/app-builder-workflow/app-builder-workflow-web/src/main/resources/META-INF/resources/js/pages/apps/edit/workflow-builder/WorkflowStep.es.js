@@ -143,7 +143,7 @@ const Card = ({
 					}}
 					setShowPopover={setShowPopover}
 					showPopover={showPopover}
-					triggerClassName="dropdown-button-asset help-cursor"
+					triggerClassName="step-card-icon help-cursor"
 				/>
 			)}
 
